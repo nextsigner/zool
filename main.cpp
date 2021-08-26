@@ -6,7 +6,7 @@
 #include "unikqprocess.h"
 #include "unik.h"
 
-#define VERSION "0.3"
+#define VERSION "0.4"
 
 
 int main(int argc, char *argv[])
@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
         QByteArray cf;
         cf.append(u.getPath(4).toUtf8());
         cf.append("/img");
-        qInfo()<<"Unik Image Folder: "<<cf;
+        qInfo()<<"Zool icon Image Folder: "<<cf;
         QDir configFolder(cf);
         if(!configFolder.exists()){
             qInfo()<<"Making Unik Image Folder...";
@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
         QFile icon2(cf+"/icon.png");
         if(!icon2.exists()){
             QByteArray cf2;
-            cf2.append(qApp->applicationDirPath());
+            cf2.append(qApp->applicationDirPath().toUtf8());
             cf2.append("/icon.png");
             QFile icon(cf2);
             icon.copy(cf+"/icon.png");
@@ -63,9 +63,9 @@ int main(int argc, char *argv[])
         iconData.append("Terminal=false\n");
         u.setFile("/usr/share/applications/zool.desktop", iconData);
         if(!u.fileExist("/usr/share/applications/zool.desktop")){
-            qInfo()<<"Error when install Unik. Run Unik whit sudo permission for install this app into GNU/Linux";
+            qInfo()<<"Error when install Zool. Run Unik whit sudo permission for install this app into GNU/Linux";
         }else{
-            qInfo()<<"Unik installed in category Development.";
+            qInfo()<<"Zool installed in category Development.";
         }
         if(u.fileExist("/usr/local/bin/zool")){
             u.deleteFile("/usr/local/bin/zool");
@@ -78,7 +78,7 @@ int main(int argc, char *argv[])
         cmdLN.append("-x86_64.AppImage");
         cmdLN.append(" /usr/local/bin/zool");
         u.ejecutarLineaDeComandoAparte(cmdLN);
-        qInfo()<<"Unik Current Path: "<<QDir::currentPath();
+        qInfo()<<"Zool Current Path: "<<QDir::currentPath();
         return 0;
     }
 #endif
