@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Zool
+Exec=AppRun %F
+Icon=icon
+Comment=AstroLogica by nextsigner
+Terminal=true
