@@ -36,7 +36,8 @@ Item {
             }
             PropertyChanges {
                 target: r
-                colors: ['#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A']
+                //colors: ['#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A']
+                colors: [apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor]
                 extraWidth: 0
                 w: (sweg.width-sweg.objAspsCircle.width)/2//housesCircle.parent.objectName==='sweg'?(!r.selected?sweg.fs*2.5:sweg.fs*6):(!r.selected?sweg.fs*3:sweg.fs*7)
             }
@@ -71,7 +72,7 @@ Item {
             }
             PropertyChanges {
                 target: r
-                colors: ['#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A']
+                colors: [apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor]
                 extraWidth: 0
                 //w: housesCircle.parent.objectName==='sweg'?(sweg.fs*2):(sweg.fs*4)
                 w: (sweg.width-sweg.objAspsCircle.width)/2
@@ -90,20 +91,28 @@ Item {
         canvas2.requestPaint()
     }
     onOpChanged: {
-        if(op===0.0){
-            opacitySpeed=50
-            r.opacity=0.0
-        }
-        if(op===1.0){
-            opacitySpeed=500
-            r.opacity=1.0
-        }
+//        if(op===0.0){
+//            opacitySpeed=50
+//            r.opacity=0.0
+//        }
+//        if(op===1.0){
+//            opacitySpeed=500
+//            r.opacity=1.0
+//        }
     }
     onOpacityChanged:{
-        if(opacity===0.0){
-            r.op=1.0
+//        if(opacity===0.0){
+//            r.op=1.0
+//        }
+        //tOp.restart()
+    }
+    onSelectedChanged: {
+        if(!selected){
+            tOp.stop()
+            r.opacity=0.5
+        }else{
+            tOp.start()
         }
-        tOp.restart()
     }
     Timer{
         id: tOp
@@ -310,7 +319,7 @@ Item {
         repeat: true
         interval: 350
         onTriggered: {
-            canvas.opacity=canvas.opacity===1.0?0.65:1.0
+            //canvas.opacity=canvas.opacity===1.0?0.65:1.0
         }
     }
     function refresh(){

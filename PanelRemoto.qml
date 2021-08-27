@@ -71,7 +71,7 @@ Rectangle {
 
     function setData(data, isData){
         if(isData){
-            console.log('Host: '+data)
+            //console.log('Host: '+data)
             unik.setFile(apps.jsonsFolder+'/PanelRemotoDoc.qml', data)
             let comp=Qt.createQmlObject(data, r, 'xzoolpanelremoto')
         }else{

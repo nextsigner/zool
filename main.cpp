@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
         QByteArray cmdLN;
         cmdLN.append("sudo ln ");
         //cmdLN.append(QDir::currentPath().toUtf8()+"/astrologica_v");
-        cmdLN.append(QDir::currentPath().toUtf8()+"/zool_v");
+        cmdLN.append(QDir::currentPath().toUtf8()+"/Zool_v");
         cmdLN.append(VERSION);
         cmdLN.append("-x86_64.AppImage");
         cmdLN.append(" /usr/local/bin/zool");

@@ -14,7 +14,7 @@
    viewBox="0 0 600.00001 600.00001"
    id="svg4136"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.5 (2060ec1f9f, 2020-04-08)"
    sodipodi:docname="moon.svg">
   <defs
      id="defs4138" />
@@ -26,23 +26,24 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.24748737"
-     inkscape:cx="623.99464"
+     inkscape:cx="-188.16802"
      inkscape:cy="492.26365"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      units="px"
      inkscape:window-width="1920"
-     inkscape:window-height="1008"
+     inkscape:window-height="992"
      inkscape:window-x="0"
-     inkscape:window-y="24"
+     inkscape:window-y="28"
      inkscape:window-maximized="1"
      showguides="true"
      inkscape:guide-bbox="true">
     <sodipodi:guide
        position="460.62957,2.0203051"
        orientation="1,0"
-       id="guide4896" />
+       id="guide4896"
+       inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
      id="metadata4141">
@@ -63,7 +64,7 @@
      transform="translate(0,-452.36216)">
     <path
        style="opacity:1;fill:#000000;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linejoin:miter;stroke-miterlimit:33.5;stroke-dasharray:none;stroke-opacity:1"
-       d="M 297.46395,457.39684 A 294.98947,294.99036 0 0 0 5.7862175,734.25621 294.98947,294.99036 0 0 0 282.07919,1046.805 294.98947,294.99036 0 0 0 527.00888,940.51988 238.93216,238.93216 0 0 1 365.52645,990.85387 238.93216,238.93216 0 0 1 141.73739,737.69762 238.93216,238.93216 0 0 1 394.87606,513.89098 238.93216,238.93216 0 0 1 526.66317,563.60582 294.98947,294.99036 0 0 0 318.31552,457.93785 294.98947,294.99036 0 0 0 297.46395,457.39684 Z m 82.75391,294.97656 214.56055,13.23438 a 294.98947,294.99036 0 0 0 0.002,-0.0625 L 380.21791,752.3734 Z"
+       d="M 297.85683,503.11305 A 249.26953,249.27029 0 0 0 51.385757,737.06244 249.26953,249.27029 0 0 0 284.85653,1001.1698 249.26953,249.27029 0 0 0 491.82496,911.35764 201.90045,201.90045 0 0 1 355.37043,953.89044 201.90045,201.90045 0 0 1 166.26607,739.97047 201.90045,201.90045 0 0 1 380.17119,550.85126 201.90045,201.90045 0 0 1 491.53283,592.86087 249.26953,249.27029 0 0 0 315.47665,503.57021 249.26953,249.27029 0 0 0 297.85683,503.11305 Z m 69.92801,249.25863 181.30616,11.1832 a 249.26953,249.27029 0 0 0 0.002,-0.0528 L 367.7849,752.37171 Z"
        id="path4902"
        inkscape:connector-curvature="0" />
   </g>

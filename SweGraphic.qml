@@ -228,6 +228,7 @@ Item {
         panelAspects.load(j)
         panelDataBodies.loadJson(j)
         aspsCircle.load(j)
+        panelElements.load(j)
         eclipseCircle.arrayWg=housesCircle.arrayWg
         eclipseCircle.isEclipse=-1
         //if(app.mod!=='rs'&&app.mod!=='pl'&&panelZonaMes.state!=='show')panelRsList.setRsList(61)

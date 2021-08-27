@@ -125,6 +125,10 @@ AppWin {
         property string fontFamily: "ArialMdm"
         property string fontColor: "white"
         property int fontSize: app.fs*0.5
+        property string houseColor: "#2CB5F9"
+
+
+
         property string url: ''
         property bool showTimes: false
         property bool showLupa: false
@@ -239,6 +243,7 @@ AppWin {
                 id: xMed
                 width: xApp.width-xLatIzq.width-xLatDer.width
                 height: parent.height
+                PanelElements{id: panelElements}
             }
             Item{
                 id: xLatDer
