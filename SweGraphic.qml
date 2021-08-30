@@ -91,7 +91,7 @@ Item {
         visible: r.objectName==='sweg'
         //Rectangle{anchors.fill: parent; color: 'red';border.width: 1;border.color: 'white'}
     }
-    Comps.HouseCircle{rotation: signCircle.rot;//z:signCircle.z+1;
+    Comps.HouseCircle{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
         id:housesCircle
         height: width
         anchors.centerIn: signCircle
@@ -106,6 +106,7 @@ Item {
         showBorder: true
         v:r.v
         w: r.w
+        onRotChanged: housesCircle.rotation=rot
         //onShowDecChanged: Qt.quit()
     }
     AspCircle{
@@ -144,6 +145,16 @@ Item {
         repeat: false
         interval: 2000
         onTriggered: r.opacity=1.0
+    }
+    Rectangle{
+        width: app.fs*6
+        height: width
+        anchors.centerIn: parent
+        Text{
+            id: ihr
+            font.pixelSize: app.fs*2
+            anchors.centerIn: parent
+        }
     }
     function loadSign(j){
         console.log('Ejecutando SweGraphic.loadSign()...')
@@ -221,7 +232,7 @@ Item {
         let scorrJson=json.replace(/\n/g, '')
         //console.log('json: '+json)
         let j=JSON.parse(scorrJson)
-        signCircle.rot=j.ph.h1.gdec
+        signCircle.rot=parseInt(j.ph.h1.gdec)
         ascMcCircle.loadJson(j)
         housesCircle.loadHouses(j)
         planetsCircle.loadJson(j)

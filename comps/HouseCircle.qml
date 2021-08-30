@@ -58,6 +58,17 @@ Item {
             }
         }
     }
+
+    //Probando/Visualizando rotación
+//    Rectangle{
+//        width: r.width
+//        height: 2
+//        anchors.centerIn: parent
+//        color: '#ff8833'
+//    }
+
+
+
     Text{
         text: 'RHC:'+r.rotation
         font.pixelSize: 40
@@ -67,7 +78,9 @@ Item {
     }
     function loadHouses(jsonData) {
         r.arrayWg=[]
-        xArcs.rotation=360-jsonData.ph.h1.gdec
+        xArcs.rotation=parseInt(360-jsonData.ph.h1.gdec)+1
+        //let restRed=parseFloat(360-jsonData.ph.h1.gdec)-parseInt(360-jsonData.ph.h1.gdec)
+        ihr.text=xArcs.rotation
         let resta=0.000000
         let nh=0
         let o1
@@ -99,9 +112,10 @@ Item {
                 o2=jsonData.ph[sh2]
             }
             indexSign1=o1.is
-            p1=indexSign1*30+o1.rsgdeg
+            p1=indexSign1*30+parseInt(o1.rsgdeg)
             indexSign2=o2.is//app.objSignsNames.indexOf(o2.s)
-            p2=0.0000+indexSign2*30+o2.rsgdeg+(o2.mdeg/60)
+            //p2=0.0000+indexSign2*30+o2.rsgdeg+(o2.mdeg/60)
+            p2=0.0000+indexSign2*30+parseInt(o2.rsgdeg)
             let wgf=parseInt(p2)-parseInt(p1)//+(o1.mdeg/60)
             if(wgf<0){
                 h.wg=360+p2-p1//+(o1.mdeg/60)
@@ -145,14 +159,18 @@ Item {
                 if(i===11){
                     h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9]+gp[i-10]+gp[i-11])
                 }
-                if(i!==0&&i!==6&&Qt.platform.os==='windows'){
-                    h.rotation+=1
+                //if(i!==0&&i!==6&&Qt.platform.os==='windows'){
+                if(i!==0&&i!==6){
+                    h.rotation+=1.5
                 }
 
             }
+            //h.rotation+=restRed
+
             gp.push(wgf)
             resta+=xArcs.children[nh].wg-(o1.mdeg/60)-(o2.mdeg/60)
             r.arrayWg.push(h.wg)
         }
+        //xArcs.rotation+=1
     }
 }

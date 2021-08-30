@@ -36,8 +36,7 @@ Item {
             }
             PropertyChanges {
                 target: r
-                //colors: ['#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A']
-                colors: [apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor]
+                colors: ['#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A']
                 extraWidth: 0
                 w: (sweg.width-sweg.objAspsCircle.width)/2//housesCircle.parent.objectName==='sweg'?(!r.selected?sweg.fs*2.5:sweg.fs*6):(!r.selected?sweg.fs*3:sweg.fs*7)
             }
@@ -72,7 +71,7 @@ Item {
             }
             PropertyChanges {
                 target: r
-                colors: [apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor]
+                colors: ['#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A']
                 extraWidth: 0
                 //w: housesCircle.parent.objectName==='sweg'?(sweg.fs*2):(sweg.fs*4)
                 w: (sweg.width-sweg.objAspsCircle.width)/2
@@ -91,28 +90,20 @@ Item {
         canvas2.requestPaint()
     }
     onOpChanged: {
-//        if(op===0.0){
-//            opacitySpeed=50
-//            r.opacity=0.0
-//        }
-//        if(op===1.0){
-//            opacitySpeed=500
-//            r.opacity=1.0
-//        }
+        if(op===0.0){
+            opacitySpeed=50
+            r.opacity=0.0
+        }
+        if(op===1.0){
+            opacitySpeed=500
+            r.opacity=1.0
+        }
     }
     onOpacityChanged:{
-//        if(opacity===0.0){
-//            r.op=1.0
-//        }
-        //tOp.restart()
-    }
-    onSelectedChanged: {
-        if(!selected){
-            tOp.stop()
-            r.opacity=0.5
-        }else{
-            tOp.start()
+        if(opacity===0.0){
+            r.op=1.0
         }
+        tOp.restart()
     }
     Timer{
         id: tOp
@@ -211,6 +202,7 @@ Item {
                 height: r.wb
                 color: apps.enableBackgroundColor?apps.fontColor:'white'//r.selected?r.colors[r.c]:'white'
                 antialiasing: true
+                y:lineaEje.y
             }
             Rectangle{
                 id: lineaEje2
@@ -218,8 +210,17 @@ Item {
                 height: r.wb
                 color: apps.enableBackgroundColor?apps.fontColor:'white'//'red'//r.colors[r.c]
                 antialiasing: true
-                y:c!==6?0-height*0.5:height*0.5
+                //y:c!==6&&c!==0?(c!==6?0-height*0.5:height*0.5):height*0.25//c===0?0-height*0.5:height
                 //anchors.verticalCenter: parent.top
+                Component.onCompleted: {
+                    if(c===0){
+                        y=0-height*0.25
+                    }else  if(c===6){
+                        y=height*0.25
+                    }else{
+                        //y=height*0.5
+                    }
+                }
             }
         }
         Rectangle{
@@ -319,9 +320,20 @@ Item {
         repeat: true
         interval: 350
         onTriggered: {
-            //canvas.opacity=canvas.opacity===1.0?0.65:1.0
+            canvas.opacity=canvas.opacity===1.0?0.65:1.0
         }
     }
+
+
+    //Probando/Visualizando rotación
+    Rectangle{
+        width: r.width
+        height: 2
+        anchors.centerIn: parent
+        color: '#ff8833'
+    }
+
+
     function refresh(){
         canvas.clear_canvas()
         canvas.requestPaint()

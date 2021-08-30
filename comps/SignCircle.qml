@@ -10,13 +10,13 @@ Item {
     property bool showDec: apps.showDec
     property int rot: 0
     Behavior on w{enabled: apps.enableFullAnimation; NumberAnimation{duration: sweg.speedRotation}}
-//    Behavior on width {
-//        enabled: apps.enableFullAnimation;
-//        NumberAnimation{
-//            duration: 350
-//            easing.type: Easing.InOutQuad
-//        }
-//    }
+    //    Behavior on width {
+    //        enabled: apps.enableFullAnimation;
+    //        NumberAnimation{
+    //            duration: 350
+    //            easing.type: Easing.InOutQuad
+    //        }
+    //    }
     Repeater{
         model: 36
         Item{
@@ -58,12 +58,12 @@ Item {
         id: xSignArcs
         anchors.fill: r
         rotation: r.rot
-//        Behavior on rotation {
-//            NumberAnimation{
-//                duration: sweg.speedRotation
-//                easing.type: Easing.InOutQuad
-//            }
-//        }
+        //        Behavior on rotation {
+        //            NumberAnimation{
+        //                duration: sweg.speedRotation
+        //                easing.type: Easing.InOutQuad
+        //            }
+        //        }
         Rectangle{
             anchors.fill: xSignArcs
             color: 'transparent'
@@ -157,6 +157,16 @@ Item {
         }
 
     }
+
+//Probando/Visualizando rotación
+//    Rectangle{
+//        width: r.width
+//        height: 2
+//        anchors.centerIn: parent
+//        color: '#ff8833'
+//    }
+
+
     function subir(){
         rotar(1,1)
     }

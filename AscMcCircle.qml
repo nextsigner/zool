@@ -361,7 +361,7 @@ Item {
         r.isAsc=o1.is
         r.gdegAsc=o1.rsgdeg
         r.mdegAsc=o1.mdeg
-        app.uAscDegree=o1.rsgdeg
+        app.uAscDegree=parseInt(o1.rsgdeg)
 
         let degs=(30*o1.is)+o1.rsgdeg
         o1=jsonData.ph['h10']

@@ -63,7 +63,7 @@ Item{
         for(var i=0;i<15;i++){
             var objAs=r.children[i]
             jo=json.pc['c'+i]
-            objAs.rotation=signCircle.rot-jo.gdeg
+            objAs.rotation=parseInt(signCircle.rot)-parseInt(jo.gdeg)
             o={}
             o.p=objSigns[jo.is]
             if(r.totalPosX<o.p){
