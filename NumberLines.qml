@@ -6,6 +6,7 @@ Item{
     height: width
     anchors.centerIn: parent
     rotation: signCircle.rot
+    visible: apps.showNumberLines
     Repeater{
         model: 360
         Item{
@@ -51,8 +52,11 @@ Item{
                 x:sweg.fs*0.25
                 y:0-width*0.5
                 radius: width*0.5
-                color: 'white'
-                Text{text: 360-(index*10)===360?0:360-(index*10);font.pixelSize: parent.width*0.6;anchors.centerIn: parent}
+                color: apps.fontColor
+                border.width: 1
+                border.color: apps.backgroundColor
+                rotation: 360-parent.rotation-signCircle.rot
+                Text{text: 360-(index*10)===360?0:360-(index*10);font.pixelSize: parent.width*0.5;color: apps.backgroundColor;anchors.centerIn: parent;}
             }
         }
     }

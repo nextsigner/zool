@@ -113,16 +113,16 @@ Item{
         }
     }
     //Probando/Visualizando rotación
-    Rectangle{
-        width: r.width
-        height: apps.widthHousesAxis
-        anchors.centerIn: parent
-        //color: apps.fontColor
-        //visible: apps.showHousesAxis
-        //y: lineaEje2.y
-        color: 'red'
-        antialiasing: true
-    }
+//    Rectangle{
+//        width: r.width
+//        height: apps.widthHousesAxis
+//        anchors.centerIn: parent
+//        //color: apps.fontColor
+//        //visible: apps.showHousesAxis
+//        //y: lineaEje2.y
+//        color: 'red'
+//        antialiasing: true
+//    }
     Behavior on width {
         enabled: apps.enableFullAnimation;
         NumberAnimation{

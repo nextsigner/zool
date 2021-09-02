@@ -81,7 +81,15 @@ Item {
         color: backgroundColor
         visible: signCircle.v
     }
-    BackgroundImages{}
+    BackgroundImages{id: backgroundImages}
+    Comps.HouseCircle{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
+        id:housesCircle
+        height: width
+        anchors.centerIn: signCircle
+        w: r.fs*6
+        widthAspCircle: aspsCircle.width
+        visible: r.v
+    }
     AxisCircle{id: axisCircle}
     PanelAspects{
         id: panelAspects
@@ -92,14 +100,7 @@ Item {
         visible: r.objectName==='sweg'
         //Rectangle{anchors.fill: parent; color: 'red';border.width: 1;border.color: 'white'}
     }
-    Comps.HouseCircle{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
-        id:housesCircle
-        height: width
-        anchors.centerIn: signCircle
-        w: r.fs*6
-        widthAspCircle: aspsCircle.width
-        visible: r.v
-    }
+
     NumberLines{}
     Comps.SignCircle{
         id:signCircle
@@ -111,10 +112,12 @@ Item {
         onRotChanged: housesCircle.rotation=rot
         //onShowDecChanged: Qt.quit()
     }
+
     AspCircle{
         id: aspsCircle
         rotation: signCircle.rot - 90
         //opacity: panelDataBodies.currentIndex<0?1.0:0.0
+        //visible: false
     }
     PlanetsCircle{
         id:planetsCircle

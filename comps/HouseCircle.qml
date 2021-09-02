@@ -59,10 +59,10 @@ Item {
             }
         }
     }
-    HousesAxis{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
-        id:housesAxis
-        height: width
-    }
+//    HousesAxis{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
+//        id:housesAxis
+//        height: width
+//    }
     //Probando/Visualizando rotación
 //    Rectangle{
 //        width: r.width
@@ -83,8 +83,6 @@ Item {
     function loadHouses(jsonData) {
         r.arrayWg=[]
         xArcs.rotation=360-jsonData.ph.h1.gdec
-        //housesAxis.rotation=parseInt(360-jsonData.ph.h1.gdec)+1
-        housesAxis.visible=false
         let aDegs=[]
         let resta=0.000000
         let nh=0
@@ -97,14 +95,6 @@ Item {
         let gp=[]
         var i=0
         var degRet=0.0
-
-//        for(var i=1;i<13;i++){
-//            if(i===7){
-//                housesAxis.reload(i,360-jsonData.ph['h1'].gdeg + 180)
-//            }else{
-//                housesAxis.reload(i,360-jsonData.ph['h'+i].gdeg)
-//            }
-//        }
         for(i=0;i<12;i++){
             if(i===0){
                 app.uAscDegreeTotal=jsonData.ph.h1.gdec
@@ -224,7 +214,7 @@ Item {
 
             }
             gp.push(wgf)
-            resta+=xArcs.children[nh].wg-(o1.mdeg/60)-(o2.mdeg/60)//+degRed
+            resta+=xArcs.children[nh].wg-(o1.mdeg/60)-(o2.mdeg/60)-degRed
             r.arrayWg.push(h.wg)
         }
         ////housesAxis.reload(aDegs)

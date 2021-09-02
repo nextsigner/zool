@@ -143,8 +143,12 @@ AppWin {
         property color xAsColor: 'white'
         property bool anColorXAs: false
 
-        property bool showMenuBar: true
+        //Swe
+        property bool showNumberLines: false
 
+        //GUI
+        property bool showMenuBar: true
+        property bool backgroundImagesVisible: false
         property bool lt:false
         property string jsonsFolder: documentsPath
         onEnableBackgroundColorChanged: {

@@ -68,10 +68,27 @@ Rectangle {
         ListView{
             id: lv
             width: r.width-r.border.width*2
-            height: r.height
+            height: r.height*0.5
             anchors.horizontalCenter: parent.horizontalCenter
             delegate: compItemList
             model: lm
+            //currentIndex: app.currentPlanetIndex
+            clip: true
+            onCurrentIndexChanged: {
+                //console.log('panelbodies currentIndex: '+currentIndex)
+                //let item=lm.get(currentIndex)
+                //app.uSon='_'+app.objSignsNames[item.is]+'_1'
+                if(!r.enabled)return
+                //r.currentIndexSign=lm.get(currentIndex).is
+            }
+        }
+        ListView{
+            id: lv2
+            width: r.width-r.border.width*2
+            height: r.height*0.5
+            anchors.horizontalCenter: parent.horizontalCenter
+            delegate: compItemList2
+            model: lm2
             //currentIndex: app.currentPlanetIndex
             clip: true
             onCurrentIndexChanged: {
@@ -87,6 +104,19 @@ Rectangle {
 
     ListModel{
         id: lm
+        function addItem(indexSign, indexHouse, grado, minuto, segundo, stringData){
+            return {
+                is: indexSign,
+                ih: indexHouse,
+                gdeg:grado,
+                mdeg: minuto,
+                sdeg: segundo,
+                sd: stringData
+            }
+        }
+    }
+    ListModel{
+        id: lm2
         function addItem(indexSign, indexHouse, grado, minuto, segundo, stringData){
             return {
                 is: indexSign,
@@ -120,6 +150,37 @@ Rectangle {
                 anchors.fill: parent
                 onClicked: {
                     app.currentPlanetIndex=index
+                }
+                Rectangle{
+                    anchors.fill: parent
+                    color: 'red'
+                    visible: false
+                }
+            }
+        }
+    }
+    Component{
+        id: compItemList2
+        Rectangle{
+            width: lv.width
+            height: txtData.contentHeight+app.fs*0.1
+            color: index+1===sweg.objHousesCircle.currentHouse?apps.fontColor:apps.backgroundColor
+            border.width: index+1===sweg.objHousesCircle.currentHouse?2:0
+            border.color: apps.fontColor
+            XText {
+                id: txtData
+                text: sd
+                font.pixelSize: app.fs*0.4
+                width: parent.width-app.fs*0.2
+                wrapMode: Text.WordWrap
+                textFormat: Text.RichText
+                color: index+1===sweg.objHousesCircle.currentHouse?apps.backgroundColor:apps.fontColor
+                anchors.centerIn: parent
+            }
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    sweg.objHousesCircle.currentHouse=index+1
                 }
                 Rectangle{
                     anchors.fill: parent
@@ -197,10 +258,11 @@ Rectangle {
         lm.append(lm.addItem(o1.is, 10, o1.rsgdeg, o1.mdeg, o1.sdeg, s))
 
         //Load Houses
+        lm2.clear()
         for(i=1;i<13;i++){
             jo=json.ph['h'+i]
             s = 'Casa '+i+' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ ' ' +app.signos[jo.is]
-            lm.append(lm.addItem(jo.is, jo.ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s))
+            lm2.append(lm2.addItem(jo.is, jo.ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s))
         }
 
         if(app.mod!=='rs'&&app.mod!=='pl')r.state='show'

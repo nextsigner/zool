@@ -36,7 +36,7 @@ Item {
             }
             PropertyChanges {
                 target: r
-                colors: ['#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A']
+                colors: [apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor]
                 extraWidth: 0
                 w: (sweg.width-sweg.objAspsCircle.width)/2//housesCircle.parent.objectName==='sweg'?(!r.selected?sweg.fs*2.5:sweg.fs*6):(!r.selected?sweg.fs*3:sweg.fs*7)
             }
@@ -89,28 +89,8 @@ Item {
         canvas.requestPaint()
         canvas2.requestPaint()
     }
-    onOpChanged: {
-        if(op===0.0){
-            opacitySpeed=50
-            r.opacity=0.0
-        }
-        if(op===1.0){
-            opacitySpeed=500
-            r.opacity=1.0
-        }
-    }
-    onOpacityChanged:{
-        if(opacity===0.0){
-            r.op=1.0
-        }
-        tOp.restart()
-    }
-    Timer{
-        id: tOp
-        running: false
-        repeat: true
-        interval: 500
-        onTriggered: r.opacity=1.0
+    onSelectedChanged: {
+        if(!selected)canvas.opacity=0.5
     }
     Behavior on opacity{enabled: apps.enableFullAnimation;
         NumberAnimation{duration: r.opacitySpeed}
@@ -129,6 +109,56 @@ Item {
         radius: width*0.5
         visible: r.showBorder
         antialiasing: true
+    }
+    Rectangle{
+        id: ejeCard1
+        width: sweg.fs*2
+        height: 1
+        color: 'red'
+        //anchors.centerIn: r
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: 0-sweg.fs*2
+        visible: c===0
+        Canvas {
+            id:canvasSen
+            width: sweg.fs*0.5
+            height: width
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            antialiasing: true
+            onPaint:{
+                var ctx = canvasSen.getContext('2d');
+                ctx.beginPath();
+                ctx.moveTo(0, canvasSen.width*0.5);
+                ctx.lineTo(canvasSen.width, 0);
+                ctx.lineTo(canvasSen.width, canvasSen.width);
+                ctx.lineTo(0, canvasSen.width*0.5);                               ctx.strokeStyle = canvas.parent.color
+                ctx.lineWidth = canvasSen.parent.height;
+                ctx.fillStyle = canvasSen.parent.color
+                ctx.fill();
+                ctx.stroke();
+            }
+        }
+        Rectangle{
+            width: sweg.fs*2.2
+            height: sweg.fs
+            radius: sweg.fs*0.1
+            color: apps.fontColor
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.left
+            anchors.leftMargin: 0-sweg.fs*2.2
+            clip: true
+            Text{
+                id: esteTxt
+                text: 'Horizonte ESTE';
+                width: sweg.fs*2
+                wrapMode: Text.WordWrap
+                color: apps.backgroundColor
+                font.pixelSize: app.fs*0.35;
+                anchors.centerIn: parent
+            }
+        }
     }
     Canvas {
         id:canvas
@@ -329,12 +359,15 @@ Item {
     Rectangle{
         width: r.width*0.5
         height: apps.widthHousesAxis
-        anchors.centerIn: parent
+        anchors.verticalCenter: parent.verticalCenter
+        //anchors.centerIn: parent
         color: apps.fontColor
+        //color: 'blue'
         visible: apps.showHousesAxis
         y: lineaEje2.y
         antialiasing: true
     }
+
     function refresh(){
         canvas.clear_canvas()
         canvas.requestPaint()
