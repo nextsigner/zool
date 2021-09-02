@@ -79,7 +79,7 @@ Item{
             if(jo.mdeg>=50){
                 degRed=1.0
             }
-            objAs.rotation=parseInt(signCircle.rot)-parseInt(jo.gdeg)+degRed
+            objAs.rotation=signCircle.rot-jo.gdeg-(jo.mdeg/60)+degRed
             o={}
             o.p=objSigns[jo.is]
             if(r.totalPosX<o.p){

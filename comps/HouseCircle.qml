@@ -211,7 +211,6 @@ Item {
                 if(i!==0&&i!==6){
                     h.rotation+=degRet
                 }
-
             }
             gp.push(wgf)
             resta+=xArcs.children[nh].wg-(o1.mdeg/60)-(o2.mdeg/60)-degRed
