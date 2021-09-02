@@ -135,6 +135,10 @@ AppWin {
         property bool showSWEZ: true
         property bool showDec: true
 
+        //Houses
+        property bool showHousesAxis: false
+        property int widthHousesAxis: 3.0
+
         //XAs
         property color xAsColor: 'white'
         property bool anColorXAs: false

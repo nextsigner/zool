@@ -7,7 +7,7 @@ Item {
     height: width
     anchors.centerIn: parent
     property real wg: 0.0
-    property int wb: 3
+    property int wb: apps.widthHousesAxis
     property int gr: 0
     property int n: -1
     property int w: housesCircle.currentHouse!==n?housesCircle.w*0.5:sweg.fs*6.5
@@ -325,15 +325,16 @@ Item {
     }
 
 
-    //Probando/Visualizando rotación
+    //Eje de Casa
     Rectangle{
-        width: r.width
-        height: 2
+        width: r.width*0.5
+        height: apps.widthHousesAxis
         anchors.centerIn: parent
-        color: '#ff8833'
+        color: apps.fontColor
+        visible: apps.showHousesAxis
+        y: lineaEje2.y
+        antialiasing: true
     }
-
-
     function refresh(){
         canvas.clear_canvas()
         canvas.requestPaint()

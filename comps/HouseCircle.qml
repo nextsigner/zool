@@ -1,5 +1,5 @@
 import QtQuick 2.0
-
+//import "./comps" as Comps
 Item {
     id: r
     property int currentHouse: -1
@@ -42,6 +42,7 @@ Item {
 //        enabled: apps.enableFullAnimation;
 //        NumberAnimation{duration:2000;easing.type: Easing.InOutQuad}
 //    }
+
     Item{
         id: xHomeArcs
         anchors.fill: r
@@ -58,7 +59,10 @@ Item {
             }
         }
     }
-
+    HousesAxis{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
+        id:housesAxis
+        height: width
+    }
     //Probando/Visualizando rotación
 //    Rectangle{
 //        width: r.width
@@ -78,9 +82,10 @@ Item {
     }
     function loadHouses(jsonData) {
         r.arrayWg=[]
-        xArcs.rotation=parseInt(360-jsonData.ph.h1.gdec)+1
-        //let restRed=parseFloat(360-jsonData.ph.h1.gdec)-parseInt(360-jsonData.ph.h1.gdec)
-        ihr.text=xArcs.rotation
+        xArcs.rotation=360-jsonData.ph.h1.gdec
+        //housesAxis.rotation=parseInt(360-jsonData.ph.h1.gdec)+1
+        housesAxis.visible=false
+        let aDegs=[]
         let resta=0.000000
         let nh=0
         let o1
@@ -90,7 +95,17 @@ Item {
         let indexSign2
         let p2
         let gp=[]
-        for(var i=0;i<12;i++){
+        var i=0
+        var degRet=0.0
+
+//        for(var i=1;i<13;i++){
+//            if(i===7){
+//                housesAxis.reload(i,360-jsonData.ph['h1'].gdeg + 180)
+//            }else{
+//                housesAxis.reload(i,360-jsonData.ph['h'+i].gdeg)
+//            }
+//        }
+        for(i=0;i<12;i++){
             if(i===0){
                 app.uAscDegreeTotal=jsonData.ph.h1.gdec
             }
@@ -112,15 +127,26 @@ Item {
                 o2=jsonData.ph[sh2]
             }
             indexSign1=o1.is
-            p1=indexSign1*30+parseInt(o1.rsgdeg)
-            indexSign2=o2.is//app.objSignsNames.indexOf(o2.s)
-            //p2=0.0000+indexSign2*30+o2.rsgdeg+(o2.mdeg/60)
-            p2=0.0000+indexSign2*30+parseInt(o2.rsgdeg)
-            let wgf=parseInt(p2)-parseInt(p1)//+(o1.mdeg/60)
-            if(wgf<0){
-                h.wg=360+p2-p1//+(o1.mdeg/60)
+            if(i!==0&&i!==6){
+                p1=indexSign1*30+parseInt(o1.rsgdeg)+(o1.mdeg/60)
             }else{
-                h.wg=p2-p1//+(o1.mdeg/60)
+                p1=indexSign1*30+parseInt(o1.rsgdeg)
+            }
+
+            indexSign2=o2.is//app.objSignsNames.indexOf(o2.s)
+            if(i!==0&&i!==6){
+                p2=0.0000+indexSign2*30+o2.rsgdeg+(o2.mdeg/60)
+            }else{
+                p2=0.0000+indexSign2*30+o2.rsgdeg
+            }
+            //p2=0.0000+indexSign2*30+parseInt(o2.rsgdeg)
+            //let wgf=parseInt(p2)-parseInt(p1)+(o1.mdeg/60)
+            let wgf=p2-p1+(o1.mdeg/60)
+            let degRed=0.0
+            if(wgf<0){
+                h.wg=360+p2-p1+(o1.mdeg/60)
+            }else{
+                h.wg=p2-p1+(o1.mdeg/60)
             }
             //h.wg=1
             if(i===0){
@@ -128,49 +154,80 @@ Item {
             }else{
                 if(i===1){
                     h.rotation=360-gp[i-1]
+                    //housesAxis.reload(i, 360-gp[i-1])
                 }
                 if(i===2){
                     h.rotation=360-(gp[i-1]+gp[i-2])
+                    //housesAxis.reload(i, 360-(gp[i-1]+gp[i-2]))
                 }
                 if(i===3){
                     h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3])
+                    //housesAxis.reload(i, 360-(gp[i-1]+gp[i-2]+gp[i-3]))
                 }
                 if(i===4){
                     h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4])
+                    //housesAxis.reload(i, 360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]))
                 }
                 if(i===5){
                     h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5])
+                    //housesAxis.reload(i, 360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]))
                 }
                 if(i===6){
-                    h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6])
+                    h.rotation=h.rotation=180
+                    //h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6])
+                    //housesAxis.reload(i, 360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]))
                 }
-                if(i===7){
+                if(i===7){                    
                     h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7])
+                    //housesAxis.reload(i, h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]))
                 }
                 if(i===8){
                     h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8])
+                    //housesAxis.reload(i, h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]))
                 }
                 if(i===9){
                     h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9])
+                    //housesAxis.reload(i, h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9]))
                 }
                 if(i===10){
-                    h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9]+gp[i-10])
+                    h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9]+gp[i-10])                    
                 }
                 if(i===11){
                     h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9]+gp[i-10]+gp[i-11])
                 }
                 //if(i!==0&&i!==6&&Qt.platform.os==='windows'){
                 if(i!==0&&i!==6){
-                    h.rotation+=1.5
+                    //h.rotation+=1.5
+                }
+                if(o1.mdeg>=10&&o1.mdeg<=20){
+                    degRed=0.2
+                }
+                if(o1.mdeg>=20&&o1.mdeg<=30){
+                    degRed=0.4
+                }
+                if(o1.mdeg>=30&&o1.mdeg<=40){
+                    degRed=0.6
+                }
+                if(o1.mdeg>=40&&o1.mdeg<=50){
+                    degRed=0.8
+                }
+                if(o1.mdeg>=50){
+                    degRed=1.0
+                }
+                degRet+=degRed
+                if(i===2){
+                    h.rotation+=degRed
+                }
+                if(i!==0&&i!==6){
+                    h.rotation+=degRet
                 }
 
             }
-            //h.rotation+=restRed
-
             gp.push(wgf)
-            resta+=xArcs.children[nh].wg-(o1.mdeg/60)-(o2.mdeg/60)
+            resta+=xArcs.children[nh].wg-(o1.mdeg/60)-(o2.mdeg/60)//+degRed
             r.arrayWg.push(h.wg)
         }
+        ////housesAxis.reload(aDegs)
         //xArcs.rotation+=1
     }
 }

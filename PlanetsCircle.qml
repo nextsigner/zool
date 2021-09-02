@@ -63,7 +63,23 @@ Item{
         for(var i=0;i<15;i++){
             var objAs=r.children[i]
             jo=json.pc['c'+i]
-            objAs.rotation=parseInt(signCircle.rot)-parseInt(jo.gdeg)
+            let degRed=0.0
+            if(jo.mdeg>=10&&jo.mdeg<=20){
+                degRed=0.2
+            }
+            if(jo.mdeg>=20&&jo.mdeg<=30){
+                degRed=0.4
+            }
+            if(jo.mdeg>=30&&jo.mdeg<=40){
+                degRed=0.6
+            }
+            if(jo.mdeg>=40&&jo.mdeg<=50){
+                degRed=0.8
+            }
+            if(jo.mdeg>=50){
+                degRed=1.0
+            }
+            objAs.rotation=parseInt(signCircle.rot)-parseInt(jo.gdeg)+degRed
             o={}
             o.p=objSigns[jo.is]
             if(r.totalPosX<o.p){

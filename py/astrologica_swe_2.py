@@ -9,12 +9,6 @@ sys.stdout.reconfigure(encoding='utf-8')
 
 houseType="P"
 
-np=[('Sol', 0), ('Luna', 1), ('Mercurio', 2), ('Venus', 3), ('Marte', 4), ('Júpiter', 5), ('Saturno', 6), ('Urano', 7), ('Neptuno', 8), ('Plutón', 9), ('Nodo Norte', 11), ('Nodo Sur', 10), ('Quirón', 15), ('Selena', 57), ('Lilith', 12)]
-
-body=[('Sol', 0), ('Luna', 1), ('Mercurio', 2), ('Venus', 3), ('Marte', 4), ('Júpiter', 5), ('Saturno', 6), ('Urano', 7), ('Neptuno', 8), ('Plutón', 9), ('Nodo Norte', 11), ('Nodo Sur', 10), ('Quirón', 15), ('Selena', 57), ('Lilith', 12)]
-
-
-
 def decdeg2dms(dd):
    is_positive = dd >= 0
    dd = abs(dd)
@@ -92,19 +86,21 @@ def getAsp(g1, g2, ic):
 
 
 
-def getHouse(gObj, gHouses):
-    rh=-1
-    for h in range(0,12):
-        if(gObj>=gHouses[0][h-1]) and gObj<=gHouses[0][h]:
-            #print("Hs: "+str(gHouses))
-            #print("H: "+str(h))
-            #print("G: "+str(gObj))
-            #print("G1: "+str(gHouses[0][h]))
-            #print("G2: "+str(gHouses[0][h + 1]))
-            rh=h
-            break
-        #print("G: "+str(g))
-    return rh
+
+#Get House Position
+def getHousePos(gObj, th):
+    diff=360-h[0][0]
+    for house in range(11):
+        if h[0][house] < h[0][house + 1]:
+            if gObj >= h[0][house] - diff and gObj <= h[0][house + 1] - diff:
+                return house
+        else:
+            if gObj >= 360 - h[0][house] -180 - diff   and gObj <= 180 + h[0][house + 1] - diff:
+                return house
+    return -1
+
+
+
 dia = sys.argv[1]
 mes = int(sys.argv[2]) #+ 1
 anio = sys.argv[3]
@@ -114,6 +110,7 @@ gmt = sys.argv[6]
 
 lat = sys.argv[7]
 lon = sys.argv[8]
+
 
 GMSLat=decdeg2dms(float(lat))
 GMSLon=decdeg2dms(float(lon))
@@ -175,6 +172,7 @@ jsonParams+='"sd": "'+ str(dia) + '/' + str(mes) + '/' + str(anio) + ' ' + str(h
 jsonParams+='"sdgmt": "'+ stringDateSinGmt
 jsonParams+='}'
 
+np=[('Sol', 0), ('Luna', 1), ('Mercurio', 2), ('Venus', 3), ('Marte', 4), ('Júpiter', 5), ('Saturno', 6), ('Urano', 7), ('Neptuno', 8), ('Plutón', 9), ('Nodo Norte', 11), ('Nodo Sur', 10), ('Quirón', 15), ('Selena', 57), ('Lilith', 12)]
 
 #La oblicuidad de calcula con ipl = SE_ECL_NUT = -1 en SWE pero en swisseph ECL_NUT = -1
 posObli=swe.calc(jd1, -1, flag=swe.FLG_SWIEPH+swe.FLG_SPEED)
@@ -182,9 +180,9 @@ oblicuidad=posObli[0][0]
 #print('Oblicuidad: ' + str(posObli[0][0]))
 
 #Se calculan casas previamente para calcular en cada cuerpo con swe.house_pos(...)
-h=swe.houses(jd1, float(lat), float(lon), bytes("T", encoding = "utf-8"))
+#h=swe.houses(jd1, float(lat), float(lon), bytes("P", encoding = "utf-8"))
 #swe.set_topo(float(lat), float(lon), 1440.00)
-#h=swe.houses(jd1, float(lat), float(lon), bytes(houseType, encoding = "utf-8"))
+h=swe.houses(jd1, float(lat), float(lon), bytes(houseType, encoding = "utf-8"))
 
 jsonString='{'
 
@@ -194,7 +192,10 @@ jsonBodies='"pc":{'
 index=0
 for i in np:
     pos=swe.calc_ut(jd1, np[index][1], flag=swe.FLG_SWIEPH+swe.FLG_SPEED)
+    #print('-------------\n')
     #print(pos)
+    #print('-------------\n')
+
     gObj=float(pos[0][0])
     if index == 11:
         #posNN=swe.calc_ut(jd1, np[10][1], flag=swe.FLG_SWIEPH+swe.FLG_SPEED)
@@ -225,14 +226,7 @@ for i in np:
     jsonBodies+='"mdeg":' + str(mdeg)+', '
     jsonBodies+='"sdeg":' + str(sdeg)+', '
     #posHouse=swe.house_pos(h[0][9],float(lat), oblicuidad, gObj, 0.0, bytes(houseType, encoding = "utf-8"))
-    posHouse=getHouse(gObj, h)
-    #Args: float armc, float geolat, float obliquity, float objlon, float objlat=0.0, char hsys='P'
-    #posHouse=swe.house_pos(h[0][0] - 90.00,float(lat), oblicuidad, gObj, 0.0, bytes(houseType, encoding = "utf-8"))
-    #if index == 1:
-        #posHouse=swe.house_pos(h[0][0] - 90.00,float(lat), oblicuidad, gObj, 0.0, bytes(houseType, encoding = "utf-8"))
-    #else:
-        #posHouse=swe.house_pos(h[0][9],float(lat), oblicuidad, gObj, 0.0, bytes(houseType, encoding = "utf-8"))
-
+    posHouse=getHousePos(gObj, h)
     jsonBodies+='"ih":' + str(int(posHouse))+', '
     jsonBodies+='"dh":' + str(posHouse)
     jsonBodies+='}'
@@ -333,9 +327,21 @@ jsonString+='}'
 #print(jsonHouses)
 #print(jsonAspets)
 print(jsonString)
-#getinfo(0.0, 0.0, 1970, 1, 1, 0.0, bytes("P", encoding = "utf-8"), display=range(23))
-#getinfo(jd1)
-#print(get)
-#print(getHouse(114.323, h))
 swe.close()
+
+#Sol
+#print(getHousePos(89.13061211120407, h))
+#Venus
+#print(getHousePos(134.47890450591183, h))
+#Luna
+#print(getHousePos(237.18229224303926, h))
+#Marte
+#print(getHousePos(22.7702017187382, h))
+#Jupiter
+#print(getHousePos(20.194144846766733, h))
+#Urano
+#print(getHousePos(208.46924391687432, h))
+#Pluton
+#print(getHousePos(186.48545757945897, h))
+#print(h)
 #help(swe)

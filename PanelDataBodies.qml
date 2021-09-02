@@ -12,6 +12,7 @@ Rectangle {
     border.width: 1
     border.color: apps.fontColor
     state: 'hide'
+    property alias listModel: lm
     property alias currentIndex: lv.currentIndex
     property int currentIndexSign: -1
     //Behavior on height{NumberAnimation{duration:app.msDesDuration;easing.type: Easing.InOutQuad}}
@@ -194,6 +195,14 @@ Rectangle {
         o1=json.ph['h10']
         s = 'Medio Cielo °' +o1.rsgdeg+ '\'' +o1.mdeg+ '\'\'' +o1.sdeg+ ' ' +app.signos[o1.is]
         lm.append(lm.addItem(o1.is, 10, o1.rsgdeg, o1.mdeg, o1.sdeg, s))
+
+        //Load Houses
+        for(i=1;i<13;i++){
+            jo=json.ph['h'+i]
+            s = 'Casa '+i+' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ ' ' +app.signos[jo.is]
+            lm.append(lm.addItem(jo.is, jo.ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s))
+        }
+
         if(app.mod!=='rs'&&app.mod!=='pl')r.state='show'
     }
 }

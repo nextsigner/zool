@@ -81,6 +81,7 @@ Item {
         color: backgroundColor
         visible: signCircle.v
     }
+    BackgroundImages{}
     AxisCircle{id: axisCircle}
     PanelAspects{
         id: panelAspects
@@ -99,6 +100,7 @@ Item {
         widthAspCircle: aspsCircle.width
         visible: r.v
     }
+    NumberLines{}
     Comps.SignCircle{
         id:signCircle
         //width: planetsCircle.expand?r.width-r.fs*6+r.fs*2:r.width-r.fs*6
@@ -146,16 +148,30 @@ Item {
         interval: 2000
         onTriggered: r.opacity=1.0
     }
-    Rectangle{
-        width: app.fs*6
-        height: width
-        anchors.centerIn: parent
-        Text{
-            id: ihr
-            font.pixelSize: app.fs*2
-            anchors.centerIn: parent
-        }
-    }
+    //    Rectangle{
+    //        width: app.fs*6
+    //        height: width
+    //        anchors.centerIn: parent
+    //        Text{
+    //            id: ihr
+    //            font.pixelSize: app.fs*2
+    //            anchors.centerIn: parent
+    //        }
+    //    }
+    /*‘P’     Placidus
+                ‘K’     Koch
+                ‘O’     Porphyrius
+                ‘R’     Regiomontanus
+                ‘C’     Campanus
+                ‘A’ or ‘E’     Equal (cusp 1 is Ascendant)
+                ‘V’     Vehlow equal (Asc. in middle of house 1)
+                ‘X’     axial rotation system
+                ‘H’     azimuthal or horizontal system
+                ‘T’     Polich/Page (“topocentric” system)
+                ‘B’     Alcabitus
+                ‘G’     Gauquelin sectors
+                ‘M’     Morinus
+        */
     function loadSign(j){
         console.log('Ejecutando SweGraphic.loadSign()...')
         //unik.speak('load sign')
@@ -172,7 +188,7 @@ Item {
         let vlat=j.params.lat
         let d = new Date(Date.now())
         let ms=d.getTime()
-         let c='import QtQuick 2.0\n'
+        let c='import QtQuick 2.0\n'
         c+='import unik.UnikQProcess 1.0\n'
         c+='UnikQProcess{\n'
         c+='    id: uqp'+ms+'\n'
@@ -232,7 +248,8 @@ Item {
         let scorrJson=json.replace(/\n/g, '')
         //console.log('json: '+json)
         let j=JSON.parse(scorrJson)
-        signCircle.rot=parseInt(j.ph.h1.gdec)
+        //signCircle.rot=parseInt(j.ph.h1.gdec)
+        signCircle.rot=parseFloat(j.ph.h1.gdec).toFixed(2)
         ascMcCircle.loadJson(j)
         housesCircle.loadHouses(j)
         planetsCircle.loadJson(j)
