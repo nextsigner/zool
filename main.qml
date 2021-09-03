@@ -129,6 +129,7 @@ AppWin {
         //Houses
         property bool showHousesAxis: false
         property int widthHousesAxis: 3.0
+        property string houseLineBackColor: 'red'
 
         //XAs
         property color xAsColor: 'white'

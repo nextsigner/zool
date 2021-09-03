@@ -2,6 +2,7 @@ import QtQuick 2.0
 //import "./comps" as Comps
 Item {
     id: r
+    width: r.parent.width-sweg.fs
     property int currentHouse: -1
     property int w: sweg.fs*3
     property int wb: 1//sweg.fs*0.15
@@ -11,48 +12,48 @@ Item {
     property string extraObjectName: ''
     property var swegParent//: value
     property int widthAspCircle: 10
-    state: r.parent.state
-    states: [
-        State {
-            name: r.parent.aStates[0]
-            PropertyChanges {
-                target: r
-                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs-sweg.fs):(r.parent.width-sweg.fs)
-                width: r.parent.width-sweg.fs-sweg.fs
-            }
-        },
-        State {
-            name: r.parent.aStates[1]
-            PropertyChanges {
-                target: r
-                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs*5-sweg.fs):(r.parent.width-sweg.fs*2.5-sweg.fs*0.5)
-                width: r.parent.width-sweg.fs*5-sweg.fs
-            }
-        },
-        State {
-            name: r.parent.aStates[2]
-            PropertyChanges {
-                target: r
-                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs-sweg.fs):(r.parent.width)
-                width: r.parent.width-sweg.fs-sweg.fs
-            }
-        }
-    ]
+//    state: r.parent.state
+//    states: [
+//        State {
+//            name: r.parent.aStates[0]
+//            PropertyChanges {
+//                target: r
+//                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs-sweg.fs):(r.parent.width-sweg.fs)
+//                width: r.parent.width-sweg.fs-sweg.fs
+//            }
+//        },
+//        State {
+//            name: r.parent.aStates[1]
+//            PropertyChanges {
+//                target: r
+//                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs*5-sweg.fs):(r.parent.width-sweg.fs*2.5-sweg.fs*0.5)
+//                width: r.parent.width-sweg.fs*5-sweg.fs
+//            }
+//        },
+//        State {
+//            name: r.parent.aStates[2]
+//            PropertyChanges {
+//                target: r
+//                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs-sweg.fs):(r.parent.width)
+//                width: r.parent.width-sweg.fs-sweg.fs
+//            }
+//        }
+//    ]
 //    Behavior on rotation{
 //        enabled: apps.enableFullAnimation;
 //        NumberAnimation{duration:2000;easing.type: Easing.InOutQuad}
 //    }
 
     Item{
-        id: xHomeArcs
+        id: xHomeArcsBack
         anchors.fill: r
         Item{
-            id:xArcs
+            id:xArcsBack
             anchors.fill: parent
             Repeater{
                 model: 12
                 HouseArcBack{
-                    objectName: 'HomeArc'+index+'_'+r.extraObjectName
+                    objectName: 'HomeArcBack'+index+'_'+r.extraObjectName
                     n: index+1
                     c: index
                 }
@@ -82,7 +83,7 @@ Item {
     }
     function loadHouses(jsonData) {
         r.arrayWg=[]
-        xArcs.rotation=360-jsonData.ph.h1.gdec+signCircle.rot+1
+        xArcsBack.rotation=360-jsonData.ph.h1.gdec+signCircle.rot+1
         let aDegs=[]
         let resta=0.000000
         let nh=0
@@ -100,7 +101,7 @@ Item {
                 app.uAscDegreeTotal=jsonData.ph.h1.gdec
             }
             nh=i
-            let h=xArcs.children[i]
+            let h=xArcsBack.children[i]
             h.op=0.0
             let sh1=''
             let sh2=''
@@ -213,7 +214,7 @@ Item {
                 }
             }
             gp.push(wgf)
-            resta+=xArcs.children[nh].wg-(o1.mdeg/60)-(o2.mdeg/60)-degRed
+            resta+=xArcsBack.children[nh].wg-(o1.mdeg/60)-(o2.mdeg/60)-degRed
             r.arrayWg.push(h.wg)
         }
         ////housesAxis.reload(aDegs)

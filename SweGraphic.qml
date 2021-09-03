@@ -15,6 +15,7 @@ Item {
     property alias objAspsCircle: aspsCircle
     property alias objPlanetsCircle: planetsCircle
     property alias objHousesCircle: housesCircle
+    property alias objHousesCircleBack: housesCircleBack
     property alias objSignsCircle: signCircle
     property alias objAscMcCircle: ascMcCircle
     property alias objEclipseCircle: eclipseCircle
@@ -28,7 +29,7 @@ Item {
             name: aStates[0]
             PropertyChanges {
                 target: r
-                width: r.fs*(12 +10)
+                width: planetsCircleBack.visible?r.fs*(12 +6):r.fs*(12 +10)
             }
             PropertyChanges {
                 target: signCircle
@@ -43,7 +44,7 @@ Item {
             name: aStates[1]
             PropertyChanges {
                 target: r
-                width: r.fs*(15 +10)
+                width: planetsCircleBack.visible?r.fs*(15 +6):r.fs*(15 +10)
             }
             PropertyChanges {
                 target: signCircle
@@ -58,7 +59,7 @@ Item {
             name: aStates[2]
             PropertyChanges {
                 target: r
-                width: r.fs*(12 +10)
+                width: planetsCircleBack.visible?r.fs*(12 +6):r.fs*(12 +10)
             }
             PropertyChanges {
                 target: signCircle
@@ -88,7 +89,7 @@ Item {
         anchors.centerIn: signCircle
         w: r.fs*6
         widthAspCircle: aspsCircle.width
-        //visible: planetsCircleBack.visible
+        visible: planetsCircleBack.visible
     }
     Comps.HouseCircle{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
         id:housesCircle
@@ -138,6 +139,7 @@ Item {
         id:planetsCircleBack
         height: width
         anchors.centerIn: parent
+        visible: false
     }
     AscMcCircle{id: ascMcCircle}
     EclipseCircle{
