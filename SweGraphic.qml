@@ -126,6 +126,11 @@ Item {
         //showBorder: true
         //v:r.v
     }
+    PlanetsCircleBack{
+        id:planetsCircleBack
+        height: width
+        anchors.centerIn: parent
+    }
     AscMcCircle{id: ascMcCircle}
     EclipseCircle{
         id: eclipseCircle
@@ -212,6 +217,7 @@ Item {
     }
     function load(j){
         //console.log('Ejecutando SweGraphic.load()...')
+        planetsCircleBack.visible=false
         for(var i=0;i<xuqp.children.length;i++){
             xuqp.children[i].destroy(0)
         }
@@ -256,6 +262,7 @@ Item {
         ascMcCircle.loadJson(j)
         housesCircle.loadHouses(j)
         planetsCircle.loadJson(j)
+        //planetsCircleBack.loadJson(j)
         panelAspects.load(j)
         panelDataBodies.loadJson(j)
         aspsCircle.load(j)
@@ -267,6 +274,16 @@ Item {
         apps.enableFullAnimation=true
         tFirtShow.start()
         //tReload.restart()
+    }
+    function loadSweJsonBack(json){
+        //console.log('JSON::: '+json)
+        let scorrJson=json.replace(/\n/g, '')
+        //console.log('json: '+json)
+        let j=JSON.parse(scorrJson)
+        //signCircle.rot=parseInt(j.ph.h1.gdec)
+        //planetsCircleBack.rotation=parseFloat(j.ph.h1.gdec).toFixed(2)
+        planetsCircleBack.loadJson(j)
+        planetsCircleBack.visible=true
     }
     function nextState(){
         let currentIndexState=r.aStates.indexOf(r.state)

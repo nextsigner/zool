@@ -198,4 +198,38 @@ sweg.objEclipseCircle.typeEclipse='+comando[4]+''
 
         mkCmd(finalCmd, c)
     }
+    function makeRSBack(date){
+        let cd=date
+        cd = cd.setFullYear(date.getFullYear())
+        let cd2=new Date(cd)
+        cd2 = cd2.setDate(cd2.getDate() - 1)
+        let cd3=new Date(cd2)
+        let finalCmd=''
+            +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe_search_revsol.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+cd3.getFullYear()+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+app.currentGradoSolar+' '+app.currentMinutoSolar+' '+app.currentSegundoSolar+''
+        //console.log('finalCmd: '+finalCmd)
+        let c=''
+        c+=''
+                +'  if(logData.length<=3||logData==="")return\n'
+                +'  let j\n'
+                +'try {\n'
+                +'      let s=""+logData\n'
+                +'      //console.log("RS: "+s)\n'
+                +'      r.state="hide"\n'
+                +'      app.mod="rs"\n'
+                +'      sweg.loadSweJsonBack(s)\n'
+                +'      swegz.sweg.loadSweJsonBack(s)\n'
+                +'      let j=JSON.parse(s)\n'
+                +'      let o=j.params\n'
+                +'      let m0=o.sdgmt.split(" ")\n'
+                +'      let m1=m0[0].split("/")\n'
+                +'      let m2=m0[1].split(":")\n'
+                +'      JS.setTitleData("Revolución Solar '+date.getFullYear()+' de '+app.currentNom+'",  m1[0],m1[1], m1[2], m2[0], m2[1], '+app.currentGmt+', "'+app.currentLugar+'", '+app.currentLat+','+app.currentLon+', 1)\n'
+                +'      logData=""\n'
+                +'} catch(e) {\n'
+                +'  console.log("Error makeRS Code: "+e+" "+logData);\n'
+                +'  //unik.speak("error");\n'
+                +'}\n'
+
+        mkCmd(finalCmd, c)
+    }
 }

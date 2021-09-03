@@ -197,7 +197,8 @@ Rectangle {
                 onClicked: {
                     lv.currentIndex=index
                     //r.state='hide'
-                    xBottomBar.objPanelCmd.makeRS(itemRS.rsDate)
+                    //xBottomBar.objPanelCmd.makeRS(itemRS.rsDate)
+                    xBottomBar.objPanelCmd.makeRSBack(itemRS.rsDate)
                 }
             }
             Component.onCompleted: {

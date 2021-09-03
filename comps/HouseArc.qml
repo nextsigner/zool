@@ -133,7 +133,8 @@ Item {
                 ctx.moveTo(0, canvasSen.width*0.5);
                 ctx.lineTo(canvasSen.width, 0);
                 ctx.lineTo(canvasSen.width, canvasSen.width);
-                ctx.lineTo(0, canvasSen.width*0.5);                               ctx.strokeStyle = canvas.parent.color
+                ctx.lineTo(0, canvasSen.width*0.5);
+                ctx.strokeStyle = canvas.parent.color
                 ctx.lineWidth = canvasSen.parent.height;
                 ctx.fillStyle = canvasSen.parent.color
                 ctx.fill();
