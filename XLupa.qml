@@ -29,6 +29,13 @@ Item {
         anchors.fill: r
         drag.axis: Drag.XAndYAxis
         drag.target: r
+        onWheel: {
+            if(wheel.angleDelta.y===120){
+                apps.lupaRot++
+            }else{
+                apps.lupaRot--
+            }
+        }
         onClicked: {
             if(mod===0){
                 mod=1

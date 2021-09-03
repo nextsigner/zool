@@ -138,9 +138,16 @@ Rectangle {
                 KeyNavigation.tab: botCrear
                 t.maximumLength: 50
                 onTextChanged: {
-                    //searchGeoLoc(false)
+                    tSearch.restart()
                     t.color='white'
                 }
+            }
+            Timer{
+               id: tSearch
+               running: false
+               repeat: false
+               interval: 2000
+               onTriggered: searchGeoLoc(false)
             }
         }
         Column{
@@ -164,32 +171,38 @@ Rectangle {
             visible: !colLatLon.visible
             anchors.horizontalCenter: parent.horizontalCenter
             Text{
+                text: 'Error: Corregir el nombre de ubicación'
+                font.pixelSize: app.fs*0.25
+                color: 'white'
+                visible: r.ulat===-1&&r.ulon===-1
+            }
+            Text{
                 text: 'Lat:'+r.ulat
                 font.pixelSize: app.fs*0.5
-                color: 'red'
+                color: 'white'
                 opacity: r.ulat!==-100.00?1.0:0.0
             }
             Text{
                 text: 'Lon:'+r.ulon
                 font.pixelSize: app.fs*0.5
-                color: 'red'
+                color: 'white'
                 opacity: r.ulon!==-100.00?1.0:0.0
             }
         }
-
         Button{
             id: botCrear
             text: 'Crear'
-            font.pixelSize: app.fs
+            font.pixelSize: app.fs*0.5
             anchors.horizontalCenter: parent.horizontalCenter
             KeyNavigation.tab: tiNombre.t
+            visible: r.ulat!==-1&&r.ulon!==-1&&tiNombre.text!==''&&tiFecha.text!==''&&tiHora.text!==''&&tiGMT.text!==''&&tiCiudad.text!==''
             onClicked: {
                 searchGeoLoc(true)
             }
             Timer{
                 running: r.state==='show'
                 repeat: true
-                interval: 2000
+                interval: 1000
                 onTriggered: {
                     let nom=tiNombre.t.text.replace(/ /g, '_')
                     let fileName=apps.jsonsFolder+'/'+nom+'.json'
@@ -229,6 +242,8 @@ Rectangle {
                         }
                         r.lat=j.params.lat
                         r.lon=j.params.lon
+                        r.ulat=j.params.lat
+                        r.ulon=j.params.lon
                         let m0=tiFecha.t.text.split('/')
                         if(m0.length!==3)return
                         let vd=parseInt(m0[0])
@@ -345,7 +360,7 @@ Rectangle {
         //runJsonTemp()
     }
     function enter(){
-        if(botCrear.focus){
+        if(botCrear.focus&&tiNombre.text!==''&&tiFecha.text!==''&&tiHora.text!==''&&tiGMT.text!==''&&tiCiudad.text!==''){
             searchGeoLoc(true)
         }
     }

@@ -82,6 +82,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             anchors.verticalCenterOffset: 0
             anchors.right: parent.left
+            //anchors.rightMargin: sweg.fs
             onSelectedChanged:{
                 app.uSon='asc_'+app.objSignsNames[r.isAsc]+'_1'
             }
@@ -91,7 +92,7 @@ Item {
                     name: sweg.aStates[0]
                     PropertyChanges {
                         target: xIconAsc
-                        anchors.rightMargin: !xIconAsc.selected?0:0-sweg.width*0.5-sweg.fs*0.25
+                        anchors.rightMargin: !xIconAsc.selected?0+sweg.fs:0-sweg.width*0.5-sweg.fs*0.25
                         anchors.verticalCenterOffset: !xIconAsc.selected?0-sweg.fs*2:0
 
                     }
@@ -100,7 +101,7 @@ Item {
                     name: sweg.aStates[1]
                     PropertyChanges {
                         target: xIconAsc
-                        anchors.rightMargin: app.currentPlanetIndex===14?0- housesCircle.width*0.5-xIconAsc.width*0.5-sweg.fs*1.5:0
+                        anchors.rightMargin: app.currentPlanetIndex===14?0- housesCircle.width*0.5-xIconAsc.width*0.5-sweg.fs*1.5:0+sweg.fs
                         //anchors.rightMargin: !xIconAsc.selected?0:0-sweg.width*0.5-sweg.fs*0.25
                         anchors.verticalCenterOffset: !xIconAsc.selected?0-sweg.fs*2:0
                     }
@@ -109,7 +110,7 @@ Item {
                     name: sweg.aStates[2]
                     PropertyChanges {
                         target: xIconAsc
-                        anchors.rightMargin: !xIconAsc.selected?0:0+sweg.fs//*0.25
+                        anchors.rightMargin: !xIconAsc.selected?0+sweg.fs:0+sweg.fs//*0.25
                         //anchors.rightMargin: !xIconAsc.selected?0:0-sweg.width*0.5-sweg.fs*0.25
                         anchors.verticalCenterOffset: !xIconAsc.selected?0-sweg.fs*2:0
                     }

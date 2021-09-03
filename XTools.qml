@@ -100,6 +100,14 @@ Rectangle {
                     }
                 }
             }
+            Button{
+                text: 'MODO'
+                width: app.fs*1.5
+                height: app.fs*0.6
+                onClicked: {
+                    sweg.nextState()
+                }
+            }
         }
         Rectangle{
             width: children[0].width+app.fs*0.25
@@ -140,6 +148,10 @@ Rectangle {
                             apps.showLupa=!apps.showLupa
                         }
                     }
+                }
+                Row{
+                    spacing: app.fs*0.25
+                    anchors.horizontalCenter: parent.horizontalCenter
                     Button{
                         text: apps.lt?'MOVER':'CLICK'
                         width: app.fs*2
@@ -149,11 +161,12 @@ Rectangle {
                         }
                     }
                     Button{
-                        text: 'MODO'
-                        width: app.fs*1.5
+                        text: 'CENTRAR '
+                        width: app.fs*2
                         height: app.fs*0.6
                         onClicked: {
-                            sweg.nextState()
+                            xLupa.x=xLupa.parent.width*0.5-xLupa.height*0.5
+                            xLupa.y=xLupa.parent.height*0.5-xLupa.width*0.5+sweg.verticalOffSet
                         }
                     }
                 }
