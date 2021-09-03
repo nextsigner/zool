@@ -31,7 +31,9 @@ Rectangle {
         }
     ]
     onStateChanged: {
-        //if(state==='hide')txtDataSearch.focus=false
+        if(state==='show'){
+            if(edadMaxima<=0)xTit.showTi=true
+        }
         //JS.raiseItem(r)
         //xApp.focus=true
     }
@@ -47,15 +49,75 @@ Rectangle {
             border.width: 2
             border.color: txtLabelTit.focus?'red':'white'
             anchors.horizontalCenter: parent.horizontalCenter
+            property bool showTit: true
+            property bool showTi: false
+            onShowTiChanged: {
+                if(showTi){
+                    tiEdad.focus=true
+                    tiEdad.text=r.edadMaxima
+                    tiEdad.selectAll()
+                }
+            }
+            Rectangle{
+                color: parent.color
+                anchors.fill: parent
+                border.width: xTit.border.width
+                border.color: xTit.border.color
+                visible: xTit.showTi
+                Row{
+                    anchors.centerIn: parent
+                    spacing: app.fs*0.5
+                    XText{id: label; text:'<b>Edad:</b>';anchors.verticalCenter: parent.verticalCenter}
+                    Rectangle{
+                        width: app.fs*1.5
+                        height: app.fs*0.7
+                        anchors.verticalCenter: parent.verticalCenter
+                        TextInput{
+                            id: tiEdad
+                            font.pixelSize: app.fs*0.5
+                            width: parent.width*0.8
+                            height: parent.height
+                            anchors.centerIn: parent
+                            color: 'black'
+                            validator: IntValidator {bottom: 1; top: 150}
+                            Keys.onReturnPressed: {
+                                xBottomBar.objPanelCmd.runCmd('rsl '+tiEdad.text)
+                                xTit.showTi=false
+                            }
+                        }
+                    }
+                }
+            }
             XText {
                 id: txtLabelTit
-                text: 'Revoluciones Solares hasta los '+r.edadMaxima+' años'
+                text: parent.showTit?'Revoluciones Solares hasta los '+r.edadMaxima+' años':'Click para cargar'
                 font.pixelSize: app.fs*0.5
                 width: parent.width-app.fs
                 wrapMode: Text.WordWrap
                 color: 'white'
                 focus: true
                 anchors.centerIn: parent
+                visible: !xTit.showTi
+            }
+            Timer{
+                id: tShowXTit
+                running: false
+                repeat: false
+                interval: 3000
+                onTriggered: parent.showTit=true
+            }
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: {
+                    xTit.showTit=false
+                    tShowXTit.start()
+                }
+                onExited: {
+                    xTit.showTit=false
+                    tShowXTit.start()
+                }
+                onClicked: xTit.showTi=true
             }
         }
         ListView{
@@ -268,8 +330,14 @@ Rectangle {
         }
     }
     function enter(){
+        //Qt.quit()
+        if(xTit.showTi){
+            xBottomBar.objPanelCmd.runCmd('rsl '+tiEdad.text)
+            xTit.showTi=false
+            return
+        }
         if(lv.count>=1){
-            xBottomBar.objPanelCmd.makeRS(lv.itemAtIndex(lv.currentIndex).rsDate)
+            xBottomBar.objPanelCmd.makeRSBack(lv.itemAtIndex(lv.currentIndex).rsDate)
         }
     }
 }

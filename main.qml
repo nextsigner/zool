@@ -281,7 +281,26 @@ AppWin {
                 PanelPronEdit{id: panelPronEdit;}
             }
         }
-        XLupa{id: xLupa;visible: apps.showLupa}
+        XLupa{
+            id: xLupa;
+            visible: apps.showLupa
+            onXChanged: setGui()
+            onYChanged: setGui()
+            function setGui(){
+                if(panelRsList.state==='show'){
+                    panelRsList.state='hide'
+                }
+                if(panelFileLoader.state==='show'){
+                    panelFileLoader.state='hide'
+                }
+                if(panelNewVNA.state==='show'){
+                    panelNewVNA.state='hide'
+                }
+                if(xBottomBar.state==='show'){
+                    xBottomBar.state='hide'
+                }
+            }
+        }
         Comps.XLayerTouch{id: xLayerTouch}
         XTools{
             id: xTools

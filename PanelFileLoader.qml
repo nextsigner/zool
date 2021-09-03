@@ -12,6 +12,7 @@ Rectangle {
     border.color: 'white'
     property alias currentIndex: lv.currentIndex
     property alias listModel: lm
+    property string currentFile: ''
     state: 'hide'
     states: [
         State {
@@ -113,6 +114,7 @@ Rectangle {
             delegate: compItemList
             model: lm
             clip: true
+            onCurrentIndexChanged: r.currentFile=lm.get(currentIndex).fileName
         }
     }
 
@@ -195,6 +197,7 @@ Rectangle {
         return edad
     }
     function updateList(){
+        lv.currentIndex=-1
         lm.clear()
         for(var i=0;i<flm.count;i++){
             //let file='/home/ns/nsp/uda/astrologica/jsons/'+flm.get(i, 'fileName')
@@ -234,5 +237,9 @@ Rectangle {
             txtDataSearch.focus=true
             //txtDataSearch.selectAll()
         }
+    }
+    function enter(){
+        JS.loadJson(r.currentFile)
+        r.state='hide'
     }
 }

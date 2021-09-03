@@ -68,6 +68,23 @@ ApplicationWindow {
         }
     }
     Shortcut{
+        sequence: 'Return'
+        onActivated: {
+            if(panelNewVNA.state==='show'){
+                panelNewVNA.enter()
+                return
+            }
+            if(panelRsList.state==='show'){
+                panelRsList.enter()
+                return
+            }
+            if(panelFileLoader.state==='show'){
+                panelFileLoader.enter()
+                return
+            }
+        }
+    }
+    Shortcut{
         sequence: 'Enter'
         onActivated: {
             if(panelNewVNA.state==='show'){
@@ -76,6 +93,10 @@ ApplicationWindow {
             }
             if(panelRsList.state==='show'){
                 panelRsList.enter()
+                return
+            }
+            if(panelFileLoader.state==='show'){
+                panelFileLoader.enter()
                 return
             }
         }

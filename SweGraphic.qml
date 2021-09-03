@@ -82,6 +82,14 @@ Item {
         visible: signCircle.v
     }
     BackgroundImages{id: backgroundImages}
+    Comps.HouseCircleBack{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
+        id:housesCircleBack
+        height: width
+        anchors.centerIn: signCircle
+        w: r.fs*6
+        widthAspCircle: aspsCircle.width
+        //visible: planetsCircleBack.visible
+    }
     Comps.HouseCircle{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
         id:housesCircle
         height: width
@@ -282,6 +290,7 @@ Item {
         let j=JSON.parse(scorrJson)
         //signCircle.rot=parseInt(j.ph.h1.gdec)
         //planetsCircleBack.rotation=parseFloat(j.ph.h1.gdec).toFixed(2)
+        housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
         planetsCircleBack.visible=true
     }
