@@ -120,6 +120,19 @@ Rectangle {
                     spacing: app.fs*0.25
                     anchors.horizontalCenter: parent.horizontalCenter
                     Button{
+                        text: 'MODO '+parseInt(xLupa.mod + 1)
+                        width: app.fs*2
+                        height: app.fs*0.6
+                        onClicked: {
+                            if(apps.lupaMod<2){
+                                apps.lupaMod++
+                            }else{
+                                apps.lupaMod=0
+                            }
+                            xLupa.mod=apps.lupaMod
+                        }
+                    }
+                    Button{
                         text: apps.showLupa?'OCULTAR':'MOSTRAR'
                         width: app.fs*2
                         height: app.fs*0.6

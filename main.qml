@@ -119,15 +119,6 @@ AppWin {
         fileName:documentsPath+'/zool_'+Qt.platform.os+'.cfg'
         property string host: 'http://localhost'
         property bool newClosed: false
-        property bool enableFullAnimation: false
-        property bool enableBackgroundColor: false
-        property string backgroundColor: "black"
-        property string fontFamily: "ArialMdm"
-        property string fontColor: "white"
-        property int fontSize: app.fs*0.5
-        property string houseColor: "#2CB5F9"
-
-
 
         property string url: ''
         property bool showTimes: false
@@ -148,8 +139,22 @@ AppWin {
 
         //GUI
         property bool showMenuBar: true
+        property bool enableFullAnimation: false
+        property bool enableBackgroundColor: false
+        property string backgroundColor: "black"
+        property string fontFamily: "ArialMdm"
+        property string fontColor: "white"
+        property int fontSize: app.fs*0.5
+
+        property string houseColor: "#2CB5F9"
+        property int lupaMod: 2
+        property string lupaColor: "white"
+        property int lupaRot: 0
+        property int lupaX: Screen.width*0.5
+        property int lupaY: Screen.height*0.5
         property bool backgroundImagesVisible: false
         property bool lt:false
+
         property string jsonsFolder: documentsPath
         onEnableBackgroundColorChanged: {
             if(enableBackgroundColor){
@@ -298,6 +303,50 @@ AppWin {
                 }
                 if(xBottomBar.state==='show'){
                     xBottomBar.state='hide'
+                }
+                apps.lupaX=x
+                apps.lupaY=y
+            }
+        }
+        Item{
+            width: 1
+            height: xLupa.width
+            anchors.centerIn: xLupa
+            rotation: -45-(15*apps.lupaRot)
+            visible: !xLayerTouch.visible&&apps.lupaMod===2&&apps.showLupa
+            Rectangle{
+                width: app.fs*0.5
+                height: width
+                anchors.top: parent.bottom
+                color: apps.lupaColor
+                MouseArea{
+                    anchors.fill: parent
+                    drag.target: xLupa
+                    drag.axis: Drag.XAndYAxis
+                }
+                Rectangle{
+                    width: parent.width*0.5
+                    height: width
+                    radius: width*0.5
+                    anchors.centerIn: parent
+                    color: apps.lt?'red':'green'
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: apps.lt=!apps.lt
+                    }
+                }
+                Rectangle{
+                    width: parent.width*1.1
+                    height: app.fs*2
+                    radius: app.fs*0.1
+                    anchors.top: parent.bottom
+                    color: apps.lupaColor
+                    MouseArea{
+                        anchors.fill: parent
+                        drag.target: xLupa
+                        drag.axis: Drag.XAndYAxis
+                        onDoubleClicked: apps.lupaRot++
+                    }
                 }
             }
         }

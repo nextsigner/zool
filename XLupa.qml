@@ -4,12 +4,12 @@ Item {
     id: r
     width: app.fs*4
     height: width
-    y: parent.height*0.5-r.width*0.5+sweg.verticalOffSet
-    x: parent.width*0.5-r.height*0.5
+    y: apps.lupaY//parent.height*0.5-r.width*0.5+sweg.verticalOffSet
+    x: apps.lupaX//parent.width*0.5-r.height*0.5
     property real zoom: 2.0
     property alias image:img
     property alias centroLupa: centro
-    property int mod: 2
+    property int mod: apps.lupaMod
     clip: true
     onModChanged: {
         if(mod===0){
@@ -72,7 +72,7 @@ Item {
         radius: r.mod===2?width*0.5:0
         color: 'transparent'
         border.width: 3
-        border.color: xLayerTouch.visible?'white':'red'
+        border.color: apps.lupaColor//xLayerTouch.visible?'white':'red'
         visible: !xLayerTouch.visible
     }
     Timer{
