@@ -106,10 +106,28 @@ Rectangle {
                 }
             }
         }
+        Rectangle{
+            id:xTitInf
+            width: lv.width
+            height: txtTitInfo.contentHeight+app.fs*0.25
+            color: 'black'
+            //border.width: 2
+            //border.color: 'white'
+            anchors.horizontalCenter: parent.horizontalCenter
+            Text {
+                id: txtTitInfo
+                text: 'Cant: '+flm.count+' Carpeta: '+flm.folder
+                font.pixelSize: app.fs*0.5
+                width: parent.width-app.fs
+                wrapMode: Text.WordWrap
+                color: 'white'
+                anchors.centerIn: parent
+            }
+        }
         ListView{
             id: lv
             width: r.width
-            height: r.height-xTit.height
+            height: r.height-xTit.height-xTitInf.height
             anchors.horizontalCenter: parent.horizontalCenter
             delegate: compItemList
             model: lm
@@ -208,34 +226,42 @@ Rectangle {
             //console.log('FileName: '+jsonFileName)
 
             let jsonFileData=unik.getFile(jsonFileName)
+            jsonFileData=jsonFileData.replace(/\n/g, '')
             //console.log(jsonFileData)
-            let jsonData=JSON.parse(jsonFileData)
-            let nom=''+jsonData.params.n.replace(/_/g, ' ')
-            if(nom.toLowerCase().indexOf(txtDataSearch.text.toLowerCase())>=0){
-                if(jsonData.asp){
-                    //console.log('Aspectos: '+JSON.stringify(jsonData.asp))
+            if(jsonFileData.indexOf(':NaN,')>=0)continue
+            let jsonData
+            try {
+                jsonData=JSON.parse(jsonFileData)
+                let nom=''+jsonData.params.n.replace(/_/g, ' ')
+                if(nom.toLowerCase().indexOf(txtDataSearch.text.toLowerCase())>=0){
+                    if(jsonData.asp){
+                        //console.log('Aspectos: '+JSON.stringify(jsonData.asp))
+                    }
+                    let vd=jsonData.params.d
+                    let vm=jsonData.params.m
+                    let va=jsonData.params.a
+                    let vh=jsonData.params.h
+                    let vmin=jsonData.params.min
+                    let vgmt=jsonData.params.gmt
+                    let vlon=jsonData.params.lon
+                    let vlat=jsonData.params.lat
+                    let vCiudad=jsonData.params.ciudad.replace(/_/g, ' ')
+                    let edad=' <b>Edad:</b> '+getEdad(""+va+"/"+vm+"/"+vd+" "+vh+":"+vmin+":00")
+                    let stringEdad=edad.indexOf('NaN')<0?edad:''
+                    let textData=''
+                        +'<b>'+nom+'</b>'
+                        +'<p style="font-size:20px;">'+vd+'/'+vm+'/'+va+' '+vh+':'+vmin+'hs GMT '+vgmt+stringEdad+'</p>'
+                        +'<p style="font-size:20px;"><b> '+vCiudad+'</b></p>'
+                        +'<p style="font-size:20px;"> <b>long:</b> '+vlon+' <b>lat:</b> '+vlat+'</p>'
+                    //xNombre.nom=textData
+                    lm.append(lm.addItem(file,textData))
                 }
-                let vd=jsonData.params.d
-                let vm=jsonData.params.m
-                let va=jsonData.params.a
-                let vh=jsonData.params.h
-                let vmin=jsonData.params.min
-                let vgmt=jsonData.params.gmt
-                let vlon=jsonData.params.lon
-                let vlat=jsonData.params.lat
-                let vCiudad=jsonData.params.ciudad.replace(/_/g, ' ')
-                let edad=' <b>Edad:</b> '+getEdad(""+va+"/"+vm+"/"+vd+" "+vh+":"+vmin+":00")
-                let stringEdad=edad.indexOf('NaN')<0?edad:''
-                let textData=''
-                    +'<b>'+nom+'</b>'
-                    +'<p style="font-size:20px;">'+vd+'/'+vm+'/'+va+' '+vh+':'+vmin+'hs GMT '+vgmt+stringEdad+'</p>'
-                    +'<p style="font-size:20px;"><b> '+vCiudad+'</b></p>'
-                    +'<p style="font-size:20px;"> <b>long:</b> '+vlon+' <b>lat:</b> '+vlat+'</p>'
-                //xNombre.nom=textData
-                lm.append(lm.addItem(file,textData))
+                txtDataSearch.focus=true
+                //txtDataSearch.selectAll()
+            } catch (e) {
+                console.log('Error Json panelFileLoader: '+jsonFileData)
+                return false;
             }
-            txtDataSearch.focus=true
-            //txtDataSearch.selectAll()
         }
     }
     function enter(){

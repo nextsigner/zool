@@ -104,7 +104,15 @@ def getHouse(gObj, gHouses):
             rh=h
             break
         #print("G: "+str(g))
+    if rh == -1:
+        #if(gObj>=gHouses[0][11]) and gObj<=gHouses[0][0]:
+        rh=11
+    if rh == 0:
+        #if(gObj>=gHouses[0][11]) and gObj<=gHouses[0][0]:
+        rh=12
     return rh
+
+
 dia = sys.argv[1]
 mes = int(sys.argv[2]) #+ 1
 anio = sys.argv[3]
