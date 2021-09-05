@@ -55,15 +55,26 @@ Item{
 
     }
     function loadJson(json){
+        housesCircleBack.extraWidth=0
+
         r.totalPosX=-1
         r.objSigns = [0,0,0,0,0,0,0,0,0,0,0,0]
         let jo
         let o
-        var houseSun=-1
+        var pMax=0
+        var adeg=[]
         for(var i=0;i<15;i++){
             var objAs=r.children[i]
             jo=json.pc['c'+i]
             let degRed=0.0
+            let npMax=0
+            for(var i2=0;i2<adeg.length;i2++){
+                if(jo.gdeg<=adeg[i2]+5&&jo.gdeg>=adeg[i2]-5){
+                    pMax++
+                    npMax++
+                }
+            }
+            adeg.push(jo.gdeg)
             if(jo.mdeg>=10&&jo.mdeg<=20){
                 degRed=0.2
             }
@@ -81,7 +92,9 @@ Item{
             }
             objAs.rotation=signCircle.rot-jo.gdeg-(jo.mdeg/60)+degRed
             o={}
-            o.p=objSigns[jo.is]
+            o.p=npMax
+            //o.p=objSigns[jo.is]
+            //if(o.p>pMax)pMax=o.p
             if(r.totalPosX<o.p){
                 r.totalPosX=o.p
             }
@@ -99,9 +112,12 @@ Item{
                 app.currentGradoSolar=jo.gdeg
                 app.currentMinutoSolar=jo.mdeg
                 app.currentSegundoSolar=jo.sdeg
-                houseSun=jo.ih
+                //houseSun=jo.ih
             }
+
         }
+
+        housesCircleBack.extraWidth=r.planetSize*pMax
 
         //Fortuna
 //        let joHouses=json.ph['h1']

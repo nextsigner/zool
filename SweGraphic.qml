@@ -33,7 +33,7 @@ Item {
             }
             PropertyChanges {
                 target: signCircle
-                width: sweg.width-sweg.fs*2
+                width: !housesCircleBack.visible?sweg.width-sweg.fs*2:sweg.width-sweg.fs*2-housesCircleBack.extraWidth
             }
             PropertyChanges {
                 target: planetsCircle
@@ -48,7 +48,7 @@ Item {
             }
             PropertyChanges {
                 target: signCircle
-                width: sweg.width-sweg.fs*6
+                width: !housesCircleBack.visible?sweg.width-sweg.fs*6:sweg.width-sweg.fs*6-housesCircleBack.extraWidth
             }
             PropertyChanges {
                 target: planetsCircle
@@ -63,7 +63,7 @@ Item {
             }
             PropertyChanges {
                 target: signCircle
-                width: sweg.width-sweg.fs*2
+                width: !housesCircleBack.visible?sweg.width-sweg.fs*2:sweg.width-sweg.fs*2-housesCircleBack.extraWidth
             }
             PropertyChanges {
                 target: planetsCircle

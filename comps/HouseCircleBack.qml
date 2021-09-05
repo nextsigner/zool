@@ -2,7 +2,7 @@ import QtQuick 2.0
 //import "./comps" as Comps
 Item {
     id: r
-    width: r.parent.width-sweg.fs
+    width: r.parent.width+sweg.fs+extraWidth
     property int currentHouse: -1
     property int w: sweg.fs*3
     property int wb: 1//sweg.fs*0.15
@@ -12,6 +12,7 @@ Item {
     property string extraObjectName: ''
     property var swegParent//: value
     property int widthAspCircle: 10
+    property int extraWidth: 0
 //    state: r.parent.state
 //    states: [
 //        State {

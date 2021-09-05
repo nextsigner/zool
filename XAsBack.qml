@@ -4,7 +4,7 @@ import QtGraphicalEffects 1.0
 Item{
     id: r
     //width: !selected?(planetsCircle.expand?parent.width-(r.fs*2*objData.p)-r.fs:parent.width-(r.fs*1.5*objData.p))-r.fs:parent.width//-sweg.fs*2-(r.fs*1.5*(planetsCircle.totalPosX-1))
-    width: (signCircle.width+sweg.fs*0.25)+(r.fs*objData.p)
+    width: (signCircle.width+sweg.fs*0.25)+(r.fs*2*objData.p)+sweg.fs*2
     height: 1
     anchors.centerIn: parent
     //z: !selected?numAstro:15

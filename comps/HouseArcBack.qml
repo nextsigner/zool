@@ -71,7 +71,8 @@ Item {
             }
             PropertyChanges {
                 target: r
-                colors: ['#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A']
+                //colors: ['#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A']
+                colors: [apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor]
                 extraWidth: 0
                 //w: housesCircle.parent.objectName==='sweg'?(sweg.fs*2):(sweg.fs*4)
                 w: (sweg.width-sweg.objAspsCircle.width)/2
@@ -118,7 +119,7 @@ Item {
         //anchors.centerIn: r
         anchors.verticalCenter: parent.verticalCenter
         anchors.left: parent.left
-        anchors.leftMargin: 0-sweg.fs*2
+        anchors.leftMargin: 0-sweg.fs*0.5
         visible: c===0
         Canvas {
             id:canvasSen
@@ -139,25 +140,6 @@ Item {
                 ctx.fillStyle = canvasSen.parent.color
                 ctx.fill();
                 ctx.stroke();
-            }
-        }
-        Rectangle{
-            width: sweg.fs
-            height: sweg.fs*0.5
-            radius: sweg.fs*0.1
-            color: apps.fontColor
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: 0-sweg.fs*1.1
-            clip: true
-            Text{
-                id: esteTxt
-                text: 'Asc Rev. Sol';
-                width: sweg.fs*2
-                wrapMode: Text.WordWrap
-                color: apps.backgroundColor
-                font.pixelSize: app.fs*0.17;
-                anchors.centerIn: parent
             }
         }
     }
@@ -293,6 +275,33 @@ Item {
                 anchors.centerIn: parent
                 //rotation: 45-r.rotation-housesCircleBack.rotation-signCircle.rot-planetsCircleBack.rotation
                 rotation:0-r.rotation-r.parent.rotation
+                Rectangle{
+                    width: esteTxt.contentWidth+sweg.fs*0.25
+                    height: esteTxt.contentHeight+sweg.fs*0.25
+                    radius: sweg.fs*0.1
+                    color: apps.fontColor
+                    anchors.verticalCenter: parent.verticalCenter
+                    anchors.right: parent.left
+                    anchors.rightMargin: line1.width
+                    visible: r.c===0
+                    z:parent.z-1
+                    Rectangle{
+                        id: line1
+                        width: sweg.fs*0.5
+                        height: 1
+                        color: apps.houseLineBackColor
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.right
+                    }
+                    Text{
+                        id: esteTxt
+                        text: 'Asc'
+                        wrapMode: Text.WordWrap
+                        color: apps.backgroundColor
+                        font.pixelSize: sweg.fs*0.25
+                        anchors.centerIn: parent
+                    }
+                }
             }
         }
     }
@@ -341,7 +350,7 @@ Item {
         height: apps.widthHousesAxis
         anchors.verticalCenter: parent.verticalCenter
         //anchors.centerIn: parent
-        color: apps.fontColor
+        color: apps.houseLineBackColor
         //color: 'blue'
         visible: apps.showHousesAxis
         y: lineaEje2.y

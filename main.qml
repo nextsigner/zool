@@ -124,7 +124,7 @@ AppWin {
         property bool showTimes: false
         property bool showLupa: false
         property bool showSWEZ: true
-        property bool showDec: true
+        property bool showDec: false
 
         //Houses
         property bool showHousesAxis: false
@@ -136,11 +136,10 @@ AppWin {
         property bool anColorXAs: false
 
         //Swe
-        property bool showNumberLines: false
+        property bool showNumberLines: true
 
         //GUI
         property bool showMenuBar: true
-        property bool enableFullAnimation: false
         property bool enableBackgroundColor: false
         property string backgroundColor: "black"
         property string fontFamily: "ArialMdm"
@@ -155,6 +154,7 @@ AppWin {
         property int lupaY: Screen.height*0.5
         property bool backgroundImagesVisible: false
         property bool lt:false
+        property bool enableFullAnimation: false
 
         property string jsonsFolder: documentsPath
         onEnableBackgroundColorChanged: {
