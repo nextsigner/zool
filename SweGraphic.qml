@@ -294,6 +294,7 @@ Item {
         //planetsCircleBack.rotation=parseFloat(j.ph.h1.gdec).toFixed(2)
         housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
+        panelDataBodies.loadJsonBack(j)
         planetsCircleBack.visible=true
     }
     function nextState(){

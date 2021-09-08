@@ -7,9 +7,9 @@ Rectangle {
     id: r
     width: parent.width
     height: parent.height
-    color: 'black'
+    color: apps.backgroundColor
     border.width: 2
-    border.color: 'white'
+    border.color: apps.fontColor
     property alias currentIndex: lv.currentIndex
     property alias listModel: lm
     property string currentFile: ''
@@ -63,9 +63,9 @@ Rectangle {
             id:xTit
             width: lv.width
             height: app.fs*1.5
-            color: 'black'
+            color: apps.backgroundColor
             border.width: 2
-            border.color: txtDataSearch.focus?'red':'white'
+            border.color: apps.fontColor//txtDataSearch.focus?'red':'white'
             anchors.horizontalCenter: parent.horizontalCenter
             TextInput {
                 id: txtDataSearch
@@ -73,7 +73,7 @@ Rectangle {
                 font.pixelSize: app.fs*0.5
                 width: parent.width-app.fs
                 wrapMode: Text.WordWrap
-                color: 'white'
+                color: apps.fontColor
                 focus: true
                 anchors.centerIn: parent
                 Keys.onReturnPressed: {
@@ -99,28 +99,26 @@ Rectangle {
                     width: parent.width+app.fs
                     height: parent.height+app.fs
                     color: 'transparent'
-                    border.width: 2
-                    border.color: 'white'
+                    //border.width: 2
+                    //border.color: 'white'
                     z: parent.z-1
                     anchors.centerIn: parent
                 }
             }
         }
-        Rectangle{
+        Item{
             id:xTitInf
             width: lv.width
             height: txtTitInfo.contentHeight+app.fs*0.25
-            color: 'black'
-            //border.width: 2
-            //border.color: 'white'
+            //color: apps.backgroundColor
             anchors.horizontalCenter: parent.horizontalCenter
             Text {
                 id: txtTitInfo
-                text: 'Cant: '+flm.count+' Carpeta: '+flm.folder
-                font.pixelSize: app.fs*0.5
+                text: '<b>Cantidad Total:</b> '+flm.count+' <b>Encontrados:</b> '+lm.count+'<br><b>Carpeta: </b>'+(''+flm.folder).replace('file://', '')
+                font.pixelSize: app.fs*0.35
                 width: parent.width-app.fs
                 wrapMode: Text.WordWrap
-                color: 'white'
+                color: apps.fontColor
                 anchors.centerIn: parent
             }
         }
@@ -161,7 +159,7 @@ Rectangle {
                 width: parent.width-app.fs
                 wrapMode: Text.WordWrap
                 textFormat: Text.RichText
-                color: index===lv.currentIndex?'black':'white'
+                color: index!==lv.currentIndex?apps.fontColor:apps.backgroundColor
                 anchors.centerIn: parent
             }
             MouseArea{
@@ -180,11 +178,13 @@ Rectangle {
                 anchors.rightMargin: app.fs*0.3
                 anchors.top: parent.top
                 anchors.topMargin: app.fs*0.3
+                color: index!==lv.currentIndex?apps.fontColor:apps.backgroundColor
                 XText {
                     id: txtDelete
                     text: 'X'
                     font.pixelSize: app.fs*0.25
                     anchors.centerIn: parent
+                    color: index===lv.currentIndex?apps.fontColor:apps.backgroundColor
                 }
                 MouseArea{
                     anchors.fill: parent

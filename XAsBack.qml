@@ -8,10 +8,10 @@ Item{
     height: 1
     anchors.centerIn: parent
     //z: !selected?numAstro:15
-    property bool selected: numAstro === app.currentPlanetIndex//panelDataBodies.currentIndex
+    property bool selected: numAstro === app.currentPlanetIndexBack
     property string astro
     property int is
-    property int fs
+    property int fs:planetsCircleBack.planetSize
     property var objData: ({g:0, m:0,ih:0,rsgdeg:0,rsg:0})
     property int pos: 1
     property int g: -1
@@ -131,8 +131,8 @@ Item{
             radius: width*0.5
             border.width: 0
             border.color: apps.backgroundColor
-            opacity: 0.75
-            color: apps.fontColor
+            opacity: apps.xAsBackgroundOpacityBack
+            color: apps.xAsBackgroundColorBack
             antialiasing: true
         }
         MouseArea{
@@ -216,6 +216,35 @@ Item{
             rotation: img.rotation
             visible: r.selected
             antialiasing: true
+//            SequentialAnimation{
+//                running: !r.selected//!apps.anColorXAs
+//                loops: 3//Animation.Infinite
+//                PropertyAnimation {
+//                    target: co0
+//                    properties: "color"
+//                    from: co0.color
+//                    to: apps.xAsColorBack
+//                    duration: 500
+//                }
+//            }
+//            SequentialAnimation{
+//                running: r.selected//apps.anColorXAs
+//                loops: Animation.Infinite
+//                PropertyAnimation {
+//                    target: co0
+//                    properties: "color"
+//                    from: 'red'
+//                    to: 'white'
+//                    duration: 500
+//                }
+//                PropertyAnimation {
+//                    target: co0
+//                    properties: "color"
+//                    from: 'red'
+//                    to: 'red'
+//                    duration: 500
+//                }
+//            }
         }
         ColorOverlay {
             id: co1
@@ -225,6 +254,35 @@ Item{
             rotation: img.rotation
             //visible: r.selected
             antialiasing: true
+            SequentialAnimation{
+                running: !r.selected//!apps.anColorXAs
+                loops: 3//Animation.Infinite
+                PropertyAnimation {
+                    target: co1
+                    properties: "color"
+                    from: co1.color
+                    to: apps.xAsColorBack
+                    duration: 500
+                }
+            }
+            SequentialAnimation{
+                running: r.selected//apps.anColorXAs
+                loops: Animation.Infinite
+                PropertyAnimation {
+                    target: co1
+                    properties: "color"
+                    from: 'red'
+                    to: 'white'
+                    duration: 500
+                }
+                PropertyAnimation {
+                    target: co1
+                    properties: "color"
+                    from: 'red'
+                    to: 'red'
+                    duration: 500
+                }
+            }
         }
     }
 }

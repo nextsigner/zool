@@ -42,6 +42,7 @@ AppWin {
     property var currentJsonSignData: ''
 
     property int currentPlanetIndex: -1
+    property int currentPlanetIndexBack: -1
     property int currentSignIndex: 0
     property date currentDate
     property string currentNom: ''
@@ -133,6 +134,9 @@ AppWin {
 
         //XAs
         property color xAsColor: 'white'
+        property color xAsColorBack: 'black'
+        property color xAsBackgroundColorBack: 'white'
+        property real xAsBackgroundOpacityBack: 0.5
         property bool anColorXAs: false
 
         //Swe
@@ -147,8 +151,11 @@ AppWin {
         property int fontSize: app.fs*0.5
 
         property string houseColor: "#2CB5F9"
+
         property int lupaMod: 2
+        property int lupaBorderWidth: 3
         property string lupaColor: "white"
+        property real lupaOpacity: 0.5
         property int lupaRot: 0
         property int lupaX: Screen.width*0.5
         property int lupaY: Screen.height*0.5

@@ -11,6 +11,7 @@ Item{
         height: width
         anchors.top: parent.bottom
         color: apps.lupaColor
+        opacity: apps.lupaOpacity
         MouseArea{
             anchors.fill: parent
             drag.target: xLupa
@@ -42,6 +43,36 @@ Item{
                 anchors.fill: parent
                 drag.target: xLupa
                 drag.axis: Drag.XAndYAxis
+                //cursorShape: containsMouse ? Qt.OpenHandCursor : Qt.DragMoveCursor//Qt.ArrowCursor//Qt.PointingHandCursor
+                cursorShape: Qt.DragMoveCursor
+                onWheel: {
+                    if (wheel.modifiers & Qt.ControlModifier) {
+                        if(wheel.angleDelta.y>=0){
+                            if(apps.lupaBorderWidth<app.fs*0.5){
+                                apps.lupaBorderWidth++
+                            }else{
+                                apps.lupaBorderWidth=1
+                            }
+                        }else{
+                            //Qt.quit()
+                            if(apps.lupaBorderWidth>1){
+                                apps.lupaBorderWidth--
+                            }else{
+                                apps.lupaBorderWidth=app.fs*0.5
+                            }
+                        }
+                    }
+                }
+                onClicked: {
+                    if (mouse.modifiers) {
+                        if(apps.lupaOpacity<1.0){
+                            apps.lupaOpacity+=0.1
+                        }else{
+                            apps.lupaOpacity=0.2
+                        }
+                    }
+
+                }
                 onDoubleClicked: apps.lupaRot++
             }
         }

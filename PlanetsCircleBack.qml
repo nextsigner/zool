@@ -44,10 +44,10 @@ Item{
         XAsBack{fs:r.planetSize;astro:modelData;numAstro: index}
     }
     function pressed(o){
-        if(app.currentPlanetIndex!==o.numAstro){
-            app.currentPlanetIndex=o.numAstro
+        if(app.currentPlanetIndexBack!==o.numAstro){
+            app.currentPlanetIndexBack=o.numAstro
         }else{
-            app.currentPlanetIndex=-1
+            app.currentPlanetIndexBack=-1
         }
         //unik.speak(''+app.planetas[o.numAstro]+' en '+app.signos[o.objData.ns]+' en el grado '+o.objData.g+' en la casa '+o.objData.h)
     }
@@ -117,7 +117,19 @@ Item{
 
         }
 
-        housesCircleBack.extraWidth=r.planetSize*pMax
+//        if(pMax>3){
+//            r.planetSize-=0.5
+//        }
+        let espacio=sweg.width*0.1
+        let rp=espacio/pMax
+        if(rp*2<sweg.fs*0.75){
+            rp=rp*2
+        }else{
+            rp=sweg.fs*0.75
+        }
+        r.planetSize=rp
+
+        housesCircleBack.extraWidth=rp*0.25*pMax+r.planetSize
 
         //Fortuna
 //        let joHouses=json.ph['h1']

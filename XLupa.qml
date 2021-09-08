@@ -78,8 +78,9 @@ Item {
         anchors.fill: r
         radius: r.mod===2?width*0.5:0
         color: 'transparent'
-        border.width: 3
-        border.color: apps.lupaColor//xLayerTouch.visible?'white':'red'
+        border.width: apps.lupaBorderWidth
+        border.color: apps.lupaColor
+        opacity: apps.lupaOpacity
         visible: !xLayerTouch.visible
     }
     Timer{

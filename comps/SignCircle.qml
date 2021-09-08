@@ -26,8 +26,8 @@ Item {
             rotation: 10*index
             MouseArea {
                 id: maw
-                width: r.w*2
-                height: r.w*1.3
+                width: r.w
+                height: r.w*2
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.left: parent.left
                 anchors.leftMargin:  0-sweg.fs*0.05
@@ -36,6 +36,7 @@ Item {
                 property date uDate//: app.currentDate
                 property int f: 0
                 property int uY: 0
+                cursorShape: Qt.SizeVerCursor
                 onWheel: {
                     let i=1
                     if (wheel.modifiers & Qt.ControlModifier) {
@@ -51,6 +52,11 @@ Item {
                     }
                     uY=wheel.angleDelta.y
                 }
+//                Rectangle{
+//                    anchors.fill: parent
+//                    border.width: 1
+//                    border.color: 'red'
+//                }
             }
         }
     }
