@@ -11,6 +11,7 @@ Rectangle {
     antialiasing: true
     //visible: sweg.state===sweg.aStates[0] || sweg.state===sweg.aStates[2]
     property int currentAspSelected: -1
+    property int currentAspSelectedBack: -1
     property int widthNodosAspSelected: 8
     state: sweg.state
     states: [
@@ -39,7 +40,8 @@ Rectangle {
             }
         }
     ]
-    onCurrentAspSelectedChanged: setPosCurrentAsp(currentAspSelected)
+    onCurrentAspSelectedChanged: setPosCurrentAsp(currentAspSelected,0)
+    onCurrentAspSelectedBackChanged: setPosCurrentAsp(currentAspSelected,1)
     onWidthChanged: {
         currentAspSelected=-1
         //clear_canvas()
@@ -100,11 +102,33 @@ Rectangle {
         }
     }
     Canvas {
+        id:canvasBgBack
+        width: canvas.width
+        height: width
+        visible: false
+        property int px1: -1
+        property int py1: -1
+        property int px2: -1
+        property int py2: -1
+        onPy2Changed: requestPaint()
+        onPaint:{
+            var ctx = canvasBgBack.getContext('2d');
+            ctx.reset();
+            var x = canvasBgBack.width*0.5;
+            var y = canvasBgBack.height*0.5;
+            var radius=canvasBg.width*0.5-2
+            drawLine(ctx, px1, py1+2, px2, py2+2, 'white', 7)
+            //drawPoint(ctx, px1, py1, 8, 'white')
+            //drawPoint(ctx, px2, py2, 8, 'white')
+        }
+    }
+    Canvas {
         id:canvas
         width: r.width//-sweg.fs
         height: width
         anchors.centerIn: r
         property var json
+        property bool dash: false
         onJsonChanged: requestPaint()
         onPaint:{
             var ctx = canvas.getContext('2d');
@@ -140,7 +164,57 @@ Rectangle {
                             if(a.ia===3){
                                 colorAsp='blue'
                             }
-                            drawAsp(ctx, cx, cy, a.gdeg1, a.gdeg2, colorAsp)
+                            drawAsp(ctx, cx, cy, a.gdeg1, a.gdeg2, colorAsp, canvas.dash)
+                        }
+                    }
+                }
+            }
+        }
+    }
+    Canvas {
+        id:canvasBack
+        width: canvas.width//-sweg.fs
+        height: width
+        anchors.centerIn: r
+        property var json
+        property bool dash: true
+        onJsonChanged: requestPaint()
+        onPaint:{
+            var ctx = canvasBack.getContext('2d');
+            if(ctx)ctx.reset();
+            var x = canvasBack.width*0.5;
+            var y = canvasBack.height*0.5;
+            var radius=canvasBack.width*0.5
+            var cx=canvasBack.width*0.5
+            var cy=canvasBack.height*0.5
+
+            //Dibujo punto inicio en Aries
+            //drawLine(ctx, radius-3, 0, px3+cx, py3+cy)
+
+            if(json&&json.asps){
+                let asp=json.asps
+                for(var i=0;i<Object.keys(asp).length;i++){
+                    if(asp['asp'+parseInt(i +1)]){
+                        if((asp['asp'+parseInt(i +1)].ic1===10 && asp['asp'+parseInt(i +1)].ic2===11)||(asp['asp'+parseInt(i +1)].ic1===11 && asp['asp'+parseInt(i +1)].ic2===10)){
+                            continue
+                        }else{
+                            let a=asp['asp'+parseInt(i +1)]
+                            let colorAsp='black'
+                            //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
+                            if(a.ia===0){
+                                colorAsp='red'
+                            }
+                            if(a.ia===1){
+                                colorAsp='#ff8833'
+                            }
+                            if(a.ia===2){
+                                colorAsp='green'
+                            }
+                            if(a.ia===3){
+                                colorAsp='blue'
+                            }
+                            //colorAsp='white'
+                            drawAsp(ctx, cx, cy, a.gdeg1, a.gdeg2, colorAsp, canvasBack.dash)
                         }
                     }
                 }
@@ -188,7 +262,7 @@ Rectangle {
         ctx.strokeStyle = c;
         ctx.stroke();
     }
-    function drawAsp(ctx, cx, cy, gdeg1, gdeg2, c){
+    function drawAsp(ctx, cx, cy, gdeg1, gdeg2, c, dash){
         var angulo= gdeg1
         var coords=gCoords(radius, angulo)
         var px1 = coords[0]
@@ -197,13 +271,18 @@ Rectangle {
         coords=gCoords(radius, angulo)
         var px2 = coords[0]
         var py2 = coords[1]
-        drawLine(ctx, px1+cx, py1+cy, px2+cx, py2+cy, c, 2)
+        drawLine(ctx, px1+cx, py1+cy, px2+cx, py2+cy, c, 2, dash)
     }
-    function drawLine(ctx, px1, py1, px2, py2, c, w){
+    function drawLine(ctx, px1, py1, px2, py2, c, w, dash){
         ctx.beginPath();
         ctx.moveTo(px1, py1);
         ctx.lineTo(px2, py2);
-        ctx.lineWidth = w
+        if(dash){
+            ctx.lineWidth = w+2
+            ctx.setLineDash([sweg.fs*0.1, sweg.fs*0.05])
+        }else{
+            ctx.lineWidth = w
+        }
         ctx.strokeStyle = c;
         ctx.stroke();
     }
@@ -227,55 +306,92 @@ Rectangle {
         if(ctx)ctx.reset();
         canvasBg.requestPaint();
     }
+    function clear_canvasBgBack() {
+        var ctx = canvasBgBack.getContext("2d");
+        if(ctx)ctx.reset();
+        canvasBgBack.requestPaint();
+    }
     function load(jsonData){
         canvas.json=jsonData
     }
     function add(jsonData){
-        let j1=Object.keys(canvas.json.asps).length
-        var nCanvasJson=canvas.json
-        for(var i=0;i<Object.keys(jsonData.asps).length;i++){
-            nCanvasJson.asps['asp'+j1]=jsonData.asps['asp'+i]
-        }
-        //console.log(JSON.stringify(canvas.json.asps))
-        //console.log('j1:'+j1)
-        canvas.json=nCanvasJson
+        canvasBack.json=jsonData
     }
-    function setPosCurrentAsp(ci){
+    function setPosCurrentAsp(ci, c){
         clear_canvasBg()
-        let asp=canvas.json.asps
-        //for(var i=0;i<Object.keys(asp).length;i++){
-        if(asp['asp'+parseInt(r.currentAspSelected +1)]){
-            let a=asp['asp'+parseInt(r.currentAspSelected +1)]
-            let colorAsp='black'
-            //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
-            if(a.ia===0){
-                colorAsp='red'
+        if(c===0){
+            let asp=canvas.json.asps
+            //for(var i=0;i<Object.keys(asp).length;i++){
+            if(asp['asp'+parseInt(r.currentAspSelected +1)]){
+                let a=asp['asp'+parseInt(r.currentAspSelected +1)]
+                let colorAsp='black'
+                //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
+                if(a.ia===0){
+                    colorAsp='red'
+                }
+                if(a.ia===1){
+                    colorAsp='#ff8833'
+                }
+                if(a.ia===2){
+                    colorAsp='green'
+                }
+                if(a.ia===3){
+                    colorAsp='blue'
+                }
+                var cx=canvas.width*0.5
+                var cy=canvas.height*0.5
+                var radius=canvas.width*0.5
+                var coords=gCoords(radius, a.gdeg1)
+                var coords2=gCoords(radius, a.gdeg2)
+                punto.x=cx+coords[0]
+                punto.y=cy+coords[1]
+                punto2.x=cx+coords2[0]
+                punto2.y=cy+coords2[1]
+                clear_canvasBg()
+                canvasBg.px1=cx+coords[0]
+                canvasBg.py1=cx+coords[1]
+                canvasBg.px2=cx+coords2[0]
+                canvasBg.py2=cx+coords2[1]
+                canvasBg.requestPaint()
+                //canvas.visible=false
             }
-            if(a.ia===1){
-                colorAsp='#ff8833'
+        }
+        if(c===1){
+            let asp=canvasBack.json.asps
+            //for(var i=0;i<Object.keys(asp).length;i++){
+            if(asp['asp'+parseInt(r.currentAspSelectedBack +1)]){
+                let a=asp['asp'+parseInt(r.currentAspSelectedBack +1)]
+                let colorAsp='black'
+                //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
+                if(a.ia===0){
+                    colorAsp='red'
+                }
+                if(a.ia===1){
+                    colorAsp='#ff8833'
+                }
+                if(a.ia===2){
+                    colorAsp='green'
+                }
+                if(a.ia===3){
+                    colorAsp='blue'
+                }
+                cx=canvas.width*0.5
+                cy=canvas.height*0.5
+                radius=canvas.width*0.5
+                coords=gCoords(radius, a.gdeg1)
+                coords2=gCoords(radius, a.gdeg2)
+                punto.x=cx+coords[0]
+                punto.y=cy+coords[1]
+                punto2.x=cx+coords2[0]
+                punto2.y=cy+coords2[1]
+                clear_canvasBgBack()
+                canvasBgBack.px1=cx+coords[0]
+                canvasBgBack.py1=cx+coords[1]
+                canvasBgBack.px2=cx+coords2[0]
+                canvasBgBack.py2=cx+coords2[1]
+                canvasBgBack.requestPaint()
+                //canvas.visible=false
             }
-            if(a.ia===2){
-                colorAsp='green'
-            }
-            if(a.ia===3){
-                colorAsp='blue'
-            }
-            var cx=canvas.width*0.5
-            var cy=canvas.height*0.5
-            var radius=canvas.width*0.5
-            var coords=gCoords(radius, a.gdeg1)
-            var coords2=gCoords(radius, a.gdeg2)
-            punto.x=cx+coords[0]
-            punto.y=cy+coords[1]
-            punto2.x=cx+coords2[0]
-            punto2.y=cy+coords2[1]
-            clear_canvasBg()
-            canvasBg.px1=cx+coords[0]
-            canvasBg.py1=cx+coords[1]
-            canvasBg.px2=cx+coords2[0]
-            canvasBg.py2=cx+coords2[1]
-            canvasBg.requestPaint()
-            //canvas.visible=false
         }
     }
 }

@@ -23,7 +23,7 @@ Item {
         id: colCells
         Repeater{
             model:15
-            CellAsp{
+            CellAspBack{
                 objectName: 'cellAsp_'+index
                 width: r.cellWidth
                 opacity: index>planet&&r.planet!==index?1.0:0.0

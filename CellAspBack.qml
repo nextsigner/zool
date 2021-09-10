@@ -57,14 +57,14 @@ Rectangle {
         anchors.fill: parent
         property int uCurrentPlanetIndex: -1
         onClicked: {
-            if(sweg.objAspsCircle.currentAspSelected!==r.indexPosAsp){
-                sweg.objAspsCircle.currentAspSelected=r.indexPosAsp
-                swegz.sweg.objAspsCircle.currentAspSelected=r.indexPosAsp
+            if(sweg.objAspsCircle.currentAspSelectedBack!==r.indexPosAsp){
+                sweg.objAspsCircle.currentAspSelectedBack=r.indexPosAsp
+                swegz.sweg.objAspsCircle.currentAspSelectedBack=r.indexPosAsp
                 ma.uCurrentPlanetIndex=app.currentPlanetIndex
                 app.currentPlanetIndex=-1
             }else{
-                sweg.objAspsCircle.currentAspSelected=-1
-                swegz.sweg.objAspsCircle.currentAspSelected=-1
+                sweg.objAspsCircle.currentAspSelectedBack=-1
+                swegz.sweg.objAspsCircle.currentAspSelectedBack=-1
                 app.currentPlanetIndex=ma.uCurrentPlanetIndex
             }
         }
