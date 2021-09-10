@@ -45,13 +45,13 @@ Rectangle {
         //clear_canvas()
         //clear_canvasBg()
     }
-//    Behavior on width {
-//        enabled: apps.enableFullAnimation
-//        NumberAnimation{
-//            duration: sweg.speedRotation
-//            easing.type: Easing.InOutQuad
-//        }
-//    }
+    //    Behavior on width {
+    //        enabled: apps.enableFullAnimation
+    //        NumberAnimation{
+    //            duration: sweg.speedRotation
+    //            easing.type: Easing.InOutQuad
+    //        }
+    //    }
     Behavior on opacity {
         NumberAnimation{
             duration: sweg.speedRotation
@@ -122,22 +122,26 @@ Rectangle {
                 let asp=json.asps
                 for(var i=0;i<Object.keys(asp).length;i++){
                     if(asp['asp'+parseInt(i +1)]){
-                        let a=asp['asp'+parseInt(i +1)]
-                        let colorAsp='black'
-                        //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
-                        if(a.ia===0){
-                            colorAsp='red'
+                        if((asp['asp'+parseInt(i +1)].ic1===10 && asp['asp'+parseInt(i +1)].ic2===11)||(asp['asp'+parseInt(i +1)].ic1===11 && asp['asp'+parseInt(i +1)].ic2===10)){
+                            continue
+                        }else{
+                            let a=asp['asp'+parseInt(i +1)]
+                            let colorAsp='black'
+                            //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
+                            if(a.ia===0){
+                                colorAsp='red'
+                            }
+                            if(a.ia===1){
+                                colorAsp='#ff8833'
+                            }
+                            if(a.ia===2){
+                                colorAsp='green'
+                            }
+                            if(a.ia===3){
+                                colorAsp='blue'
+                            }
+                            drawAsp(ctx, cx, cy, a.gdeg1, a.gdeg2, colorAsp)
                         }
-                        if(a.ia===1){
-                            colorAsp='#ff8833'
-                        }
-                        if(a.ia===2){
-                            colorAsp='green'
-                        }
-                        if(a.ia===3){
-                            colorAsp='blue'
-                        }
-                        drawAsp(ctx, cx, cy, a.gdeg1, a.gdeg2, colorAsp)
                     }
                 }
             }
@@ -225,6 +229,16 @@ Rectangle {
     }
     function load(jsonData){
         canvas.json=jsonData
+    }
+    function add(jsonData){
+        let j1=Object.keys(canvas.json.asps).length
+        var nCanvasJson=canvas.json
+        for(var i=0;i<Object.keys(jsonData.asps).length;i++){
+            nCanvasJson.asps['asp'+j1]=jsonData.asps['asp'+i]
+        }
+        //console.log(JSON.stringify(canvas.json.asps))
+        //console.log('j1:'+j1)
+        canvas.json=nCanvasJson
     }
     function setPosCurrentAsp(ci){
         clear_canvasBg()

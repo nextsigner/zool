@@ -109,6 +109,16 @@ Item {
         visible: r.objectName==='sweg'
         //Rectangle{anchors.fill: parent; color: 'red';border.width: 1;border.color: 'white'}
     }
+    PanelAspectsBack{
+        id: panelAspectsBack
+        anchors.top: parent.top
+        anchors.topMargin: xDataBar.state==='hide'?verticalOffSet*0.5:verticalOffSet*0.5-app.fs*0.25
+        anchors.left: parent.left
+        anchors.leftMargin: 0-((xApp.width-r.width)/2)+swegz.width+width
+        transform: Scale{ xScale: -1 }
+        rotation: 180
+        visible: r.objectName==='sweg'&&planetsCircleBack.visible
+    }
 
     NumberLines{}
     Comps.SignCircle{
@@ -124,7 +134,7 @@ Item {
 
     AspCircle{
         id: aspsCircle
-        rotation: signCircle.rot - 90
+        rotation: signCircle.rot - 90 + 1
         //opacity: panelDataBodies.currentIndex<0?1.0:0.0
         //visible: false
     }
@@ -227,7 +237,6 @@ Item {
     }
     function load(j){
         //console.log('Ejecutando SweGraphic.load()...')
-        planetsCircleBack.visible=false
         for(var i=0;i<xuqp.children.length;i++){
             xuqp.children[i].destroy(0)
         }
@@ -261,6 +270,9 @@ Item {
     }
     function loadSweJson(json){
         //console.log('JSON::: '+json)
+        panelRsList.clear()
+        planetsCircleBack.visible=false
+        panelAspectsBack.visible=false
         sweg.objHousesCircle.currentHouse=-1
         swegz.sweg.objHousesCircle.currentHouse=-1
         app.currentPlanetIndex=-1
@@ -292,9 +304,12 @@ Item {
         let j=JSON.parse(scorrJson)
         //signCircle.rot=parseInt(j.ph.h1.gdec)
         //planetsCircleBack.rotation=parseFloat(j.ph.h1.gdec).toFixed(2)
-        housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
+        panelAspectsBack.visible=true
+        panelAspectsBack.load(j)
+        aspsCircle.add(j)
         panelDataBodies.loadJsonBack(j)
+        housesCircleBack.loadHouses(j)
         planetsCircleBack.visible=true
     }
     function nextState(){

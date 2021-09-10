@@ -22,11 +22,11 @@ Item {
             }
             PropertyChanges {
                 target: ejeAsc
-                width: !housesCircleBack.visible?sweg.objSignsCircle.width+sweg.fs*0.5:sweg.objSignsCircle.width+sweg.fs*0.5+housesCircleBack.extraWidth*2+sweg.fs
+                width: !housesCircleBack.visible?sweg.objSignsCircle.width+sweg.fs*0.5:sweg.objSignsCircle.width+sweg.fs*0.5+housesCircleBack.extraWidth*2+sweg.fs*5
             }
             PropertyChanges {
                 target: ejeMC
-                width: !housesCircleBack.visible?sweg.objSignsCircle.width+sweg.fs*2:sweg.objSignsCircle.width+sweg.fs*2+housesCircleBack.extraWidth*2+sweg.fs
+                width: !housesCircleBack.visible?sweg.objSignsCircle.width+sweg.fs*2:sweg.objSignsCircle.width+sweg.fs*2+housesCircleBack.extraWidth*2+sweg.fs*4
             }
         },
         State {
@@ -37,11 +37,11 @@ Item {
             }
             PropertyChanges {
                 target: ejeAsc
-                width: !housesCircleBack.visible?sweg.objSignsCircle.width+sweg.fs*3:sweg.objSignsCircle.width+sweg.fs*3+housesCircleBack.extraWidth*2+sweg.fs
+                width: !housesCircleBack.visible?sweg.objSignsCircle.width+sweg.fs*3:sweg.objSignsCircle.width+sweg.fs*3+housesCircleBack.extraWidth*2+sweg.fs*5
             }
             PropertyChanges {
                 target: ejeMC
-                width: !housesCircleBack.visible?sweg.objSignsCircle.width+sweg.fs*3:sweg.objSignsCircle.width+sweg.fs*3+housesCircleBack.extraWidth*2+sweg.fs
+                width: !housesCircleBack.visible?sweg.objSignsCircle.width+sweg.fs*3:sweg.objSignsCircle.width+sweg.fs*3+housesCircleBack.extraWidth*2+sweg.fs*4
             }
         },
         State {
@@ -53,12 +53,12 @@ Item {
             PropertyChanges {
                 target: ejeAsc
                 //width: sweg.objSignsCircle.width
-                width: !housesCircleBack.visible?sweg.width-sweg.fs:sweg.width-sweg.fs+housesCircleBack.extraWidth*2+sweg.fs
+                width: !housesCircleBack.visible?sweg.width-sweg.fs:sweg.width-sweg.fs+housesCircleBack.extraWidth*2+sweg.fs*5
             }
             PropertyChanges {
                 target: ejeMC
                 //width: sweg.objSignsCircle.width
-                width: !housesCircleBack.visible?sweg.width-sweg.fs:sweg.width-sweg.fs+housesCircleBack.extraWidth*2+sweg.fs
+                width: !housesCircleBack.visible?sweg.width-sweg.fs:sweg.width-sweg.fs+housesCircleBack.extraWidth*2+sweg.fs*4
             }
         }
     ]

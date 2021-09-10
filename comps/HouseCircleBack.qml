@@ -4,6 +4,10 @@ Item {
     id: r
     width: r.parent.width+sweg.fs+extraWidth
     visible: false
+//    Rectangle{
+//        anchors.fill: r
+//        color: '#ff8833'
+//    }
     property int currentHouse: -1
     property int w: sweg.fs*3
     property int wb: 1//sweg.fs*0.15

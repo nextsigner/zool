@@ -49,4 +49,5 @@ HEADERS += \
 
 
 DISTFILES += \
+    deploy_linux.sh \
     linux.pri

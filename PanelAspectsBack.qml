@@ -11,7 +11,7 @@ Rectangle {
         id: row
         Repeater{
             model: r.visible?15:0
-            CellColumnAsp{planet: index;cellWidth: r.cellWidth; objectName: 'cellRowAsp_'+index}
+            CellColumnAspBack{planet: index;cellWidth: r.cellWidth; objectName: 'cellRowAsp_'+index}
         }
     }
     MouseArea{
@@ -35,7 +35,7 @@ Rectangle {
         let column=row.children[c2]
         let cellRow=column.col.children[c1]
         cellRow.indexAsp=ia
-        cellRow.indexPosAsp=iPosAsp        
+        cellRow.indexPosAsp=iPosAsp
     }
     function setAsp(c1, c2, ia, iPosAsp){
         if(!r.visible)return
@@ -43,7 +43,9 @@ Rectangle {
         setAsp2(c2,c1,ia,iPosAsp)
     }
     function load(jsonData){
+
         if(!r.visible)return
+        console.log('PanelAspectsBack jsonData: '+JSON.stringify(jsonData))
         clear()
         if(!jsonData.asps)return
         let asp=jsonData.asps

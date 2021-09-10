@@ -286,7 +286,15 @@ for i in tuplaPosBodies:
         asp=getAsp(g1, g2, index)
         stringInvertido='"ic1":' + str(tuplaArr[index][num]) + ', "ic2":' + str(index) + ', '
         stringActual='"ic1":' + str(index) + ', "ic2":' + str(tuplaArr[index][num]) + ', '
-        if asp >= 0 and stringInvertido not in jsonAspets and controlar == False:
+        stringOpNodNorNodSur='"ic1":11, "ic2":10"'
+        stringOpNodSurNodNor='"ic1":10, "ic2":11"'
+        opNodos=False
+        if (index == 10 and int(tuplaArr[index][num]) == 10) or (index == 11 and int(tuplaArr[index][num]) == 11) or (index == 10 and int(tuplaArr[index][num] == 10)) or (index == 11 and int(tuplaArr[index][num]) == 10):
+            opNodos=True
+        #if opNodos == True:
+            #print(stringInvertido)
+            #print(stringActual)
+        if asp >= 0 and stringInvertido not in jsonAspets and controlar == False and opNodos == False:
             jsonAspets+='"asp' +str(index) + '": {' if (indexAsp==0) else  ',"asp' +str(index) + '": {'
             #jsonAspets+='"asp' +str(index) + '": {'
             jsonAspets+=stringActual

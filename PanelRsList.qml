@@ -6,9 +6,9 @@ Rectangle {
     id: r
     width: parent.width
     height: parent.height
-    color: 'black'
+    color: apps.backgroundColor
     border.width: 2
-    border.color: 'white'
+    border.color: apps.fontColor
     property alias currentIndex: lv.currentIndex
     property alias listModel: lm
     property int edadMaxima: 0
@@ -45,7 +45,7 @@ Rectangle {
             id:xTit
             width: lv.width
             height: app.fs*1.5
-            color: 'black'
+            color: apps.fontColor
             border.width: 2
             border.color: txtLabelTit.focus?'red':'white'
             anchors.horizontalCenter: parent.horizontalCenter
@@ -67,18 +67,21 @@ Rectangle {
                 Row{
                     anchors.centerIn: parent
                     spacing: app.fs*0.5
-                    XText{id: label; text:'<b>Edad:</b>';anchors.verticalCenter: parent.verticalCenter}
+                    Text{id: label; text:'<b>Edad:</b>';anchors.verticalCenter: parent.verticalCenter;color: apps.backgroundColor;font.pixelSize: app.fs*0.5}
                     Rectangle{
                         width: app.fs*1.5
                         height: app.fs*0.7
                         anchors.verticalCenter: parent.verticalCenter
+                        color: apps.fontColor
+                        border.width: 1
+                        border.color: apps.backgroundColor
                         TextInput{
                             id: tiEdad
+                            color: apps.backgroundColor
                             font.pixelSize: app.fs*0.5
                             width: parent.width*0.8
                             height: parent.height
                             anchors.centerIn: parent
-                            color: 'black'
                             validator: IntValidator {bottom: 1; top: 150}
                             Keys.onReturnPressed: {
                                 xBottomBar.objPanelCmd.runCmd('rsl '+tiEdad.text)
@@ -94,7 +97,7 @@ Rectangle {
                 font.pixelSize: app.fs*0.5
                 width: parent.width-app.fs
                 wrapMode: Text.WordWrap
-                color: 'white'
+                color: apps.backgroundColor
                 focus: true
                 anchors.centerIn: parent
                 visible: !xTit.showTi
@@ -149,12 +152,12 @@ Rectangle {
         Rectangle{
             id: itemRS
             width: lv.width-r.border.width*2
-            height: index!==lv.currentIndex?app.fs*1.5:app.fs*3.5//txtData.contentHeight+app.fs*0.1
-            color: 'black'//index===lv.currentIndex?'white':'black'
+            height: index!==lv.currentIndex?app.fs*1.5:app.fs*3.5+app.fs
+            color: apps.backgroundColor
+            border.width: 1
+            border.color: apps.fontColor
             property int is: -1
             property var rsDate
-            //anchors.horizontalCenter: parent.horizontalCenter
-            //opacity: is!==-1?1.0:0.0
             onIsChanged:{
                 iconoSigno.source="./resources/imgs/signos/"+is+".svg"
             }
@@ -186,7 +189,7 @@ Rectangle {
             Rectangle{
                 id: bg
                 width: parent.width
-                height: itemRS.height//app.fs*1.5
+                height: index!==lv.currentIndex?itemRS.height:itemRS.height-app.fs
                 anchors.centerIn: parent
                 color: app.signColors[itemRS.is]
             }
@@ -199,7 +202,7 @@ Rectangle {
                     Rectangle{
                         id: labelEdad
                         width: txtEdad.contentWidth+app.fs*0.1
-                        height: txtEdad.contentHeight+app.fs*0.1
+                        height: labelFecha.height//txtEdad.contentHeight+app.fs*0.1
                         color: 'black'
                         border.width: 1
                         border.color: 'white'
@@ -207,11 +210,12 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         XText {
                             id: txtEdad
-                            width: app.fs*2
-                            text: 'Desde <b>'+parseInt(index)+'</b> años\nhasta <b>'+parseInt(index +1)+'</b>\n años'
+                            width: app.fs*3.5
+                            text: 'Desde <b>'+parseInt(index)+'</b> años<br>hasta <b>'+parseInt(index +1)+'</b>\n años'
                             color: 'white'
                             font.pixelSize: app.fs*0.35
                             wrapMode: Text.WordWrap
+                            textFormat: Text.RichText
                             horizontalAlignment: Text.AlignHCenter
                             anchors.centerIn: parent
                         }
@@ -321,7 +325,11 @@ Rectangle {
         //console.log(c)
         let comp=Qt.createQmlObject(c, item, 'uqpcodecmdrslist')
     }
-
+    function clear(){
+        r.edadMaxima=-1
+        lm.clear()
+        r.state='hide'
+    }
     function loadJson(json){
         lm.clear()
         for(var i=0;i<Object.keys(json).length;i++){

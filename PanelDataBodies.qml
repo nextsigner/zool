@@ -114,7 +114,7 @@ Rectangle {
         ListView{
             id: lv
             width: r.width-r.border.width*2
-            height: r.height*0.5
+            height: r.height*0.5-headerLv.height
             anchors.horizontalCenter: parent.horizontalCenter
             delegate: compItemList
             model: lm
@@ -126,7 +126,7 @@ Rectangle {
         ListView{
             id: lvBack
             width: r.width-r.border.width*2
-            height: r.height*0.5
+            height: r.height*0.5-headerLv.height
             anchors.horizontalCenter: parent.horizontalCenter
             delegate: compItemListBack
             model: lmBack
@@ -196,7 +196,7 @@ Rectangle {
         ListView{
             id: lv2
             width: r.width-r.border.width*2
-            height: r.height*0.5
+            height: r.height*0.5-headerLvBack.height
             anchors.horizontalCenter: parent.horizontalCenter
             delegate: compItemList2
             model: lm2
@@ -208,7 +208,7 @@ Rectangle {
         ListView{
             id: lv2Back
             width: r.width-r.border.width*2
-            height: r.height*0.5
+            height: r.height*0.5-headerLvBack.height
             anchors.horizontalCenter: parent.horizontalCenter
             delegate: compItemList2Back
             model: lm2Back
@@ -255,20 +255,20 @@ Rectangle {
     }
     ListModel{
         id: lm2
-        function addItem(indexSign, indexHouse, grado, minuto, segundo, stringData, indexSignBack, indexHouseBack, gradoBack, minutoBack, segundoBack, stringDataBack){
+        function addItem(indexSign, indexHouse, grado, minuto, segundo, stringData){//´, indexSignBack, indexHouseBack, gradoBack, minutoBack, segundoBack, stringDataBack){
             return {
                 is: indexSign,
                 ih: indexHouse,
                 gdeg:grado,
                 mdeg: minuto,
                 sdeg: segundo,
-                sd: stringData,
-                isBack: indexSignBack,
-                ihBack: indexHouseBack,
-                gdegBack:gradoBack,
-                mdegBack: minutoBack,
-                sdegBack: segundoBack,
-                sdBack: stringDataBack
+                sd: stringData//,
+//                isBack: indexSignBack,
+//                ihBack: indexHouseBack,
+//                gdegBack:gradoBack,
+//                mdegBack: minutoBack,
+//                sdegBack: segundoBack,
+//                sdBack: stringDataBack
             }
         }
     }
@@ -390,6 +390,14 @@ Rectangle {
                     Rectangle{height: 1; width: parent.parent.width;color: apps.fontColor;anchors.bottom: parent.bottom}
                 }
             }
+//            Component.onCompleted: {
+//                while(txtDataBack.contentHeight>app.fs){
+//                    txtDataBack.font.pixelSize-=1
+//                }
+//                while(txtData.contentHeight>app.fs){
+//                    txtData.font.pixelSize-=1
+//                }
+//            }
         }
     }
     Component{
@@ -421,6 +429,14 @@ Rectangle {
                     visible: false
                 }
             }
+//            Component.onCompleted: {
+//                while(txtDataBack.contentHeight>app.fs){
+//                    txtDataBack.font.pixelSize-=1
+//                }
+//                while(txtData.contentHeight>app.fs){
+//                    txtData.font.pixelSize-=1
+//                }
+//            }
         }
     }
     Component{
@@ -458,6 +474,7 @@ Rectangle {
                         }
                     }
                     Rectangle{height: 1; width: parent.parent.width;color: apps.fontColor;anchors.bottom: parent.bottom}
+
                 }
                 Rectangle{width: 1; height: parent.parent.height;color: apps.fontColor}
                 Rectangle{
