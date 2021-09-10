@@ -16,6 +16,7 @@ Rectangle {
     property alias currentIndex: lv.currentIndex
     property int currentIndexSign: -1
     property var uJson
+    property bool showBack: false
     //Behavior on height{NumberAnimation{duration:app.msDesDuration;easing.type: Easing.InOutQuad}}
     onCurrentIndexChanged: {
         if(!r.enabled)return
@@ -52,18 +53,62 @@ Rectangle {
     }
     Column{
         anchors.horizontalCenter: parent.horizontalCenter
-        spacing: app.fs*0.25
         Rectangle{
+            id: headerLv
             width: lv.width
             height: app.fs
-            color: apps.backgroundColor
-            border.width: 2
+            color: apps.fontColor
+            border.width: 1
             border.color: apps.fontColor
-            XText {
-                text: '<b>Zool v'+version+' by @nextsigner</b>'
-                font.pixelSize: app.fs*0.5
-                width: contentWidth
-                anchors.centerIn: parent
+            visible: !r.showBack
+            Item{
+                width: lv.width
+                height: headerLv.height
+                XText {
+                    id: txtTit
+                    text: 'Lista de Cuerpos'
+                    font.pixelSize: app.fs*0.4
+                    width: parent.width-app.fs*0.2
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignHCenter
+                    color: apps.backgroundColor
+                    anchors.centerIn: parent
+                }
+            }
+        }
+        Rectangle{
+            id: headerLvBack
+            width: lv.width//txtTitBack.contentHeight+app.fs*0.1
+            height: app.fs
+            color: apps.fontColor
+            border.width: 1
+            border.color: apps.fontColor
+            visible: r.showBack
+            Row{
+                Repeater{
+                    model: ['Interior', 'Exterior']
+                    Item{
+                        width: lv.width*0.5
+                        height: headerLvBack.height
+                        XText {
+                            id: txtTitBack
+                            text: modelData
+                            font.pixelSize: app.fs*0.4
+                            width: parent.width-app.fs*0.2
+                            wrapMode: Text.WordWrap
+                            horizontalAlignment: Text.AlignHCenter
+                            color: apps.backgroundColor
+                            anchors.centerIn: parent
+                        }
+                        Rectangle{
+                            width: 2
+                            height: parent.height
+                            color: apps.backgroundColor
+                            x:-1
+                            visible: index===1
+                        }
+                    }
+                }
             }
         }
         ListView{
@@ -75,19 +120,8 @@ Rectangle {
             model: lm
             //currentIndex: app.currentPlanetIndex
             clip: true
-            visible: lmBack.count<=0//!housesCircleBack.visible
-            header: Rectangle{
-                width: r.width
-                height: app.fs
-                color: 'red'
-            }
-            onCurrentIndexChanged: {
-                //console.log('panelbodies currentIndex: '+currentIndex)
-                //let item=lm.get(currentIndex)
-                //app.uSon='_'+app.objSignsNames[item.is]+'_1'
-                if(!r.enabled)return
-                //r.currentIndexSign=lm.get(currentIndex).is
-            }
+            visible: !r.showBack
+            ScrollBar.vertical: ScrollBar {}
         }
         ListView{
             id: lvBack
@@ -98,49 +132,65 @@ Rectangle {
             model: lmBack
             //currentIndex: app.currentPlanetIndex
             clip: true
-            visible: housesCircleBack.visible
-            header: Rectangle{
-                id: headerLvBack
-                width: lv.width//txtTitBack.contentHeight+app.fs*0.1
-                height: app.fs
-                color: apps.fontColor
-                border.width: 1
-                border.color: apps.fontColor
-                Row{
-                    Repeater{
-                        model: ['Interior', 'Exterior']
-                        Item{
-                            width: lv.width*0.5
-                            height: headerLvBack.height
-                            XText {
-                                id: txtTitBack
-                                text: modelData
-                                font.pixelSize: app.fs*0.4
-                                width: parent.width-app.fs*0.2
-                                wrapMode: Text.WordWrap
-                                horizontalAlignment: Text.AlignHCenter
-                                color: apps.backgroundColor
-                                anchors.centerIn: parent
-                            }
-                            Rectangle{
-                                width: 2
-                                height: parent.height
-                                color: apps.backgroundColor
-                                x:-1
-                                visible: index===1
-                            }
+            visible: r.showBack
+            ScrollBar.vertical: ScrollBar {}
+        }
+        Rectangle{
+            id: headerLvHouses
+            width: lv.width
+            height: app.fs
+            color: apps.fontColor
+            border.width: 1
+            border.color: apps.fontColor
+            visible: !r.showBack
+            Item{
+                width: lv.width
+                height: headerLv.height
+                XText {
+                    id: txtTitHouses
+                    text: 'Lista de Casas'
+                    font.pixelSize: app.fs*0.4
+                    width: parent.width-app.fs*0.2
+                    wrapMode: Text.WordWrap
+                    horizontalAlignment: Text.AlignHCenter
+                    color: apps.backgroundColor
+                    anchors.centerIn: parent
+                }
+            }
+        }
+        Rectangle{
+            id: headerLvBackHouses
+            width: lv.width//txtTitBack.contentHeight+app.fs*0.1
+            height: app.fs
+            color: apps.fontColor
+            border.width: 1
+            border.color: apps.fontColor
+            visible: r.showBack
+            Row{
+                Repeater{
+                    model: ['Casas Interior', 'Casas Exterior']
+                    Item{
+                        width: lv.width*0.5
+                        height: headerLvBack.height
+                        XText {
+                            id: txtTitBack
+                            text: modelData
+                            font.pixelSize: app.fs*0.4
+                            width: parent.width-app.fs*0.2
+                            wrapMode: Text.WordWrap
+                            horizontalAlignment: Text.AlignHCenter
+                            color: apps.backgroundColor
+                            anchors.centerIn: parent
+                        }
+                        Rectangle{
+                            width: 2
+                            height: parent.height
+                            color: apps.backgroundColor
+                            x:-1
+                            visible: index===1
                         }
                     }
                 }
-//                Rectangle{
-//                    width: parent.width
-//                    height: 1
-//                    color: apps.fontColor
-//                    anchors.bottom: parent.bottom
-//                }
-            }
-            onCurrentIndexChanged: {
-
             }
         }
         ListView{
@@ -152,13 +202,20 @@ Rectangle {
             model: lm2
             //currentIndex: app.currentPlanetIndex
             clip: true
-            onCurrentIndexChanged: {
-                //console.log('panelbodies currentIndex: '+currentIndex)
-                //let item=lm.get(currentIndex)
-                //app.uSon='_'+app.objSignsNames[item.is]+'_1'
-                if(!r.enabled)return
-                //r.currentIndexSign=lm.get(currentIndex).is
-            }
+            visible: !r.showBack
+            ScrollBar.vertical: ScrollBar {}
+        }
+        ListView{
+            id: lv2Back
+            width: r.width-r.border.width*2
+            height: r.height*0.5
+            anchors.horizontalCenter: parent.horizontalCenter
+            delegate: compItemList2Back
+            model: lm2Back
+            //currentIndex: app.currentPlanetIndex
+            clip: true
+            visible: r.showBack
+            ScrollBar.vertical: ScrollBar {}
         }
     }
 
@@ -198,14 +255,39 @@ Rectangle {
     }
     ListModel{
         id: lm2
-        function addItem(indexSign, indexHouse, grado, minuto, segundo, stringData){
+        function addItem(indexSign, indexHouse, grado, minuto, segundo, stringData, indexSignBack, indexHouseBack, gradoBack, minutoBack, segundoBack, stringDataBack){
             return {
                 is: indexSign,
                 ih: indexHouse,
                 gdeg:grado,
                 mdeg: minuto,
                 sdeg: segundo,
-                sd: stringData
+                sd: stringData,
+                isBack: indexSignBack,
+                ihBack: indexHouseBack,
+                gdegBack:gradoBack,
+                mdegBack: minutoBack,
+                sdegBack: segundoBack,
+                sdBack: stringDataBack
+            }
+        }
+    }
+    ListModel{
+        id: lm2Back
+        function addItem(indexSign, indexHouse, grado, minuto, segundo, stringData, indexSignBack, indexHouseBack, gradoBack, minutoBack, segundoBack, stringDataBack){
+            return {
+                is: indexSign,
+                ih: indexHouse,
+                gdeg:grado,
+                mdeg: minuto,
+                sdeg: segundo,
+                sd: stringData,
+                isBack: indexSignBack,
+                ihBack: indexHouseBack,
+                gdegBack:gradoBack,
+                mdegBack: minutoBack,
+                sdegBack: segundoBack,
+                sdBack: stringDataBack
             }
         }
     }
@@ -341,7 +423,86 @@ Rectangle {
             }
         }
     }
+    Component{
+        id: compItemList2Back
+        Rectangle{
+            width: lv.width
+            height: app.fs//*0.4//txtData.contentHeight+app.fs*0.1
+            Row{
+                Rectangle{
+                    width: lv.width*0.5
+                    height: parent.parent.height
+                    color: index+1===sweg.objHousesCircle.currentHouse?apps.fontColor:apps.backgroundColor
+                    border.width: index===app.currentPlanetIndex?2:0
+                    border.color: apps.fontColor
+                    XText {
+                        id: txtDataBack
+                        text: sdBack
+                        font.pixelSize: app.fs*0.4
+                        width: parent.width-app.fs*0.2
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
+                        //textFormat: Text.RichText
+                        color: index+1===sweg.objHousesCircle.currentHouse?apps.backgroundColor:apps.fontColor
+                        anchors.centerIn: parent
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            sweg.objHousesCircle.currentHouse=index+1
+                        }
+                        Rectangle{
+                            anchors.fill: parent
+                            color: 'red'
+                            visible: false
+                        }
+                    }
+                    Rectangle{height: 1; width: parent.parent.width;color: apps.fontColor;anchors.bottom: parent.bottom}
+                }
+                Rectangle{width: 1; height: parent.parent.height;color: apps.fontColor}
+                Rectangle{
+                    width: lv.width*0.5
+                    height: parent.parent.height//txtData.contentHeight+app.fs*0.1
+                    color: index+1===sweg.objHousesCircleBack.currentHouse?apps.fontColor:apps.backgroundColor
+                    border.width: index===app.currentPlanetIndexBack?2:0
+                    border.color: apps.fontColor
+                    XText {
+                        id: txtData
+                        text: sd
+                        font.pixelSize: app.fs*0.4
+                        width: parent.width-app.fs*0.2
+                        wrapMode: Text.WordWrap
+                        horizontalAlignment: Text.AlignHCenter
+                        //textFormat: Text.RichText
+                        color: index+1===sweg.objHousesCircleBack.currentHouse?apps.backgroundColor:apps.fontColor
+                        anchors.centerIn: parent
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: {
+                            sweg.objHousesCircleBack.currentHouse=index+1
+                        }
+                        Rectangle{
+                            anchors.fill: parent
+                            color: 'red'
+                            visible: false
+                        }
+                    }
+                    Rectangle{height: 1; width: parent.parent.width;color: apps.fontColor;anchors.bottom: parent.bottom}
+                }
+            }
+            Component.onCompleted: {
+                while(txtDataBack.contentHeight>app.fs){
+                    txtDataBack.font.pixelSize-=1
+                }
+                while(txtData.contentHeight>app.fs){
+                    txtData.font.pixelSize-=1
+                }
+            }
+        }
+    }
     function loadJson(json){
+        r.showBack=false
         r.uJson=json
         lm.clear()
         lmBack.clear()
@@ -390,21 +551,28 @@ Rectangle {
 
         }
         let o1=json.ph['h1']
+        let o1Back=uJson.ph['h1']
         s = 'Ascendente °' +o1.rsgdeg+ '\'' +o1.mdeg+ '\'\'' +o1.sdeg+ ' ' +app.signos[o1.is]
-        lmBack.append(lmBack.addItem(o1.is, 1, o1.rsgdeg, o1.mdeg, o1.sdeg,  s))
+        sBack = 'Ascendente °' +o1Back.rsgdeg+ '\'' +o1Back.mdeg+ '\'\'' +o1Back.sdeg+ ' ' +app.signos[o1Back.is]
+        lmBack.append(lmBack.addItem(o1.is, 1, o1.rsgdeg, o1.mdeg, o1.sdeg,  s, o1Back.is, 1, o1Back.rsgdeg, o1Back.mdeg, o1Back.sdeg,  sBack))
         o1=json.ph['h10']
+        o1Back=uJson.ph['h10']
         s = 'Medio Cielo °' +o1.rsgdeg+ '\'' +o1.mdeg+ '\'\'' +o1.sdeg+ ' ' +app.signos[o1.is]
-        lmBack.append(lmBack.addItem(o1.is, 10, o1.rsgdeg, o1.mdeg, o1.sdeg, s))
+        sBack = 'Medio Cielo °' +o1Back.rsgdeg+ '\'' +o1Back.mdeg+ '\'\'' +o1Back.sdeg+ ' ' +app.signos[o1Back.is]
+        lmBack.append(lmBack.addItem(o1.is, 10, o1.rsgdeg, o1.mdeg, o1.sdeg, s, o1Back.is, 10, o1Back.rsgdeg, o1Back.mdeg, o1Back.sdeg, sBack))
 
 
         //Load Houses
-        lm2.clear()
+        lm2Back.clear()
         for(i=1;i<13;i++){
             jo=json.ph['h'+i]
+            joBack=uJson.ph['h'+i]
             s = 'Casa '+i+' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ ' ' +app.signos[jo.is]
-            lm2.append(lm2.addItem(jo.is, jo.ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s))
+            sBack = 'Casa '+i+' °' +joBack.rsgdeg+ '\'' +joBack.mdeg+ '\'\'' +joBack.sdeg+ ' ' +app.signos[joBack.is]
+            lm2Back.append(lm2Back.addItem(jo.is, jo.ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s, joBack.is, joBack.ih, joBack.rsgdeg, joBack.mdeg, joBack.sdeg, sBack))
         }
 
         if(app.mod!=='rs'&&app.mod!=='pl')r.state='show'
+        r.showBack=true
     }
 }

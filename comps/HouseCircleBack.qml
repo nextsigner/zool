@@ -3,6 +3,7 @@ import QtQuick 2.0
 Item {
     id: r
     width: r.parent.width+sweg.fs+extraWidth
+    visible: false
     property int currentHouse: -1
     property int w: sweg.fs*3
     property int wb: 1//sweg.fs*0.15

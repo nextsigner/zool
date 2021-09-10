@@ -94,7 +94,7 @@ def getAsp(g1, g2, ic):
 
 def getHouse(gObj, gHouses):
     rh=-1
-    for h in range(1,11):
+    for h in range(1,12):
         if(gObj>=gHouses[0][h-1]) and gObj<=gHouses[0][h]:
             #print("Hs: "+str(gHouses))
             #print("H: "+str(h))
