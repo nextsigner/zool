@@ -8,7 +8,7 @@ Rectangle {
     property int indexAsp: -1
     property int indexPosAsp: -1
     SequentialAnimation{
-        running: indexPosAsp===sweg.objAspsCircle.currentAspSelected&&sweg.objAspsCircle.currentAspSelected!==-1
+        running: indexPosAsp===sweg.objAspsCircle.currentAspSelectedBack&&sweg.objAspsCircle.currentAspSelectedBack!==-1
         loops: Animation.Infinite
         onRunningChanged: {
             if(!running){
@@ -60,12 +60,12 @@ Rectangle {
             if(sweg.objAspsCircle.currentAspSelectedBack!==r.indexPosAsp){
                 sweg.objAspsCircle.currentAspSelectedBack=r.indexPosAsp
                 swegz.sweg.objAspsCircle.currentAspSelectedBack=r.indexPosAsp
-                ma.uCurrentPlanetIndex=app.currentPlanetIndex
-                app.currentPlanetIndex=-1
+                ma.uCurrentPlanetIndex=app.currentPlanetIndexBack
+                app.currentPlanetIndexBack=-1
             }else{
                 sweg.objAspsCircle.currentAspSelectedBack=-1
                 swegz.sweg.objAspsCircle.currentAspSelectedBack=-1
-                app.currentPlanetIndex=ma.uCurrentPlanetIndex
+                app.currentPlanetIndexBack=ma.uCurrentPlanetIndex
             }
         }
     }

@@ -41,7 +41,7 @@ Rectangle {
         }
     ]
     onCurrentAspSelectedChanged: setPosCurrentAsp(currentAspSelected,0)
-    onCurrentAspSelectedBackChanged: setPosCurrentAsp(currentAspSelected,1)
+    onCurrentAspSelectedBackChanged: setPosCurrentAsp(currentAspSelectedBack,1)
     onWidthChanged: {
         currentAspSelected=-1
         //clear_canvas()
@@ -73,6 +73,12 @@ Rectangle {
         interval: 500
         onTriggered: canvasBg.visible=!canvasBg.visible
     }
+    Timer{
+        running: currentAspSelectedBack!==-1
+        repeat: true
+        interval: 500
+        onTriggered: canvasBgBack.visible=!canvasBgBack.visible
+    }
     Rectangle{
         width: r.width
         height: width
@@ -101,27 +107,7 @@ Rectangle {
             //drawPoint(ctx, px2, py2, 8, 'white')
         }
     }
-    Canvas {
-        id:canvasBgBack
-        width: canvas.width
-        height: width
-        visible: false
-        property int px1: -1
-        property int py1: -1
-        property int px2: -1
-        property int py2: -1
-        onPy2Changed: requestPaint()
-        onPaint:{
-            var ctx = canvasBgBack.getContext('2d');
-            ctx.reset();
-            var x = canvasBgBack.width*0.5;
-            var y = canvasBgBack.height*0.5;
-            var radius=canvasBg.width*0.5-2
-            drawLine(ctx, px1, py1+2, px2, py2+2, 'white', 7)
-            //drawPoint(ctx, px1, py1, 8, 'white')
-            //drawPoint(ctx, px2, py2, 8, 'white')
-        }
-    }
+
     Canvas {
         id:canvas
         width: r.width//-sweg.fs
@@ -169,6 +155,27 @@ Rectangle {
                     }
                 }
             }
+        }
+    }
+    Canvas {
+        id:canvasBgBack
+        width: canvas.width
+        height: width
+        visible: false
+        property int px1: -1
+        property int py1: -1
+        property int px2: -1
+        property int py2: -1
+        onPy2Changed: requestPaint()
+        onPaint:{
+            var ctx = canvasBgBack.getContext('2d');
+            ctx.reset();
+            var x = canvasBgBack.width*0.5;
+            var y = canvasBgBack.height*0.5;
+            var radius=canvasBg.width*0.5-2
+            drawLine(ctx, px1, py1, px2, py2, 'white', 7, false)
+            //drawPoint(ctx, px1, py1, 8, 'white')
+            //drawPoint(ctx, px2, py2, 8, 'white')
         }
     }
     Canvas {
@@ -357,6 +364,7 @@ Rectangle {
             }
         }
         if(c===1){
+
             let asp=canvasBack.json.asps
             //for(var i=0;i<Object.keys(asp).length;i++){
             if(asp['asp'+parseInt(r.currentAspSelectedBack +1)]){
@@ -390,6 +398,7 @@ Rectangle {
                 canvasBgBack.px2=cx+coords2[0]
                 canvasBgBack.py2=cx+coords2[1]
                 canvasBgBack.requestPaint()
+
                 //canvas.visible=false
             }
         }
