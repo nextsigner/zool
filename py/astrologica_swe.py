@@ -174,8 +174,8 @@ min=horaLocal.strftime('%M')
 
 #print('Tiempo: ' + dia + '/' + mes + '/' + anio + ' ' + hora + ':' + min)
 
-swe.set_ephe_path('./swe')
-#swe.set_ephe_path('/usr/share/libswe/ephe')
+#swe.set_ephe_path('./swe')
+swe.set_ephe_path('/usr/share/libswe/ephe')
 
 d = datetime.datetime(int(anio),int(mes),int(dia),int(hora), int(min))
 jd1 =jdutil.datetime_to_jd(d)
@@ -194,6 +194,7 @@ oblicuidad=posObli[0][0]
 
 #Se calculan casas previamente para calcular en cada cuerpo con swe.house_pos(...)
 h=swe.houses(jd1, float(lat), float(lon), bytes("T", encoding = "utf-8"))
+#print(h)
 #swe.set_topo(float(lat), float(lon), 1440.00)
 #h=swe.houses(jd1, float(lat), float(lon), bytes(houseType, encoding = "utf-8"))
 
@@ -236,13 +237,21 @@ for i in np:
     jsonBodies+='"mdeg":' + str(mdeg)+', '
     jsonBodies+='"sdeg":' + str(sdeg)+', '
     #posHouse=swe.house_pos(h[0][9],float(lat), oblicuidad, gObj, 0.0, bytes(houseType, encoding = "utf-8"))
+
+    #Funciona bien
     posHouse=getHouse(gObj, h)
-    #Args: float armc, float geolat, float obliquity, float objlon, float objlat=0.0, char hsys='P'
-    #posHouse=swe.house_pos(h[0][0] - 90.00,float(lat), oblicuidad, gObj, 0.0, bytes(houseType, encoding = "utf-8"))
-    #if index == 1:
-        #posHouse=swe.house_pos(h[0][0] - 90.00,float(lat), oblicuidad, gObj, 0.0, bytes(houseType, encoding = "utf-8"))
+
+
+    #Probando con ARMC h[1][2]
+    #if index < 10:
+        #calcs = swe.calc_ut(jd1, np[index][1])
     #else:
-        #posHouse=swe.house_pos(h[0][9],float(lat), oblicuidad, gObj, 0.0, bytes(houseType, encoding = "utf-8"))
+        #calcs = swe.calc_ut(jd1, np[index][1], flag=swe.TRUE_NODE)
+    #print(calcs)
+    #hom = swisseph.house_pos(asmc[2], observer.lat, obliquity, calcs[0], objlat=calcs[1])
+    #Args: float armc, float geolat, float obliquity, float objlon, float objlat=0.0, char hsys='P'
+    #posHouse=swe.house_pos(h[1][2],float(lat), oblicuidad, calcs[0][0], calcs[0][1], bytes(houseType, encoding = "utf-8"))
+    #posHouse=swe.house_pos(h[1][2],float(lat), oblicuidad, pos[0][0], pos[0][1], bytes(houseType, encoding = "utf-8"))
 
     jsonBodies+='"ih":' + str(int(posHouse))+', '
     jsonBodies+='"dh":' + str(posHouse)
@@ -318,7 +327,7 @@ jsonAspets+='}'
 #Comienza JSON Houses
 jsonHouses='"ph":{'
 numHouse=1
-#print('ARMC:' + str(h[0][9]))
+#print('ARMC:' + str(h[1][2]))
 
 for i in h[0]:
     td=decdeg2dms(i)

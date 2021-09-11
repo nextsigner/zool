@@ -124,14 +124,14 @@ Item {
             if(i!==0&&i!==6){
                 p1=indexSign1*30+parseInt(o1.rsgdeg)+(o1.mdeg/60)
             }else{
-                p1=indexSign1*30+parseInt(o1.rsgdeg)
+                p1=indexSign1*30+parseInt(o1.rsgdeg)+(o1.mdeg/60)
             }
 
             indexSign2=o2.is//app.objSignsNames.indexOf(o2.s)
             if(i!==0&&i!==6){
                 p2=0.0000+indexSign2*30+o2.rsgdeg+(o2.mdeg/60)
             }else{
-                p2=0.0000+indexSign2*30+o2.rsgdeg
+                p2=0.0000+indexSign2*30+o2.rsgdeg+(o2.mdeg/60)
             }
             //p2=0.0000+indexSign2*30+parseInt(o2.rsgdeg)
             //let wgf=parseInt(p2)-parseInt(p1)+(o1.mdeg/60)
@@ -167,27 +167,28 @@ Item {
                     //housesAxis.reload(i, 360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]))
                 }
                 if(i===6){
-                    h.rotation=h.rotation=180
+                    h.rotation=180
                     //h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6])
                     //housesAxis.reload(i, 360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]))
                 }
                 if(i===7){                    
-                    h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7])
+                    h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7])
                     //housesAxis.reload(i, h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]))
                 }
                 if(i===8){
-                    h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8])
+                    h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8])
                     //housesAxis.reload(i, h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]))
                 }
                 if(i===9){
-                    h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9])
+                    h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9])
+                    //h.rotation=360-(180+parseInt(gp[i-7]+gp[i-8]+gp[i-9]))
                     //housesAxis.reload(i, h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9]))
                 }
                 if(i===10){
-                    h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9]+gp[i-10])                    
+                    h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9]+gp[i-10])
                 }
                 if(i===11){
-                    h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9]+gp[i-10]+gp[i-11])
+                    h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]+gp[i-8]+gp[i-9]+gp[i-10]+gp[i-11])
                 }
                 //if(i!==0&&i!==6&&Qt.platform.os==='windows'){
                 if(i!==0&&i!==6){
