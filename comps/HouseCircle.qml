@@ -87,6 +87,7 @@ Item {
     function loadHouses(jsonData) {
         r.arrayWg=[]
         xArcs.rotation=360-jsonData.ph.h1.gdec
+        var h
         let aDegs=[]
         let resta=0.000000
         let nh=0
@@ -210,11 +211,10 @@ Item {
                     degRed=1.0
                 }
                 degRet+=degRed
-                if(i===2){
-                    h.rotation+=degRed
-                }
                 if(i!==0&&i!==6){
                     h.rotation+=degRet
+                }else{
+                    h.rotation+=degRed
                 }
             }
             gp.push(wgf)
@@ -224,7 +224,7 @@ Item {
         ////housesAxis.reload(aDegs)
         //xArcs.rotation+=1
         for(i=0;i<12;i++){
-            let h=xArcs.children[i]
+             h=xArcs.children[i]
             let g1=0.000
             let g2=0.000
             if(i!==11){
