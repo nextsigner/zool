@@ -51,6 +51,7 @@ MenuBar{
     Menu {
         title: qsTr("&Ayuda")
         Action { text: qsTr("Manual de Ayuda de Zool");onTriggered: JS.getRD('https://github.com/nextsigner/nextsigner.github.io/raw/master/zool/ayuda/main.qml', setZoolStart)}
+        Action { text: qsTr("Desarrolladores y Patrocinadores");onTriggered: JS.getRD('https://github.com/nextsigner/nextsigner.github.io/raw/master/zool/somos/main.qml', setZoolStart)}
         Action { text: qsTr("&Novedades Sobre Zool");onTriggered: JS.getRD('https://github.com/nextsigner/nextsigner.github.io/raw/master/zool/windowstart/main.qml', setZoolStart)}
         Action { text: qsTr("&Sobre Zool");onTriggered: mdSA.visible=true}
         Action { text: qsTr("&Sobre Qt");onTriggered: mdSQ.visible=true}

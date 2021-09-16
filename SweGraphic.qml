@@ -305,7 +305,9 @@ Item {
         //signCircle.rot=parseInt(j.ph.h1.gdec)
         //planetsCircleBack.rotation=parseFloat(j.ph.h1.gdec).toFixed(2)
         planetsCircleBack.loadJson(j)
-        panelAspectsBack.visible=true
+        if(r.objectName==='sweg'){
+            panelAspectsBack.visible=true
+        }
         panelAspectsBack.load(j)
         aspsCircle.add(j)
         panelDataBodies.loadJsonBack(j)

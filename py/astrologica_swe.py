@@ -176,8 +176,8 @@ min=horaLocal.strftime('%M')
 
 #print('Tiempo: ' + dia + '/' + mes + '/' + anio + ' ' + hora + ':' + min)
 
-#swe.set_ephe_path('./swe')
-swe.set_ephe_path('/usr/share/libswe/ephe')
+swe.set_ephe_path('./swe')
+#swe.set_ephe_path('/usr/share/libswe/ephe')
 
 d = datetime.datetime(int(anio),int(mes),int(dia),int(hora), int(min))
 jd1 =jdutil.datetime_to_jd(d)

@@ -56,14 +56,15 @@ Rectangle {
         Rectangle{
             id: headerLv
             width: lv.width
-            height: app.fs
+            height: app.fs*0.85
             color: apps.fontColor
             border.width: 1
             border.color: apps.fontColor
             visible: !r.showBack
             Item{
                 width: lv.width
-                height: headerLv.height
+                height: txtTit.contentHeight
+                anchors.centerIn: parent
                 XText {
                     id: txtTit
                     text: 'Lista de Cuerpos'
@@ -79,17 +80,18 @@ Rectangle {
         Rectangle{
             id: headerLvBack
             width: lv.width//txtTitBack.contentHeight+app.fs*0.1
-            height: app.fs
+            height: app.fs*0.85
             color: apps.fontColor
             border.width: 1
             border.color: apps.fontColor
             visible: r.showBack
             Row{
+                anchors.centerIn: parent
                 Repeater{
                     model: ['Interior', 'Exterior']
                     Item{
                         width: lv.width*0.5
-                        height: headerLvBack.height
+                        height: txtTitBack.contentHeight
                         XText {
                             id: txtTitBack
                             text: modelData
@@ -114,7 +116,7 @@ Rectangle {
         ListView{
             id: lv
             width: r.width-r.border.width*2
-            height: r.height*0.5-headerLv.height
+            height: r.height-lvHouses.height-headerLv.height-headerLvBack.height
             anchors.horizontalCenter: parent.horizontalCenter
             delegate: compItemList
             model: lm
@@ -138,14 +140,15 @@ Rectangle {
         Rectangle{
             id: headerLvHouses
             width: lv.width
-            height: app.fs
+            height: app.fs*0.85
             color: apps.fontColor
             border.width: 1
             border.color: apps.fontColor
             visible: !r.showBack
             Item{
                 width: lv.width
-                height: headerLv.height
+                height: txtTitHouses.contentHeight
+                anchors.centerIn: parent
                 XText {
                     id: txtTitHouses
                     text: 'Lista de Casas'
@@ -161,19 +164,21 @@ Rectangle {
         Rectangle{
             id: headerLvBackHouses
             width: lv.width//txtTitBack.contentHeight+app.fs*0.1
-            height: app.fs
+            height: app.fs*0.85
             color: apps.fontColor
             border.width: 1
             border.color: apps.fontColor
             visible: r.showBack
             Row{
+                anchors.centerIn: parent
                 Repeater{
                     model: ['Casas Interior', 'Casas Exterior']
                     Item{
                         width: lv.width*0.5
-                        height: headerLvBack.height
+                        height: txtTitBackHouses.contentHeight
+                        anchors.verticalCenter: parent.verticalCenter
                         XText {
-                            id: txtTitBack
+                            id: txtTitBackHouses
                             text: modelData
                             font.pixelSize: app.fs*0.4
                             width: parent.width-app.fs*0.2
@@ -194,9 +199,9 @@ Rectangle {
             }
         }
         ListView{
-            id: lv2
+            id: lvHouses
             width: r.width-r.border.width*2
-            height: r.height*0.5-headerLvBack.height
+            height: app.fs*0.6*12+headerLvHouses.height
             anchors.horizontalCenter: parent.horizontalCenter
             delegate: compItemList2
             model: lm2
@@ -295,7 +300,7 @@ Rectangle {
         id: compItemList
         Rectangle{
             width: lv.width
-            height: txtData.contentHeight+app.fs*0.1
+            height: app.fs*0.6//txtData.contentHeight+app.fs*0.1
             color: index===app.currentPlanetIndex?apps.fontColor:apps.backgroundColor
             border.width: index===app.currentPlanetIndex?2:0
             border.color: apps.fontColor
@@ -404,7 +409,7 @@ Rectangle {
         id: compItemList2
         Rectangle{
             width: lv.width
-            height: txtData.contentHeight+app.fs*0.1
+            height: app.fs*0.6//txtData.contentHeight+app.fs*0.1
             color: index+1===sweg.objHousesCircle.currentHouse?apps.fontColor:apps.backgroundColor
             border.width: index+1===sweg.objHousesCircle.currentHouse?2:0
             border.color: apps.fontColor

@@ -224,21 +224,37 @@ Item {
         ////housesAxis.reload(aDegs)
         //xArcs.rotation+=1
         for(i=0;i<12;i++){
-             h=xArcs.children[i]
+            h=xArcs.children[i]
             let g1=0.000
             let g2=0.000
-            if(i!==11){
-                g1=xArcs.children[i].rotation
-                g2=xArcs.children[i +1].rotation
-            }else{
-                g1=xArcs.children[i].rotation
-                g2=xArcs.children[0].rotation
-            }
+            g1=xArcs.children[i].rotation
+            g2=xArcs.children[i +1].rotation
             let nwg=g1-g2
-            if(nwg>180){
-                nwg=g2+g1
+            if(nwg<0){
+                nwg=360+nwg
+            }else{
+                if(nwg>360){
+                    nwg=nwg-360
+                }
             }
             h.wg=nwg
         }
+        //        for(i=0;i<12;i++){
+//             h=xArcs.children[i]
+//            let g1=0.000
+//            let g2=0.000
+//            if(i!==11){
+//                g1=xArcs.children[i].rotation
+//                g2=xArcs.children[i +1].rotation
+//            }else{
+//                g1=xArcs.children[i].rotation
+//                g2=xArcs.children[0].rotation
+//            }
+//            let nwg=g1-g2
+//            if(nwg>180){
+//                nwg=g2+g1
+//            }
+//            h.wg=nwg
+//        }
     }
 }

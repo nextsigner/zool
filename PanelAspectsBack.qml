@@ -45,7 +45,7 @@ Rectangle {
     function load(jsonData){
 
         if(!r.visible)return
-        console.log('PanelAspectsBack jsonData: '+JSON.stringify(jsonData))
+        //console.log('PanelAspectsBack jsonData: '+JSON.stringify(jsonData))
         clear()
         if(!jsonData.asps)return
         let asp=jsonData.asps
