@@ -534,6 +534,7 @@ Rectangle {
         for(var i=0;i<15;i++){
             jo=json.pc['c'+i]
             var s = jo.nom+ ' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ ' ' +app.signos[jo.is]+ '  - Casa ' +jo.ih
+            if(jo.retro===0&&i!==10&&i!==11)s+=' <b>R</b>'
             //console.log('--->'+s)
             lm.append(lm.addItem(jo.is, jo.ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s))
             //            if(i===0){
@@ -567,7 +568,9 @@ Rectangle {
             jo=json.pc['c'+i]
             joBack=uJson.pc['c'+i]
             var s = jo.nom+ ' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ '\n' +app.signos[jo.is]+ '  - Casa ' +jo.ih
+            if(jo.retro===0&&i!==10&&i!==11)s+=' R'
             var sBack = joBack.nom+ ' °' +joBack.rsgdeg+ '\'' +joBack.mdeg+ '\'\'' +joBack.sdeg+ '\n' +app.signos[joBack.is]+ '  - Casa ' +joBack.ih
+            if(joBack.retro===0&&i!==10&&i!==11)sBack+=' R'
             //console.log('--->'+s)
             lmBack.append(lmBack.addItem(jo.is, jo.ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s, joBack.is, joBack.ih, joBack.rsgdeg, joBack.mdeg, joBack.sdeg, sBack))
 

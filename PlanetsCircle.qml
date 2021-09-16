@@ -91,6 +91,7 @@ Item{
             o.g=jo.gdeg
             o.m=jo.mdeg
             o.h=jo.h
+            if(i!==10&&i!==11)o.retro=jo.retro
             objAs.is=jo.is
             objAs.objData=o
             objSigns[jo.is]++

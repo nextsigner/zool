@@ -3,7 +3,8 @@ import QtGraphicalEffects 1.0
 
 Item{
     id: r
-    width: !selected?(planetsCircle.expand?parent.width-(r.fs*2*objData.p)-r.fs:parent.width-(r.fs*1.5*objData.p))-r.fs:parent.width//-sweg.fs*2-(r.fs*1.5*(planetsCircle.totalPosX-1))
+    //width: !selected?(planetsCircle.expand?parent.width-(r.fs*2*objData.p)-r.fs:parent.width-(r.fs*1.5*objData.p))-r.fs:parent.width//-sweg.fs*2-(r.fs*1.5*(planetsCircle.totalPosX-1))
+    width: !selected?parent.width-(r.fs*1.5*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs):parent.width-(!apps.showNumberLines?0:r.fs)//-sweg.fs*2-(r.fs*1.5*(planetsCircle.totalPosX-1))
     height: 1
     anchors.centerIn: parent
     z: !selected?numAstro:15
@@ -11,7 +12,7 @@ Item{
     property string astro
     property int is
     property int fs
-    property var objData: ({g:0, m:0,ih:0,rsgdeg:0,rsg:0})
+    property var objData: ({g:0, m:0,ih:0,rsgdeg:0,rsg:0, retro:0})
     property int pos: 1
     property int g: -1
     property int m: -1
@@ -256,7 +257,7 @@ Item{
             rotation: img.rotation
             visible: r.selected
             antialiasing: true
-        }
+            }
         ColorOverlay {//Planeta que se muestra en espera no seleccionado
             id: co0
             anchors.fill: img0
@@ -292,6 +293,21 @@ Item{
                     from: 'red'
                     to: 'red'
                     duration: 500
+                }
+            }
+            Rectangle{
+                width: parent.width*0.35
+                height: width
+                radius: width*0.5
+                //anchors.verticalCenter: parent.verticalCenter
+                anchors.bottom: parent.bottom
+                anchors.left: parent.right
+                anchors.leftMargin: 0-width
+                visible: r.objData.retro===0
+                Text{
+                    text: '<b>R</b>'
+                    font.pixelSize: parent.width*0.8
+                    anchors.centerIn: parent
                 }
             }
         }

@@ -100,6 +100,7 @@ Item{
             }
             o.ns=objSignsNames.indexOf(jo.is)
             o.ih=jo.ih
+            if(i!==10&&i!==11)o.retro=jo.retro
             o.rsg=jo.rsgdeg
             o.g=jo.gdeg
             o.m=jo.mdeg

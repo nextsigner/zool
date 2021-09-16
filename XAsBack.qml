@@ -20,54 +20,7 @@ Item{
 
     property color colorCuerpo: '#ff3300'
 
-//    state: sweg.state
-//    states: [
-//        State {
-//            name: sweg.aStates[0]
-//            PropertyChanges {
-//                target: r
-//                colorCuerpo: '#ffffff'
-//            }
-//            PropertyChanges {
-//                target: xIcon
-//                width: r.fs*0.85
-//            }
-//        },
-//        State {
-//            name: sweg.aStates[1]
-//            PropertyChanges {
-//                target: r
-//                colorCuerpo: '#000000'
-//            }
-//            PropertyChanges {
-//                target: xIcon
-//                width: r.fs*0.5
-//            }
-//        },
-//        State {
-//            name: sweg.aStates[2]
-//            PropertyChanges {
-//                target: r
-//                colorCuerpo: '#ffffff'
-//            }
-//            PropertyChanges {
-//                target: xIcon
-//                width: r.fcs*0.5
-//            }
-//        }
-//    ]
 
-//    onWidthChanged: {
-//        //        if(r.width===r.parent.width-sweg.fs*2){
-//        //            r.opacity=1.0
-//        //        }else{
-//        //            r.opacity=0.5
-//        //        }
-//    }
-//    onSelectedChanged: {
-//        if(selected)app.uSon=''+app.planetasRes[r.numAstro]+'_'+app.objSignsNames[r.is]+'_'+objData.ih
-//        if(selected)housesCircle.currentHouse=objData.ih
-//    }
     //Probando/Visualizando rotación
     Rectangle{
         width: r.width
@@ -245,7 +198,7 @@ Item{
 //                    duration: 500
 //                }
 //            }
-        }
+            }
         ColorOverlay {
             id: co1
             anchors.fill: img0
@@ -281,6 +234,21 @@ Item{
                     from: 'red'
                     to: 'red'
                     duration: 500
+                }
+            }
+            Rectangle{
+                width: parent.width*0.35
+                height: width
+                radius: width*0.5
+                //anchors.verticalCenter: parent.verticalCenter
+                anchors.bottom: parent.bottom
+                anchors.left: parent.right
+                anchors.leftMargin: 0-width
+                visible: r.objData.retro===0
+                Text{
+                    text: '<b>R</b>'
+                    font.pixelSize: parent.width*0.8
+                    anchors.centerIn: parent
                 }
             }
         }
