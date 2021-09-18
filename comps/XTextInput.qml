@@ -9,6 +9,7 @@ Item {
     property bool c: false
     property alias bw: xTi.border
     property alias bc: xTi.border
+    signal pressed
     width: app.fs*5
     height: xTi.height
     //focus: txt.focus
@@ -55,6 +56,8 @@ Item {
             anchors.centerIn: parent
             horizontalAlignment: r.c?TextInput.AlignHCenter:TextInput.AlignLeft
             onTextChanged: r.textChanged(text)
+            Keys.onReturnPressed: r.pressed()
+            Keys.onEnterPressed: r.pressed()
         }
     }
 }

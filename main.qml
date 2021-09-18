@@ -159,6 +159,9 @@ AppWin {
         property int lupaRot: 0
         property int lupaX: Screen.width*0.5
         property int lupaY: Screen.height*0.5
+        property int lupaAxisWidth: 1
+        property int lupaCenterWidth: 20
+
         property bool backgroundImagesVisible: false
         property bool lt:false
         property bool enableFullAnimation: false

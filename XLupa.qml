@@ -10,16 +10,18 @@ Item {
     property alias image:img
     property alias centroLupa: centro
     property int mod: apps.lupaMod
-    clip: true
+    clip: mod!==0
     onModChanged: {
         if(mod===0){
             swegz.state='hide'
         }
         if(mod===1){
             swegz.state='show'
+            img.visible=true
         }
         if(mod===2){
             swegz.state='show'
+            img.visible=false
         }
     }
     onXChanged: an.running=true
@@ -37,18 +39,18 @@ Item {
             }
         }
         onClicked: {
-            if(mod===0){
-                mod=1
-                return
-            }
-            if(mod===1){
-                mod=2
-                return
-            }
-            if(mod===2){
-                mod=0
-                return
-            }
+//            if(mod===0){
+//                mod=1
+//                return
+//            }
+//            if(mod===1){
+//                mod=2
+//                return
+//            }
+//            if(mod===2){
+//                mod=0
+//                return
+//            }
         }
     }
     Rectangle{
@@ -73,10 +75,79 @@ Item {
         //radius: width*0.5
         visible: false
     }
+    Column{
+        visible: r.mod===0
+        anchors.centerIn: parent
+        Repeater{
+            model: 3
+            Rectangle{
+                id: lineAxis
+                width: apps.lupaAxisWidth
+                height: index===1?30:xApp.height*3
+                color: index===1?'transparent':apps.lupaColor
+                SequentialAnimation{
+                    id: an2
+                    running: index===1&&an.running
+                    loops: Animation.Infinite
+                    PropertyAnimation{
+                        target: lineAxis
+                        property: "height"
+                        from:r.width
+                        to:centro.width
+                    }
+
+                    PauseAnimation {
+                        duration: 100
+                    }
+                    PropertyAnimation{
+                        target: lineAxis
+                        property: "height"
+                        from:centro.width
+                        to:r.width
+                    }
+                }
+            }
+        }
+    }
+    Row{
+        visible: r.mod===0
+        anchors.centerIn: parent
+        Repeater{
+            model: 3
+            Rectangle{
+                id: lineAxis
+                height: apps.lupaAxisWidth
+                width: index===1?30:xApp.height*3
+                color: index===1?'transparent':apps.lupaColor
+                SequentialAnimation{
+                    id: an2
+                    running: index===1&&an.running
+                    loops: Animation.Infinite
+                    PropertyAnimation{
+                        target: lineAxis
+                        property: "width"
+                        from:r.width
+                        to:centro.width
+                    }
+
+                    PauseAnimation {
+                        duration: 100
+                    }
+                    PropertyAnimation{
+                        target: lineAxis
+                        property: "width"
+                        from:centro.width
+                        to:r.width
+                    }
+                }
+            }
+        }
+    }
+
     Rectangle{
         id: borde
         anchors.fill: r
-        radius: r.mod===2?width*0.5:0
+        radius: r.mod===0||r.mod===2?width*0.5:0
         color: 'transparent'
         border.width: apps.lupaBorderWidth
         border.color: apps.lupaColor
@@ -106,7 +177,7 @@ Item {
     }
     Rectangle{
         id: centro
-        width: app.fs*0.5
+        width: apps.lupaCenterWidth
         height: width
         radius: width*0.5
         color: 'transparent'
@@ -125,7 +196,7 @@ Item {
             anchors.fill: parent
             radius: parent.radius
             opacity: 0.0
-        }        
+        }
     }
     Rectangle{
         color: 'yellow'

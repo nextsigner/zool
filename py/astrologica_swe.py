@@ -176,8 +176,8 @@ min=horaLocal.strftime('%M')
 
 #print('Tiempo: ' + dia + '/' + mes + '/' + anio + ' ' + hora + ':' + min)
 
-swe.set_ephe_path('./swe')
-#swe.set_ephe_path('/usr/share/libswe/ephe')
+#swe.set_ephe_path('./swe')
+swe.set_ephe_path('/usr/share/libswe/ephe')
 
 d = datetime.datetime(int(anio),int(mes),int(dia),int(hora), int(min))
 jd1 =jdutil.datetime_to_jd(d)
@@ -190,7 +190,9 @@ jsonParams+='}'
 
 
 #La oblicuidad de calcula con ipl = SE_ECL_NUT = -1 en SWE pero en swisseph ECL_NUT = -1
-posObli=swe.calc(jd1, -1, flag=swe.FLG_SWIEPH+swe.FLG_SPEED)
+#posObli=swe.calc(jd1, -1, flag=swe.FLG_SWIEPH+swe.FLG_SPEED)
+#posObli=swe.calc(jd1, swe.ECL_NUT, flag=swe.FLG_SWIEPH+swe.FLG_SPEED)
+posObli=swe.calc(jd0, swe.ECL_NUT)
 oblicuidad=posObli[0][0]
 #print('Oblicuidad: ' + str(posObli[0][0]))
 
@@ -306,7 +308,11 @@ for i in np:
         posHouse=swe.house_pos(h[1][2],float(lat), oblicuidad, calcs[0][0], calcs[0][1], bytes(houseType, encoding = "utf-8"))
     elif index == 9:#Plutón controlar que está °1 atrasado
         calcs = swe.calc_ut(jd1, np[index][1])
+        #calcs = swe.calc_ut(jd1, np[index][1], flag=swe.FLG_SWIEPH)
         posHouse=swe.house_pos(h[1][2],float(lat), oblicuidad, calcs[0][0], calcs[0][1], bytes(houseType, encoding = "utf-8"))
+        posHouseRev=getHouse(pos[0][0],h)
+        if posHouse != posHouseRev:
+            posHouse=posHouseRev
         if pos[0][3] < 0:
             retro=0
         else:
