@@ -12,6 +12,8 @@ Item {
     property int mod: apps.lupaMod
     clip: mod!==0
     onModChanged: {
+        borde.visible=true
+        borde.opacity=1.0
         if(mod===0){
             swegz.state='hide'
         }

@@ -110,6 +110,7 @@ Rectangle {
             }
         }
         Rectangle{
+            id: xVerLupa
             width: children[0].width+app.fs*0.25
             height: children[0].height+app.fs*0.25
             color: 'transparent'
@@ -166,11 +167,20 @@ Rectangle {
                         height: app.fs*0.6
                         onClicked: {
                             xLupa.x=xLupa.parent.width*0.5-xLupa.height*0.5
-                            xLupa.y=xLupa.parent.height*0.5-xLupa.width*0.5+sweg.verticalOffSet
+                            xLupa.y=xLupa.parent.height*0.5-xLupa.width*0.5+sweg.verticalOffSet-sweg.fs*0.5
                         }
                     }
                 }
             }
+        }
+        ComboBox{
+            id: cbHsys
+            width: xVerLupa.width
+            height: app.fs*0.75
+            model: app.ahysNames
+            currentIndex: app.ahys.indexOf(apps.currentHsys)
+            anchors.horizontalCenter: parent.horizontalCenter
+            //anchors.bottom: parent.bottom
         }
     }
 }

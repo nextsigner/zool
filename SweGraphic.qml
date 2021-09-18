@@ -1,4 +1,5 @@
 import QtQuick 2.7
+import QtQuick.Controls 2.12
 import "./comps" as Comps
 
 Item {
@@ -23,6 +24,7 @@ Item {
     property var aStates: ['ps', 'pc', 'pa']
     property color backgroundColor: enableBackgroundColor?apps.backgroundColor:'transparent'
     property bool enableBackgroundColor: apps.enableBackgroundColor
+    property string currentHsys: apps.currentHsys
     state: aStates[0]
     states: [
         State {//PS
@@ -157,6 +159,7 @@ Item {
         width: housesCircle.width
         height: width
     }
+
     Rectangle{
         //Este esta en el centro
         visible: false

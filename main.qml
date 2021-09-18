@@ -67,6 +67,25 @@ AppWin {
     property var objSignsNames: ['ari', 'tau', 'gem', 'cnc', 'leo', 'vir', 'lib', 'sco', 'sgr', 'cap', 'aqr', 'psc']
     property var signColors: ['red', '#FBE103', '#09F4E2', '#0D9FD6','red', '#FBE103', '#09F4E2', '#0D9FD6','red', '#FBE103', '#09F4E2', '#0D9FD6']
     property var meses: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre']
+
+    property var ahys: ['P', 'K', 'O', 'R', 'C', 'A', 'V', 'X', 'H', 'T', 'B', 'G', 'M']
+    property var ahysNames: ['Placidus', 'Koch', 'Porphyrius', 'Regiomontanus', 'Campanus', 'Iguales', 'Vehlow', 'Sistema de Rotación Axial', 'Azimuthal', 'Topocéntrico', 'Alcabitus', 'Gauquelin', 'Morinus']
+/*
+               ‘P’     Placidus
+                ‘K’     Koch
+                ‘O’     Porphyrius
+                ‘R’     Regiomontanus
+                ‘C’     Campanus
+                ‘A’ or ‘E’     Equal (cusp 1 is Ascendant)
+                ‘V’     Vehlow equal (Asc. in middle of house 1)
+                ‘X’     axial rotation system
+                ‘H’     azimuthal or horizontal system
+                ‘T’     Polich/Page (“topocentric” system)
+                ‘B’     Alcabitus
+                ‘G’     Gauquelin sectors
+                ‘M’     Morinus
+*/
+
     property int uAscDegreeTotal: -1
     property int uAscDegree: -1
     property int uMcDegree: -1
@@ -128,6 +147,8 @@ AppWin {
         property bool showDec: false
 
         //Houses
+        property string defaultHsys: 'T'
+        property string currentHsys: 'T'
         property bool showHousesAxis: false
         property int widthHousesAxis: 3.0
         property string houseLineBackColor: 'red'
@@ -229,6 +250,7 @@ AppWin {
                 onClicked: parent.visible=false
             }
         }
+
     }
     Item{
         id: capa101
