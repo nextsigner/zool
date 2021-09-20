@@ -308,8 +308,13 @@ for i in np:
         posHouse=swe.house_pos(h[1][2],float(lat), oblicuidad, calcs[0][0], calcs[0][1], bytes(houseType, encoding = "utf-8"))
     elif index == 9:#Plutón controlar que está °1 atrasado
         calcs = swe.calc_ut(jd1, np[index][1])
-        #calcs = swe.calc_ut(jd1, np[index][1], flag=swe.FLG_SWIEPH)
         posHouse=swe.house_pos(h[1][2],float(lat), oblicuidad, calcs[0][0], calcs[0][1], bytes(houseType, encoding = "utf-8"))
+        #calcs = swe.calc_ut(jd1, np[index][1], flag=swe.FLG_SWIEPH)
+        #posHouse=swe.house_pos(h[1][2],float(lat), oblicuidad, calcs[0][0], calcs[0][1], bytes(houseType, encoding = "utf-8"))
+        #posHouse=int(posHouse)
+        #print("p1:"+str(posHouse))
+        #posHouse = posHouse % 1.0
+        #print("p2:"+str(posHouse))
         posHouseRev=getHouse(pos[0][0],h)
         if posHouse != posHouseRev:
             posHouse=posHouseRev

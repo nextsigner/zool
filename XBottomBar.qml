@@ -34,4 +34,7 @@ Rectangle {
         width: parent.width-xStatus.width
         onStateChanged: if(state==='show')r.state='show'
     }
+    function enter(){
+        if(panelCmd.state==='show')panelCmd.enter()
+    }
 }

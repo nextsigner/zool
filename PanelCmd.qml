@@ -25,14 +25,14 @@ Rectangle {
                 target: r
                 y:0//r.parent.height-r.height
                 //z:1000
-            }
+            }          
         },
         State {
             name: "hide"
             PropertyChanges {
                 target: r
                 y:r.height
-            }
+            }            
         }
     ]
     Behavior on y{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
@@ -54,11 +54,7 @@ Rectangle {
         //bw.width: 0
         //anchors.verticalCenter: parent.verticalCenter
         anchors.centerIn: parent
-        Keys.onReturnPressed: {
-            runCmd(text)
-        }
-        //KeyNavigation.tab: tiFecha.t
-        //t.maximumLength: 30
+        onPressed: runCmd(text)
     }
     Item{id: xuqp}
     function runCmd(cmd){
@@ -133,6 +129,18 @@ sweg.objEclipseCircle.typeEclipse='+comando[4]+''
             if(comando.length<1)return
             app.uSon=comando[1]
             JS.showIW()
+            return
+        }
+
+        //Set app.uson and Show IW
+        if(comando[0]==='sh'){
+            //if(comando.length<1)return
+            console.log('json: '+app.currentData)
+            let j=JSON.parse(app.currentData)
+            let sh='python3 '+app.mainLocation+'/py/astrologica_swe.py '+j.params.d+' '+j.params.m+' '+j.params.a+' '+j.params.h+' '+j.params.min+' '+j.params.gmt+' '+j.params.lat+' '+j.params.lon+' '
+            //unik.clipboard
+            console.log('sh: '+sh)
+            tiCmd.text=sh
             return
         }
 

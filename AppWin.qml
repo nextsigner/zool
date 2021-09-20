@@ -78,6 +78,10 @@ ApplicationWindow {
                 panelRsList.enter()
                 return
             }
+            if(xBottomBar.state==='show'){
+                xBottomBar.enter()
+                return
+            }
             if(panelFileLoader.state==='show'){
                 panelFileLoader.enter()
                 return
