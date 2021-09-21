@@ -7,8 +7,6 @@ from subprocess import run, PIPE
 
 sys.stdout.reconfigure(encoding='utf-8')
 
-houseType="P"
-
 np=[('Sol', 0), ('Luna', 1), ('Mercurio', 2), ('Venus', 3), ('Marte', 4), ('Júpiter', 5), ('Saturno', 6), ('Urano', 7), ('Neptuno', 8), ('Plutón', 9), ('Nodo Norte', 11), ('Nodo Sur', 10), ('Quirón', 15), ('Selena', 57), ('Lilith', 12)]
 
 body=[('Sol', 0), ('Luna', 1), ('Mercurio', 2), ('Venus', 3), ('Marte', 4), ('Júpiter', 5), ('Saturno', 6), ('Urano', 7), ('Neptuno', 8), ('Plutón', 9), ('Nodo Norte', 11), ('Nodo Sur', 10), ('Quirón', 15), ('Selena', 57), ('Lilith', 12)]
@@ -125,6 +123,9 @@ gmt = sys.argv[6]
 
 lat = sys.argv[7]
 lon = sys.argv[8]
+
+#houseType=sys.argv[9]
+houseType="P"
 
 GMSLat=decdeg2dms(float(lat))
 GMSLon=decdeg2dms(float(lon))

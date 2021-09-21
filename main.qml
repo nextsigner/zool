@@ -162,6 +162,7 @@ AppWin {
 
         //Swe
         property bool showNumberLines: true
+        property int sweFs: Screen.width*0.02
 
         //GUI
         property bool showMenuBar: true

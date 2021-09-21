@@ -1,5 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.12
+import "Funcs.js" as JS
 import "./comps" as Comps
 
 Item {
@@ -9,7 +10,7 @@ Item {
     anchors.centerIn: parent
     anchors.verticalCenterOffset: verticalOffSet
     property int  verticalOffSet: xDataBar.state==='show'?sweg.fs*1.25:0
-    property int fs: r.objectName==='sweg'?app.fs:app.fs*2
+    property int fs: r.objectName==='sweg'?apps.sweFs:apps.sweFs*2
     property int w: fs
     property bool v: false
     property alias expand: planetsCircle.expand
@@ -189,20 +190,6 @@ Item {
     //            anchors.centerIn: parent
     //        }
     //    }
-    /*‘P’     Placidus
-                ‘K’     Koch
-                ‘O’     Porphyrius
-                ‘R’     Regiomontanus
-                ‘C’     Campanus
-                ‘A’ or ‘E’     Equal (cusp 1 is Ascendant)
-                ‘V’     Vehlow equal (Asc. in middle of house 1)
-                ‘X’     axial rotation system
-                ‘H’     azimuthal or horizontal system
-                ‘T’     Polich/Page (“topocentric” system)
-                ‘B’     Alcabitus
-                ‘G’     Gauquelin sectors
-                ‘M’     Morinus
-        */
     function loadSign(j){
         console.log('Ejecutando SweGraphic.loadSign()...')
         //unik.speak('load sign')
@@ -253,6 +240,8 @@ Item {
         let vlat=j.params.lat
         let d = new Date(Date.now())
         let ms=d.getTime()
+        let hsys=apps.currentHsys
+        if(j.params.hsys)hsys=j.params.hsys
         let c='import QtQuick 2.0\n'
         c+='import unik.UnikQProcess 1.0\n'
         c+='UnikQProcess{\n'
@@ -266,7 +255,7 @@ Item {
         c+='    }\n'
         c+='    Component.onCompleted:{\n'
         //c+='        console.log(\'sweg.load() python3 /home/ns/nsp/uda/astrologica/py/astrologica_swe.py '+vd+' '+vm+' '+va+' '+vh+' '+vmin+' '+vgmt+' '+vlat+' '+vlon+'\')\n'
-        c+='        run(\''+app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe.py '+vd+' '+vm+' '+va+' '+vh+' '+vmin+' '+vgmt+' '+vlat+' '+vlon+'\')\n'
+        c+='        run(\''+app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe.py '+vd+' '+vm+' '+va+' '+vh+' '+vmin+' '+vgmt+' '+vlat+' '+vlon+' '+hsys+'\')\n'
         c+='    }\n'
         c+='}\n'
         let comp=Qt.createQmlObject(c, xuqp, 'uqpcode')
@@ -279,26 +268,31 @@ Item {
         sweg.objHousesCircle.currentHouse=-1
         swegz.sweg.objHousesCircle.currentHouse=-1
         app.currentPlanetIndex=-1
-        let scorrJson=json.replace(/\n/g, '')
+        var scorrJson=json.replace(/\n/g, '')
         //console.log('json: '+json)
-        let j=JSON.parse(scorrJson)
-        //signCircle.rot=parseInt(j.ph.h1.gdec)
-        signCircle.rot=parseFloat(j.ph.h1.gdec).toFixed(2)
-        ascMcCircle.loadJson(j)
-        housesCircle.loadHouses(j)
-        planetsCircle.loadJson(j)
-        //planetsCircleBack.loadJson(j)
-        panelAspects.load(j)
-        panelDataBodies.loadJson(j)
-        aspsCircle.load(j)
-        panelElements.load(j)
-        eclipseCircle.arrayWg=housesCircle.arrayWg
-        eclipseCircle.isEclipse=-1
-        //if(app.mod!=='rs'&&app.mod!=='pl'&&panelZonaMes.state!=='show')panelRsList.setRsList(61)
-        r.v=true
-        apps.enableFullAnimation=true
-        tFirtShow.start()
-        //tReload.restart()
+        var j
+        try {
+            j=JSON.parse(scorrJson)
+            //signCircle.rot=parseInt(j.ph.h1.gdec)
+            signCircle.rot=parseFloat(j.ph.h1.gdec).toFixed(2)
+            ascMcCircle.loadJson(j)
+            housesCircle.loadHouses(j)
+            planetsCircle.loadJson(j)
+            //planetsCircleBack.loadJson(j)
+            panelAspects.load(j)
+            panelDataBodies.loadJson(j)
+            aspsCircle.load(j)
+            panelElements.load(j)
+            eclipseCircle.arrayWg=housesCircle.arrayWg
+            eclipseCircle.isEclipse=-1
+            //if(app.mod!=='rs'&&app.mod!=='pl'&&panelZonaMes.state!=='show')panelRsList.setRsList(61)
+            r.v=true
+            apps.enableFullAnimation=true
+            tFirtShow.start()
+        } catch(e) {
+            //alert(e); // error in the above string (in this case, yes)!
+            JS.showMsgDialog('Error de carga', 'Hay un error en la carga de los datos.', 'Error SweGraphic::loadSweJson(json)')
+        }
     }
     function loadSweJsonBack(json){
         //console.log('JSON::: '+json)

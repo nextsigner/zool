@@ -117,16 +117,16 @@ Item {
         Repeater{
             model: 3
             Rectangle{
-                id: lineAxis
+                id: lineAxis2
                 height: apps.lupaAxisWidth
                 width: index===1?30:xApp.height*3
                 color: index===1?'transparent':apps.lupaColor
                 SequentialAnimation{
-                    id: an2
+                    id: an22
                     running: index===1&&an.running
                     loops: Animation.Infinite
                     PropertyAnimation{
-                        target: lineAxis
+                        target: lineAxis2
                         property: "width"
                         from:r.width
                         to:centro.width
