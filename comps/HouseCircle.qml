@@ -260,4 +260,27 @@ Item {
 //            h.wg=nwg
 //        }
     }
+    function getHousePos(g, rot, ip, defaultRet){
+        let rotDiff=360-rot
+        let initdeg=0-rotDiff
+        if(initdeg+180<g){
+            initdeg+=360
+        }
+        for(var i=0;i<12;i++){
+            let findeg=initdeg+housesCircle.aWs[i]//-rotDiff
+            if(g>initdeg&&g<findeg){
+                return i + 1
+            }
+            initdeg+=housesCircle.aWs[i]
+        }
+        initdeg=0-rotDiff
+        for(var i=0;i<12;i++){
+            let findeg=initdeg+housesCircle.aWs[i]
+            if(g>initdeg&&g<findeg){
+                return i + 1
+            }
+            initdeg+=housesCircle.aWs[i]
+        }
+        return defaultRet
+    }
 }

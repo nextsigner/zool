@@ -91,7 +91,7 @@ Item{
             }else{
                 o.ih=jo.ih
             }*/
-            o.ih=getHouseIndex(jo.gdec, json.ph.h1.gdec)//jo.ih
+            o.ih=sweg.objHousesCircle.getHousePos(jo.gdec, json.ph.h1.gdec, jo.ih)//jo.ih
 
             o.rsg=jo.rsgdeg
             o.g=jo.gdeg
@@ -111,49 +111,49 @@ Item{
         }
 
         //Fortuna
-//        let joHouses=json.ph['h1']
-//        let joSol=json.pc['c0']
-//        let joLuna=json.pc['c1']
-//        objAs=r.children[15]
-//        var gf
-//        if(houseSun>=6){
-//            //Fortuna en Carta Diurna
-//            //Calculo para Fortuna Diurna Asc + Luna - Sol
-//            gf=joHouses.gdec+joLuna.gdec - joSol.gdec
-//            if(gf>=360)gf=gf-360
-//            objAs.rotation=signCircle.rot-gf
-//        }else{
-//            //Fortuna en Carta Nocturna
-//            //Calculo para Fortuna Nocturna Asc + Sol - Luna
-//            gf=joHouses.gdec+joSol.gdec - joLuna.gdec
-//            if(gf>=360)gf=gf-360
-//            objAs.rotation=signCircle.rot-gf
-//        }
-//        //console.log('gf: '+JS.deg_to_dms(gf))
-//        var arrayDMS=JS.deg_to_dms(gf)
-//        o={}
-//        o.g=arrayDMS[0]
-//        o.m=arrayDMS[1]
-//        var rsDegSign=gf
-//        for(var i2=1;i2<13;i2++){
-//            if(i2*30<gf){
-//                objAs.is=i2
-//                rsDegSign-=30
-//                o.p=objSigns[i2]
-//            }
+        //        let joHouses=json.ph['h1']
+        //        let joSol=json.pc['c0']
+        //        let joLuna=json.pc['c1']
+        //        objAs=r.children[15]
+        //        var gf
+        //        if(houseSun>=6){
+        //            //Fortuna en Carta Diurna
+        //            //Calculo para Fortuna Diurna Asc + Luna - Sol
+        //            gf=joHouses.gdec+joLuna.gdec - joSol.gdec
+        //            if(gf>=360)gf=gf-360
+        //            objAs.rotation=signCircle.rot-gf
+        //        }else{
+        //            //Fortuna en Carta Nocturna
+        //            //Calculo para Fortuna Nocturna Asc + Sol - Luna
+        //            gf=joHouses.gdec+joSol.gdec - joLuna.gdec
+        //            if(gf>=360)gf=gf-360
+        //            objAs.rotation=signCircle.rot-gf
+        //        }
+        //        //console.log('gf: '+JS.deg_to_dms(gf))
+        //        var arrayDMS=JS.deg_to_dms(gf)
+        //        o={}
+        //        o.g=arrayDMS[0]
+        //        o.m=arrayDMS[1]
+        //        var rsDegSign=gf
+        //        for(var i2=1;i2<13;i2++){
+        //            if(i2*30<gf){
+        //                objAs.is=i2
+        //                rsDegSign-=30
+        //                o.p=objSigns[i2]
+        //            }
 
-//            if(json.ph['h'+i2].gdec<gf){
-//                o.h=i2
-//                o.ih=i2
-//            }
-//        }
-//        if(r.totalPosX<o.p){
-//            r.totalPosX=o.p
-//        }
-//        o.ns=objSignsNames.indexOf(o.is)
-//        o.rsg=rsDegSign
-//        objAs.objData=o
-//        objSigns[o.is]++
+        //            if(json.ph['h'+i2].gdec<gf){
+        //                o.h=i2
+        //                o.ih=i2
+        //            }
+        //        }
+        //        if(r.totalPosX<o.p){
+        //            r.totalPosX=o.p
+        //        }
+        //        o.ns=objSignsNames.indexOf(o.is)
+        //        o.rsg=rsDegSign
+        //        objAs.objData=o
+        //        objSigns[o.is]++
 
         /*
         //Infortunio
@@ -203,45 +203,5 @@ Item{
         o.rsg=rsDegSign
         objAs.objData=o
         objSigns[o.is]++*/
-    }
-    function getHouseIndex(g, rot, ip){
-        log.clear()
-        let rotDiff=360-rot
-        let gRotDiff=g-rotDiff
-        let initdeg=0-rotDiff
-        if(initdeg+180<g){
-            initdeg+=360
-        }
-        for(var i=0;i<12;i++){
-            let findeg=initdeg+housesCircle.aWs[i]//-rotDiff
-            log.l('Planeta: '+app.planetas[ip])
-            log.l('rot: '+rot)
-            log.l('rotDiff: '+rotDiff)
-            log.l('gRotDiff: '+gRotDiff)
-            log.l('g: '+g)
-            log.l('initdeg: '+initdeg)
-            log.l('findeg: '+findeg)
-            log.l('housesCircle.aWs[i]: '+housesCircle.aWs[i])
-
-
-            if(g>initdeg&&g<findeg){
-                log.l('house:'+parseInt(i +1)+'\n\n')
-                return i + 1
-
-            }
-            log.l('h:'+i+'\n\n')
-            initdeg+=housesCircle.aWs[i]
-        }
-        initdeg=0-rotDiff
-        for(var i=0;i<12;i++){
-            let findeg=initdeg+housesCircle.aWs[i]
-            if(g>initdeg&&g<findeg){
-                return i + 1
-
-            }
-            initdeg+=housesCircle.aWs[i]
-        }
-        //log.l('fin\n\n')
-        return -1
     }
 }

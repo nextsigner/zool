@@ -530,15 +530,16 @@ Rectangle {
         lmBack.clear()
         let jo
         let o
-
+        var ih
         for(var i=0;i<15;i++){
             jo=json.pc['c'+i]
-            var s = jo.nom+ ' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ ' ' +app.signos[jo.is]+ '  - Casa ' +jo.ih
+            ih=sweg.objHousesCircle.getHousePos(jo.gdec, json.ph.h1.gdec, jo.ih)
+            var s = jo.nom+ ' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ ' ' +app.signos[jo.is]+ '  - Casa ' +ih
             if(jo.retro===0&&i!==10&&i!==11)s+=' <b>R</b>'
             //console.log('--->'+s)
-            lm.append(lm.addItem(jo.is, jo.ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s))
+            lm.append(lm.addItem(jo.is, ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s))
             //            if(i===0){
-            //                houseSun=jo.ih
+            //                houseSun=ih
             //            }
         }
         let o1=json.ph['h1']
@@ -564,15 +565,19 @@ Rectangle {
         let joBack
         let o
         let oBack
+        var ih0
+        var ih1
         for(var i=0;i<15;i++){
             jo=json.pc['c'+i]
             joBack=uJson.pc['c'+i]
-            var s = jo.nom+ ' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ '\n' +app.signos[jo.is]+ '  - Casa ' +jo.ih
+            ih0=sweg.objHousesCircle.getHousePos(jo.gdec, json.ph.h1.gdec, jo.ih)
+            var s = jo.nom+ ' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ '\n' +app.signos[jo.is]+ '  - Casa ' +ih0
             if(jo.retro===0&&i!==10&&i!==11)s+=' R'
-            var sBack = joBack.nom+ ' °' +joBack.rsgdeg+ '\'' +joBack.mdeg+ '\'\'' +joBack.sdeg+ '\n' +app.signos[joBack.is]+ '  - Casa ' +joBack.ih
+            ih1=sweg.objHousesCircle.getHousePos(joBack.gdec, json.ph.h1.gdec, joBack.ih)
+            var sBack = joBack.nom+ ' °' +joBack.rsgdeg+ '\'' +joBack.mdeg+ '\'\'' +joBack.sdeg+ '\n' +app.signos[joBack.is]+ '  - Casa ' +ih1
             if(joBack.retro===0&&i!==10&&i!==11)sBack+=' R'
             //console.log('--->'+s)
-            lmBack.append(lmBack.addItem(jo.is, jo.ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s, joBack.is, joBack.ih, joBack.rsgdeg, joBack.mdeg, joBack.sdeg, sBack))
+            lmBack.append(lmBack.addItem(jo.is, ih0, jo.rsgdeg, jo.mdeg, jo.sdeg, s, joBack.is, ih1, joBack.rsgdeg, joBack.mdeg, joBack.sdeg, sBack))
 
         }
         let o1=json.ph['h1']
