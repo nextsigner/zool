@@ -161,6 +161,7 @@ AppWin {
         property bool anColorXAs: false
 
         //Swe
+        property string swegMod: 'ps'
         property bool showNumberLines: true
         property int sweFs: Screen.width*0.02
 

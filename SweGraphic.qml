@@ -26,7 +26,7 @@ Item {
     property color backgroundColor: enableBackgroundColor?apps.backgroundColor:'transparent'
     property bool enableBackgroundColor: apps.enableBackgroundColor
     property string currentHsys: apps.currentHsys
-    state: aStates[0]
+    state: apps.swegMod//aStates[0]
     states: [
         State {//PS
             name: aStates[0]
@@ -74,7 +74,10 @@ Item {
             }
         }
     ]
-    onStateChanged: swegz.sweg.state=state
+    onStateChanged: {
+        swegz.sweg.state=state
+        apps.swegMod=state
+    }
     Behavior on opacity{NumberAnimation{duration: 1500}}
     Behavior on verticalOffSet{NumberAnimation{duration: app.msDesDuration}}
     Item{id: xuqp}
@@ -135,7 +138,10 @@ Item {
         //onShowDecChanged: Qt.quit()
     }
 
+
     AspCircle{
+
+
         id: aspsCircle
         rotation: signCircle.rot - 90 + 1
         //opacity: panelDataBodies.currentIndex<0?1.0:0.0
@@ -191,6 +197,7 @@ Item {
     //        }
     //    }
     function loadSign(j){
+        aspsCircle.clear()
         console.log('Ejecutando SweGraphic.loadSign()...')
         //unik.speak('load sign')
         for(var i=0;i<xuqp.children.length;i++){
@@ -262,6 +269,7 @@ Item {
     }
     function loadSweJson(json){
         //console.log('JSON::: '+json)
+        aspsCircle.clear()
         panelRsList.clear()
         planetsCircleBack.visible=false
         panelAspectsBack.visible=false

@@ -324,6 +324,10 @@ Rectangle {
     function add(jsonData){
         canvasBack.json=jsonData
     }
+    function clear(){
+        canvas.json=JSON.parse('{}')
+        canvasBack.json=JSON.parse('{}')
+    }
     function setPosCurrentAsp(ci, c){
         clear_canvasBg()
         if(c===0){

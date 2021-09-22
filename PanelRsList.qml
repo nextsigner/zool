@@ -58,6 +58,19 @@ Rectangle {
                     tiEdad.selectAll()
                 }
             }
+            MouseArea{
+                anchors.fill: parent
+                hoverEnabled: true
+                onEntered: {
+                    xTit.showTit=false
+                    tShowXTit.start()
+                }
+                onExited: {
+                    xTit.showTit=false
+                    tShowXTit.start()
+                }
+                onClicked: xTit.showTi=true
+            }
             Rectangle{
                 color: parent.color
                 anchors.fill: parent
@@ -108,19 +121,6 @@ Rectangle {
                 repeat: false
                 interval: 3000
                 onTriggered: parent.showTit=true
-            }
-            MouseArea{
-                anchors.fill: parent
-                hoverEnabled: true
-                onEntered: {
-                    xTit.showTit=false
-                    tShowXTit.start()
-                }
-                onExited: {
-                    xTit.showTit=false
-                    tShowXTit.start()
-                }
-                onClicked: xTit.showTi=true
             }
         }
         ListView{
