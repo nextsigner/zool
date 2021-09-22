@@ -12,6 +12,7 @@ Item {
     property string extraObjectName: ''
     property var swegParent//: value
     property int widthAspCircle: 10
+    property var aWs: []
 
 //    state: r.parent.state
 //    states: [
@@ -223,6 +224,7 @@ Item {
         }
         ////housesAxis.reload(aDegs)
         //xArcs.rotation+=1
+        r.aWs=[]
         for(i=0;i<12;i++){
             h=xArcs.children[i]
             let g1=0.000
@@ -238,6 +240,7 @@ Item {
                 }
             }
             h.wg=nwg
+            r.aWs.push(nwg)
         }
         //        for(i=0;i<12;i++){
 //             h=xArcs.children[i]

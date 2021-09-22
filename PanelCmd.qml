@@ -132,7 +132,7 @@ sweg.objEclipseCircle.typeEclipse='+comando[4]+''
             return
         }
 
-        //Set app.uson and Show IW
+        //Get sh python cmd
         if(comando[0]==='sh'){
             //if(comando.length<1)return
             console.log('json: '+app.currentData)
@@ -143,6 +143,11 @@ sweg.objEclipseCircle.typeEclipse='+comando[4]+''
             //unik.clipboard
             console.log('sh: '+sh)
             tiCmd.text=sh
+            return
+        }
+        //Get sh python cmd
+        if(comando[0]==='showLog'){
+            apps.showLog=!apps.showLog
             return
         }
         mkCmd(finalCmd, c)

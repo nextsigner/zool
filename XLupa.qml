@@ -136,7 +136,7 @@ Item {
                         duration: 100
                     }
                     PropertyAnimation{
-                        target: lineAxis
+                        target: lineAxis2
                         property: "width"
                         from:centro.width
                         to:r.width

@@ -86,7 +86,13 @@ Item{
                 r.totalPosX=o.p
             }
             o.ns=objSignsNames.indexOf(jo.is)
-            o.ih=jo.ih
+            /*if(i===0||i===1){
+                o.ih=getHouseIndex(jo.gdec, json.ph.h1.gdec, i)//jo.ih
+            }else{
+                o.ih=jo.ih
+            }*/
+            o.ih=getHouseIndex(jo.gdec, json.ph.h1.gdec)//jo.ih
+
             o.rsg=jo.rsgdeg
             o.g=jo.gdeg
             o.m=jo.mdeg
@@ -197,5 +203,45 @@ Item{
         o.rsg=rsDegSign
         objAs.objData=o
         objSigns[o.is]++*/
+    }
+    function getHouseIndex(g, rot, ip){
+        log.clear()
+        let rotDiff=360-rot
+        let gRotDiff=g-rotDiff
+        let initdeg=0-rotDiff
+        if(initdeg+180<g){
+            initdeg+=360
+        }
+        for(var i=0;i<12;i++){
+            let findeg=initdeg+housesCircle.aWs[i]//-rotDiff
+            log.l('Planeta: '+app.planetas[ip])
+            log.l('rot: '+rot)
+            log.l('rotDiff: '+rotDiff)
+            log.l('gRotDiff: '+gRotDiff)
+            log.l('g: '+g)
+            log.l('initdeg: '+initdeg)
+            log.l('findeg: '+findeg)
+            log.l('housesCircle.aWs[i]: '+housesCircle.aWs[i])
+
+
+            if(g>initdeg&&g<findeg){
+                log.l('house:'+parseInt(i +1)+'\n\n')
+                return i + 1
+
+            }
+            log.l('h:'+i+'\n\n')
+            initdeg+=housesCircle.aWs[i]
+        }
+        initdeg=0-rotDiff
+        for(var i=0;i<12;i++){
+            let findeg=initdeg+housesCircle.aWs[i]
+            if(g>initdeg&&g<findeg){
+                return i + 1
+
+            }
+            initdeg+=housesCircle.aWs[i]
+        }
+        //log.l('fin\n\n')
+        return -1
     }
 }
