@@ -8,6 +8,7 @@ import Qt.labs.settings 1.1
 import unik.UnikQProcess 1.0
 
 import "Funcs.js" as JS
+//import "Extra.js" as EXTRA
 import "./comps" as Comps
 
 
@@ -443,6 +444,11 @@ AppWin {
 //    }
     LogItem{id: log}
     Component.onCompleted: {
+        //log.visible=true
+        //log.l('--------->'+EXTRA.getColor(10))
+//        for(let i=0;i<256;i++){
+//            log.l('--------->'+i+': '+EXTRA.getArrayColor()[i]+'\n')
+//        }
         if(Qt.application.arguments.indexOf('-dev')>=0){
             app.dev=true
         }

@@ -255,7 +255,7 @@ Item {
         c+='    id: uqp'+ms+'\n'
         c+='    onLogDataChanged:{\n'
         c+='        let json=(\'\'+logData)\n'
-        c+='        console.log(\'JSON: \'+json)\n'
+        c+='        //console.log(\'JSON: \'+json)\n'
         c+='        loadSweJson(json)\n'
         c+='        swegz.sweg.loadSweJson(json)\n'
         c+='        uqp'+ms+'.destroy(3000)\n'
