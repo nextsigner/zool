@@ -24,6 +24,8 @@ gradoArg = int(sys.argv[9])
 minutoArg = int(sys.argv[10])
 segundoArg = int(sys.argv[11])
 
+houseType=sys.argv[12]
+
 #print('Fecha: '+dia+'/'+mes+'/'+anio+' Hora: '+hora+':'+min)
 
 horaLocal = datetime.datetime(int(anio),int(mes),int(dia),int(hora), int(min))
@@ -97,6 +99,7 @@ else:
     cmd+=' '+str(gmt)
     cmd+=' '+str(lat)
     cmd+=' '+str(lon)
+    cmd+=' '+str(houseType)
     #cmd+=' -35.47857 -69.61535'
     #print(cmd)
     os.system(cmd)

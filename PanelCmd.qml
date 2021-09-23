@@ -94,8 +94,9 @@ sweg.objEclipseCircle.typeEclipse='+comando[4]+''
             let cd2=new Date(cd)
             cd2 = cd2.setDate(cd2.getDate() - 1)
             let cd3=new Date(cd2)
+            let hsys=apps.currentHsys
             finalCmd=''
-                    +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe_search_revsol.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+cd3.getFullYear()+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+app.currentGradoSolar+' '+app.currentMinutoSolar+' '+app.currentSegundoSolar+''
+                    +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe_search_revsol.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+cd3.getFullYear()+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+app.currentGradoSolar+' '+app.currentMinutoSolar+' '+app.currentSegundoSolar+' '+hsys
             //console.log('finalCmd: '+finalCmd)
             c=''
             c+=''
@@ -183,8 +184,9 @@ sweg.objEclipseCircle.typeEclipse='+comando[4]+''
         let cd2=new Date(cd)
         cd2 = cd2.setDate(cd2.getDate() - 1)
         let cd3=new Date(cd2)
+        let hsys=apps.currentHsys
         let finalCmd=''
-            +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe_search_revsol.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+cd3.getFullYear()+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+app.currentGradoSolar+' '+app.currentMinutoSolar+' '+app.currentSegundoSolar+''
+            +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe_search_revsol.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+cd3.getFullYear()+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+app.currentGradoSolar+' '+app.currentMinutoSolar+' '+app.currentSegundoSolar+' '+hsys
         //console.log('finalCmd: '+finalCmd)
         let c=''
         c+=''
@@ -216,9 +218,10 @@ sweg.objEclipseCircle.typeEclipse='+comando[4]+''
         cd = cd.setFullYear(date.getFullYear())
         let cd2=new Date(cd)
         cd2 = cd2.setDate(cd2.getDate() - 1)
+        let hsys=apps.currentHsys
         let cd3=new Date(cd2)
         let finalCmd=''
-            +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe_search_revsol.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+cd3.getFullYear()+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+app.currentGradoSolar+' '+app.currentMinutoSolar+' '+app.currentSegundoSolar+''
+            +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe_search_revsol.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+cd3.getFullYear()+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+app.currentGradoSolar+' '+app.currentMinutoSolar+' '+app.currentSegundoSolar+' '+hsys
         //console.log('finalCmd: '+finalCmd)
         let c=''
         c+=''

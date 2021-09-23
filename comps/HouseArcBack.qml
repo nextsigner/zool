@@ -36,7 +36,7 @@ Item {
             }
             PropertyChanges {
                 target: r
-                colors: [apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor]
+                colors: [apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack]
                 extraWidth: 0
                 w: (sweg.width-sweg.objAspsCircle.width)/2//housesCircle.parent.objectName==='sweg'?(!r.selected?sweg.fs*2.5:sweg.fs*6):(!r.selected?sweg.fs*3:sweg.fs*7)
             }
@@ -72,7 +72,7 @@ Item {
             PropertyChanges {
                 target: r
                 //colors: ['#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A', '#685E05', '#4B450A']
-                colors: [apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor, apps.houseLineBackColor]
+                colors: [apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack, apps.houseColorBack]
                 extraWidth: 0
                 //w: housesCircle.parent.objectName==='sweg'?(sweg.fs*2):(sweg.fs*4)
                 w: (sweg.width-sweg.objAspsCircle.width)/2

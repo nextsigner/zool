@@ -152,6 +152,8 @@ AppWin {
         //Houses
         property string defaultHsys: 'T'
         property string currentHsys: 'T'
+        property string houseColor: "#2CB5F9"
+        property string houseColorBack: 'red'
         property bool showHousesAxis: false
         property int widthHousesAxis: 3.0
         property string houseLineBackColor: 'red'
@@ -177,7 +179,7 @@ AppWin {
         property string fontColor: "white"
         property int fontSize: app.fs*0.5
 
-        property string houseColor: "#2CB5F9"
+
 
         property int lupaMod: 2
         property int lupaBorderWidth: 3

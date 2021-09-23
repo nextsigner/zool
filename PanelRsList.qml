@@ -288,8 +288,9 @@ Rectangle {
         r.edadMaxima=edad-1
         lm.clear()
         let cd3= new Date(app.currentDate)
+        //let hsys=apps.currentHsys
         let finalCmd=''
-            +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe_search_revsol_time.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+cd3.getFullYear()+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+app.currentGradoSolar+' '+app.currentMinutoSolar+' '+app.currentSegundoSolar+' '+edad
+            +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe_search_revsol_time.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+cd3.getFullYear()+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+app.currentGradoSolar+' '+app.currentMinutoSolar+' '+app.currentSegundoSolar+' '+edad//+' '+hsys
         let c=''
             +'  if(logData.length<=3||logData==="")return\n'
             +'  let j\n'
