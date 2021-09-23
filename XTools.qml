@@ -181,6 +181,13 @@ Rectangle {
             currentIndex: app.ahys.indexOf(apps.currentHsys)
             anchors.horizontalCenter: parent.horizontalCenter
             //anchors.bottom: parent.bottom
+            onCurrentIndexChanged: {
+                if(currentIndex===app.ahys.indexOf(apps.currentHsys))return
+                apps.currentHsys=app.ahys[currentIndex]
+                //JS.showMsgDialog('Zool Informa', 'El sistema de casas ha cambiado.', 'Se ha seleccionado el sistema de casas '+app.ahysNames[currentIndex]+' ['+app.ahys[currentIndex]+'].')
+                //sweg.load(JSON.parse(app.currentData))
+                JS.loadJson(apps.url)
+            }
         }
     }
 }

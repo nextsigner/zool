@@ -137,7 +137,7 @@ sweg.objEclipseCircle.typeEclipse='+comando[4]+''
             //if(comando.length<1)return
             console.log('json: '+app.currentData)
             let j=JSON.parse(app.currentData)
-            let hsys=apps.currentHsys
+            let hsys=apps.defaultHsys
             if(j.params.hsys)hsys=j.params.hsys
             let sh='python3 '+app.mainLocation+'/py/astrologica_swe.py '+j.params.d+' '+j.params.m+' '+j.params.a+' '+j.params.h+' '+j.params.min+' '+j.params.gmt+' '+j.params.lat+' '+j.params.lon+' '+hsys
             //unik.clipboard

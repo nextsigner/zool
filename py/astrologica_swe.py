@@ -124,8 +124,8 @@ gmt = sys.argv[6]
 lat = sys.argv[7]
 lon = sys.argv[8]
 
-#houseType=sys.argv[9]
-houseType="P"
+houseType=sys.argv[9]
+#houseType="P"
 
 GMSLat=decdeg2dms(float(lat))
 GMSLon=decdeg2dms(float(lon))
@@ -186,7 +186,8 @@ jd1 =jdutil.datetime_to_jd(d)
 jsonParams='"params":{'
 jsonParams+='"jd":'+str(jd1)+','
 jsonParams+='"sd": "'+ str(dia) + '/' + str(mes) + '/' + str(anio) + ' ' + str(hora) + ':' + str(min)+'",'
-jsonParams+='"sdgmt": "'+ stringDateSinGmt
+jsonParams+='"sdgmt": "'+ stringDateSinGmt+','
+jsonParams+='"hsys": "' + str(houseType) + '"'
 jsonParams+='}'
 
 
@@ -198,7 +199,7 @@ oblicuidad=posObli[0][0]
 #print('Oblicuidad: ' + str(posObli[0][0]))
 
 #Se calculan casas previamente para calcular en cada cuerpo con swe.house_pos(...)
-h=swe.houses(jd1, float(lat), float(lon), bytes("T", encoding = "utf-8"))
+h=swe.houses(jd1, float(lat), float(lon), bytes(houseType, encoding = "utf-8"))
 #print(h)
 #swe.set_topo(float(lat), float(lon), 1440.00)
 #h=swe.houses(jd1, float(lat), float(lon), bytes(houseType, encoding = "utf-8"))

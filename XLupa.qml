@@ -13,7 +13,7 @@ Item {
     clip: mod!==0
     onModChanged: {
         borde.visible=true
-        borde.opacity=1.0
+        borde.opacity=apps.lupaOpacity
         if(mod===0){
             swegz.state='hide'
         }
@@ -145,7 +145,6 @@ Item {
             }
         }
     }
-
     Rectangle{
         id: borde
         anchors.fill: r
