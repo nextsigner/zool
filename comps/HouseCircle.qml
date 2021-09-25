@@ -13,40 +13,41 @@ Item {
     property var swegParent//: value
     property int widthAspCircle: 10
     property var aWs: []
+    property var aHi: []
 
-//    state: r.parent.state
-//    states: [
-//        State {
-//            name: r.parent.aStates[0]
-//            PropertyChanges {
-//                target: r
-//                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs-sweg.fs):(r.parent.width-sweg.fs)
-//                width: r.parent.width-sweg.fs-sweg.fs
-//            }
-//        },
-//        State {
-//            name: r.parent.aStates[1]
-//            PropertyChanges {
-//                target: r
-//                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs*5-sweg.fs):(r.parent.width-sweg.fs*2.5-sweg.fs*0.5)
-//                width: r.parent.width-sweg.fs*5-sweg.fs
-//            }
-//        },
-//        State {
-//            name: r.parent.aStates[2]
-//            PropertyChanges {
-//                target: r
-//                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs-sweg.fs):(r.parent.width)
-//                width: r.parent.width-sweg.fs-sweg.fs
-//            }
-//        }
-//    ]
+    //    state: r.parent.state
+    //    states: [
+    //        State {
+    //            name: r.parent.aStates[0]
+    //            PropertyChanges {
+    //                target: r
+    //                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs-sweg.fs):(r.parent.width-sweg.fs)
+    //                width: r.parent.width-sweg.fs-sweg.fs
+    //            }
+    //        },
+    //        State {
+    //            name: r.parent.aStates[1]
+    //            PropertyChanges {
+    //                target: r
+    //                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs*5-sweg.fs):(r.parent.width-sweg.fs*2.5-sweg.fs*0.5)
+    //                width: r.parent.width-sweg.fs*5-sweg.fs
+    //            }
+    //        },
+    //        State {
+    //            name: r.parent.aStates[2]
+    //            PropertyChanges {
+    //                target: r
+    //                //width: housesCircle.parent.objectName==='sweg'?(r.parent.width-sweg.fs-sweg.fs):(r.parent.width)
+    //                width: r.parent.width-sweg.fs-sweg.fs
+    //            }
+    //        }
+    //    ]
 
 
     //    Behavior on rotation{
-//        enabled: apps.enableFullAnimation;
-//        NumberAnimation{duration:2000;easing.type: Easing.InOutQuad}
-//    }
+    //        enabled: apps.enableFullAnimation;
+    //        NumberAnimation{duration:2000;easing.type: Easing.InOutQuad}
+    //    }
 
     Item{
         id: xHomeArcs
@@ -64,17 +65,17 @@ Item {
             }
         }
     }
-//    HousesAxis{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
-//        id:housesAxis
-//        height: width
-//    }
+    //    HousesAxis{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
+    //        id:housesAxis
+    //        height: width
+    //    }
     //Probando/Visualizando rotación
-//    Rectangle{
-//        width: r.width
-//        height: 2
-//        anchors.centerIn: parent
-//        color: '#ff8833'
-//    }
+    //    Rectangle{
+    //        width: r.width
+    //        height: 2
+    //        anchors.centerIn: parent
+    //        color: '#ff8833'
+    //    }
 
 
 
@@ -173,7 +174,7 @@ Item {
                     //h.rotation=h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6])
                     //housesAxis.reload(i, 360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]))
                 }
-                if(i===7){                    
+                if(i===7){
                     h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7])
                     //housesAxis.reload(i, h.rotation=360-(gp[i-1]+gp[i-2]+gp[i-3]+gp[i-4]+gp[i-5]+gp[i-6]+gp[i-7]))
                 }
@@ -223,8 +224,9 @@ Item {
             r.arrayWg.push(h.wg)
         }
         ////housesAxis.reload(aDegs)
-        //xArcs.rotation+=1
+        //xArcs.1rotation+=1
         r.aWs=[]
+        r.aHi=[]
         for(i=0;i<12;i++){
             h=xArcs.children[i]
             let g1=0.000
@@ -241,46 +243,58 @@ Item {
             }
             h.wg=nwg
             r.aWs.push(nwg)
+            //r.Hi.push()
         }
-        //        for(i=0;i<12;i++){
-//             h=xArcs.children[i]
-//            let g1=0.000
-//            let g2=0.000
-//            if(i!==11){
-//                g1=xArcs.children[i].rotation
-//                g2=xArcs.children[i +1].rotation
-//            }else{
-//                g1=xArcs.children[i].rotation
-//                g2=xArcs.children[0].rotation
-//            }
-//            let nwg=g1-g2
-//            if(nwg>180){
-//                nwg=g2+g1
-//            }
-//            h.wg=nwg
+//        for(i=0;i<15;i++){
+//            var jo=jsonData.pc['c'+i]
+//            r.aHi.push(getHousePos(jo.gdeg, rot, ip, defaultRet))
 //        }
+        //        for(i=0;i<12;i++){
+        //             h=xArcs.children[i]
+        //            let g1=0.000
+        //            let g2=0.000
+        //            if(i!==11){
+        //                g1=xArcs.children[i].rotation
+        //                g2=xArcs.children[i +1].rotation
+        //            }else{
+        //                g1=xArcs.children[i].rotation
+        //                g2=xArcs.children[0].rotation
+        //            }
+        //            let nwg=g1-g2
+        //            if(nwg>180){
+        //                nwg=g2+g1
+        //            }
+        //            h.wg=nwg
+        //        }
     }
     function getHousePos(g, rot, ip, defaultRet){
         let rotDiff=360-rot
         let initdeg=0-rotDiff
+        var findeg
         if(initdeg+180<g){
             initdeg+=360
         }
         for(var i=0;i<12;i++){
-            let findeg=initdeg+housesCircle.aWs[i]//-rotDiff
+            findeg=initdeg+housesCircle.aWs[i]//-rotDiff
             if(g>initdeg&&g<findeg){
                 return i + 1
             }
             initdeg+=housesCircle.aWs[i]
         }
         initdeg=0-rotDiff
-        for(var i=0;i<12;i++){
-            let findeg=initdeg+housesCircle.aWs[i]
+        for(i=0;i<12;i++){
+            findeg=initdeg+housesCircle.aWs[i]
             if(g>initdeg&&g<findeg){
                 return i + 1
             }
             initdeg+=housesCircle.aWs[i]
         }
         return defaultRet
+    }
+    function reloadHousesColors() {
+        for(i=0;i<12;i++){
+            let h=xArcs.children[i]
+            h.colors=['red','red','red','red','red','red','red','red','red','red','red','red']
+        }
     }
 }

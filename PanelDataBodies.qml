@@ -533,7 +533,7 @@ Rectangle {
         var ih
         for(var i=0;i<15;i++){
             jo=json.pc['c'+i]
-            ih=sweg.objHousesCircle.getHousePos(jo.gdec, json.ph.h1.gdec, jo.ih)
+            ih=sweg.objHousesCircle.getHousePos(jo.gdec, json.ph.h1.gdec, i, jo.ih)
             var s = jo.nom+ ' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ ' ' +app.signos[jo.is]+ '  - Casa ' +ih
             if(jo.retro===0&&i!==10&&i!==11)s+=' <b>R</b>'
             //console.log('--->'+s)
@@ -570,10 +570,10 @@ Rectangle {
         for(var i=0;i<15;i++){
             jo=json.pc['c'+i]
             joBack=uJson.pc['c'+i]
-            ih0=sweg.objHousesCircle.getHousePos(jo.gdec, json.ph.h1.gdec, jo.ih)
+            ih0=sweg.objHousesCircle.getHousePos(jo.gdec, json.ph.h1.gdec, i, jo.ih)
             var s = jo.nom+ ' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ '\n' +app.signos[jo.is]+ '  - Casa ' +ih0
             if(jo.retro===0&&i!==10&&i!==11)s+=' R'
-            ih1=sweg.objHousesCircle.getHousePos(joBack.gdec, json.ph.h1.gdec, joBack.ih)
+            ih1=sweg.objHousesCircleBack.getHousePos(joBack.gdec, uJson.ph.h1.gdec, i, joBack.ih)
             var sBack = joBack.nom+ ' °' +joBack.rsgdeg+ '\'' +joBack.mdeg+ '\'\'' +joBack.sdeg+ '\n' +app.signos[joBack.is]+ '  - Casa ' +ih1
             if(joBack.retro===0&&i!==10&&i!==11)sBack+=' R'
             //console.log('--->'+s)

@@ -18,6 +18,7 @@ Item {
     property var swegParent//: value
     property int widthAspCircle: 10
     property int extraWidth: 0
+    property var aWs: []
 //    state: r.parent.state
 //    states: [
 //        State {
@@ -224,6 +225,7 @@ Item {
             r.arrayWg.push(h.wg)
         }
         let nawgs=0.0
+        r.aWs=[]
         for(i=0;i<12;i++){
             h=xArcsBack.children[i]
             let g1=0.000
@@ -238,10 +240,38 @@ Item {
                     nwg=nwg-360
                 }
             }
+            if(nwg>=360){
+                nwg=nwg-360
+            }
             h.wg=nwg
+            r.aWs.push(nwg)
             nawgs+=Math.abs(nwg)
             console.log('nwg: '+nwg)
             console.log('nawgs: '+nawgs)
         }
+    }
+    function getHousePos(g, rot, ip, defaultRet){
+        let rotDiff=360-rot
+        let initdeg=0-rotDiff
+        var findeg
+        if(initdeg+180<g){
+            initdeg+=360
+        }
+        for(var i=0;i<12;i++){
+            findeg=initdeg+housesCircleBack.aWs[i]//-rotDiff
+            if(g>initdeg&&g<findeg){
+                return i + 1
+            }
+            initdeg+=housesCircleBack.aWs[i]
+        }
+        initdeg=0-rotDiff
+        for(i=0;i<12;i++){
+            findeg=initdeg+housesCircleBack.aWs[i]
+            if(g>initdeg&&g<findeg){
+                return i + 1
+            }
+            initdeg+=housesCircleBack.aWs[i]
+        }
+        return defaultRet
     }
 }

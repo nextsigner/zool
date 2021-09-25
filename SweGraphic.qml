@@ -269,6 +269,9 @@ Item {
     }
     function loadSweJson(json){
         //console.log('JSON::: '+json)
+        //log.visible=true
+        //log.l(JSON.stringify(json))
+        app.currentJson=JSON.parse(json)
         aspsCircle.clear()
         panelRsList.clear()
         planetsCircleBack.visible=false
@@ -304,19 +307,20 @@ Item {
     }
     function loadSweJsonBack(json){
         //console.log('JSON::: '+json)
+        app.currentJsonBack=JSON.parse(json)
         let scorrJson=json.replace(/\n/g, '')
         //console.log('json: '+json)
         let j=JSON.parse(scorrJson)
         //signCircle.rot=parseInt(j.ph.h1.gdec)
         //planetsCircleBack.rotation=parseFloat(j.ph.h1.gdec).toFixed(2)
-        planetsCircleBack.loadJson(j)
         if(r.objectName==='sweg'){
             panelAspectsBack.visible=true
         }
         panelAspectsBack.load(j)
         aspsCircle.add(j)
-        panelDataBodies.loadJsonBack(j)
         housesCircleBack.loadHouses(j)
+        planetsCircleBack.loadJson(j)
+        panelDataBodies.loadJsonBack(j)
         planetsCircleBack.visible=true
     }
     function nextState(){

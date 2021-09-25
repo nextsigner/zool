@@ -36,6 +36,8 @@ AppWin {
 
     property string fileData: ''
     property string currentData: ''
+    property var currentJson
+    property var currentJsonBack
     property bool setFromFile: false
 
     //Para analizar signos y ascendentes por región
@@ -156,7 +158,8 @@ AppWin {
         property string houseColorBack: 'red'
         property bool showHousesAxis: false
         property int widthHousesAxis: 3.0
-        property string houseLineBackColor: 'red'
+        property string houseLineColor: 'white'
+        property string houseLineColorBack: 'red'
 
         //XAs
         property color xAsColor: 'white'
