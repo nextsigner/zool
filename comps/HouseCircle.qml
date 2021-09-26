@@ -13,7 +13,6 @@ Item {
     property var swegParent//: value
     property int widthAspCircle: 10
     property var aWs: []
-    property var aHi: []
 
     //    state: r.parent.state
     //    states: [
@@ -65,10 +64,6 @@ Item {
             }
         }
     }
-    //    HousesAxis{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
-    //        id:housesAxis
-    //        height: width
-    //    }
     //Probando/Visualizando rotación
     //    Rectangle{
     //        width: r.width
@@ -226,7 +221,6 @@ Item {
         ////housesAxis.reload(aDegs)
         //xArcs.1rotation+=1
         r.aWs=[]
-        r.aHi=[]
         for(i=0;i<12;i++){
             h=xArcs.children[i]
             let g1=0.000
@@ -243,29 +237,7 @@ Item {
             }
             h.wg=nwg
             r.aWs.push(nwg)
-            //r.Hi.push()
         }
-//        for(i=0;i<15;i++){
-//            var jo=jsonData.pc['c'+i]
-//            r.aHi.push(getHousePos(jo.gdeg, rot, ip, defaultRet))
-//        }
-        //        for(i=0;i<12;i++){
-        //             h=xArcs.children[i]
-        //            let g1=0.000
-        //            let g2=0.000
-        //            if(i!==11){
-        //                g1=xArcs.children[i].rotation
-        //                g2=xArcs.children[i +1].rotation
-        //            }else{
-        //                g1=xArcs.children[i].rotation
-        //                g2=xArcs.children[0].rotation
-        //            }
-        //            let nwg=g1-g2
-        //            if(nwg>180){
-        //                nwg=g2+g1
-        //            }
-        //            h.wg=nwg
-        //        }
     }
     function getHousePos(g, rot, ip, defaultRet){
         let rotDiff=360-rot

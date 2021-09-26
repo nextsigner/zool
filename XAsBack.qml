@@ -20,6 +20,10 @@ Item{
 
     property color colorCuerpo: '#ff3300'
 
+    onSelectedChanged: {
+        //if(selected)app.uSon=''+app.planetasRes[r.numAstro]+'_'+app.objSignsNames[r.is]+'_'+objData.ih
+        if(selected)housesCircleBack.currentHouse=objData.ih
+    }
 
     //Probando/Visualizando rotación
     Rectangle{
