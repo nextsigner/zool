@@ -336,7 +336,8 @@ AppWin {
                 id: xMed
                 width: xApp.width-xLatIzq.width-xLatDer.width
                 height: parent.height
-                PanelElements{id: panelElements}
+                Comps.PanelElements{id: panelElements}
+                Comps.PanelElementsBack{id: panelElementsBack}
             }
             Item{
                 id: xLatDer

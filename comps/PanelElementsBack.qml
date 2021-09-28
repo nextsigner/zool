@@ -1,21 +1,22 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
-
+import "../"
 Item {
     id: r
     width: apps.elementsFs*3
     height: lv.height
     anchors.top: parent.top
-    anchors.topMargin: app.fs*0.1
+    anchors.topMargin: app.fs*0.1+panelElements.height
     anchors.right: parent.right
     anchors.rightMargin: app.fs*0.1//spacing
+    visible: sweg.objHousesCircleBack.visible
     property var aPorcs: [0.0, 0.0,0.0,0.0]
     property int spacing: apps.elementsFs.fs*0.1
 
     ListView{
         id: lv
         width: r.width
-        height: apps.elementsFs*0.65*4+apps.elementsFs
+        height: apps.elementsFs*4//+apps.elementsFs
         delegate: comp
         model: lm
         boundsBehavior: ListView.StopAtBounds
@@ -58,7 +59,7 @@ Item {
                         height: width
                         Image{
                             id: img
-                            source: './resources/imgs/planetas/'+app.planetasRes[modelData]+'.svg'
+                            source: '../resources/imgs/planetas/'+app.planetasRes[modelData]+'.svg'
                             anchors.fill: parent
                         }
                         ColorOverlay {

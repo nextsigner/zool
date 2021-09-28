@@ -353,6 +353,7 @@ Item {
         }
         panelAspectsBack.load(j)
         aspsCircle.add(j)
+        panelElementsBack.load(j)
         housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
         panelDataBodies.loadJsonBack(j)
