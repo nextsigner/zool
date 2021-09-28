@@ -35,7 +35,9 @@ AppWin {
 
 
     property string fileData: ''
+    property string fileDataBack: ''
     property string currentData: ''
+    property string currentDataBack: ''
     property var currentJson
     property var currentJsonBack
     property bool setFromFile: false
@@ -47,6 +49,7 @@ AppWin {
     property int currentPlanetIndex: -1
     property int currentPlanetIndexBack: -1
     property int currentSignIndex: 0
+
     property date currentDate
     property string currentNom: ''
     property string currentFecha: ''
@@ -59,8 +62,22 @@ AppWin {
     property real currentLon: 0.0
     property real currentLat: 0.0
 
+    property date currentDateBack
+    property string currentNomBack: ''
+    property string currentFechaBack: ''
+    property string currentLugarBack: ''
+    property int currentAbsolutoGradoSolarBack: -1
+    property int currentGradoSolarBack: -1
+    property int currentMinutoSolarBack: -1
+    property int currentSegundoSolarBack: -1
+    property real currentGmtBack: 0
+    property real currentLonBack: 0.0
+    property real currentLatBack: 0.0
+
+
     property bool lock: false
     property string uSon: ''
+    property string uSonBack: ''
 
     property string uCuerpoAsp: ''
 
@@ -146,6 +163,7 @@ AppWin {
         property bool newClosed: false
 
         property string url: ''
+        property string urlBack: ''
         property bool showTimes: false
         property bool showLupa: false
         property bool showSWEZ: true
@@ -181,8 +199,7 @@ AppWin {
         property string fontFamily: "ArialMdm"
         property string fontColor: "white"
         property int fontSize: app.fs*0.5
-
-
+        property real elementsFs: Screen.width*0.02
 
         property int lupaMod: 2
         property int lupaBorderWidth: 3

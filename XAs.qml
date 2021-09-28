@@ -230,7 +230,7 @@ Item{
             source: app.planetasRes[r.numAstro]?"./resources/imgs/planetas/"+app.planetasRes[r.numAstro]+".svg":""
             width: r.parent.parent.objectName==='sweg'?!r.selected?parent.width:parent.width*2:!r.selected?parent.width:parent.width*1.25
             height: width
-            x:!r.selected?0:r.parent.width*0.5-img.width*0.5//+sweg.fs*2
+            x:!r.selected?0:r.parent.width*0.5-img.width*0.5-(apps.showNumberLines?sweg.fs*0.5:0)//+sweg.fs*2
             y: (parent.width-width)/2
             rotation: 0-parent.parent.rotation
             antialiasing: true
@@ -304,9 +304,11 @@ Item{
                 anchors.left: parent.right
                 anchors.leftMargin: 0-width
                 visible: r.objData.retro===0
+                color: apps.fontColor
                 Text{
                     text: '<b>R</b>'
                     font.pixelSize: parent.width*0.8
+                    color: apps.backgroundColor
                     anchors.centerIn: parent
                 }
             }

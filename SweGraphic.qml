@@ -267,6 +267,41 @@ Item {
         c+='}\n'
         let comp=Qt.createQmlObject(c, xuqp, 'uqpcode')
     }
+    function loadBack(j){
+        //console.log('Ejecutando SweGraphic.load()...')
+        for(var i=0;i<xuqp.children.length;i++){
+            xuqp.children[i].destroy(0)
+        }
+        let vd=j.params.d
+        let vm=j.params.m
+        let va=j.params.a
+        let vh=j.params.h
+        let vmin=j.params.min
+        let vgmt=j.params.gmt
+        let vlon=j.params.lon
+        let vlat=j.params.lat
+        let d = new Date(Date.now())
+        let ms=d.getTime()
+        let hsys=apps.currentHsys
+        if(j.params.hsys)hsys=j.params.hsys
+        let c='import QtQuick 2.0\n'
+        c+='import unik.UnikQProcess 1.0\n'
+        c+='UnikQProcess{\n'
+        c+='    id: uqp'+ms+'\n'
+        c+='    onLogDataChanged:{\n'
+        c+='        let json=(\'\'+logData)\n'
+        c+='        console.log(\'JSON Back: \'+json)\n'
+        c+='        loadSweJsonBack(json)\n'
+        c+='        swegz.sweg.loadSweJsonBack(json)\n'
+        c+='        uqp'+ms+'.destroy(3000)\n'
+        c+='    }\n'
+        c+='    Component.onCompleted:{\n'
+        c+='        console.log(\'sweg.loadBack() python3 /media/ns/ZONA-A1/zool/py/astrologica_swe.py '+vd+' '+vm+' '+va+' '+vh+' '+vmin+' '+vgmt+' '+vlat+' '+vlon+' '+hsys+'\')\n'
+        c+='        run(\''+app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe.py '+vd+' '+vm+' '+va+' '+vh+' '+vmin+' '+vgmt+' '+vlat+' '+vlon+' '+hsys+'\')\n'
+        c+='    }\n'
+        c+='}\n'
+        let comp=Qt.createQmlObject(c, xuqp, 'uqpcode')
+    }
     function loadSweJson(json){
         //console.log('JSON::: '+json)
         //log.visible=true

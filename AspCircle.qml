@@ -82,7 +82,7 @@ Rectangle {
     Rectangle{
         width: r.width
         height: width
-        color: 'black'
+        color: apps.backgroundColor//'black'
         radius: width*0.5
         anchors.centerIn: r
     }
@@ -206,7 +206,7 @@ Rectangle {
                             continue
                         }else{
                             let a=asp['asp'+parseInt(i +1)]
-                            let colorAsp='black'
+                            let colorAsp=apps.fontColor//'black'
                             //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
                             if(a.ia===0){
                                 colorAsp='red'
@@ -335,7 +335,7 @@ Rectangle {
             //for(var i=0;i<Object.keys(asp).length;i++){
             if(asp['asp'+parseInt(r.currentAspSelected +1)]){
                 let a=asp['asp'+parseInt(r.currentAspSelected +1)]
-                let colorAsp='black'
+                let colorAsp=apps.fontColor//'black'
                 //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
                 if(a.ia===0){
                     colorAsp='red'
@@ -373,7 +373,7 @@ Rectangle {
             //for(var i=0;i<Object.keys(asp).length;i++){
             if(asp['asp'+parseInt(r.currentAspSelectedBack +1)]){
                 let a=asp['asp'+parseInt(r.currentAspSelectedBack +1)]
-                let colorAsp='black'
+                let colorAsp=apps.fontColor//'black'
                 //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
                 if(a.ia===0){
                     colorAsp='red'

@@ -91,7 +91,7 @@ Item{
             }else{
                 o.ih=jo.ih
             }*/
-            o.ih=sweg.objHousesCircle.getHousePos(jo.gdec, json.ph.h1.gdec, jo.ih)//jo.ih
+            o.ih=sweg.objHousesCircle.getHousePos(jo.gdec, json.ph.h1.gdec, i, jo.ih)//jo.ih
 
             o.rsg=jo.rsgdeg
             o.g=jo.gdeg

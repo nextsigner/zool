@@ -149,7 +149,7 @@ Rectangle {
         Rectangle{
             width: lv.width
             height: txtData.contentHeight+app.fs
-            color: index===lv.currentIndex?'white':'black'
+            color: index===lv.currentIndex?apps.fontColor:apps.backgroundColor
             border.width: index===lv.currentIndex?4:2
             border.color: 'white'
             XText {
@@ -189,6 +189,21 @@ Rectangle {
                 MouseArea{
                     anchors.fill: parent
                     onDoubleClicked: deleteVnData(fileName)
+                }
+            }
+            Button{
+                text:'Sinastría'
+                width: app.fs*2
+                height: app.fs*0.8
+                font.pixelSize: app.fs*0.25
+                anchors.right: parent.right
+                anchors.rightMargin: app.fs*0.1
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: app.fs*0.1
+                visible: index===lv.currentIndex
+                onClicked: {
+                    JS.loadJsonBack(fileName)
+                    r.state='hide'
                 }
             }
         }

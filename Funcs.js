@@ -282,6 +282,98 @@ function loadJson(file){
     xDataBar.state='show'
     app.setFromFile=false
 }
+function loadJsonBack(file){
+    //Global Vars Reset
+    app.setFromFile=true
+    apps.enableFullAnimation=false
+    app.currentPlanetIndexBack=-1
+    app.currentSignIndex= 0
+    app.currentNomBack= ''
+    app.currentFechaBack= ''
+    app.currentGradoSolarBack= -1
+    app.currentMinutoSolarBack= -1
+    app.currentSegundoSolarBack= -1
+    app.currentGmtBack= 0.0
+    app.currentLonBack= 0.0
+    app.currentLatBack= 0.0
+    app.uSonBack=''
+    panelControlsSign.state='hide'
+
+    apps.urlBack=file
+    let fn=apps.urlBack
+    let jsonFileName=fn
+    let jsonFileData=unik.getFile(jsonFileName).replace(/\n/g, '')
+    app.fileDataBack=jsonFileData
+    app.currentJsonBack=app.fileDataBack
+    let jsonData=JSON.parse(jsonFileData)
+    if(jsonData.params.tipo){
+        app.mod=jsonData.params.tipo
+    }else{
+        app.mod='vn'
+    }
+    if(parseInt(jsonData.params.ms)===0||jsonData.params.tipo==='pron'){
+        if(jsonData.params.tipo==='pron'){
+            let dd = new Date(Date.now())
+            let ms=dd.getTime()
+            let nom=jsonData.params.n
+            let d=jsonData.params.d
+            let m=jsonData.params.m
+            let a=jsonData.params.a
+            let h=0
+            let min=0
+            let lat=jsonData.params.lat
+            let lon=jsonData.params.lon
+            let gmt=jsonData.params.gmt
+            let ciudad=' '
+            let j='{"params":{"tipo": "pl", "ms":'+ms+',"n":"'+nom+'","d":'+d+',"m":'+m+',"a":'+a+',"h":'+h+',"min":'+min+',"gmt":'+gmt+',"lat":'+lat+',"lon":'+lon+',"ciudad":"'+ciudad+'"}}'
+            app.fileDataBack=j
+            jsonData=JSON.parse(j)
+        }else{
+            d=new Date(Date.now())
+            jsonData.params.d=d.getDate()
+            jsonData.params.m=d.getMonth()+1
+            jsonData.params.a=d.getFullYear()
+            jsonData.params.h=d.getHours()
+            jsonData.params.min=d.getMinutes()
+        }
+        sweg.loadSign(jsonData)
+    }else{
+        sweg.loadBack(jsonData)
+    }
+    if(jsonData.params.fileNamePath){
+        panelPronEdit.loadJson(jsonData.params.fileNamePath)
+    }
+    let nom=jsonData.params.n.replace(/_/g, ' ')
+    let vd=jsonData.params.d
+    let vm=jsonData.params.m
+    let va=jsonData.params.a
+    let vh=jsonData.params.h
+    let vmin=jsonData.params.min
+    let vgmt=jsonData.params.gmt
+    let vlon=jsonData.params.lon
+    let vlat=jsonData.params.lat
+    let vCiudad=jsonData.params.ciudad.replace(/_/g, ' ')
+    let edad=''
+    let numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
+    let stringEdad=edad.indexOf('NaN')<0?edad:''
+
+    //Seteando datos globales de mapa energético
+    app.currentDateBack= new Date(parseInt(va), parseInt(vm) - 1, parseInt(vd), parseInt(vh), parseInt(vmin))
+    //console.log('2 main.loadJson('+file+'): '+app.currentDate.toString())
+
+    //getCmdData.getData(vd, vm, va, vh, vmin, vlon, vlat, 0, vgmt)
+    app.currentNomBack=nom
+    app.currentFechaBack=vd+'/'+vm+'/'+va
+    app.currentLugarBack=vCiudad
+    app.currentGmtBack=vgmt
+    app.currentLonBack=vlon
+    app.currentLatBack=vlat
+
+    setTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
+    //xDataBar.titleData=textData
+    xDataBar.state='show'
+    app.setFromFile=false
+}
 function runJsonTemp(){
     var jsonData
     try

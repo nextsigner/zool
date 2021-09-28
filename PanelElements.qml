@@ -3,41 +3,19 @@ import QtGraphicalEffects 1.0
 
 Item {
     id: r
-    width: app.fs*3
-    height: lv.height//+app.fs*0.5
+    width: apps.elementsFs*3
+    height: lv.height
     anchors.top: parent.top
-    anchors.topMargin: spacing
+    anchors.topMargin: app.fs*0.1
     anchors.right: parent.right
-    anchors.rightMargin: spacing
+    anchors.rightMargin: app.fs*0.1//spacing
     property var aPorcs: [0.0, 0.0,0.0,0.0]
-    property int spacing: app.fs*0.1
+    property int spacing: apps.elementsFs.fs*0.1
 
-    //    Column{
-    //        id: col
-    //        anchors.centerIn: r
-    //        spacing: r.spacing
-    //        Repeater{
-    //            model: ['Fuego', 'Tierra', 'Aire', 'Agua']
-    //            Rectangle{
-    //                width: r.width
-    //                height: app.fs*0.65
-    //                border.width: 1
-    //                border.color: apps.backgroundColor
-    //                color: app.signColors[index]//apps.fontColor
-    //                radius: app.fs*0.15
-    //                Row{
-    //                    anchors.centerIn: parent
-    //                    spacing: app.fs*0.5
-    //                    XText{text: '<b>'+modelData+'</b>'; color: 'black'; font.pixelSize: app.fs*0.35}
-    //                    XText{text: '%'+r.aPorcs[index]; color: 'black'; font.pixelSize: app.fs*0.35}
-    //                }
-    //            }
-    //        }
-    //    }
     ListView{
         id: lv
         width: r.width
-        height: app.fs*0.65*4+app.fs
+        height: apps.elementsFs*0.65*4+apps.elementsFs
         delegate: comp
         model: lm
         boundsBehavior: ListView.StopAtBounds
@@ -58,17 +36,17 @@ Item {
         Rectangle{
             id: xItemElement
             width: r.width
-            height: app.fs*0.65
+            height: apps.elementsFs*0.65
             border.width: 1
             border.color: apps.backgroundColor
             color: signColor
-            radius: app.fs*0.15
+            radius: apps.elementsFs*0.15
             property var a: arrayPlan
             Row{
                 anchors.centerIn: parent
-                spacing: app.fs*0.5
-                XText{text: '<b>'+element+'</b>'; color: 'black'; font.pixelSize: app.fs*0.35}
-                XText{text: '<b>%'+porc+'</b>'; color: 'black'; font.pixelSize: app.fs*0.35}
+                spacing: apps.elementsFs*0.5
+                XText{text: '<b>'+element+'</b>'; color: index===0||index===3?'white':'black'; font.pixelSize: apps.elementsFs*0.35}
+                XText{text: '<b>%'+porc+'</b>'; color: index===0||index===3?'white':'black'; font.pixelSize: apps.elementsFs*0.35}
             }
             Row{
                 id: row

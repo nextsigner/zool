@@ -322,7 +322,7 @@ Item {
                 height: contentHeight
                 horizontalAlignment: Text.AlignHCenter
                 //color: apps.enableBackgroundColor?apps.backgroundColor:'black'
-                color: apps.houseLineColor
+                color: apps.fontColor
                 anchors.centerIn: parent
                 rotation: 0-r.rotation-parent.rotation
             }
