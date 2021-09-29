@@ -420,6 +420,7 @@ Rectangle {
         }else{
             c+='                r.ulat=json.coords.lat\n'
             c+='                r.ulon=json.coords.lon\n'
+            //c+='                    setNewJsonFileData()\n'
             c+='                if(tiGMT.t.text===""){\n'
             c+='                    tiGMT.t.text=parseFloat(r.ulat / 10).toFixed(1)\n'
             c+='                }\n'
@@ -443,7 +444,7 @@ Rectangle {
         let fileName=apps.jsonsFolder+'/'+unom+'.json'
         console.log('setNewJsonFileData() fileName: '+fileName)
         if(unik.fileExist(fileName)){
-            unik.deleteFile(fileName)
+            //unik.deleteFile(fileName)
         }
         let d = new Date(Date.now())
         let ms=d.getTime()
