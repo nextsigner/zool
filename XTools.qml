@@ -182,8 +182,14 @@ Rectangle {
                 height: app.fs*0.6
                 anchors.verticalCenter: parent.verticalCenter
                 onClicked: {
-
-                    //JS.showEditor(app.fileData)
+                    let json=JSON.parse(app.fileData)
+                    let data=''
+                    if(json.params.data){
+                        data=json.params.data
+                    }
+                    xEditor.e.text=data
+                    xEditor.l.text='Información de '+json.params.n.replace(/_/g, ' ')
+                    xEditor.visible=true
                 }
             }
             ComboBox{

@@ -10,8 +10,6 @@ import unik.UnikQProcess 1.0
 import "Funcs.js" as JS
 //import "Extra.js" as EXTRA
 import "./comps" as Comps
-import "./editor" as Editor
-
 
 AppWin {
     id: app
@@ -93,7 +91,7 @@ AppWin {
     property var ahys: ['P', 'K', 'O', 'R', 'C', 'A', 'V', 'X', 'H', 'T', 'B', 'M']
     //property var ahysNames: ['Placidus', 'Koch', 'Porphyrius', 'Regiomontanus', 'Campanus', 'Iguales', 'Vehlow', 'Sistema de Rotación Axial', 'Azimuthal', 'Topocéntrico', 'Alcabitus', 'Gauquelin', 'Morinus']
     property var ahysNames: ['Placidus', 'Koch', 'Porphyrius', 'Regiomontanus', 'Campanus', 'Iguales', 'Vehlow', 'Sistema de Rotación Axial', 'Azimuthal', 'Topocéntrico', 'Alcabitus', 'Morinus']
-/*
+    /*
                 ‘P’     Placidus
                 ‘K’     Koch
                 ‘O’     Porphyrius
@@ -382,15 +380,7 @@ AppWin {
         XBottomBar{id: xBottomBar}
         XSabianos{id: xSabianos}
         XInfoData{id: xInfoData}
-        Editor.UnikTextEditor{
-            id:editor
-            width: xApp.width*0.2
-            height: parent.height
-            fs:app.fs*0.5
-            wordWrap: true
-            visible: false
-            //text: r.data
-        }
+        Editor{id: xEditor}
     }
     Init{longAppName: 'Zool'; folderName: 'zool'}
     Comps.XSelectColor{
@@ -428,60 +418,60 @@ AppWin {
             }
         }
     }
-//    Rectangle{
-//        id: log
-//        width: app.fs*20
-//        height: xApp.height-(xApp.height-xBottomBar.y)
-//        color: 'black'
-//        visible: apps.showLog
-//        border.width: 2
-//        border.color: 'white'
-//        clip: true
-//        MouseArea{
-//            anchors.fill: parent
-//            onClicked: apps.showLog=false
-//        }
-//        Flickable{
-//            id: flLog
-//            width: parent.width
-//            height: parent.height
-//            contentWidth: parent.width
-//            contentHeight: taLog.contentHeight
-//            TextArea{
-//                id: taLog
-//                width: log.width-app.fs*0.5
-//                wrapMode: Text.WordWrap
-//                anchors.horizontalCenter: parent.horizontalCenter
-//                font.pixelSize: app.fs*0.5
-//                color: 'white'
-//                background: Rectangle{color: 'black'}
-//            }
-//        }
-//        Rectangle{
-//            width: app.fs*0.5
-//            height: width
-//            anchors.right: parent.right
-//            anchors.rightMargin: app.fs*0.1
-//            anchors.top: parent.top
-//            anchors.topMargin: app.fs*0.1
-//            Text{text: 'X';anchors.centerIn: parent}
-//            MouseArea{
-//                anchors.fill: parent
-//                onClicked: apps.showLog=false
-//            }
-//        }
-//        function l(d){
-//            taLog.text+=d+'\n'
-//            flLog.contentY=taLog.contentHeight-log.height
-//        }
-//    }
+    //    Rectangle{
+    //        id: log
+    //        width: app.fs*20
+    //        height: xApp.height-(xApp.height-xBottomBar.y)
+    //        color: 'black'
+    //        visible: apps.showLog
+    //        border.width: 2
+    //        border.color: 'white'
+    //        clip: true
+    //        MouseArea{
+    //            anchors.fill: parent
+    //            onClicked: apps.showLog=false
+    //        }
+    //        Flickable{
+    //            id: flLog
+    //            width: parent.width
+    //            height: parent.height
+    //            contentWidth: parent.width
+    //            contentHeight: taLog.contentHeight
+    //            TextArea{
+    //                id: taLog
+    //                width: log.width-app.fs*0.5
+    //                wrapMode: Text.WordWrap
+    //                anchors.horizontalCenter: parent.horizontalCenter
+    //                font.pixelSize: app.fs*0.5
+    //                color: 'white'
+    //                background: Rectangle{color: 'black'}
+    //            }
+    //        }
+    //        Rectangle{
+    //            width: app.fs*0.5
+    //            height: width
+    //            anchors.right: parent.right
+    //            anchors.rightMargin: app.fs*0.1
+    //            anchors.top: parent.top
+    //            anchors.topMargin: app.fs*0.1
+    //            Text{text: 'X';anchors.centerIn: parent}
+    //            MouseArea{
+    //                anchors.fill: parent
+    //                onClicked: apps.showLog=false
+    //            }
+    //        }
+    //        function l(d){
+    //            taLog.text+=d+'\n'
+    //            flLog.contentY=taLog.contentHeight-log.height
+    //        }
+    //    }
     LogItem{id: log}
     Component.onCompleted: {
         //log.visible=true
         //log.l('--------->'+EXTRA.getColor(10))
-//        for(let i=0;i<256;i++){
-//            log.l('--------->'+i+': '+EXTRA.getArrayColor()[i]+'\n')
-//        }
+        //        for(let i=0;i<256;i++){
+        //            log.l('--------->'+i+': '+EXTRA.getArrayColor()[i]+'\n')
+        //        }
         if(Qt.application.arguments.indexOf('-dev')>=0){
             app.dev=true
         }

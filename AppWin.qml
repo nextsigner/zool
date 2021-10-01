@@ -91,6 +91,10 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Enter'
         onActivated: {
+            if(xEditor.visible){
+                //xEditor.enter()
+                //return
+            }
             if(panelNewVNA.state==='show'){
                 panelNewVNA.enter()
                 return
@@ -333,8 +337,19 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Ctrl+s'
         onActivated: {
-            //img.y+=4
-            //showSABIANOS()
+            if(xEditor.visible){
+                xEditor.save()
+                return
+            }
+        }
+    }
+    Shortcut{
+        sequence: 'Ctrl+x'
+        onActivated: {
+            if(xEditor.visible){
+                xEditor.close()
+                return
+            }
         }
     }
     Shortcut{

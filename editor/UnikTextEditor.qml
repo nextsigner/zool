@@ -3,13 +3,15 @@ import QtQuick.Controls 2.0
 import Qt.labs.settings 1.0
 Item{
     id:r
+    //focus: te.focus
     property alias fl: flTE
 
     readonly property real lineHeight: (te.implicitHeight - 2 * te.textMargin) / te.lineCount
     readonly property alias lineCount: te.lineCount
 
+    property bool showNumberLines: false
     property bool wordWrap: true
-    property alias textEditor: te
+    property alias text: te.text
     property int modo: 1
 
     property int fs: 16
@@ -33,8 +35,6 @@ Item{
         property bool wordWrap
     }
 
-    focus: true
-
     onWidthChanged: te.setPos()
     Rectangle{
         anchors.fill: parent
@@ -49,12 +49,16 @@ Item{
         //x:((''+te.lineCount).length)*r.fs
         enabled: r.modo===1
         Row{
+            spacing: app.fs*0.1
+            anchors.left: parent.left
+            anchors.leftMargin: app.fs*0.1
             Rectangle{
                 id:xColNLI
                 color:r.backgroundColor
                 width: ((''+te.lineCount).length)*r.fs
                 height: colNLI.height
                 y:xTE.y
+                visible: r.showNumberLines
                 //anchors.right: xTE.left
                 Rectangle{
                     width: 1
@@ -89,7 +93,7 @@ Item{
             Item{
                 id:xTE
                 //width:te.text===''?1:te.contentWidth
-                width: r.width-(xColNL.width-1)
+                width: r.showNumberLines?r.width-(xColNL.width-1)-app.fs*0.25-parent.spacing:r.width-app.fs*0.25-parent.spacing
                 height: te.contentHeight
                 //x:r.width*0.5
                 TextEdit{
@@ -103,7 +107,7 @@ Item{
                     width: parent.width//r.width
                     height: r.height//r.fs*1.2
                     //wrapMode: eSettings.wordWrap?Text.WordWrap:Text.Normal
-                    wrapMode: Text.WordWrap
+                    wrapMode: Text.WrapAnywhere//WordWrap
                     cursorDelegate: Rectangle{
                         id:teCursor
                         width: tec.width;
@@ -191,6 +195,11 @@ Item{
                         //r.parent.close()
                         //r.parent.parent.focus=true
                     }
+//                    Shortcut{
+//                        sequence: 'Esc'
+//                        onActivated: Qt.quit()
+//                    }
+
                     Timer{
                         id:tvpe
                         running: false
@@ -231,9 +240,11 @@ Item{
                         }
                     }
                 }
+
             }
         }
     }
+
     Rectangle{
         id:xColNL
         color:r.backgroundColor
@@ -279,349 +290,6 @@ Item{
         border.color: apps.fontColor
     }
 
-//    Rectangle{
-//        id:xCentro
-//        width: r.fs*5
-//        height: r.fs*2
-//        border.width: bw
-//        border.color: 'red'
-//        color:'transparent'
-//        anchors.centerIn: r
-//        visible: r.modo===1
-//        radius: r.modificado?r.fs:0
-//        property int bw: 5
-//        SequentialAnimation{
-//            running: !te.ins
-//            loops: Animation.Infinite
-//            onRunningChanged: xCentro.bw=1
-//            NumberAnimation {
-//                target: xCentro
-//                property: "bw"
-//                from:1
-//                to:4
-//                duration: 1000
-//                easing.type: Easing.InOutQuad
-//            }
-//        }
-//        Rectangle{
-//            width: r.fs*0.6
-//            height: width
-//            color:'red'
-//            anchors.centerIn: parent
-//            radius: width*0.5
-//            opacity: 0.0
-//        }
-//    }
-
-    Rectangle{
-        id:xTF
-        color: r.backgroundColor
-        width: r.width*0.8
-        height: tf.contentHeight+r.fs
-        border.width: 1
-        border.color: confirmar===0?r.color:'red'
-        anchors.centerIn: r
-        visible:r.modo===2
-        onVisibleChanged: {
-            if(visible){
-                tf.focus=true
-                tf.cursorPosition=tf.text.length-1
-                tf.focus=true
-            }else{
-                xTF.confirmar=0
-                tf.color=r.color
-                tf.focus=false
-            }
-        }
-        property int modo: -1
-        property int confirmar: 0
-        Rectangle{
-            id:xTFConfirm
-            color: r.backgroundColor
-            width: txtconf.contentWidth+r.fs
-            height: r.fs*1.2
-            border.width: 1
-            border.color: confirmar===0?r.color:'red'
-            anchors.bottom: parent.top
-            visible: xTF.confirmar===1
-            Text{
-                id:txtconf
-                text:'File exist! Press Return for save file.'
-                font.pixelSize: r.fs
-                color:tf.color
-                anchors.centerIn: parent
-            }
-        }
-        TextEdit{
-            id:tf
-            text:eSettings.currentFilePath
-            width: parent.width-r.fs
-            font.pixelSize: r.fs
-            color: r.color
-            anchors.verticalCenter: parent.verticalCenter
-            x:r.fs*0.5
-            cursorDelegate: Rectangle{
-                id:tfCursor
-                width: r.fs*0.5
-                height: r.fs
-                radius: width*0.5
-                color:cv?r.color:'transparent'
-                property bool cv: true
-                Timer{
-                    id:ttf
-                    running: xTF.visible
-                    repeat: true
-                    interval: 650
-                    property int v: 0
-                    onTriggered: {
-                        v++
-                        tfCursor.cv=!tfCursor.cv
-                        if(v===3){
-                            tf.text=eSettings.currentFilePath
-                        }
-                    }
-                }
-            }
-            height:contentHeight
-            //wrapMode: Text.WordWrap
-            onTextChanged: {
-                tf.color=unik.fileExist(tf.text)?r.color:'red'
-            }
-            focus: true
-
-
-            Keys.onReturnPressed: {
-
-                /*if(xTF.modo===1){//Open File
-                    if(unik.fileExist(tf.text)){
-                        ub.running=true
-                        te.cursorPosition=0
-                        eSettings.currentFilePath=tf.text
-                        console.log('UnikEditor Loading: '+eSettings.currentFilePat)
-                        r.text=unik.getFile(eSettings.currentFilePath)
-                        r.modificado=false
-                        xTF.confirmar=0
-                        xTF.visible=false
-                        r.modo=1
-                        te.focus=true
-                        te.setPos()
-                    }else{
-                        console.log('UnikEditor Error: File not exist!')
-                        tf.text='File not exist'
-                        ttf.v=0
-                    }
-                    ub.running=false
-                }else if(xTF.modo===2){//Save
-                    console.log('UnikEditor Saving...')
-                    if(xTF.confirmar===0&&unik.fileExist(tf.text)){
-                        xTF.confirmar=1
-                        console.log('UnikEditor Question: Confirm save file?')
-                    }else{
-                        ub.running=true
-                        if(!unik.fileExist(tf.text)){
-                            var mf0=tf.text.split('/')
-                            var folders=''
-                            for(var i=0;i<mf0.length-1;i++){
-                                folders+='/'+mf0[i]
-                                if(!unik.fileExist(folders)){
-                                    console.log('UnikEditor mkdir: '+folders)
-                                    unik.mkdir(folders)
-                                }
-                            }
-                        }
-                        console.log('UnikEditor finishing ...')
-                        timerSave.start()
-                    }
-
-                }else{
-                    xTF.visible=false
-                    ub.running=false
-                }*/
-            }
-        }
-
-    }
-
-    Text{
-        text:'mode: '+r.modo
-        font.pixelSize: r.fs
-        color: r.color
-        anchors.bottom: r.bottom
-        anchors.bottomMargin: r.fs*2
-        anchors.right: r.right
-        opacity: 0.65
-    }
-
-    Shortcut {
-        sequence: "Esc"
-        onActivated: {
-            if(xTF.visible){
-                xTF.visible=false
-            }else{
-                r.modo=0
-            }
-
-        }
-    }
-    Shortcut {
-        sequence: "Ctrl+Shift+a"
-        onActivated: {
-            r.modo=2
-            xTF.modo=1
-            xTF.visible=true
-        }
-    }
-    Shortcut {
-        sequence: "Ctrl+s"
-        onActivated: {
-            unik.setFile(eSettings.currentFilePath, te.text)
-            r.modificado=false
-        }
-    }
-    Shortcut {
-        sequence: "Ctrl+Shift+s"
-        onActivated: {
-            xTF.visible=true
-            xTF.modo=2
-        }
-    }
-    Shortcut {
-        sequence: "Shift+Up"
-        context: Qt.ApplicationShortcut
-        onActivated: {
-            if(appSettings.fs<100){
-                appSettings.fs++
-            }
-        }
-    }
-    Shortcut {
-        sequence: "Shift+Down"
-        context: Qt.ApplicationShortcut
-        onActivated: {
-            if(appSettings.fs>8){
-                appSettings.fs--
-            }
-
-        }
-    }
-    Shortcut {
-        sequence: "Ctrl+r"
-        context: Qt.ApplicationShortcut
-        onActivated: {
-            sendCode(te.text)
-        }
-    }
-    Shortcut {
-        sequence: "i"
-        context: Qt.ApplicationShortcut
-        onActivated: {
-            r.modo=1
-        }
-    }
-    Shortcut {
-        sequence: "j"
-        context: Qt.ApplicationShortcut
-        onActivated: {
-            te.cursorPosition--
-        }
-    }
-    Shortcut {
-        sequence: "l"
-        context: Qt.ApplicationShortcut
-        onActivated: {
-            te.cursorPosition++
-        }
-    }
-    Shortcut {
-        sequence: "m"
-        context: Qt.ApplicationShortcut
-        onActivated: {
-            var n0=te.cursorPosition
-            var n=n0
-            while(te.text.substring(n-1,n)!=='\n'){
-                n--
-                if(n<1){
-                    break
-                }
-            }
-            var caracteresAnteriores=te.cursorPosition-n
-            //console.log('atras hay: '+caracteresAnteriores)
-            var n1=n0
-            var l=''
-            while(l!=='\n'){
-                l=''+te.text.substring(n1,n1+1)
-                n1++
-                if(n1>te.text.length-1){
-                    break
-                }
-            }
-            var caracteresPosteriores=n1-1
-            var resCarPost=caracteresPosteriores-te.cursorPosition
-            //console.log('adelante hay: '+resCarPost)
-            var longProximaLinea=0
-            var rec=''
-            var n2=n0+resCarPost+1
-            l=''
-            while(l!=='\n'){
-                l=''+te.text.substring(n2,n2+1)
-                rec+=l
-                n2++
-                if(n2>te.text.length-1){
-                    break
-                }
-            }
-            longProximaLinea=rec.length-1
-            if(caracteresAnteriores>longProximaLinea){
-                te.cursorPosition=n0+resCarPost+longProximaLinea+1
-            }else{
-                te.cursorPosition=n0+resCarPost+caracteresAnteriores+1
-            }
-        }
-    }
-    Shortcut {
-        sequence: "k"
-        context: Qt.ApplicationShortcut
-        onActivated: {
-            var n0=te.cursorPosition
-            var n=n0
-            while(te.text.substring(n-1,n)!=='\n'){
-                n--
-                if(n<1){
-                    break
-                }
-            }
-            var caracteresAnteriores=te.cursorPosition-n
-            var n1=n0
-            var l=''
-            while(l!=='\n'){
-                l=''+te.text.substring(n1,n1+1)
-                n1++
-                if(n1>te.text.length-1){
-                    break
-                }
-            }
-            var caracteresPosteriores=n1-1
-            var resCarPost=caracteresPosteriores-te.cursorPosition
-            var longAnteriorLinea=0
-            var rec=''
-            var n2=n0-caracteresAnteriores-2
-            l=''
-            while(l!=='\n'){
-                l=''+te.text.substring(n2,n2+1)
-                rec+=l
-                n2--
-                if(n2<1){
-                    break
-                }
-            }
-            longAnteriorLinea=rec.length-1
-            if(caracteresAnteriores<longAnteriorLinea){
-                te.cursorPosition=n0-caracteresAnteriores-(longAnteriorLinea-caracteresAnteriores+1)
-            }else{
-                te.cursorPosition=n0-caracteresAnteriores-1
-            }
-        }
-    }
     Timer{
         id:timerSave
         running: false
@@ -644,7 +312,7 @@ Item{
 
     Component.onCompleted: {
         //r.text=//unik.getFile(eSettings.currentFilePath)
-        te.focus=true
+        //te.focus=true
         te.cursorPosition=1
         te.setPos()
     }
