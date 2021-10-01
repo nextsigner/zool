@@ -13,7 +13,7 @@ Item{
     property int modo: 1
 
     property int fs: 16
-    property color color:'white'
+    property color color:apps.fontColor
     property color backgroundColor:'black'
     property string text:''
     property bool modificado: false
@@ -22,6 +22,7 @@ Item{
     property int lin: 0
 
     signal sendCode(string code)
+    signal escaped()
     Settings{
         id: eSettings
         fileName: unik.getPath(4)+'/editor.cfg'
@@ -35,6 +36,10 @@ Item{
     focus: true
 
     onWidthChanged: te.setPos()
+    Rectangle{
+        anchors.fill: parent
+        color: apps.backgroundColor
+    }
     Flickable{
         id:flTE
         width: r.width
@@ -179,6 +184,13 @@ Item{
                         }
                     }
                     property int vpe: 0
+                    Keys.onEscapePressed: {
+                        r.escaped()
+                        //r.parent.close()
+                        //Qt.quit()
+                        //r.parent.close()
+                        //r.parent.parent.focus=true
+                    }
                     Timer{
                         id:tvpe
                         running: false
@@ -210,10 +222,10 @@ Item{
                             r.lin=parseInt(te.cursorRectangle.y/te.cursorRectangle.height)
                         }else{
                             flTE.contentX=0//r.width*0.5//(te.cursorRectangle.x)+r.fs+r.fs*0.5+te.cursorRectangle.width
-                            if(te.contentHeight<r.width){
+                            if(te.contentHeight<r.height){
                                 flTE.contentY=0//(te.cursorRectangle.y-r.height/2)+r.fs*0.5+flTE.y
                             }else{
-                                flTE.contentY=(te.cursorRectangle.y-r.height/2)+r.fs*0.5+flTE.y
+                                flTE.contentY=(te.cursorRectangle.y-r.height)+r.fs*2//0.5//+flTE.y
                             }
                             r.lin=parseInt(te.cursorRectangle.y/te.cursorRectangle.height)
                         }
@@ -258,6 +270,13 @@ Item{
                 }
             }
         }
+    }
+
+    Rectangle{
+        anchors.fill: parent
+        color: 'transparent'
+        border.width: 2
+        border.color: apps.fontColor
     }
 
 //    Rectangle{
@@ -369,8 +388,11 @@ Item{
                 tf.color=unik.fileExist(tf.text)?r.color:'red'
             }
             focus: true
+
+
             Keys.onReturnPressed: {
-                if(xTF.modo===1){//Open File
+
+                /*if(xTF.modo===1){//Open File
                     if(unik.fileExist(tf.text)){
                         ub.running=true
                         te.cursorPosition=0
@@ -414,7 +436,7 @@ Item{
                 }else{
                     xTF.visible=false
                     ub.running=false
-                }
+                }*/
             }
         }
 
@@ -621,7 +643,7 @@ Item{
     }
 
     Component.onCompleted: {
-        r.text=unik.getFile(eSettings.currentFilePath)
+        //r.text=//unik.getFile(eSettings.currentFilePath)
         te.focus=true
         te.cursorPosition=1
         te.setPos()

@@ -108,6 +108,14 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Esc'
         onActivated: {
+            if(app.currentPlanetIndex>=0){
+                app.currentPlanetIndex=-1
+                return
+            }
+            if(app.currentPlanetIndexBack>=0){
+                app.currentPlanetIndexBack=-1
+                return
+            }
             if(xSabianos.visible){
                 xSabianos.visible=false
                 return

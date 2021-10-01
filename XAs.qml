@@ -103,13 +103,13 @@ Item{
                         to: 'red'
                     }
                 }
-//                Behavior on width {
-//                    enabled: apps.enableFullAnimation;
-//                    NumberAnimation{
-//                        duration: 500
-//                        easing.type: Easing.InOutQuad
-//                    }
-//                }
+                Behavior on width {
+                    enabled: apps.enableFullAnimation;
+                    NumberAnimation{
+                        duration: 500
+                        easing.type: Easing.InOutQuad
+                    }
+                }
             }
         }
     }

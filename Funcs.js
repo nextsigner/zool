@@ -70,6 +70,17 @@ function showIW(){
         getJSON(jsonFileName, comp, app.objSignsNames.indexOf(m0[1])+1, numHome, nomCuerpo)
     //}
 }
+function showEditor(j){
+    let json=JSON.parse(j)
+    let fileLocation='./editor/main.qml'
+    let comp=Qt.createComponent(fileLocation)
+    let data=''
+    if(json.params.data){
+        data=json.params.data
+    }
+    let title=('Editando '+json.params.n).replace(/_/g,' ')
+    let obj=comp.createObject(app, {width: app.width*0.6, x:app.width*0.2, fs: app.fs*0.5, title: title, data: data})
+}
 function getJSON(fileLocation, comp, s, c, nomCuerpo) {
     var request = new XMLHttpRequest()
 
@@ -369,7 +380,7 @@ function loadJsonBack(file){
     app.currentLonBack=vlon
     app.currentLatBack=vlat
 
-    setTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
+    addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
     //xDataBar.titleData=textData
     xDataBar.state='show'
     app.setFromFile=false
@@ -531,6 +542,41 @@ function setTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, mod)
         +'|<b> '+vCiudad+'</b> '
         +'|<b>lat:</b> '+parseFloat(vlat).toFixed(2)+'|<b>lon:</b> '+parseFloat(vlon).toFixed(2)+' '
     xDataBar.titleData=textData
+}
+function addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, mod){
+    //mod 0=cn, mod 1=rs
+
+    let numEdad=getEdad(vd, vm, va, vh, vmin)//getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
+    let stringTiempo=''
+    //console.log('Edad: '+numEdad)
+    if(mod===0){
+        stringTiempo='<b> Edad:</b>'+getEdad(vd, vm, va, vh, vmin)+' '
+    }else if(mod===2){
+        stringTiempo=''
+    }else{
+        let nAnio=Math.abs(getEdadRS(vd, vm, va, vh, vmin))
+        stringTiempo='<b> Edad:</b> '+nAnio+' años '
+    }
+    let textData='@|Interior: '+xDataBar.titleData
+        +'|@|Exterior: <b>'+nom+'</b>'
+        +'|'+vd+'/'+vm+'/'+va+'|'+vh+':'+vmin+'hs|GMT '+vgmt
+        +'|'+stringTiempo
+        +'|<b> '+vCiudad+'</b> '
+        +'|<b>lat:</b> '+parseFloat(vlat).toFixed(2)+'|<b>lon:</b> '+parseFloat(vlon).toFixed(2)+' '
+    let m0=textData.split('|')
+    let ns=''
+    for(var i=0;i<m0.length;i++){
+        if(i!==7&&i!==8&&i!==16&&i!==17){
+            if(i===0){
+                ns+=''+m0[i]
+            }else{
+                ns+='|'+m0[i]
+            }
+        }
+    }
+    //log.l(ns)
+    //log.visible=true
+    xDataBar.titleData=ns//textData
 }
 
 //Funciones de Internet

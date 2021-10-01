@@ -50,6 +50,7 @@ Rectangle {
         spacing: app.fs*0.15
         y:(parent.height-height)/2
         x: app.fs*0.25
+        anchors.horizontalCenter: !sweg.objHousesCircleBack.visible?parent.horizontalCenter:undefined
         Rectangle{
             id: circuloSave
             width: app.fs*0.5
@@ -60,6 +61,7 @@ Rectangle {
             border.color: apps.fontColor
             anchors.verticalCenter: parent.verticalCenter
             y:(parent.height-height)/2
+            visible:  !sweg.objHousesCircleBack.visible
             MouseArea{
                 anchors.fill: parent
                 enabled: app.titleData!==app.currentData
@@ -71,25 +73,41 @@ Rectangle {
         Row{
             id: rowData
             spacing: app.fs*0.15
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenter: parent.verticalCenter            
             Repeater{
                 id: rep
                 Rectangle{
-                    width: txtRow.contentWidth+app.fs*0.3
+                    width: modelData==='@'?1:txtRow.contentWidth+app.fs*0.3
                     height: txtRow.contentHeight+app.fs*0.3
                     color: apps.backgroundColor
-                    border.width: 1
+                    border.width: modelData==='@'?0:1
                     border.color: apps.fontColor
                     radius: app.fs*0.1
+                    //visible:  !sweg.objHousesCircleBack.visible&&(index!==6&&index!==7)//!(modelData.indexOf('lat:')>0||modelData.indexOf('lon:')>0)
                     XText{
                         id: txtRow
                         text: modelData//.replace(/_/g, ' ')
-                        //font.pixelSize: r.height*0.35
-                        //font.family: "TypeWriter"
-                        //color: 'white'
+                        visible: modelData!=='@'
                         anchors.centerIn: parent
                     }
                     //Component.onCompleted: r.height=height+height*0.2
+                    Rectangle{
+                        width: r.width*2
+                        height: r.height
+                        color: apps.houseColor
+                        visible: modelData==='@'&&index===0
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.right
+                        anchors.leftMargin: 0-r.width
+                    }
+                    Rectangle{
+                        width: r.width*2
+                        height: r.height
+                        color: apps.houseColorBack
+                        visible: modelData==='@'&&index!==0
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.left: parent.right
+                    }
                 }
             }
         }
@@ -100,6 +118,7 @@ Rectangle {
         anchors.rightMargin: app.fs*0.5
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: yPos
+        visible:  !sweg.objHousesCircleBack.visible
     }
     Row{
         spacing: app.fs*0.5

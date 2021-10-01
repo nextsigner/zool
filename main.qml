@@ -10,6 +10,7 @@ import unik.UnikQProcess 1.0
 import "Funcs.js" as JS
 //import "Extra.js" as EXTRA
 import "./comps" as Comps
+import "./editor" as Editor
 
 
 AppWin {
@@ -381,6 +382,15 @@ AppWin {
         XBottomBar{id: xBottomBar}
         XSabianos{id: xSabianos}
         XInfoData{id: xInfoData}
+        Editor.UnikTextEditor{
+            id:editor
+            width: xApp.width*0.2
+            height: parent.height
+            fs:app.fs*0.5
+            wordWrap: true
+            visible: false
+            //text: r.data
+        }
     }
     Init{longAppName: 'Zool'; folderName: 'zool'}
     Comps.XSelectColor{

@@ -291,6 +291,7 @@ Rectangle {
         }
         Row{
             anchors.horizontalCenter: parent.horizontalCenter
+            spacing: app.fs*0.25
             Button{
                 id: botClear
                 text: 'Limpiar'

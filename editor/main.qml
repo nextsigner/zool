@@ -13,11 +13,13 @@ ApplicationWindow {
     visibility: 'Windowed'
     color: 'black'
 
+    property string data: ''
+
     property bool centrado: false
     property bool wordWrap: true
 
     property int fs: Screen.width*0.02
-    property string moduleName: 'unikastclient'
+    property string moduleName: 'Editor Zool'
     property int altoBarra: 0
 
     property color c1: "#62DA06"
@@ -31,11 +33,14 @@ ApplicationWindow {
         fs:r.fs
         color: r.c1
         wordWrap: r.wordWrap
+        text: r.data
+        onEscaped: r.focus=true//Qt.quit()
         //onSendCode: wsSqlClient.sendCode(code)
     }
     Shortcut {
         sequence: "Ctrl+s"
         onActivated: {
+            r.close()
             //Qt.quit()
         }
     }

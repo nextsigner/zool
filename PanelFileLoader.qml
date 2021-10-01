@@ -171,7 +171,7 @@ Rectangle {
                 }
             }
             Rectangle{
-                width: txtDelete.contentWidth+app.fs*0.25
+                width: txtDelete.contentWidth+app.fs*0.35
                 height: width
                 radius: app.fs*0.3
                 anchors.right: parent.right
@@ -179,6 +179,7 @@ Rectangle {
                 anchors.top: parent.top
                 anchors.topMargin: app.fs*0.3
                 color: index!==lv.currentIndex?apps.fontColor:apps.backgroundColor
+                visible: index===lv.currentIndex
                 XText {
                     id: txtDelete
                     text: 'X'
@@ -267,7 +268,7 @@ Rectangle {
                         +'<b>'+nom+'</b>'
                         +'<p style="font-size:20px;">'+vd+'/'+vm+'/'+va+' '+vh+':'+vmin+'hs GMT '+vgmt+stringEdad+'</p>'
                         +'<p style="font-size:20px;"><b> '+vCiudad+'</b></p>'
-                        +'<p style="font-size:20px;"> <b>long:</b> '+vlon+' <b>lat:</b> '+vlat+'</p>'
+                        +'<p style="font-size:'+parseInt(app.fs*0.35)+'px;"> <b>long:</b> '+vlon+' <b>lat:</b> '+vlat+'</p>'
                     //xNombre.nom=textData
                     lm.append(lm.addItem(file,textData))
                 }

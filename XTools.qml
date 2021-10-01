@@ -41,9 +41,9 @@ Rectangle {
                     //let d1=new Date.UTC(2021,7,20,11,34,0)
                     var date = new Date(date0);
                     var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-                     date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+                                            date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
 
-                     let d1=new Date(now_utc);
+                    let d1=new Date(now_utc);
                     console.log('Zool United KIngston Hour: '+d1.toString());
                     JS.loadFromArgs(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston", "United Kingston England", "vn", true)
                 }
@@ -173,20 +173,33 @@ Rectangle {
                 }
             }
         }
-        ComboBox{
-            id: cbHsys
-            width: xVerLupa.width
-            height: app.fs*0.75
-            model: app.ahysNames
-            currentIndex: app.ahys.indexOf(apps.currentHsys)
+        Row{
             anchors.horizontalCenter: parent.horizontalCenter
-            //anchors.bottom: parent.bottom
-            onCurrentIndexChanged: {
-                if(currentIndex===app.ahys.indexOf(apps.currentHsys))return
-                apps.currentHsys=app.ahys[currentIndex]
-                //JS.showMsgDialog('Zool Informa', 'El sistema de casas ha cambiado.', 'Se ha seleccionado el sistema de casas '+app.ahysNames[currentIndex]+' ['+app.ahys[currentIndex]+'].')
-                //sweg.load(JSON.parse(app.currentData))
-                JS.loadJson(apps.url)
+            spacing: app.fs*0.5
+            Button{
+                text: 'Editor'
+                //width: app.fs*3
+                height: app.fs*0.6
+                anchors.verticalCenter: parent.verticalCenter
+                onClicked: {
+
+                    //JS.showEditor(app.fileData)
+                }
+            }
+            ComboBox{
+                id: cbHsys
+                width: xVerLupa.width
+                height: app.fs*0.75
+                model: app.ahysNames
+                currentIndex: app.ahys.indexOf(apps.currentHsys)
+                //anchors.bottom: parent.bottom
+                onCurrentIndexChanged: {
+                    if(currentIndex===app.ahys.indexOf(apps.currentHsys))return
+                    apps.currentHsys=app.ahys[currentIndex]
+                    //JS.showMsgDialog('Zool Informa', 'El sistema de casas ha cambiado.', 'Se ha seleccionado el sistema de casas '+app.ahysNames[currentIndex]+' ['+app.ahys[currentIndex]+'].')
+                    //sweg.load(JSON.parse(app.currentData))
+                    JS.loadJson(apps.url)
+                }
             }
         }
     }
