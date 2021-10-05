@@ -180,6 +180,23 @@ Item {
         anchors.centerIn: parent
     }
     Timer{
+        id: tLoadSin
+        running: false
+        repeat: false
+        interval: 2000
+        onTriggered: {
+            let j=JSON.parse(app.fileData)
+            //app.fileDataBack=JSON.stringify(j.paramsBack)
+            let njson=JSON.parse('{}')
+            njson.params=j.paramsBack
+            JS.loadJsonFromParamsBack(njson)
+            //loadSweJsonBack(j)
+            //log.l(JSON.stringify(j.paramsBack))
+            //log.visible=true
+            //loadBack(current)
+        }
+    }
+    Timer{
         id: tFirtShow
         running: false
         repeat: false
@@ -333,7 +350,11 @@ Item {
             eclipseCircle.isEclipse=-1
             //if(app.mod!=='rs'&&app.mod!=='pl'&&panelZonaMes.state!=='show')panelRsList.setRsList(61)
             r.v=true
-            apps.enableFullAnimation=true
+            //apps.enableFullAnimation=true
+            let j=JSON.parse(app.fileData)
+            if(j.params.tipo==='sin'){
+                tLoadSin.start()
+            }
             tFirtShow.start()
         } catch(e) {
             //alert(e); // error in the above string (in this case, yes)!

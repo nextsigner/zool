@@ -13,6 +13,7 @@ Rectangle {
     property alias currentDateText: txtCurrentDate.text
     property alias currentGmtText: txtCurrentGmt.text
     property bool showTimes: false
+    property int fs: app.fs*0.5
     state: 'hide'
     states:[
         State {
@@ -37,7 +38,24 @@ Rectangle {
     onTitleDataChanged: {
         let a=titleData.split('|')
         rep.model=a
+        r.fs=app.fs*0.5
+        tResizeText.restart()
     }
+    Timer{
+        id: tResizeText
+        running: false
+        repeat: true
+        interval: 50
+        onTriggered: {
+            if(row.width>r.width-app.fs){
+                r.fs=r.fs-1
+            }else{
+                stop()
+            }
+            //log.l('fs: '+r.fs)
+        }
+    }
+
     Timer{
         id: tHide
         running: false
@@ -49,8 +67,8 @@ Rectangle {
         id: row
         spacing: app.fs*0.15
         y:(parent.height-height)/2
-        x: app.fs*0.25
-        anchors.horizontalCenter: !sweg.objHousesCircleBack.visible?parent.horizontalCenter:undefined
+        //x: app.fs*0.25
+        anchors.horizontalCenter: parent.horizontalCenter//!sweg.objHousesCircleBack.visible?parent.horizontalCenter:undefined
         Rectangle{
             id: circuloSave
             width: app.fs*0.5
@@ -84,9 +102,11 @@ Rectangle {
                     border.color: apps.fontColor
                     radius: app.fs*0.1
                     //visible:  !sweg.objHousesCircleBack.visible&&(index!==6&&index!==7)//!(modelData.indexOf('lat:')>0||modelData.indexOf('lon:')>0)
-                    XText{
+                   Text{
                         id: txtRow
                         text: modelData//.replace(/_/g, ' ')
+                        font.pixelSize: r.fs
+                        color: apps.fontColor
                         visible: modelData!=='@'
                         anchors.centerIn: parent
                     }

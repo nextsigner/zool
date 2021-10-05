@@ -10,6 +10,7 @@ Item{
         width: app.fs*0.5
         height: width
         anchors.top: parent.bottom
+        anchors.horizontalCenter: parent.horizontalCenter
         color: apps.lupaColor
         opacity: apps.lupaOpacity
         MouseArea{

@@ -6,6 +6,7 @@ cp *.qml ./build_win/
 cp *.js ./build_win/
 cp *.png ./build_win/
 cp -r comps ./build_win/
+cp -r editor ./build_win/
 cp -r py ./build_win/
 #cp -r Python ./build_win/
 cp -r resources ./build_win/

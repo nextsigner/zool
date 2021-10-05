@@ -44,7 +44,7 @@ function loadFromArgs(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo, sa
     }
     //xDataBar.state='show'
     //xDataBar.opacity=1.0
-    app.currentData=j
+    //app.currentData=j
     app.fileData=j
     runJsonTemp()
 }
@@ -385,6 +385,96 @@ function loadJsonBack(file){
     xDataBar.state='show'
     app.setFromFile=false
 }
+function loadJsonFromParamsBack(json){
+    //Global Vars Reset
+    app.setFromFile=true
+    apps.enableFullAnimation=false
+    app.currentPlanetIndexBack=-1
+    app.currentSignIndex= 0
+    app.currentNomBack= ''
+    app.currentFechaBack= ''
+    app.currentGradoSolarBack= -1
+    app.currentMinutoSolarBack= -1
+    app.currentSegundoSolarBack= -1
+    app.currentGmtBack= 0.0
+    app.currentLonBack= 0.0
+    app.currentLatBack= 0.0
+    app.uSonBack=''
+    panelControlsSign.state='hide'
+
+    //apps.urlBack=file
+    app.fileDataBack=JSON.stringify(json)
+    //app.currentJsonBack=app.fileDataBack
+    let jsonData=json
+    if(jsonData.params.tipo){
+        app.mod=jsonData.params.tipo
+    }else{
+        app.mod='vn'
+    }
+    sweg.loadBack(jsonData)
+    let nom=jsonData.params.n.replace(/_/g, ' ')
+    let vd=jsonData.params.d
+    let vm=jsonData.params.m
+    let va=jsonData.params.a
+    let vh=jsonData.params.h
+    let vmin=jsonData.params.min
+    let vgmt=jsonData.params.gmt
+    let vlon=jsonData.params.lon
+    let vlat=jsonData.params.lat
+    let vCiudad=jsonData.params.ciudad.replace(/_/g, ' ')
+    let edad=''
+    let numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
+    let stringEdad=edad.indexOf('NaN')<0?edad:''
+
+    //Seteando datos globales de mapa energético
+    app.currentDateBack= new Date(parseInt(va), parseInt(vm) - 1, parseInt(vd), parseInt(vh), parseInt(vmin))
+    //console.log('2 main.loadJson('+file+'): '+app.currentDate.toString())
+
+    //getCmdData.getData(vd, vm, va, vh, vmin, vlon, vlat, 0, vgmt)
+    app.currentNomBack=nom
+    app.currentFechaBack=vd+'/'+vm+'/'+va
+    app.currentLugarBack=vCiudad
+    app.currentGmtBack=vgmt
+    app.currentLonBack=vlon
+    app.currentLatBack=vlat
+
+    addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
+    //xDataBar.titleData=textData
+    xDataBar.state='show'
+    app.setFromFile=false
+}
+
+function mkSinFile(file){
+    let jsonFileDataInterior=app.fileData
+    let jsonInt=JSON.parse(jsonFileDataInterior)
+    let fn=file
+    let jsonFileName=fn
+    let jsonFileData=unik.getFile(jsonFileName).replace(/\n/g, '')
+    let jsonExt=JSON.parse(jsonFileData)
+    jsonInt.tipo='sin'
+    jsonExt.tipo='sin'
+    let nJson=jsonInt
+    nJson.paramsBack=jsonExt.params
+    nJson.params.tipo='sin'
+    nJson.params.n='Sinastría '+nJson.params.n+' - '+nJson.paramsBack.n
+    nJson.paramsBack.tipo='sin'
+    let sf=JSON.stringify(nJson)
+    log.l(sf)
+
+    let nFileName=documentsPath+'/Sinastría_'+jsonInt.params.n+'_-_'+jsonExt.params.n+'.json'
+    //log.l(nFileName)
+    let e=unik.fileExist(nFileName)
+    if(e){
+        //log.l('Existe')
+        loadJson(nFileName)
+    }else{
+        //log.l('No Existe')
+        unik.setFile(nFileName, sf)
+        xEditor.visible=true
+        loadJson(nFileName)
+    }
+    //log.visible=true
+}
 function runJsonTemp(){
     var jsonData
     try
@@ -557,7 +647,9 @@ function addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, mod)
         let nAnio=Math.abs(getEdadRS(vd, vm, va, vh, vmin))
         stringTiempo='<b> Edad:</b> '+nAnio+' años '
     }
-    let textData='@|Interior: '+xDataBar.titleData
+    //if(xDataBar.titleData.indexOf('@')>0)return
+    let nom1=xDataBar.titleData.replace('Sinastría ', '').replace(' - '+nom, '')
+    let textData='@|Interior: '+nom1
         +'|@|Exterior: <b>'+nom+'</b>'
         +'|'+vd+'/'+vm+'/'+va+'|'+vh+':'+vmin+'hs|GMT '+vgmt
         +'|'+stringTiempo
@@ -574,7 +666,10 @@ function addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, mod)
             }
         }
     }
+    if(ns.split('Interior:').length>=3)return
     //log.l(ns)
+    //log.l('\n\n')
+    //console.log(ns)
     //log.visible=true
     xDataBar.titleData=ns//textData
 }

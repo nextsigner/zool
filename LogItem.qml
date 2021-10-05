@@ -20,6 +20,7 @@ Rectangle{
         height: parent.height
         contentWidth: parent.width
         contentHeight: taLog.contentHeight
+        clip: true
         TextArea{
             id: taLog
             width: r.width-app.fs*0.5
@@ -40,7 +41,10 @@ Rectangle{
         Text{text: 'X';anchors.centerIn: parent}
         MouseArea{
             anchors.fill: parent
-            onClicked: apps.showLog=false
+            onClicked: {
+                apps.showLog=false
+                r.visible=apps.showLog
+            }
         }
     }
     function l(d){

@@ -173,25 +173,46 @@ Rectangle {
                 }
             }
         }
-        Row{
+
+        Item{
             anchors.horizontalCenter: parent.horizontalCenter
-            spacing: app.fs*0.5
-            Button{
-                text: 'Editor'
-                //width: app.fs*3
-                height: app.fs*0.6
+            width: xVerLupa.width
+            height: cbHsys.height
+            Row{
+                spacing: app.fs*0.1
                 anchors.verticalCenter: parent.verticalCenter
-                onClicked: {
-                    let json=JSON.parse(app.fileData)
-                    let data=''
-                    if(json.params.data){
-                        data=json.params.data
+                anchors.right: parent.left
+                anchors.rightMargin: app.fs*0.1
+                Button{
+                    id: botEditSin
+                    text: 'Editor Sinastria'
+                    //width: app.fs*3
+                    height: app.fs*0.6
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: sweg.objHousesCircleBack.visible&&app.mod!=='sin'
+                    onClicked: {
+                        JS.mkSinFile(apps.urlBack)
                     }
-                    xEditor.e.text=data
-                    xEditor.l.text='Información de '+json.params.n.replace(/_/g, ' ')
-                    xEditor.visible=true
+                }
+                Button{
+                    id: botEdit
+                    text: 'Editor'
+                    //width: app.fs*3
+                    height: app.fs*0.6
+                    anchors.verticalCenter: parent.verticalCenter
+                    onClicked: {
+                        let json=JSON.parse(app.fileData)
+                        let data=''
+                        if(json.params.data){
+                            data=json.params.data
+                        }
+                        xEditor.e.text=data
+                        xEditor.l.text='Información de '+json.params.n.replace(/_/g, ' ')
+                        xEditor.visible=true
+                    }
                 }
             }
+
             ComboBox{
                 id: cbHsys
                 width: xVerLupa.width

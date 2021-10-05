@@ -35,7 +35,7 @@ Rectangle {
             name: sweg.aStates[2]
             PropertyChanges {
                 target: r
-                width: planetsCircle.width-((planetsCircle.totalPosX*planetsCircle.planetSize)*2)-sweg.fs
+                width: planetsCircle.width-((planetsCircle.totalPosX*planetsCircle.planetSize)*2)-sweg.fs*2-(apps.showNumberLines?sweg.fs:0)
                 opacity: 1.0
             }
         }
