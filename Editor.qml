@@ -12,16 +12,20 @@ Rectangle{
     property alias e: editor
     property bool editing: false
     onVisibleChanged: {
-        if(editing)editor.e.textEdit.focus=visible
+        if(editing)editor.textEdit.focus=visible
     }
     onEditingChanged: {
-        if(editing)editor.e.textEdit.focus=r.visible
+        if(editing){
+            editor.textEdit.focus=r.visible
+            editor.fl.contentY=0
+        }
     }
     MouseArea{
         anchors.fill: r
     }
     Column{
         anchors.centerIn: parent
+        //spacing: app.fs*0.25
         Rectangle{
             id: xEditorTit
             width: r.width
@@ -39,30 +43,45 @@ Rectangle{
         }
         Editor.UnikTextEditor{
             id:editor
+            z: xEditorTit.z-1
             width: xEditor.width
-            height: xEditor.height-xEditorTit.height-xEditorTools.height
+            height: xEditor.height-xEditorTit.height-xEditorTools.height-app.fs*0.5
             fs:apps.editorFs
             wordWrap: true
             visible: r.editing
             onEscaped: r.focus=true
+            clip: true
             //text: r.data
         }
-        Flickable{
+        Rectangle{
+            id: xEd
+            z: xEditorTit.z-1
             width: xEditor.width
-            height: xEditor.height-xEditorTit.height-xEditorTools.height
-            contentWidth: dataResult.contentWidth
-            contentHeight: dataResult.contentHeight+apps.editorFs*2
+            height: xEditor.height-xEditorTit.height-xEditorTools.height//-app.fs*0.5
             visible: !r.editing
-            Text{
-                id: dataResult
-                font.pixelSize: apps.editorFs
-                width: parent.width
-                wrapMode: Text.WrapAnywhere
-                color: apps.fontColor
-                //textFormat: TextEdit.MarkdownText
-                text: xEditor.e.text
-                textFormat: Text.MarkdownText
-                anchors.horizontalCenter: parent.horizontalCenter
+            color: 'transparent'
+            border.width: 2
+            border.color: apps.fontColor
+            clip: true
+            Flickable{
+                //anchors.fill: parent
+                width: parent.width-app.fs*0.5
+                height: parent.height-app.fs*0.5
+                anchors.centerIn: parent
+                contentWidth: dataResult.contentWidth
+                contentHeight: dataResult.contentHeight+apps.editorFs*2
+                boundsBehavior: Flickable.StopAtBounds
+                Text{
+                    id: dataResult
+                    font.pixelSize: apps.editorFs
+                    width: r.width-app.fs
+                    wrapMode: Text.WrapAnywhere
+                    color: apps.fontColor
+                    //textFormat: TextEdit.MarkdownText
+                    text: xEditor.e.text
+                    textFormat: Text.MarkdownText
+                    anchors.horizontalCenter: parent.horizontalCenter
+                }
             }
         }
         Rectangle{
@@ -113,14 +132,35 @@ Rectangle{
                     }
                     Text{
                         text:  !r.editing?'\uf044':'\uf06e'
-                        color: apps.backgroundColor
+                        //color: apps.fontColor
                         font.family: "FontAwesome"
                         font.pixelSize: app.fs
                         anchors.centerIn: parent
                     }
                 }
                 Item{
+                    width: app.fs*0.25
+                    height: 1
+                }
+                Button{
                     width: app.fs*1.1
+                    text:  ''
+                    visible: r.editing
+                    opacity: diff?0.5:1.0
+                    property bool diff: false
+                    onClicked: {
+                        apps.editorShowNumberLines=!apps.editorShowNumberLines
+                    }
+                    Text{
+                        text:  '\uf0cb'
+                        //color: apps.fontColor
+                        font.family: "FontAwesome"
+                        font.pixelSize: app.fs
+                        anchors.centerIn: parent
+                    }
+                }
+                Item{
+                    width: app.fs*0.25
                     height: 1
                 }
                 Button{
@@ -132,7 +172,7 @@ Rectangle{
                     }
                     Text{
                         text:  '\uf00d'
-                        color: botSave.diff?apps.backgroundColor:'blue'
+                        //color: botSave.diff?apps.backgroundColor:'blue'
                         font.family: "FontAwesome"
                         font.pixelSize: app.fs
                         anchors.centerIn: parent
@@ -163,6 +203,6 @@ Rectangle{
         unik.setFile(apps.url.replace('file://', ''), app.fileData)
     }
     function close(){
-       r.visible=false
+        r.visible=false
     }
 }

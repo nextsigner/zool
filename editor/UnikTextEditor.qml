@@ -9,7 +9,7 @@ Item{
     readonly property real lineHeight: (te.implicitHeight - 2 * te.textMargin) / te.lineCount
     readonly property alias lineCount: te.lineCount
 
-    property bool showNumberLines: false
+    property bool showNumberLines: apps.editorShowNumberLines
     property bool wordWrap: true
     property alias text: te.text
     property alias textEdit: te
@@ -23,6 +23,9 @@ Item{
 
     property int col: 0
     property int lin: 0
+
+    property string cursorColor: apps.fontColor
+    property bool showPrevCursor: false
 
     signal sendCode(string code)
     signal escaped()
@@ -47,6 +50,11 @@ Item{
         height:r.height
         contentWidth: r.width//te.contentWidth//*1.5
         contentHeight: te.contentHeight+r.fs//*1.5
+        boundsBehavior: Flickable.StopAtBounds
+        ScrollBar.horizontal: ScrollBar{}
+        ScrollBar.vertical: ScrollBar{
+            //background: Rectangle{color: 'red'}
+        }
         //x:((''+te.lineCount).length)*r.fs
         enabled: r.modo===1
         Row{
@@ -119,7 +127,7 @@ Item{
                             id:tec
                             width: cc.contentWidth;
                             height: r.fs
-                            border.width: 2
+                            border.width: r.showPrevCursor?2:0
                             border.color: 'red'
                             anchors.verticalCenter: parent.verticalCenter
                             anchors.right: parent.left
@@ -138,7 +146,7 @@ Item{
                                 height: r.fs
                                 anchors.verticalCenter: parent.verticalCenter
                                 anchors.left: parent.right
-                                color: 'transparent'
+                                color: r.cursorColor
                                 border.color:te.color
                                 border.width:v?1:0
                                 property bool v: true
@@ -235,10 +243,17 @@ Item{
                             if(te.contentHeight<r.height){
                                 flTE.contentY=0//(te.cursorRectangle.y-r.height/2)+r.fs*0.5+flTE.y
                             }else{
-                                flTE.contentY=(te.cursorRectangle.y-r.height)+r.fs*2//0.5//+flTE.y
+                                flTE.contentY=te.cursorRectangle.y-r.height*0.5
+                                //                                if(te.cursorRectangle.y>flTE.contentY){
+//                                    //flTE.contentY=te.cursorRectangle.y-r.height*0.5
+//                                    flTE.contentY=te.contentHeight-te.cursorRectangle.y
+//                                }else{
+//                                    flTE.contentY=(te.cursorRectangle.y)+r.fs*0.5//+flTE.y
+//                                }
                             }
                             r.lin=parseInt(te.cursorRectangle.y/te.cursorRectangle.height)
                         }
+                        //flTE.contentY=te.cursorPosition
                     }
                 }
 

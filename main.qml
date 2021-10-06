@@ -211,6 +211,7 @@ AppWin {
         property int lupaCenterWidth: 20
 
         property int editorFs: Screen.width*0.01
+        property bool editorShowNumberLines: false
 
         property bool backgroundImagesVisible: false
         property bool lt:false

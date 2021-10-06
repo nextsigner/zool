@@ -114,16 +114,16 @@ Item{
         }
     }
     //Probando/Visualizando rotación
-//    Rectangle{
-//        width: r.width
-//        height: apps.widthHousesAxis
-//        anchors.centerIn: parent
-//        //color: apps.fontColor
-//        //visible: apps.showHousesAxis
-//        //y: lineaEje2.y
-//        color: 'red'
-//        antialiasing: true
-//    }
+    //    Rectangle{
+    //        width: r.width
+    //        height: apps.widthHousesAxis
+    //        anchors.centerIn: parent
+    //        //color: apps.fontColor
+    //        //visible: apps.showHousesAxis
+    //        //y: lineaEje2.y
+    //        color: 'red'
+    //        antialiasing: true
+    //    }
     Behavior on width {
         enabled: apps.enableFullAnimation;
         NumberAnimation{
@@ -248,6 +248,7 @@ Item{
                     easing.type: Easing.InOutQuad
                 }
             }
+
         }
         ColorOverlay {
             id: co
@@ -257,7 +258,24 @@ Item{
             rotation: img.rotation
             visible: r.selected
             antialiasing: true
+            Rectangle{
+                width: parent.width*0.35
+                height: width
+                radius: width*0.5
+                //anchors.verticalCenter: parent.verticalCenter
+                anchors.bottom: parent.bottom
+                anchors.left: parent.right
+                anchors.leftMargin: 0-width
+                visible: r.objData.retro===0&&r.selected
+                color: apps.fontColor
+                Text{
+                    text: '<b>R</b>'
+                    font.pixelSize: parent.width*0.8
+                    color: apps.backgroundColor
+                    anchors.centerIn: parent
+                }
             }
+        }
         ColorOverlay {//Planeta que se muestra en espera no seleccionado
             id: co0
             anchors.fill: img0
@@ -322,5 +340,6 @@ Item{
             visible: r.selected
             antialiasing: true
         }
+
     }
 }

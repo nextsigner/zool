@@ -101,8 +101,8 @@ Rectangle {
                 }
             }
             Button{
-                text: 'MODO'
-                width: app.fs*1.5
+                text: 'MODO '+sweg.state
+                //width: app.fs*1.5
                 height: app.fs*0.6
                 onClicked: {
                     sweg.nextState()

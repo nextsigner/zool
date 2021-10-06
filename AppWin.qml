@@ -112,6 +112,21 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Esc'
         onActivated: {
+            if(xEditor.visible&&xEditor.e.textEdit.focus){
+                xEditor.e.textEdit.focus=false
+                xEditor.focus=true
+                return
+            }
+            if(xEditor.visible&&xEditor.editing){
+                xEditor.editing=false
+                xEditor.e.textEdit.focus=false
+                xEditor.focus=true
+                return
+            }
+            if(xEditor.visible){
+                xEditor.visible=false
+                return
+            }
             if(app.currentPlanetIndex>=0){
                 app.currentPlanetIndex=-1
                 return

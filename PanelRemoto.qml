@@ -7,7 +7,7 @@ Rectangle {
     id: r
     width: parent.width
     height: parent.height*0.5
-    color: 'black'
+    color: apps.backgroundColor
     border.width: 2
     border.color: 'white'
     x:0-r.width
