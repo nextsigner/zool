@@ -210,6 +210,8 @@ AppWin {
         property int lupaAxisWidth: 1
         property int lupaCenterWidth: 20
 
+        property int editorFs: Screen.width*0.01
+
         property bool backgroundImagesVisible: false
         property bool lt:false
         property bool enableFullAnimation: false

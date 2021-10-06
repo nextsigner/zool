@@ -393,7 +393,8 @@ arr12=(0,1,2,3,4,5,6,7,8,9,10,12,13,14,15)
 arr13=(0,1,2,3,4,5,6,7,8,9,10,11,13,14,15)
 arr14=(0,1,2,3,4,5,6,7,8,9,10,11,12,14,15)
 arr15=(0,1,2,3,4,5,6,7,8,9,10,11,12,13,15)
-tuplaArr=((arr1),(arr2),(arr3),(arr4),(arr5),(arr6),(arr7),(arr8),(arr9),(arr10),(arr11),(arr12),(arr13),(arr14),(arr15))
+arr16=(0,1,2,3,4,5,6,7,8,9,10,11,12,13,14)
+tuplaArr=((arr1),(arr2),(arr3),(arr4),(arr5),(arr6),(arr7),(arr8),(arr9),(arr10),(arr11),(arr12),(arr13),(arr14),(arr15),(arr16))
 #print(tuplaArr)
 index=0
 indexAsp=0
@@ -417,7 +418,9 @@ for i in tuplaPosBodies:
         #if opNodos == True:
             #print(stringInvertido)
             #print(stringActual)
-        if asp >= 0 and stringInvertido not in jsonAspets and controlar == False and opNodos == False:
+        #opNodos=False
+        #if asp >= 0 and stringInvertido not in jsonAspets and controlar == False and opNodos == False:
+        if asp >= 0 and controlar == False and opNodos == False:
             jsonAspets+='"asp' +str(index) + '": {' if (indexAsp==0) else  ',"asp' +str(index) + '": {'
             #jsonAspets+='"asp' +str(index) + '": {'
             jsonAspets+=stringActual

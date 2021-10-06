@@ -16,6 +16,16 @@ MenuBar{
     }
     Menu {
         title: qsTr("&Ver")
+        Action {
+            text: qsTr("&Informe");
+            onTriggered: {
+                if(!xEditor.visible){
+                    xEditor.showInfo()
+                }else{
+                    xEditor.visible=false
+                }
+            }
+            checkable: true; checked: xEditor.visible}
         Action { text: qsTr("&Definir Color de Cuerpos"); onTriggered: defColor('xAsColor')}
         MenuSeparator { }
         Action { text: qsTr("&Panel Zoom"); onTriggered: apps.showSWEZ=!apps.showSWEZ; checkable: true; checked: apps.showSWEZ}

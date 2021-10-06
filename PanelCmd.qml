@@ -126,6 +126,19 @@ sweg.objEclipseCircle.typeEclipse='+comando[4]+''
         }
 
         //Set app.uson and Show IW
+        if(comando[0]==='data'){
+            if(comando.length<1)return
+            if(log.visible){
+                log.visible=false
+            }else{
+                log.l(JSON.stringify(app.currentJson))
+                log.visible=true
+            }
+
+            return
+        }
+
+        //Set app.uson and Show IW
         if(comando[0]==='info'){
             if(comando.length<1)return
             app.uSon=comando[1]

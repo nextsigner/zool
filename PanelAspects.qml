@@ -47,6 +47,26 @@ Rectangle {
         clear()
         if(!jsonData.asps)return
         let asp=jsonData.asps
+        /*
+        log.l(JSON.stringify(asp))
+        for(var i=0;i<Object.keys(asp).length;i++){
+            log.l('i: '+i)
+            if(asp['asp'+parseInt(i )]){
+                let a=asp['asp'+parseInt(i )]
+                let strAsp=''+app.planetas[a.ic1]+' '+app.planetas[a.ic2]+' '+a.ia
+                log.l(strAsp)
+                log.visible=true
+                if(asp['asp'+parseInt(i )]){
+                    if((asp['asp'+parseInt(i )].ic1===10 && asp['asp'+parseInt(i)].ic2===11)||(asp['asp'+parseInt(i )].ic1===11 && asp['asp'+parseInt(i )].ic2===10)){
+                        continue
+                    }else{
+                        //let a=asp['asp'+parseInt(i +1)]
+                        setAsp(a.ic1, a.ic2, a.ia,i+1)
+                    }
+                }
+            }
+        }
+        */
         for(var i=0;i<Object.keys(asp).length;i++){
             if(asp['asp'+parseInt(i +1)]){
                 if(asp['asp'+parseInt(i +1)]){

@@ -6,11 +6,19 @@ Rectangle{
     visible: false
     width: xApp.width*0.2
     height: parent.height
+    color: apps.backgroundColor
     clip: true
     property alias l: labelEditorTitle
     property alias e: editor
+    property bool editing: false
     onVisibleChanged: {
-        editor.e.focus=visible
+        if(editing)editor.e.textEdit.focus=visible
+    }
+    onEditingChanged: {
+        if(editing)editor.e.textEdit.focus=r.visible
+    }
+    MouseArea{
+        anchors.fill: r
     }
     Column{
         anchors.centerIn: parent
@@ -33,10 +41,29 @@ Rectangle{
             id:editor
             width: xEditor.width
             height: xEditor.height-xEditorTit.height-xEditorTools.height
-            fs:app.fs*0.5
+            fs:apps.editorFs
             wordWrap: true
+            visible: r.editing
             onEscaped: r.focus=true
             //text: r.data
+        }
+        Flickable{
+            width: xEditor.width
+            height: xEditor.height-xEditorTit.height-xEditorTools.height
+            contentWidth: dataResult.contentWidth
+            contentHeight: dataResult.contentHeight+apps.editorFs*2
+            visible: !r.editing
+            Text{
+                id: dataResult
+                font.pixelSize: apps.editorFs
+                width: parent.width
+                wrapMode: Text.WrapAnywhere
+                color: apps.fontColor
+                //textFormat: TextEdit.MarkdownText
+                text: xEditor.e.text
+                textFormat: Text.MarkdownText
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
         }
         Rectangle{
             id: xEditorTools
@@ -77,6 +104,26 @@ Rectangle{
                     }
                 }
                 Button{
+                    id: botEdit
+                    width: app.fs*1.1
+                    text:  ''
+                    onClicked: {
+                        r.editing=!editing
+                        if(r.editing)xEditor.e.textEdit.focus=true
+                    }
+                    Text{
+                        text:  !r.editing?'\uf044':'\uf06e'
+                        color: apps.backgroundColor
+                        font.family: "FontAwesome"
+                        font.pixelSize: app.fs
+                        anchors.centerIn: parent
+                    }
+                }
+                Item{
+                    width: app.fs*1.1
+                    height: 1
+                }
+                Button{
                     id: botClose
                     width: app.fs*1.1
                     text:  ''
@@ -93,6 +140,17 @@ Rectangle{
                 }
             }
         }
+    }
+    function showInfo(){
+        let json=JSON.parse(app.fileData)
+        let data=''
+        if(json.params.data){
+            data=json.params.data
+        }
+        r.e.text=data
+        r.l.text='Información de '+json.params.n.replace(/_/g, ' ')
+        r.editing=false
+        r.visible=true
     }
     function enter(){
         //Qt.quit()

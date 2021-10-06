@@ -193,8 +193,8 @@ Rectangle {
                 }
             }
             Button{
-                text:'Sinastría'
-                width: app.fs*2
+                text:'Cargar en Exterior'
+                width: app.fs*3
                 height: app.fs*0.8
                 font.pixelSize: app.fs*0.25
                 anchors.right: parent.right

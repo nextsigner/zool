@@ -185,7 +185,7 @@ Rectangle {
                 anchors.rightMargin: app.fs*0.1
                 Button{
                     id: botEditSin
-                    text: 'Editor Sinastria'
+                    text: 'Crear Sinastria'
                     //width: app.fs*3
                     height: app.fs*0.6
                     anchors.verticalCenter: parent.verticalCenter
@@ -196,19 +196,16 @@ Rectangle {
                 }
                 Button{
                     id: botEdit
-                    text: 'Editor'
+                    text: xEditor.visible?'Ocultar Informe':'Ver Informe'
                     //width: app.fs*3
                     height: app.fs*0.6
                     anchors.verticalCenter: parent.verticalCenter
                     onClicked: {
-                        let json=JSON.parse(app.fileData)
-                        let data=''
-                        if(json.params.data){
-                            data=json.params.data
+                        if(!xEditor.visible){
+                            xEditor.showInfo()
+                        }else{
+                            xEditor.visible=false
                         }
-                        xEditor.e.text=data
-                        xEditor.l.text='Información de '+json.params.n.replace(/_/g, ' ')
-                        xEditor.visible=true
                     }
                 }
             }

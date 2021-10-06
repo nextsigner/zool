@@ -12,6 +12,7 @@ Item{
     property bool showNumberLines: false
     property bool wordWrap: true
     property alias text: te.text
+    property alias textEdit: te
     property int modo: 1
 
     property int fs: 16
@@ -51,7 +52,7 @@ Item{
         Row{
             spacing: app.fs*0.1
             anchors.left: parent.left
-            anchors.leftMargin: app.fs*0.1
+            anchors.leftMargin: r.showNumberLines?r.fs*0.1:r.fs
             Rectangle{
                 id:xColNLI
                 color:r.backgroundColor
@@ -93,7 +94,7 @@ Item{
             Item{
                 id:xTE
                 //width:te.text===''?1:te.contentWidth
-                width: r.showNumberLines?r.width-(xColNL.width-1)-app.fs*0.25-parent.spacing:r.width-app.fs*0.25-parent.spacing
+                width: r.showNumberLines?r.width-(xColNL.width-1)-app.fs*0.25-parent.spacing:r.width-r.fs*2-parent.spacing
                 height: te.contentHeight
                 //x:r.width*0.5
                 TextEdit{
