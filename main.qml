@@ -212,6 +212,7 @@ AppWin {
 
         property int editorFs: Screen.width*0.01
         property bool editorShowNumberLines: false
+        property int editorTextFormat: 0
 
         property bool backgroundImagesVisible: false
         property bool lt:false

@@ -49,7 +49,7 @@ Rectangle{
             fs:apps.editorFs
             wordWrap: true
             visible: r.editing
-            onEscaped: r.focus=true
+            //onEscaped: r.focus=true
             clip: true
             //text: r.data
         }
@@ -78,7 +78,7 @@ Rectangle{
                     wrapMode: Text.WrapAnywhere
                     color: apps.fontColor
                     //textFormat: TextEdit.MarkdownText
-                    text: xEditor.e.text
+                    text: visible?xEditor.e.text:''
                     textFormat: Text.MarkdownText
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
@@ -89,6 +89,12 @@ Rectangle{
             width: r.width
             height: app.fs*1.2
             color: apps.fontColor
+//            Text{
+//                anchors.verticalCenter: parent.verticalCenter
+//                text: 'l: '+xEditor.e.lin
+//                font.pixelSize: app.fs*0.5
+//                color: 'red'
+//            }
             Row{
                 anchors.centerIn: parent
                 spacing: app.fs*0.1
@@ -201,6 +207,7 @@ Rectangle{
         let njson=JSON.stringify(json)
         app.fileData=njson
         unik.setFile(apps.url.replace('file://', ''), app.fileData)
+        r.editing=!r.editing
     }
     function close(){
         r.visible=false
