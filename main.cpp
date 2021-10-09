@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QDebug>
 #include <QIcon>
+#include <QtWebView/QtWebView>
 #include "unikqprocess.h"
 #include "unik.h"
 
@@ -12,8 +13,8 @@
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
     QGuiApplication app(argc, argv);
+    QtWebView::initialize();
     app.setApplicationDisplayName("Zool");
     app.setApplicationName("Zool");
     app.setOrganizationDomain("zool.ar");

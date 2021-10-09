@@ -1,4 +1,5 @@
 QT += qml quick sql websockets svg serialport
+QT += webview
 CONFIG += c++11
 
 TARGET=zool

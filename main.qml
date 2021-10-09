@@ -214,6 +214,8 @@ AppWin {
         property bool editorShowNumberLines: false
         property int editorTextFormat: 0
 
+        property bool chat: false
+
         property bool backgroundImagesVisible: false
         property bool lt:false
         property bool enableFullAnimation: false
@@ -346,9 +348,12 @@ AppWin {
                 id: xLatDer
                 width: xApp.width*0.2
                 height: parent.height
+
+                Chat{id: chat; z: onTop?panelPronEdit.z+1:panelControlsSign.z-1}
                 PanelControlsSign{id: panelControlsSign}
                 PanelDataBodies{id: panelDataBodies}
                 PanelPronEdit{id: panelPronEdit;}
+
             }
         }
         XLupa{
