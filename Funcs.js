@@ -30,7 +30,7 @@ function setFs() {
     }
 }
 
-//Funciones de Cargar Datos
+//Funciones de Cargar Datos Interior
 function loadFromArgs(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo, save){
     let dataMs=new Date(Date.now())
     let j='{"params":{"tipo":"'+tipo+'","ms":'+dataMs.getTime()+',"n":"'+nom+'","d":'+d+',"m":'+m+',"a":'+a+',"h":'+h+',"min":'+min+',"gmt":'+gmt+',"lat":'+lat+',"lon":'+lon+',"alt":'+alt+',"ciudad":"'+ciudad+'"}}'
@@ -47,6 +47,38 @@ function loadFromArgs(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo, sa
     //app.currentData=j
     app.fileData=j
     runJsonTemp()
+}
+
+//Funciones de Cargar Datos Exterior
+function loadFromArgsBack(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo, save){
+    let dataMs=new Date(Date.now())
+    let j='{"params":{"tipo":"'+tipo+'","ms":'+dataMs.getTime()+',"n":"'+nom+'","d":'+d+',"m":'+m+',"a":'+a+',"h":'+h+',"min":'+min+',"gmt":'+gmt+',"lat":'+lat+',"lon":'+lon+',"alt":'+alt+',"ciudad":"'+ciudad+'"}}'
+    //setTitleData(nom, d, m, a, h, min, gmt, ciudad, lat, lon, 1)
+    addTitleData(nom, d, m, a, h, min, gmt, ciudad, lat, lon, 1)
+    if(save){
+        let fn=apps.jsonsFolder+'/'+nom.replace(/ /g, '_')+'.json'
+        console.log('loadFromArgs('+d+', '+m+', '+a+', '+h+', '+min+', '+gmt+', '+lat+', '+lon+', '+alt+', '+nom+', '+ciudad+', '+save+'): '+fn)
+        unik.setFile(fn, j)
+        loadJsonBack(fn)
+        return
+    }
+    //xDataBar.state='show'
+    //xDataBar.opacity=1.0
+    //app.currentData=j
+    app.currentDataBack=j
+    runJsonTempBack()
+}
+
+function loadTrans(){
+    let j=JSON.parse(app.currentData)
+    let p=j.params
+    let d=new Date(Date.now())
+    let dia=d.getDate()
+    let mes=d.getMonth() + 1
+    let anio=d.getFullYear()
+    let hora=d.getHours()
+    let minuto=d.getMinutes()
+    loadFromArgsBack(dia, mes, anio, hora, minuto, p.gmt, p.lat, p.lon, p.alt?p.alt:0, 'Tránsitos '+dia+'-'+mes+'-'+anio+' '+hora+':'+minuto, p.ciudad, 'trans', false)
 }
 
 //VNA
@@ -505,6 +537,38 @@ function runJsonTemp(){
     app.currentFecha=vd+'/'+vm+'/'+va
     //xDataBar.state='show'
     sweg.load(jsonData)
+    //swegz.sweg.load(jsonData)
+}
+function runJsonTempBack(){
+    var jsonData
+    try
+    {
+        jsonData=JSON.parse(app.currentDataBack)
+    }
+    catch (e)
+    {
+        console.log('Json Fallado: '+app.currentDataBack)
+        //unik.speak('Error in Json file')
+        return
+    }
+
+    let nom=jsonData.params.n.replace(/_/g, ' ')
+    let vd=jsonData.params.d
+    let vm=jsonData.params.m
+    let va=jsonData.params.a
+    let vh=jsonData.params.h
+    let vmin=jsonData.params.min
+    let vgmt=app.currentGmt
+    let vlon=jsonData.params.lon
+    let vlat=jsonData.params.lat
+    let vCiudad=jsonData.params.ciudad.replace(/_/g, ' ')
+    let edad=''
+    let numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
+    let stringEdad=edad.indexOf('NaN')<0?edad:''
+    let textData=''
+    app.currentFechaBack=vd+'/'+vm+'/'+va
+    //xDataBar.state='show'
+    sweg.loadBack(jsonData)
     //swegz.sweg.load(jsonData)
 }
 function setNewTimeJsonFileData(date){

@@ -6,6 +6,7 @@ cp *.qml ./build_linux/
 cp *.js ./build_linux/
 cp *.png ./build_linux/
 cp -r comps ./build_linux/
+cp -r editor ./build_linux/
 cp -r py ./build_linux/
 cp -r resources ./build_linux/
 cp -r swe ./build_linux/

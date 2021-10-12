@@ -10,8 +10,8 @@ Rectangle {
     border.width: 1
     border.color: apps.fontColor
     property string titleData//: txtCurrentData.text
-    property alias currentDateText: txtCurrentDate.text
-    property alias currentGmtText: txtCurrentGmt.text
+    //property alias currentDateText: txtCurrentDate.text
+    //property alias currentGmtText: txtCurrentGmt.text
     property bool showTimes: false
     property int fs: app.fs*0.5
     state: 'hide'
@@ -140,70 +140,70 @@ Rectangle {
         anchors.verticalCenterOffset: yPos
         visible:  !sweg.objHousesCircleBack.visible
     }
-    Row{
-        spacing: app.fs*0.5
-        height: txtCurrentDate.contentHeight+app.fs*0.5
-        y:parent.height
-        anchors.left: parent.left
-        anchors.leftMargin: xLatIzq.width
-        visible: app.fileData!==app.currentData
-        Rectangle{
-            width: txtCurrentDate.contentWidth+app.fs*0.5
-            height: txtCurrentDate.contentHeight+app.fs*0.5
-            color: apps.backgroundColor
-            border.width: 1
-            border.color: apps.fontColor
-            XText {
-                id: txtCurrentDate
-                text: '0/0/000 00:00'
-                font.pixelSize: app.fs*0.5
-                height: app.fs*0.5
-                color: 'white'
-                textFormat: Text.RichText
-                anchors.centerIn: parent
-            }
-        }
-        Rectangle{
-            width: txtCurrentGmt.contentWidth+app.fs//*0.5
-            height: txtCurrentGmt.contentHeight+app.fs*0.5
-            color: apps.backgroundColor
-            border.width: 1
-            border.color: apps.fontColor
-            XText {
-                id: txtCurrentGmt
-                text: '?'
-                font.pixelSize: app.fs*0.5
-                height: app.fs*0.5
-                color: 'white'
-                textFormat: Text.RichText
-                anchors.centerIn: parent
-            }
-            MouseArea {
-                id: maw
-                anchors.fill: parent
-                onClicked: r.v=!r.v
-                property int m:0
-                property date uDate//: app.currentDate
-                property int f: 0
-                property int uY: 0
-                onWheel: {                    
-                    let cgmt=app.currentGmt
-                    if(wheel.angleDelta.y===120){
-                        if(cgmt<12.00){
-                            cgmt+=0.1
-                        }else{
-                            cgmt=-12.00
-                        }
-                    }else{
-                        if(cgmt>-12.00){
-                            cgmt-=0.1
-                        }else{
-                            cgmt=12.00
-                        }
-                    }
-                    app.currentGmt=parseFloat(cgmt).toFixed(1)
-                }
-            }
-        }
-    }
+//    Row{
+//        spacing: app.fs*0.5
+//        height: txtCurrentDate.contentHeight+app.fs*0.5
+//        y:parent.height
+//        anchors.left: parent.left
+//        anchors.leftMargin: xLatIzq.width
+//        visible: app.fileData!==app.currentData
+//        Rectangle{
+//            width: txtCurrentDate.contentWidth+app.fs*0.5
+//            height: txtCurrentDate.contentHeight+app.fs*0.5
+//            color: apps.backgroundColor
+//            border.width: 1
+//            border.color: apps.fontColor
+//            XText {
+//                id: txtCurrentDate
+//                text: '0/0/000 00:00'
+//                font.pixelSize: app.fs*0.5
+//                height: app.fs*0.5
+//                color: 'white'
+//                textFormat: Text.RichText
+//                anchors.centerIn: parent
+//            }
+//        }
+//        Rectangle{
+//            width: txtCurrentGmt.contentWidth+app.fs//*0.5
+//            height: txtCurrentGmt.contentHeight+app.fs*0.5
+//            color: apps.backgroundColor
+//            border.width: 1
+//            border.color: apps.fontColor
+//            XText {
+//                id: txtCurrentGmt
+//                text: '?'
+//                font.pixelSize: app.fs*0.5
+//                height: app.fs*0.5
+//                color: 'white'
+//                textFormat: Text.RichText
+//                anchors.centerIn: parent
+//            }
+//            MouseArea {
+//                id: maw
+//                anchors.fill: parent
+//                onClicked: r.v=!r.v
+//                property int m:0
+//                property date uDate//: app.currentDate
+//                property int f: 0
+//                property int uY: 0
+//                onWheel: {
+//                    let cgmt=app.currentGmt
+//                    if(wheel.angleDelta.y===120){
+//                        if(cgmt<12.00){
+//                            cgmt+=0.1
+//                        }else{
+//                            cgmt=-12.00
+//                        }
+//                    }else{
+//                        if(cgmt>-12.00){
+//                            cgmt-=0.1
+//                        }else{
+//                            cgmt=12.00
+//                        }
+//                    }
+//                    app.currentGmt=parseFloat(cgmt).toFixed(1)
+//                }
+//            }
+//        }
+//    }
 }

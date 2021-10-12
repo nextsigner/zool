@@ -148,8 +148,8 @@ AppWin {
         let d=currentDate.getDate()
         let h=currentDate.getHours()
         let min=currentDate.getMinutes()
-        xDataBar.currentDateText=d+'/'+parseInt(m + 1)+'/'+a+' '+h+':'+min
-        xDataBar.currentGmtText=''+currentGmt
+        //xDataBar.currentDateText=d+'/'+parseInt(m + 1)+'/'+a+' '+h+':'+min
+        //xDataBar.currentGmtText=''+currentGmt
         tReload.restart()
     }
     FontLoader {name: "FontAwesome";source: "qrc:/resources/fontawesome-webfont.ttf";}
@@ -343,6 +343,46 @@ AppWin {
                 height: parent.height
                 Comps.PanelElements{id: panelElements}
                 Comps.PanelElementsBack{id: panelElementsBack}
+                Item{
+                    id: xControlsTime
+                    width: controlsTime.width
+                    height: controlsTime.height
+                    anchors.bottom: parent.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    property bool showCT: false
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: xControlsTime.showCT=!xControlsTime.showCT
+                    }
+                    Item{
+                        id:xIconClock
+                        width: app.fs
+                        height: width
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: app.fs*0.1
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: xControlsTime.showCT=!xControlsTime.showCT
+                        }
+                        Text{
+                            id:ccinit
+                            text:'\uf017'
+                            font.family: 'FontAwesome'
+                            font.pixelSize: app.fs*0.75
+                            color: apps.fontColor
+                            anchors.centerIn: parent
+                        }
+                    }
+                    Comps.ControlsTime{
+                        id: controlsTime
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: h
+                        property int h: parent.showCT?0:0-height
+                        Behavior on h{NumberAnimation{duration: 250; easing.type: Easing.InOutQuad}}
+                    }
+                }
             }
             Item{
                 id: xLatDer
@@ -390,6 +430,7 @@ AppWin {
         XSabianos{id: xSabianos}
         XInfoData{id: xInfoData}
         Editor{id: xEditor}
+
     }
     Init{longAppName: 'Zool'; folderName: 'zool'}
     Comps.XSelectColor{

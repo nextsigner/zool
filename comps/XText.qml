@@ -17,7 +17,7 @@ Item {
         color: 'black'
         border.width: 0
         border.color: 'white'
-        XText {
+        Text {
             id: txt
             font.pixelSize: r.fs
             color: 'white'
