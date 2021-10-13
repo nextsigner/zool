@@ -13,13 +13,27 @@ Item {
     property var aPorcs: [0.0, 0.0,0.0,0.0]
     property int spacing: apps.elementsFs.fs*0.1
 
-    ListView{
-        id: lv
-        width: r.width
-        height: apps.elementsFs*4//+apps.elementsFs
-        delegate: comp
-        model: lm
-        boundsBehavior: ListView.StopAtBounds
+    Column{
+        Rectangle{
+            width: r.width
+            height: apps.elementsFs*0.35
+            color: apps.fontColor
+            visible: sweg.objHousesCircleBack.visible
+            Text {
+                text: '<b>Exterior</b>'
+                font.pixelSize: parent.height*0.9
+                color: apps.backgroundColor
+                anchors.centerIn: parent
+            }
+        }
+        ListView{
+            id: lv
+            width: r.width
+            height: apps.elementsFs*4//+apps.elementsFs
+            delegate: comp
+            model: lm
+            boundsBehavior: ListView.StopAtBounds
+        }
     }
     ListModel{
         id: lm

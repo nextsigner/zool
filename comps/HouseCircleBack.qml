@@ -90,7 +90,7 @@ Item {
     }
     function loadHouses(jsonData) {
         r.arrayWg=[]
-        xArcsBack.rotation=360-jsonData.ph.h1.gdec+signCircle.rot+1
+        xArcsBack.rotation=360-jsonData.ph.h1.gdec+signCircle.rot//+1
         var h
         let aDegs=[]
         let resta=0.000000
