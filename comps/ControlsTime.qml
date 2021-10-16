@@ -7,7 +7,8 @@ Rectangle {
     color: apps.backgroundColor
     border.width: 2
     border.color: apps.fontColor
-    property var currentDate: app.currentDate
+    property bool isBack: false
+    property var currentDate: !isBack?app.currentDate:app.currentDateBack
     property int anio: 0
     property int mes: 0
     property int dia: 0
@@ -15,12 +16,19 @@ Rectangle {
     property int minuto: 0
     property int fs: app.fs*0.5
     onCurrentDateChanged: {
-        r.anio=currentDate.getFullYear()
-        r.mes=currentDate.getMonth() + 1
-        r.dia=currentDate.getDate()
-        r.hora=currentDate.getHours()
-        r.minuto=currentDate.getMinutes()
-        app.currentDate=currentDate
+        r.anio=r.currentDate.getFullYear()
+        r.mes=r.currentDate.getMonth() + 1
+        r.dia=r.currentDate.getDate()
+        r.hora=r.currentDate.getHours()
+        r.minuto=r.currentDate.getMinutes()
+        if(!r.isBack){
+            app.currentDate=r.currentDate
+        }else{
+            app.currentDateBack=r.currentDate
+//            log.l('cdb:'+app.currentDateBack.toString())
+//            log.width=xApp.width*0.2
+//            log.visible=true
+        }
     }
     Row{
         Rectangle{
@@ -143,7 +151,7 @@ Rectangle {
             border.color: apps.fontColor
             Text{
                 id: t8
-                text: app.currentGmt
+                text: !r.isBack?app.currentGmt:app.currentGmtBack
                 color: apps.fontColor
                 font.pixelSize: r.fs
                 anchors.centerIn: parent
@@ -157,7 +165,12 @@ Rectangle {
                 property int f: 0
                 property int uY: 0
                 onWheel: {
-                    let cgmt=app.currentGmt
+                    let cgmt
+                    if(!r.isBack){
+                        cgmt=app.currentGmt
+                    }else{
+                        cgmt=app.currentGmtBack
+                    }
                     if(wheel.angleDelta.y===120){
                         if(cgmt<12.00){
                             cgmt+=0.1
@@ -171,7 +184,11 @@ Rectangle {
                             cgmt=12.00
                         }
                     }
-                    app.currentGmt=parseFloat(cgmt).toFixed(1)
+                    if(!r.isBack){
+                        app.currentGmt=parseFloat(cgmt).toFixed(1)
+                    }else{
+                        app.currentGmtBack=parseFloat(cgmt).toFixed(1)
+                    }
                 }
             }
         }

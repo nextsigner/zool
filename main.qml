@@ -137,8 +137,13 @@ AppWin {
     }
     onCurrentGmtChanged: {
         if(app.currentData===''||app.setFromFile)return
-        xDataBar.currentGmtText=''+currentGmt
-        tReload.restart()
+        //xDataBar.currentGmtText=''+currentGmt
+        //tReload.restart()
+    }
+    onCurrentGmtBackChanged: {
+        //if(app.currentData===''||app.setFromFile)return
+        //xDataBar.currentGmtText=''+currentGmtBack
+        //tReloadBack.restart()
     }
     onCurrentDateChanged: {
         if(app.currentData===''||app.setFromFile)return
@@ -151,6 +156,23 @@ AppWin {
         //xDataBar.currentDateText=d+'/'+parseInt(m + 1)+'/'+a+' '+h+':'+min
         //xDataBar.currentGmtText=''+currentGmt
         tReload.restart()
+    }
+    onCurrentDateBackChanged: {
+        //if(app.currentDataBack===''||app.setFromFile)return
+        //if(app.currentDataBack===''||app.setFromFile)return
+        if(app.mod==='trans'){
+            JS.loadTransFromTime(app.currentDateBack)
+            //return
+        }
+        xDataBar.state='show'
+        let a=currentDateBack.getFullYear()
+        let m=currentDateBack.getMonth()
+        let d=currentDateBack.getDate()
+        let h=currentDateBack.getHours()
+        let min=currentDateBack.getMinutes()
+        //xDataBar.currentDateText=d+'/'+parseInt(m + 1)+'/'+a+' '+h+':'+min
+        //xDataBar.currentGmtText=''+currentGmt
+        tReloadBack.restart()
     }
     FontLoader {name: "FontAwesome";source: "qrc:/resources/fontawesome-webfont.ttf";}
     FontLoader {name: "ArialMdm";source: "qrc:/resources/ArialMdm.ttf";}
@@ -256,6 +278,16 @@ AppWin {
         onTriggered: {
             JS.setNewTimeJsonFileData(app.currentDate)
             JS.runJsonTemp()
+        }
+    }
+    Timer{
+        id: tReloadBack
+        running: false
+        repeat: false
+        interval: 100
+        onTriggered: {
+            JS.setNewTimeJsonFileDataBack(app.currentDateBack)
+            JS.runJsonTempBack()
         }
     }
     Item{
@@ -376,6 +408,49 @@ AppWin {
                     }
                     Comps.ControlsTime{
                         id: controlsTime
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: h
+                        property int h: parent.showCT?0:0-height
+                        Behavior on h{NumberAnimation{duration: 250; easing.type: Easing.InOutQuad}}
+                    }
+                }
+                Item{
+                    id: xControlsTimeBack
+                    width: controlsTimeBack.width
+                    height: controlsTimeBack.height
+                    anchors.bottom: parent.bottom
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    visible: sweg.objHousesCircleBack.visible
+                    property bool showCT: false
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: xControlsTimeBack.showCT=!xControlsTimeBack.showCT
+                    }
+                    Item{
+                        id:xIconClockBack
+                        width: app.fs
+                        height: width
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.horizontalCenterOffset: width+app.fs*0.5
+                        anchors.bottom: parent.bottom
+                        anchors.bottomMargin: app.fs*0.1
+                        MouseArea{
+                            anchors.fill: parent
+                            onClicked: xControlsTimeBack.showCT=!xControlsTime.showCT
+                        }
+                        Text{
+                            id:ccinitBack
+                            text:'\uf017'
+                            font.family: 'FontAwesome'
+                            font.pixelSize: app.fs*0.75
+                            color: apps.houseColorBack//apps.fontColor
+                            anchors.centerIn: parent
+                        }
+                    }
+                    Comps.ControlsTime{
+                        id: controlsTimeBack
+                        isBack: true
                         anchors.horizontalCenter: parent.horizontalCenter
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: h

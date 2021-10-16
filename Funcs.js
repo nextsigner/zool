@@ -53,6 +53,7 @@ function loadFromArgs(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo, sa
 function loadFromArgsBack(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo, save){
     let dataMs=new Date(Date.now())
     let j='{"params":{"tipo":"'+tipo+'","ms":'+dataMs.getTime()+',"n":"'+nom+'","d":'+d+',"m":'+m+',"a":'+a+',"h":'+h+',"min":'+min+',"gmt":'+gmt+',"lat":'+lat+',"lon":'+lon+',"alt":'+alt+',"ciudad":"'+ciudad+'"}}'
+    app.mod=tipo
     //setTitleData(nom, d, m, a, h, min, gmt, ciudad, lat, lon, 1)
     addTitleData(nom, d, m, a, h, min, gmt, ciudad, lat, lon, 1)
     if(save){
@@ -65,11 +66,28 @@ function loadFromArgsBack(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo
     //xDataBar.state='show'
     //xDataBar.opacity=1.0
     //app.currentData=j
+//    log.l('loadFromArgsBack: '+j)
+//    log.visible=true
+//    log.width=xApp.width*0.2
     app.currentDataBack=j
     runJsonTempBack()
 }
 
-function loadTrans(){
+function loadTransFromTime(date){
+    let j=JSON.parse(app.currentData)
+    let p=j.params
+    let d=new Date(date.getTime())
+    let dia=d.getDate()
+    let mes=d.getMonth() + 1
+    let anio=d.getFullYear()
+    let hora=d.getHours()
+    let minuto=d.getMinutes()
+    loadFromArgsBack(dia, mes, anio, hora, minuto, p.gmt, p.lat, p.lon, p.alt?p.alt:0, 'Tránsitos '+dia+'-'+mes+'-'+anio+' '+hora+':'+minuto, p.ciudad, 'trans', false)
+    app.currentGmtBack=app.currentGmt
+    //app.currentDateBack=d
+}
+
+function loadTransNow(){
     let j=JSON.parse(app.currentData)
     let p=j.params
     let d=new Date(Date.now())
@@ -79,6 +97,8 @@ function loadTrans(){
     let hora=d.getHours()
     let minuto=d.getMinutes()
     loadFromArgsBack(dia, mes, anio, hora, minuto, p.gmt, p.lat, p.lon, p.alt?p.alt:0, 'Tránsitos '+dia+'-'+mes+'-'+anio+' '+hora+':'+minuto, p.ciudad, 'trans', false)
+    app.currentGmtBack=app.currentGmt
+    app.currentDateBack=d
 }
 
 //VNA
@@ -120,7 +140,8 @@ function getJSON(fileLocation, comp, s, c, nomCuerpo) {
     //'file:///home/ns/Documentos/unik/quiron/data/neptuno.json'
 
     //let jsonFileUrl='file:./quiron/data/'+fileLocation
-    let jsonFileUrl='https://github.com/nextsigner/quiron/raw/master/data/'+fileLocation
+    let msr=new Date(Date.now()).getTime()
+    let jsonFileUrl='https://github.com/nextsigner/quiron/raw/master/data/'+fileLocation+'?r='+msr
 
     console.log('jsonFileUrl: '+jsonFileUrl)
     request.open('GET', jsonFileUrl, true);
@@ -491,7 +512,7 @@ function mkSinFile(file){
     nJson.params.n='Sinastría '+nJson.params.n+' - '+nJson.paramsBack.n
     nJson.paramsBack.tipo='sin'
     let sf=JSON.stringify(nJson)
-    log.l(sf)
+    //log.l(sf)
 
     let nFileName=documentsPath+'/Sinastría_'+jsonInt.params.n+'_-_'+jsonExt.params.n+'.json'
     //log.l(nFileName)
@@ -566,9 +587,14 @@ function runJsonTempBack(){
     let numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
     let stringEdad=edad.indexOf('NaN')<0?edad:''
     let textData=''
+
+
+
+
     app.currentFechaBack=vd+'/'+vm+'/'+va
     //xDataBar.state='show'
     sweg.loadBack(jsonData)
+    //app.currentDateBack=new Date(vd, vm, va, vh, vmin)
     //swegz.sweg.load(jsonData)
 }
 function setNewTimeJsonFileData(date){
@@ -607,6 +633,51 @@ function setNewTimeJsonFileData(date){
     j+='}'
     j+='}'
     app.currentData=j
+    //console.log('j: '+j)
+    //console.log('fd: '+app.fileData)
+}
+function setNewTimeJsonFileDataBack(date){
+    //log.l('app.fileDataBack: '+app.fileDataBack)
+    //log.visible=true
+    //log.width=xApp.width*0.2
+    let jsonData=JSON.parse(app.fileDataBack)
+    //console.log('json: '+JSON.stringify(jsonData))
+    //console.log('json2: '+jsonData.params)
+    let d = new Date(Date.now())
+    let ms=jsonData.params.ms
+    let nom=jsonData.params.n.replace(/_/g, ' ')
+
+    console.log('Date: '+date.toString())
+    let vd=date.getDate()
+    let vm=date.getMonth()+1
+    let va=date.getFullYear()
+    let vh=date.getHours()
+    let vmin=date.getMinutes()
+
+    let vgmt=app.currentGmtBack
+    let vlon=jsonData.params.lon
+    let vlat=jsonData.params.lat
+    let vCiudad=jsonData.params.ciudad.replace(/_/g, ' ')
+    let j='{'
+    j+='"params":{'
+    j+='"tipo":"'+app.mod+'",'
+    j+='"ms":'+ms+','
+    j+='"n":"'+nom+'",'
+    j+='"d":'+vd+','
+    j+='"m":'+vm+','
+    j+='"a":'+va+','
+    j+='"h":'+vh+','
+    j+='"min":'+vmin+','
+    j+='"gmt":'+vgmt+','
+    j+='"lat":'+vlat+','
+    j+='"lon":'+vlon+','
+    j+='"ciudad":"'+vCiudad+'"'
+    j+='}'
+    j+='}'
+    app.currentDataBack=j
+//    log.l('cjb:'+app.currentDataBack)
+//    log.width=xApp.width*0.2
+//    log.visible=true
     //console.log('j: '+j)
     //console.log('fd: '+app.fileData)
 }

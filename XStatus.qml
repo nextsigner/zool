@@ -19,6 +19,7 @@ Rectangle{
             color: 'white'
         }
         Column{
+            visible: false
             XText {
                 text: '<b>Sol:</b> '+app.currentGradoSolar
                 font.pixelSize: r.height*0.25
