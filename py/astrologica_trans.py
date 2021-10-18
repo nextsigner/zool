@@ -1,0 +1,135 @@
+from decimal import Decimal
+import sys, os, pathlib, json
+import subprocess
+from subprocess import run, PIPE
+
+#Este archivo devuelve un archivo json con un listado con todos los aspectos entre un cuerpo y otro en un determinado año.
+#Ejemplo
+#python3 ./astrologica_trans.py 20 6 1975 23 04 -3 -35.47857 -69.61535 Pluto Moon Squ 1985 '/home/ns/Descargas/ast73src/astrolog'
+#python3 <este archivo> <dia> <mes> <año> <hora> <minuto> <gmt> <lat> <lon> <cuerpo 1> <cuerpo 2> <aspecto> <año de aspectos> <ubicación de astrolog>
+
+def decdeg2dms(dd):
+   is_positive = dd >= 0
+   dd = abs(dd)
+   minutes,seconds = divmod(dd*3600,60)
+   degrees,minutes = divmod(minutes,60)
+   degrees = degrees if is_positive else -degrees
+   return (degrees,minutes,seconds)
+
+#Calculo para Fortuna Diurna Asc + Luna - Sol
+#Calculo para Fortuna Nocturna Asc + Sol - Luna
+
+
+dia = sys.argv[1]
+mes = int(sys.argv[2]) #+ 1
+anio = sys.argv[3]
+hora = sys.argv[4]
+min = sys.argv[5]
+gmt = sys.argv[6]
+
+lat = sys.argv[7]
+lon = sys.argv[8]
+
+planetSearch1=sys.argv[9]
+planetSearch2=sys.argv[10]
+aspSearch=sys.argv[11]
+anioF=sys.argv[12]
+
+astrologPath=sys.argv[13]
+
+
+
+if float(gmt) < 0.0:
+    gmtCar='W'
+    gmtNum=abs(int(gmt))
+else:
+    gmtCar='E'
+    gmtNum=int(gmt)
+
+if float(lon) < 0:
+    lonCar='W'
+else:
+    lonCar='E'
+
+
+if float(lat) < 0:
+    latCar='S'
+else:
+    latCar='N'
+
+
+GMSLat=decdeg2dms(float(lat))
+GMSLon=decdeg2dms(float(lon))
+
+#print('Fecha: '+dia+'/'+mes+'/'+anio+' Hora: '+hora+':'+min)
+
+#Astrolog
+#Consulta normal ./astrolog -qa 6 20 1975 23:00 3W 69W57 35S47
+#Consultar Aspectos ./astrolog -qa 6 20 1975 23:00 3W 69W57 35S47 -a -A 4
+
+json= {}
+
+#Con=Conjunción
+#Squ=Cuadratura
+#Tri=Trígono
+#Sex=Sextil
+#Opp=Oposición
+
+
+
+cmd1=[astrologPath, '-qa', str(int(mes)), str(int(dia)), str(anioF), hora, min, str(gmtNum) + ''+ gmtCar, str(abs(int(GMSLon[0]))) + '' + lonCar + '' +str(int(GMSLon[1])), str(abs(int(GMSLat[0]))) + '' + latCar + '' +str(int(GMSLat[1])), '-dy']
+#print(cmd1)
+proc = subprocess.Popen(args=cmd1, stdout=subprocess.PIPE)
+output = proc.stdout.read()
+#print (output)
+indexLista=0
+lista = str(output.decode("utf-8")).split('\n')
+#print(lista)
+for l in lista:
+    ioAsp = l.find(aspSearch)
+    ioPlanet1 = l.find(planetSearch1)
+    ioPlanet2 = l.find(planetSearch2)
+    if ioAsp > 0 and ioPlanet1 > 0 and ioPlanet2 > 0:
+    #print('io:'+str(ioAsp))
+    #print('iop1:'+str(ioPlanet1))
+    #print('iop2:'+str(ioPlanet2))
+        dC = l.replace('  ', ' ')
+        dC = dC.replace('   ', ' ')
+        dC = dC.replace('/ ', '/')
+        ad=dC.split(' ')
+        diaR=1
+        mesR=1
+        anioR=1900
+        hora='00'
+        minutos='00'
+        for dato in ad:
+            ioDia=dato.find('/')
+            ioHoraAm=dato.find('am')
+            ioHoraPm=dato.find('pm')
+            if ioDia > 0:
+                #dato = dato.replace('  ', ' ')
+                #dato = dato.replace('   ', ' ')
+                #dato = dato.replace('/ ', '/')
+                #print('dato: '+dato.replace(' ',  ''))
+                m00=dato.split('/')
+                #print(m00)
+                diaR=m00[1]
+                mesR=m00[0]
+                anioR=m00[2]
+                if ioHoraAm > 0 or ioHoraPm > 0:
+                    #hf=-1
+                    m0=dato.split(':')
+                    #print(dato)
+                    s0=int(m0[0])
+                    s1=m0[1]
+                    if ioHoraPm > 0:
+                        s0=s0+12
+                        hora = str(s0)
+                        minutos=str(s1).replace('am', '').replace('pm', '')
+        json['item'+str(indexLista)]= {'asp': aspSearch, 'd': diaR, 'm': mesR, 'a': anioR,  'h':hora, 'min': minutos}
+        #print(json)
+        #print(str(l))
+        #print(str(l) + '---------\n')
+        indexLista = indexLista + 1
+
+print(json)

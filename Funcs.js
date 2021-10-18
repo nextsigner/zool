@@ -66,9 +66,9 @@ function loadFromArgsBack(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo
     //xDataBar.state='show'
     //xDataBar.opacity=1.0
     //app.currentData=j
-//    log.l('loadFromArgsBack: '+j)
-//    log.visible=true
-//    log.width=xApp.width*0.2
+    //    log.l('loadFromArgsBack: '+j)
+    //    log.visible=true
+    //    log.width=xApp.width*0.2
     app.currentDataBack=j
     runJsonTempBack()
 }
@@ -112,14 +112,14 @@ function showIW(){
     let nomCuerpo=m0[0]!=='asc'?app.planetas[app.planetasRes.indexOf(m0[0])]:'Ascendente'
     let jsonFileName=m0[0]!=='asc'?quitarAcentos(nomCuerpo.toLowerCase())+'.json':'asc.json'
     let jsonFileLocation='./quiron/data/'+jsonFileName
-//    if(!unik.fileExist(jsonFileLocation)){
-//        let obj=comp.createObject(app, {textData:'No hay datos disponibles.', width: sweg.width, height: sweg.height, x:0, y:0, fs: app.fs*0.5, title:'Sin datos'})
-//    }else{
-        let numHome=m0[0]!=='asc'?-1:1
-        let vNumRom=['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
-        numHome=parseInt(m0[2])//vNumRom.indexOf(m0[2])+1
-        console.log('::::Abriendo signo: '+app.objSignsNames.indexOf(m0[1])+' casa: '+numHome+' nomCuerpo: '+nomCuerpo)
-        getJSON(jsonFileName, comp, app.objSignsNames.indexOf(m0[1])+1, numHome, nomCuerpo)
+    //    if(!unik.fileExist(jsonFileLocation)){
+    //        let obj=comp.createObject(app, {textData:'No hay datos disponibles.', width: sweg.width, height: sweg.height, x:0, y:0, fs: app.fs*0.5, title:'Sin datos'})
+    //    }else{
+    let numHome=m0[0]!=='asc'?-1:1
+    let vNumRom=['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
+    numHome=parseInt(m0[2])//vNumRom.indexOf(m0[2])+1
+    console.log('::::Abriendo signo: '+app.objSignsNames.indexOf(m0[1])+' casa: '+numHome+' nomCuerpo: '+nomCuerpo)
+    getJSON(jsonFileName, comp, app.objSignsNames.indexOf(m0[1])+1, numHome, nomCuerpo)
     //}
 }
 function showEditor(j){
@@ -675,9 +675,9 @@ function setNewTimeJsonFileDataBack(date){
     j+='}'
     j+='}'
     app.currentDataBack=j
-//    log.l('cjb:'+app.currentDataBack)
-//    log.width=xApp.width*0.2
-//    log.visible=true
+    //    log.l('cjb:'+app.currentDataBack)
+    //    log.width=xApp.width*0.2
+    //    log.visible=true
     //console.log('j: '+j)
     //console.log('fd: '+app.fileData)
 }
@@ -760,13 +760,16 @@ function setTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, mod)
         let nAnio=Math.abs(getEdadRS(vd, vm, va, vh, vmin))
         stringTiempo='<b> Edad:</b> '+nAnio+' años '
     }
-    let textData=''
-        +'<b>'+nom+'</b>'
-        +'|'+vd+'/'+vm+'/'+va+'|'+vh+':'+vmin+'hs|GMT '+vgmt
-        +'|'+stringTiempo
-        +'|<b> '+vCiudad+'</b> '
-        +'|<b>lat:</b> '+parseFloat(vlat).toFixed(2)+'|<b>lon:</b> '+parseFloat(vlon).toFixed(2)+' '
-    xDataBar.titleData=textData
+    let a=[]
+    a.push('<b>'+nom+'</b>')
+    a.push(vd+'/'+vm+'/'+va)
+    a.push(vh+':'+vmin+'hs')
+    a.push('GMT '+vgmt)
+    a.push(stringTiempo)
+    a.push('<b> '+vCiudad+'</b>')
+    a.push('<b>lat:</b> '+parseFloat(vlat).toFixed(2))
+    a.push('<b>lon:</b> '+parseFloat(vlon).toFixed(2))
+    xDataBar.at=a
 }
 function addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, mod){
     //mod 0=cn, mod 1=rs
@@ -775,38 +778,39 @@ function addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, mod)
     let stringTiempo=''
     //console.log('Edad: '+numEdad)
     if(mod===0){
-        stringTiempo='<b> Edad:</b>'+getEdad(vd, vm, va, vh, vmin)+' '
+        stringTiempo='<b> Edad:</b>'+getEdad(vd, vm - 1, va, vh, vmin)+' '
     }else if(mod===2){
         stringTiempo=''
     }else{
-        let nAnio=Math.abs(getEdadRS(vd, vm, va, vh, vmin))
+        let nAnio=Math.abs(getEdadRS(vd, vm - 1, va, vh, vmin))
         stringTiempo='<b> Edad:</b> '+nAnio+' años '
     }
-    //if(xDataBar.titleData.indexOf('@')>0)return
-    let nom1=xDataBar.titleData.replace('Sinastría ', '').replace(' - '+nom, '')
-    let textData='@|Interior: '+nom1
-        +'|@|Exterior: <b>'+nom+'</b>'
-        +'|'+vd+'/'+vm+'/'+va+'|'+vh+':'+vmin+'hs|GMT '+vgmt
-        +'|'+stringTiempo
-        +'|<b> '+vCiudad+'</b> '
-        +'|<b>lat:</b> '+parseFloat(vlat).toFixed(2)+'|<b>lon:</b> '+parseFloat(vlon).toFixed(2)+' '
-    let m0=textData.split('|')
-    let ns=''
-    for(var i=0;i<m0.length;i++){
-        if(i!==7&&i!==8&&i!==16&&i!==17){
-            if(i===0){
-                ns+=''+m0[i]
-            }else{
-                ns+='|'+m0[i]
-            }
-        }
+    let a=[]
+    a.push('@')
+    let ni=0
+    if(xDataBar.at[0]==='@'){
+        ni=1
     }
-    if(ns.split('Interior:').length>=3)return
-    //log.l(ns)
-    //log.l('\n\n')
-    //console.log(ns)
-    //log.visible=true
-    xDataBar.titleData=ns//textData
+    a.push(xDataBar.at[ni])
+    a.push(xDataBar.at[ni+1])
+    a.push(xDataBar.at[ni+2])
+    a.push(xDataBar.at[ni+3])
+    a.push(xDataBar.at[ni+4])
+    a.push(xDataBar.at[ni+5])
+    a.push(xDataBar.at[ni+6])
+    a.push(xDataBar.at[ni+7])
+    a.push('@')
+    let sTipo='Sinastría'
+    if(app.mod==='trans')sTipo='Tránsitos'
+    a.push('Exterior: <b>'+sTipo+'</b>')
+    a.push(vd+'/'+vm+'/'+va)
+    a.push(vh+':'+vmin+'hs')
+    a.push('GMT '+vgmt)
+    a.push(stringTiempo)
+    a.push('<b> '+vCiudad+'</b>')
+    a.push('<b>lat:</b> '+parseFloat(vlat).toFixed(2))
+    a.push('<b>lon:</b> '+parseFloat(vlon).toFixed(2))
+    xDataBar.at=a
 }
 
 //Funciones de Internet
@@ -834,9 +838,9 @@ function getRD(url, item){//Remote Data
 function parseRetRed(d){
     if(d.indexOf('redirected')>=0&&d.indexOf('</html>')>=0){
         let m0=d.split('</html>')
-         return m0[1]
+        return m0[1]
     }else{
-         return d
+        return d
     }
 }
 

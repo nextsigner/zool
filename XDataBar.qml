@@ -5,7 +5,7 @@ import "./comps" as Comps
 Rectangle {
     id: r
     width: parent.width
-    height: rowData.height+rowData.height*0.5
+    height: tResizeText.running?uH:rowData.height+rowData.height*0.5
     color: apps.backgroundColor
     border.width: 1
     border.color: apps.fontColor
@@ -14,6 +14,8 @@ Rectangle {
     //property alias currentGmtText: txtCurrentGmt.text
     property bool showTimes: false
     property int fs: app.fs*0.5
+    property var at: []
+    property int uH: r.fs
     state: 'hide'
     states:[
         State {
@@ -35,12 +37,18 @@ Rectangle {
     onStateChanged: {
         //if(state==='show')tHide.restart()
     }
-    onTitleDataChanged: {
-        let a=titleData.split('|')
-        rep.model=a
+    onAtChanged: {
+        rep.model=at
         r.fs=app.fs*0.5
         tResizeText.restart()
     }
+    onTitleDataChanged: {
+//        let a=titleData.split('|')
+//        rep.model=a
+//        r.fs=app.fs*0.5
+//        tResizeText.restart()
+    }
+    onHeightChanged: uH=height
     Timer{
         id: tResizeText
         running: false
