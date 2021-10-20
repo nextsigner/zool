@@ -68,6 +68,8 @@ GMSLon=decdeg2dms(float(lon))
 #Consultar Aspectos ./astrolog -qa 6 20 1975 23:00 3W 69W57 35S47 -a -A 4
 
 json= {}
+cant=0
+
 
 #Con=Conjunción
 #Squ=Cuadratura
@@ -76,7 +78,10 @@ json= {}
 #Opp=Oposición
 
 
+dev=False
 
+
+cmd=astrologPath + ' -qa ' + str(int(mes)) + ' ' + str(int(dia)) + ' ' + str(anioF) + ' ' + str(hora) + ' ' + str(min) + ' ' + str(gmtNum) + ''+ gmtCar + ' ' + str(abs(int(GMSLon[0]))) + '' + lonCar + '' +str(int(GMSLon[1])) + ' ' + str(abs(int(GMSLat[0]))) + '' + latCar + '' +str(int(GMSLat[1])) + ' -dy'
 cmd1=[astrologPath, '-qa', str(int(mes)), str(int(dia)), str(anioF), hora, min, str(gmtNum) + ''+ gmtCar, str(abs(int(GMSLon[0]))) + '' + lonCar + '' +str(int(GMSLon[1])), str(abs(int(GMSLat[0]))) + '' + latCar + '' +str(int(GMSLat[1])), '-dy']
 #print(cmd1)
 proc = subprocess.Popen(args=cmd1, stdout=subprocess.PIPE)
@@ -90,9 +95,12 @@ for l in lista:
     ioPlanet1 = l.find(planetSearch1)
     ioPlanet2 = l.find(planetSearch2)
     if ioAsp > 0 and ioPlanet1 > 0 and ioPlanet2 > 0:
-    #print('io:'+str(ioAsp))
-    #print('iop1:'+str(ioPlanet1))
-    #print('iop2:'+str(ioPlanet2))
+        cant = cant + 1
+        if dev == True:
+            print('io:'+str(ioAsp))
+            print('iop1:'+str(ioPlanet1))
+            print('iop2:'+str(ioPlanet2))
+            print('\n')
         dC = l.replace('  ', ' ')
         dC = dC.replace('   ', ' ')
         dC = dC.replace('/ ', '/')
@@ -106,30 +114,32 @@ for l in lista:
             ioDia=dato.find('/')
             ioHoraAm=dato.find('am')
             ioHoraPm=dato.find('pm')
+            #ioAsp=dC.find(str(' '+aspSearch))
+            #print('ioAsp: '+str(ioAsp))
+            #print('dC: '+dC)
+            #print('aspSearch: '+aspSearch)
+            #if ioAsp >= 0:
             if ioDia > 0:
-                #dato = dato.replace('  ', ' ')
-                #dato = dato.replace('   ', ' ')
-                #dato = dato.replace('/ ', '/')
-                #print('dato: '+dato.replace(' ',  ''))
-                m00=dato.split('/')
-                #print(m00)
-                diaR=m00[1]
-                mesR=m00[0]
-                anioR=m00[2]
-                if ioHoraAm > 0 or ioHoraPm > 0:
-                    #hf=-1
+                    m00=dato.split('/')
+                    diaR=m00[1]
+                    mesR=m00[0]
+                    anioR=m00[2]
+            if ioHoraAm > 0 or ioHoraPm > 0:
                     m0=dato.split(':')
-                    #print(dato)
                     s0=int(m0[0])
+                    hora = str(s0)
                     s1=m0[1]
                     if ioHoraPm > 0:
                         s0=s0+12
                         hora = str(s0)
-                        minutos=str(s1).replace('am', '').replace('pm', '')
-        json['item'+str(indexLista)]= {'asp': aspSearch, 'd': diaR, 'm': mesR, 'a': anioR,  'h':hora, 'min': minutos}
-        #print(json)
-        #print(str(l))
-        #print(str(l) + '---------\n')
+                    minutos=str(s1).replace('am', '').replace('pm', '')
+            json['item'+str(indexLista)]= {'asp': aspSearch, 'd': diaR, 'm': mesR, 'h':hora, 'min': minutos}
         indexLista = indexLista + 1
 
-print(json)
+
+
+json['params']= {'cant': cant, 'c1': planetSearch1, 'c2': planetSearch2, 'a': anioF, 'aspSearch': aspSearch, 'cmdLine': cmd, 'cmdParams': cmd1}
+if dev == True:
+    print('Cant: '+str(cant))
+else:
+    print(str(json).replace('\'', '\"'))
