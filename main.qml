@@ -344,6 +344,7 @@ AppWin {
                         state: 'show'
                     }
                     //PanelZonaMes{id: panelZonaMes;}
+                    PanelAspTransList{id: panelAspTransList}
                     PanelRsList{id: panelRsList}
                     PanelFileLoader{id: panelFileLoader}
                     PanelNewVNA{id: panelNewVNA}

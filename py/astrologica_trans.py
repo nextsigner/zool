@@ -6,6 +6,12 @@ from subprocess import run, PIPE
 #Este archivo devuelve un archivo json con un listado con todos los aspectos entre un cuerpo y otro en un determinado año.
 #Ejemplo
 #python3 ./astrologica_trans.py 20 6 1975 23 04 -3 -35.47857 -69.61535 Pluto Moon Squ 1985 '/home/ns/Descargas/ast73src/astrolog'
+
+#C:\\Users\\qt\\Downloads\\ast72win64\\astrolog -qa 6 20 1985 23 04 3W 69W36 35S28 -dy
+
+#E:\zool\Python>python ../py/astrologica_trans.py 20 6 1975 23 04 -3 -35.47857 -69.61535 Pluto Moon Squ 1985 "C:\Users\qt\Downloads\ast72win64\astrolog"
+
+
 #python3 <este archivo> <dia> <mes> <año> <hora> <minuto> <gmt> <lat> <lon> <cuerpo 1> <cuerpo 2> <aspecto> <año de aspectos> <ubicación de astrolog>
 
 def decdeg2dms(dd):

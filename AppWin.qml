@@ -309,12 +309,12 @@ ApplicationWindow {
         }
     }
     //Mostrar Mostrar Reloj
-    Shortcut{
-        sequence: 'Ctrl+t'
-        onActivated: {
-            apps.showTimes=!apps.showTimes
-        }
-    }
+//    Shortcut{
+//        sequence: 'Ctrl+t'
+//        onActivated: {
+//            apps.showTimes=!apps.showTimes
+//        }
+//    }
     //Mostrar Panel para Lineas de Comando
     Shortcut{
         sequence: 'Ctrl+Shift+c'
@@ -341,6 +341,13 @@ ApplicationWindow {
         sequence: 'Ctrl+r'
         onActivated: {
             panelRsList.state=panelRsList.state==='show'?'hide':'show'
+        }
+    }
+    //Mostrar Panel de Aspectos en Transito
+    Shortcut{
+        sequence: 'Ctrl+t'
+        onActivated: {
+            panelAspTransList.state=panelAspTransList.state==='show'?'hide':'show'
         }
     }
     Shortcut{
