@@ -246,8 +246,8 @@ Item {
             h.wg=nwg
             r.aWs.push(nwg)
             nawgs+=Math.abs(nwg)
-            console.log('nwg: '+nwg)
-            console.log('nawgs: '+nawgs)
+            //console.log('nwg: '+nwg)
+            //console.log('nawgs: '+nawgs)
         }
     }
     function getHousePos(g, rot, ip, defaultRet){

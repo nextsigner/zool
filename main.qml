@@ -239,6 +239,8 @@ AppWin {
         //Panel AspTrans
         property int currentIndexP1: 0
         property int currentIndexP2: 0
+        property int currentIndexAsp: 0
+        property int currentAspCantAniosSearch: 20
 
         property bool chat: false
 

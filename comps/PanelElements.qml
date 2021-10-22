@@ -110,7 +110,7 @@ Item {
         let v3=''
         let v4=''
         for(var i=0;i<12;i++){
-            console.log('-------->'+j.pc['c'+i].is)
+            //console.log('-------->'+j.pc['c'+i].is)
             if(j.pc['c'+i].is===0||j.pc['c'+i].is===4||j.pc['c'+i].is===8){
                 cFuego++
                 if(v1===''){

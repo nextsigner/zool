@@ -87,7 +87,11 @@ cant=0
 dev=False
 
 
+log=''
+#cmd=astrologPath + ' -qa ' + str(int(mes)) + ' ' + str(int(dia)) + ' ' + str(anioF) + ' ' + str(hora) + ' ' + str(min) + ' ' + str(gmtNum) + ''+ gmtCar + ' ' + str(abs(int(GMSLon[0]))) + '' + lonCar + '' +str(int(GMSLon[1])) + ' ' + str(abs(int(GMSLat[0]))) + '' + latCar + '' +str(int(GMSLat[1])) + ' -dy'
 cmd=astrologPath + ' -qa ' + str(int(mes)) + ' ' + str(int(dia)) + ' ' + str(anioF) + ' ' + str(hora) + ' ' + str(min) + ' ' + str(gmtNum) + ''+ gmtCar + ' ' + str(abs(int(GMSLon[0]))) + '' + lonCar + '' +str(int(GMSLon[1])) + ' ' + str(abs(int(GMSLat[0]))) + '' + latCar + '' +str(int(GMSLat[1])) + ' -dy'
+if dev:
+    print(cmd)
 cmd1=[astrologPath, '-qa', str(int(mes)), str(int(dia)), str(anioF), hora, min, str(gmtNum) + ''+ gmtCar, str(abs(int(GMSLon[0]))) + '' + lonCar + '' +str(int(GMSLon[1])), str(abs(int(GMSLat[0]))) + '' + latCar + '' +str(int(GMSLat[1])), '-dy']
 #print(cmd1)
 proc = subprocess.Popen(args=cmd1, stdout=subprocess.PIPE)
@@ -98,9 +102,15 @@ lista = str(output.decode("utf-8")).split('\n')
 #print(lista)
 for l in lista:
     ioAsp = l.find(aspSearch)
-    ioPlanet1 = l.find(planetSearch1)
-    ioPlanet2 = l.find(planetSearch2)
-    if ioAsp > 0 and ioPlanet1 > 0 and ioPlanet2 > 0:
+    arrayLin=l.split(aspSearch)
+
+    if len(arrayLin) > 1:
+        ioPlanet1 = str(arrayLin[0]).find(planetSearch1)
+        ioPlanet2 = str(arrayLin[1]).find(planetSearch2)
+    else:
+        continue
+    if ioAsp > 0 and ioPlanet1 > 0 and ioPlanet2 > 0 and len(arrayLin) > 1:
+        #log += str(arrayLin)
         cant = cant + 1
         if dev == True:
             print('io:'+str(ioAsp))
@@ -137,14 +147,16 @@ for l in lista:
                     s1=m0[1]
                     if ioHoraPm > 0:
                         s0=s0+12
+                        if int(s0) == 24:
+                            s0=0
                         hora = str(s0)
                     minutos=str(s1).replace('am', '').replace('pm', '')
-            json['item'+str(indexLista)]= {'asp': aspSearch, 'd': diaR, 'm': mesR, 'h':hora, 'min': minutos}
+        json['item'+str(indexLista)]= {'asp': aspSearch, 'd': diaR, 'm': mesR, 'h':hora, 'min': minutos}
         indexLista = indexLista + 1
 
 
 
-json['params']= {'cant': cant, 'c1': planetSearch1, 'c2': planetSearch2, 'a': anioF, 'aspSearch': aspSearch, 'cmdLine': cmd, 'cmdParams': cmd1}
+json['params']= {'cant': cant, 'c1': planetSearch1, 'c2': planetSearch2, 'a': anioF, 'aspSearch': aspSearch, 'cmdLine': cmd, 'cmdParams': cmd1, 'log':log}
 if dev == True:
     print('Cant: '+str(cant))
 else:
