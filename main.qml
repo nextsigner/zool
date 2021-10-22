@@ -236,6 +236,10 @@ AppWin {
         property bool editorShowNumberLines: false
         property int editorTextFormat: 0
 
+        //Panel AspTrans
+        property int currentIndexP1: 0
+        property int currentIndexP2: 0
+
         property bool chat: false
 
         property bool backgroundImagesVisible: false

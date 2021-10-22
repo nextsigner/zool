@@ -45,7 +45,7 @@ Rectangle{
             id:editor
             z: xEditorTit.z-1
             width: xEditor.width
-            height: xEditor.height-xEditorTit.height-xEditorTools.height-app.fs*0.5
+            height: xEditor.height-xEditorTit.height-xEditorTools.height//-app.fs*0.5
             fs:apps.editorFs
             wordWrap: true
             visible: r.editing
@@ -75,7 +75,7 @@ Rectangle{
                     id: dataResult
                     font.pixelSize: apps.editorFs
                     width: r.width-app.fs
-                    wrapMode: Text.WrapAnywhere
+                    wrapMode: Text.WordWrap//Text.WrapAnywhere
                     color: apps.fontColor
                     //textFormat: TextEdit.MarkdownText
                     text: visible?xEditor.e.text:''
@@ -206,6 +206,7 @@ Rectangle{
         json.params.data=editor.text
         let njson=JSON.stringify(json)
         app.fileData=njson
+        app.currentData=app.fileData
         unik.setFile(apps.url.replace('file://', ''), app.fileData)
         r.editing=!r.editing
     }

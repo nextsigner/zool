@@ -10,6 +10,7 @@ Rectangle{
     border.width: 2
     border.color: 'white'
     clip: true
+    property bool ww: true
     MouseArea{
         anchors.fill: parent
         onClicked: apps.showLog=false
@@ -23,8 +24,8 @@ Rectangle{
         clip: true
         TextArea{
             id: taLog
-            width: r.width-app.fs*0.5
-            wrapMode: Text.WordWrap
+            width: r.width-app.fs//*0.5
+            wrapMode: r.ww?Text.WordWrap:Text.WrapAnywhere
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: app.fs*0.5
             color: 'white'

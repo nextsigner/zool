@@ -11,8 +11,8 @@ Rectangle {
     border.color: apps.fontColor
     property alias currentIndex: lv.currentIndex
     property alias listModel: lm
-    property int edadMaxima: 0
-    property string jsonFull: ''
+
+    property int currentIndexSearching: 0
 
     property var aAspNames: ['Conjunción', 'Trígono', 'Cuadratura', 'Sextil']
     property var aAspNamesRes: ['Con', 'Trí', 'Squ', 'Sex']
@@ -43,10 +43,11 @@ Rectangle {
                 sbHasta.from=sbDesde.from + 1
                 sbHasta.to=sbHasta.from + 150
                 sbHasta.value = sbDesde.value+60
+                loadItemsYears()
             }
-//            if(lm.count===0){
-//                loadItemsYears()
-//            }
+            //            if(lm.count===0){
+            //                loadItemsYears()
+            //            }
         }
     }
     Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
@@ -85,12 +86,16 @@ Rectangle {
                     model: app.planetas
                     width: r.width*0.5-app.fs*0.5
                     font.pixelSize: app.fs*0.5
+                    currentIndex: apps.currentIndexP1
+                    onCurrentIndexChanged: apps.currentIndexP1=currentIndex
                 }
                 ComboBox{
                     id: cbP2
                     model: app.planetas
                     width: r.width*0.5-app.fs*0.5
                     font.pixelSize: app.fs*0.5
+                    currentIndex: apps.currentIndexP2
+                    onCurrentIndexChanged: apps.currentIndexP2=currentIndex
                 }
             }
             Row{
@@ -130,6 +135,7 @@ Rectangle {
                     id: botSearchAsp
                     text: 'Buscar'
                     font.pixelSize: app.fs*0.5
+                    onClicked: search()
                 }
             }
         }
@@ -160,56 +166,154 @@ Rectangle {
     Component{
         id: compItemList
         Rectangle{
-            id: itemRS
+            id: item
             width: lv.width-r.border.width*2
-            height: app.fs*1.5//index!==lv.currentIndex?app.fs*1.5:app.fs*3.5+app.fs
+            height: colAspDates.height+app.fs//lvAspDates.count<=0?app.fs*1.5:app.fs*1.5+lvAspDates.height
             color: index===lv.currentIndex?apps.fontColor:apps.backgroundColor
             border.width: 1
             border.color: apps.fontColor
+            property var json
+            property int cantAsps: 0
+            onJsonChanged:{
+                item.cantAsps=Object.keys(item.json).length
+                //                log.l(JSON.stringify(json))
+                //                log.visible=true
+                //                log.width=xApp.width*0.2
+                //                log.ww=false
+            }
             Behavior on height{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
             Behavior on opacity{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
-            XText {
-                id: txtData
-                text: '<b>'+anio+'</b>'
-                font.pixelSize: app.fs
-                width: parent.width
-                wrapMode: Text.WordWrap
-                textFormat: Text.RichText
-                horizontalAlignment: Text.AlignHCenter
-                color: index===lv.currentIndex?apps.backgroundColor:apps.fontColor
-                anchors.centerIn: parent
-            }
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    lv.currentIndex=index
-                    //r.state='hide'
-                    //xBottomBar.objPanelCmd.makeRS(itemRS.rsDate)
-                    xBottomBar.objPanelCmd.makeRSBack(itemRS.rsDate)
+                    if(lv.currentIndex===index){
+                        lv.currentIndex=-1
+                    }else{
+                        lv.currentIndex=index
+                    }
+                    lmAspDates.clear()
+                    //log.l('d---->'+JSON.stringify(item.json))
+                    //log.l('d---->'+Object.keys(item.json).length)
+                    //log.l('d2---->'+JSON.stringify(item.json['item0']))
+                    //log.visible=true
+                    //log.ww=false
+                    //log.width=xApp.width*0.2
+                    for(var i=0; i<Object.keys(item.json).length;i++){
+                        //log.l('d2 '+i+'---->'+JSON.stringify(item.json['item'+i]))
+                        //log.l('d2 '+i+'---->'+JSON.stringify(item.json['item'+i].d))
+                        const ia =item.json['item'+i]
+                        if(ia){
+                            //log.l('d2 '+i+'---->'+ia.d)
+                            lmAspDates.append(lmAspDates.addItem(ia.d, ia.m, anio, ia.h, ia.min))
+                        }
+                    }
+                }
+            }
+            Column{
+                id: colAspDates
+                anchors.centerIn: parent
+                Row{
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    height: txtData.contentHeight//+app.fs*0.5
+                    spacing: app.fs*0.1
+                    XText {
+                        id: txtData
+                        text: '<b>'+anio+'</b>'
+                        font.pixelSize: app.fs
+                        width: contentWidth.width+app.fs
+                        wrapMode: Text.WordWrap
+                        textFormat: Text.RichText
+                        horizontalAlignment: Text.AlignHCenter
+                        color: index===lv.currentIndex?apps.backgroundColor:apps.fontColor
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    XText {
+                        text: 'Hay un total de <b>'+item.cantAsps+'</b><br />aspectos detectados.'
+                        font.pixelSize: app.fs*0.5
+                        width: item.width-txtData.width
+                        wrapMode: Text.WordWrap
+                        textFormat: Text.RichText
+                        horizontalAlignment: Text.AlignHCenter
+                        color: index===lv.currentIndex?apps.backgroundColor:apps.fontColor
+                        visible: item.cantAsps>0
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                }
+
+                ListView{
+                    id: lvAspDates
+                    width: item.width
+                    height: app.fs*0.6*count//+app.fs*0.1*count
+                    model: lmAspDates
+                    delegate: compAspDate
+                    //anchors.top: txtData.bottom
+                    //spacing: app.fs*0.1
+                    visible: item.cantAsps>0
+                    ListModel{
+                        id: lmAspDates
+                        function addItem(d, m, a, h, min){
+                            return {
+                                vdia: d,
+                                vmes: m,
+                                vanio: a,
+                                vhora: h,
+                                vminuto: min
+                            }
+                        }
+                    }
+
+                    Component{
+                        id: compAspDate
+                        Rectangle{
+                            width: lv.width
+                            height: app.fs
+                            border.width: 1
+                            border.color: 'red'
+                            Text{
+                                text:  vdia+'/'+vmes+'/'+vanio+' '+vhora+':'+vminuto
+                                font.pixelSize: app.fs*0.5
+                                anchors.centerIn: parent
+                            }
+                        }
+                    }
                 }
             }
         }
     }
     Item{id: xuqp}
     function loadItemsYears(){
+        lm.clear()
         let ai=app.currentDate.getFullYear()
         for(var i=0; i < 150; i++){
             lm.append(lm.addItem(ai + 1))
             ai++
         }
     }
+    function search(){
+        //let item=lv.itemAtIndex(r.currentIndex)
+        loadAspsYears(lm.get(r.currentIndexSearching).anio)
+    }
     function loadAspsYears(y){
-        lm.clear()
         let cd3= new Date(app.currentDate)
-        //let hsys=apps.currentHsys
+        //Ejemplo
+        //python3 ./astrologica_trans.py 20 6 1975 23 04 -3 -35.47857 -69.61535 Pluto Moon Squ 1985 '/home/ns/Descargas/ast73src/astrolog'
+        const str1 = app.planetasRes[apps.currentIndexP1]
+        const p1= str1.charAt(0).toUpperCase() + str1.slice(1);
+        const str2 = app.planetasRes[apps.currentIndexP2]
+        const p2= str2.charAt(0).toUpperCase() + str2.slice(1);
         let finalCmd=''
-            +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_trans.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+cd3.getFullYear()+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+app.currentGradoSolar+' '+app.currentMinutoSolar+' '+app.currentSegundoSolar+' '+edad//+' '+hsys
+            +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_trans.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+cd3.getFullYear()+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' Squ 1985 "/home/ns/Descargas/ast73src/astrolog"'
         let c=''
             +'  if(logData.length<=3||logData==="")return\n'
             +'  let j\n'
             +'try {\n'
             +'  j=JSON.parse(logData)\n'
-            +'  loadJson(j)\n'
+            +'  let item=lv.itemAtIndex(r.currentIndex)\n'
+            +'  item.json=j\n'
+        //+'  log.l(JSON.stringify(j))\n'
+        //+'  log.l(logData)\n'
+        //+'  log.visible=true\n'
+        //+'  log.width=xApp.width*0.5\n'
             +'  logData=""\n'
             +'} catch(e) {\n'
             +'  console.log(e+" "+logData);\n'

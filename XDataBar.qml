@@ -41,13 +41,7 @@ Rectangle {
         rep.model=at
         r.fs=app.fs*0.5
         tResizeText.restart()
-    }
-    onTitleDataChanged: {
-//        let a=titleData.split('|')
-//        rep.model=a
-//        r.fs=app.fs*0.5
-//        tResizeText.restart()
-    }
+    }    
     onHeightChanged: uH=height
     Timer{
         id: tResizeText
