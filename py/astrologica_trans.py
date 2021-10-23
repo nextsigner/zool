@@ -89,10 +89,10 @@ dev=False
 
 log=''
 #cmd=astrologPath + ' -qa ' + str(int(mes)) + ' ' + str(int(dia)) + ' ' + str(anioF) + ' ' + str(hora) + ' ' + str(min) + ' ' + str(gmtNum) + ''+ gmtCar + ' ' + str(abs(int(GMSLon[0]))) + '' + lonCar + '' +str(int(GMSLon[1])) + ' ' + str(abs(int(GMSLat[0]))) + '' + latCar + '' +str(int(GMSLat[1])) + ' -dy'
-cmd=astrologPath + ' -qa ' + str(int(mes)) + ' ' + str(int(dia)) + ' ' + str(anioF) + ' ' + str(hora) + ' ' + str(min) + ' ' + str(gmtNum) + ''+ gmtCar + ' ' + str(abs(int(GMSLon[0]))) + '' + lonCar + '' +str(int(GMSLon[1])) + ' ' + str(abs(int(GMSLat[0]))) + '' + latCar + '' +str(int(GMSLat[1])) + ' -dy'
+cmd=astrologPath + ' -qa ' + str(int(mes)) + ' ' + str(int(dia)) + ' ' + str(anioF) + ' ' + str(hora) + ':' + str(min) + ' ' + str(gmtNum) + ''+ gmtCar + ' ' + str(abs(int(GMSLon[0]))) + '' + lonCar + '' +str(int(GMSLon[1])) + ' ' + str(abs(int(GMSLat[0]))) + '' + latCar + '' +str(int(GMSLat[1])) + ' -dy'
 if dev:
     print(cmd)
-cmd1=[astrologPath, '-qa', str(int(mes)), str(int(dia)), str(anioF), hora, min, str(gmtNum) + ''+ gmtCar, str(abs(int(GMSLon[0]))) + '' + lonCar + '' +str(int(GMSLon[1])), str(abs(int(GMSLat[0]))) + '' + latCar + '' +str(int(GMSLat[1])), '-dy']
+cmd1=[astrologPath, '-qa', str(int(mes)), str(int(dia)), str(anioF), hora+ ':' + min, str(gmtNum) + ''+ gmtCar, str(abs(int(GMSLon[0]))) + '' + lonCar + '' +str(int(GMSLon[1])), str(abs(int(GMSLat[0]))) + '' + latCar + '' +str(int(GMSLat[1])), '-dy']
 #print(cmd1)
 proc = subprocess.Popen(args=cmd1, stdout=subprocess.PIPE)
 output = proc.stdout.read()
