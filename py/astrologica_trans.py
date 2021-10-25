@@ -106,10 +106,12 @@ for l in lista:
 
     if len(arrayLin) > 1:
         ioPlanet1 = str(arrayLin[0]).find(planetSearch1)
+        ioPlanet1B = str(arrayLin[1]).find(planetSearch1)
         ioPlanet2 = str(arrayLin[1]).find(planetSearch2)
+        ioPlanet2B = str(arrayLin[0]).find(planetSearch2)
     else:
         continue
-    if ioAsp > 0 and ioPlanet1 > 0 and ioPlanet2 > 0 and len(arrayLin) > 1:
+    if ioAsp > 0 and (ioPlanet1 > 0 or ioPlanet1B > 0 ) and (ioPlanet2 > 0 or ioPlanet2B > 0 ) and len(arrayLin) > 1:
         #log += str(arrayLin)
         cant = cant + 1
         if dev == True:

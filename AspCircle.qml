@@ -112,6 +112,7 @@ Rectangle {
         id:canvas
         width: r.width//-sweg.fs
         height: width
+        visible: apps.showAspCircle
         anchors.centerIn: r
         property var json
         property bool dash: false
@@ -182,6 +183,7 @@ Rectangle {
         id:canvasBack
         width: canvas.width//-sweg.fs
         height: width
+        visible: apps.showAspCircleBack
         anchors.centerIn: r
         property var json
         property bool dash: true

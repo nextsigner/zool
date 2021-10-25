@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.0
 
 Rectangle {
     id: r
@@ -22,6 +23,25 @@ Rectangle {
             swegz.sweg.state=sweg.aStates[2]
         }
         //Rectangle{anchors.fill: parent; color: 'red';opacity:0.5}
+    }
+    Button{
+        id: bot
+        width: r.cellWidth
+        height: width
+        text:  ''
+        //checkable: true
+        //checked: apps.showAspCircle
+        anchors.bottom: parent.top
+        onClicked: {
+            apps.showAspCircle=!apps.showAspCircle
+        }
+        Text{
+            text:  apps.showAspCircle?'\uf06e':'\uf070'
+            font.family: "FontAwesome"
+            font.pixelSize: r.cellWidth*0.8
+            opacity: apps.showAspCircle?1.0:0.65
+            anchors.centerIn: parent
+        }
     }
     function clear(){
         if(!r.visible)return

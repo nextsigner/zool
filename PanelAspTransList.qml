@@ -14,9 +14,10 @@ Rectangle {
 
     property int currentIndexSearching: 0
     property int currentAnioSearching: 0
+    property int  uAnioSearch: -1
 
-    property var aAspNames: ['Conjunción', 'Trígono', 'Cuadratura', 'Sextil']
-    property var aAspNamesRes: ['Con', 'Trí', 'Squ', 'Sex']
+    property var aAspNames: ['Oposición', 'Conjunción', 'Trígono', 'Cuadratura', 'Sextil']
+    property var aAspNamesRes: ['Opp','Con', 'Tri', 'Squ', 'Sex']
 
     state: 'hide'
     states: [
@@ -86,7 +87,7 @@ Rectangle {
                 anchors.horizontalCenter: parent.horizontalCenter
                 ComboBox{
                     id: cbP1
-                    model: app.planetas
+                    model: app.planetasAS
                     width: r.width*0.5-app.fs*0.5
                     font.pixelSize: app.fs*0.5
                     currentIndex: apps.currentIndexP1
@@ -98,7 +99,7 @@ Rectangle {
                 }
                 ComboBox{
                     id: cbP2
-                    model: app.planetas
+                    model: app.planetasAS
                     width: r.width*0.5-app.fs*0.5
                     font.pixelSize: app.fs*0.5
                     currentIndex: apps.currentIndexP2
@@ -163,14 +164,15 @@ Rectangle {
             Row{
                 spacing: app.fs*0.5
                 anchors.horizontalCenter: parent.horizontalCenter
-
                 Button{
                     id: botSearchAsp
                     text: 'Buscar'
                     font.pixelSize: app.fs*0.5
+                    visible: cbP1.currentIndex!==cbP2.currentIndex
                     onClicked: {
                         r.currentIndexSearching=0
-                        r.currentAnioSearching=0
+                        r.currentAnioSearching=parseInt((''+sbDesde.value).replace('.', ''))
+                        r.uAnioSearch=parseInt((''+sbDesde.value).replace('.', ''))
 //                        for(var i=0;i<lm.count;i++){
 //                            let item=lv.itemAtIndex(i)
 //                            item.json=JSON.parse('{}')
@@ -227,6 +229,7 @@ Rectangle {
             //visible: false
             visible: opacity===1.0
             opacity: 0.5
+            anchors.horizontalCenter: parent.horizontalCenter
             onJsonChanged:{
                 if(json && Object.keys(item.json).length-1 >0){
 //                    if(json === {}){
@@ -274,19 +277,30 @@ Rectangle {
                 anchors.centerIn: parent
                 Row{
                     anchors.horizontalCenter: parent.horizontalCenter
-                    height: txtData.contentHeight//+app.fs*0.5
+                    height: colInfo1.height
                     spacing: app.fs*0.5
-                    Text {
-                        id: txtData
-                        text: '<b>'+anio+'</b> '//+lmAspDates.count
-                        font.pixelSize: app.fs*0.65
-                        width: contentWidth.width//+app.fs
-                        wrapMode: Text.WordWrap
-                        //textFormat: Text.RichText
-                        horizontalAlignment: Text.AlignHCenter
-                        color: index===lv.currentIndex?apps.backgroundColor:apps.fontColor
+                    Column{
+                        id: colInfo1
                         anchors.verticalCenter: parent.verticalCenter
+                        Text {
+                            id: txtData
+                            text: '<b>'+anio+'</b> '//+lmAspDates.count
+                            font.pixelSize: app.fs*0.5
+                            width: contentWidth.width//+app.fs
+                            wrapMode: Text.WordWrap
+                            //textFormat: Text.RichText
+                            horizontalAlignment: Text.AlignHCenter
+                            color: index===lv.currentIndex?apps.backgroundColor:apps.fontColor
+                        }
+                        Text {
+                            text: 'Edad: '+parseInt(anio - r.uAnioSearch)
+                            font.pixelSize: app.fs*0.35
+                            width: contentWidth.width//+app.fs
+                            horizontalAlignment: Text.AlignHCenter
+                            color: index===lv.currentIndex?apps.backgroundColor:apps.fontColor
+                        }
                     }
+
                     Rectangle{
                         width: item.border.width
                         height: parent.height
@@ -388,17 +402,15 @@ Rectangle {
         }
     }
     function search(){
-        //let item=lv.itemAtIndex(r.currentIndex)
-        //loadAspsYears(lm.get(r.currentIndexSearching).anio)
         loadAspsYears(r.currentAnioSearching)
     }
     function loadAspsYears(y){
         let cd3= new Date(app.currentDate)
         //Ejemplo
         //python3 ./astrologica_trans.py 20 6 1975 23 04 -3 -35.47857 -69.61535 Pluto Moon Squ 1985 '/home/ns/Descargas/ast73src/astrolog'
-        const str1 = app.planetasRes[apps.currentIndexP1]
+        const str1 = app.planetasResAS[apps.currentIndexP1]
         const p1= str1.charAt(0).toUpperCase() + str1.slice(1);
-        const str2 = app.planetasRes[apps.currentIndexP2]
+        const str2 = app.planetasResAS[apps.currentIndexP2]
         const p2= str2.charAt(0).toUpperCase() + str2.slice(1);
         let finalCmd=''
             +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_trans.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "/home/ns/Descargas/ast73src/astrolog"'

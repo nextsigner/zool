@@ -140,12 +140,8 @@ Item {
 
 
     AspCircle{
-
-
         id: aspsCircle
         rotation: signCircle.rot - 90 + 1
-        //opacity: panelDataBodies.currentIndex<0?1.0:0.0
-        //visible: false
     }
     PlanetsCircle{
         id:planetsCircle
