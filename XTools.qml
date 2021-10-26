@@ -156,7 +156,7 @@ Rectangle {
                     //width: app.fs*3
                     height: app.fs*0.6
                     anchors.verticalCenter: parent.verticalCenter
-                    visible: sweg.objHousesCircleBack.visible&&app.mod!=='sin'
+                    visible: app.ev&&app.mod!=='sin'
                     onClicked: {
                         JS.mkSinFile(apps.urlBack)
                     }

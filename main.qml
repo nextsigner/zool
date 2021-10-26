@@ -116,6 +116,8 @@ AppWin {
     property int uMcDegree: -1
     property string stringRes: "Res"+Screen.width+"x"+Screen.height
 
+    property bool ev: false //Exterior Visible
+
     property bool sspEnabled: false
 
     onCurrentPlanetIndexChanged: {
@@ -434,7 +436,7 @@ AppWin {
                     height: controlsTimeBack.height
                     anchors.bottom: parent.bottom
                     anchors.horizontalCenter: parent.horizontalCenter
-                    visible: sweg.objHousesCircleBack.visible
+                    visible: app.ev
                     property bool showCT: false
                     MouseArea{
                         anchors.fill: parent

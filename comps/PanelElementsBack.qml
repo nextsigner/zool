@@ -9,7 +9,7 @@ Item {
     anchors.topMargin: app.fs*0.1+panelElements.height
     anchors.right: parent.right
     anchors.rightMargin: app.fs*0.1//spacing
-    visible: sweg.objHousesCircleBack.visible
+    visible: app.ev
     property var aPorcs: [0.0, 0.0,0.0,0.0]
     property int spacing: apps.elementsFs.fs*0.1
 
@@ -18,7 +18,7 @@ Item {
             width: r.width
             height: apps.elementsFs*0.35
             color: apps.fontColor
-            visible: sweg.objHousesCircleBack.visible
+            visible: app.ev
             Text {
                 text: '<b>Exterior</b>'
                 font.pixelSize: parent.height*0.9

@@ -18,7 +18,7 @@ Item {
             width: r.width
             height: apps.elementsFs*0.35
             color: apps.fontColor
-            visible: sweg.objHousesCircleBack.visible
+            visible: app.ev
             Text {
                 text: '<b>Interior</b>'
                 font.pixelSize: parent.height*0.9

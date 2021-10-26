@@ -70,7 +70,7 @@ Rectangle {
         spacing: app.fs*0.15
         y:(parent.height-height)/2
         //x: app.fs*0.25
-        anchors.horizontalCenter: parent.horizontalCenter//!sweg.objHousesCircleBack.visible?parent.horizontalCenter:undefined
+        anchors.horizontalCenter: parent.horizontalCenter//!app.ev?parent.horizontalCenter:undefined
         Rectangle{
             id: circuloSave
             width: app.fs*0.5
@@ -81,7 +81,7 @@ Rectangle {
             border.color: apps.fontColor
             anchors.verticalCenter: parent.verticalCenter
             y:(parent.height-height)/2
-            visible:  !sweg.objHousesCircleBack.visible
+            visible:  !app.ev
             MouseArea{
                 anchors.fill: parent
                 enabled: app.titleData!==app.currentData
@@ -103,7 +103,7 @@ Rectangle {
                     border.width: modelData==='@'?0:1
                     border.color: apps.fontColor
                     radius: app.fs*0.1
-                    //visible:  !sweg.objHousesCircleBack.visible&&(index!==6&&index!==7)//!(modelData.indexOf('lat:')>0||modelData.indexOf('lon:')>0)
+                    //visible:  !app.ev&&(index!==6&&index!==7)//!(modelData.indexOf('lat:')>0||modelData.indexOf('lon:')>0)
                    Text{
                         id: txtRow
                         text: modelData//.replace(/_/g, ' ')
@@ -140,7 +140,7 @@ Rectangle {
         anchors.rightMargin: app.fs*0.5
         anchors.verticalCenter: parent.verticalCenter
         anchors.verticalCenterOffset: yPos
-        visible:  !sweg.objHousesCircleBack.visible
+        visible:  !app.ev
     }
 //    Row{
 //        spacing: app.fs*0.5

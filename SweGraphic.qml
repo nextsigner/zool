@@ -32,7 +32,7 @@ Item {
             name: aStates[0]
             PropertyChanges {
                 target: r
-                width: planetsCircleBack.visible?r.fs*(12 +6):r.fs*(12 +10)
+                width: app.ev?r.fs*(12 +6):r.fs*(12 +10)
             }
             PropertyChanges {
                 target: signCircle
@@ -47,7 +47,7 @@ Item {
             name: aStates[1]
             PropertyChanges {
                 target: r
-                width: planetsCircleBack.visible?r.fs*(15 +6):r.fs*(15 +10)
+                width: app.ev?r.fs*(15 +6):r.fs*(15 +10)
             }
             PropertyChanges {
                 target: signCircle
@@ -62,7 +62,7 @@ Item {
             name: aStates[2]
             PropertyChanges {
                 target: r
-                width: planetsCircleBack.visible?r.fs*(12 +6):r.fs*(12 +10)
+                width: app.ev?r.fs*(12 +6):r.fs*(12 +10)
             }
             PropertyChanges {
                 target: signCircle
@@ -95,7 +95,8 @@ Item {
         anchors.centerIn: signCircle
         w: r.fs*6
         widthAspCircle: aspsCircle.width
-        visible: planetsCircleBack.visible
+        visible: app.ev
+        //visible: planetsCircleBack.visible
     }
     Comps.HouseCircle{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
         id:housesCircle
@@ -322,7 +323,8 @@ Item {
         app.currentJson=JSON.parse(json)
         aspsCircle.clear()
         panelRsList.clear()
-        planetsCircleBack.visible=false
+        //planetsCircleBack.visible=false
+        app.ev=false
         panelAspectsBack.visible=false
         sweg.objHousesCircle.currentHouse=-1
         swegz.sweg.objHousesCircle.currentHouse=-1
@@ -374,7 +376,8 @@ Item {
         housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
         panelDataBodies.loadJsonBack(j)
-        planetsCircleBack.visible=true
+        //planetsCircleBack.visible=true
+        app.ev=true
     }
     function nextState(){
         let currentIndexState=r.aStates.indexOf(r.state)
