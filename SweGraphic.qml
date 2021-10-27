@@ -155,7 +155,7 @@ Item {
         id:planetsCircleBack
         height: width
         anchors.centerIn: parent
-        visible: false
+        visible: app.ev
     }
     AscMcCircle{id: ascMcCircle}
     EclipseCircle{

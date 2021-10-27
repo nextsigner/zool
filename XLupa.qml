@@ -23,6 +23,8 @@ Item {
         }
         if(mod===2){
             swegz.state='show'
+            apps.lt=false
+            apps.showLupa=true
             img.visible=false
         }
     }

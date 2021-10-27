@@ -257,7 +257,7 @@ function deg_to_dms (deg) {
 function loadJson(file){
     //Global Vars Reset
     app.setFromFile=true
-    apps.enableFullAnimation=false
+    //apps.enableFullAnimation=false
     app.currentPlanetIndex=-1
     app.currentSignIndex= 0
     app.currentNom= ''
