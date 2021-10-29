@@ -16,16 +16,16 @@ Rectangle {
         anchors.rightMargin: app.fs*0.1
         anchors.bottom: parent.bottom
         anchors.bottomMargin: app.fs*0.1
-        Button{
-            text: app.uSon
-            width: app.fs*3
-            height: app.fs*0.6
-            anchors.horizontalCenter: parent.horizontalCenter
-            visible: app.uSon!==''
-            onClicked: {
-                JS.showIW()
-            }
-        }
+//        Button{
+//            text: app.uSon
+//            width: app.fs*3
+//            height: app.fs*0.6
+//            anchors.horizontalCenter: parent.horizontalCenter
+//            visible: app.uSon!==''
+//            onClicked: {
+//                JS.showIW()
+//            }
+//        }
         Row{
             spacing: app.fs*0.25
             anchors.horizontalCenter: parent.horizontalCenter

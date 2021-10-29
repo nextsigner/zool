@@ -349,7 +349,7 @@ function loadJson(file){
 function loadJsonBack(file){
     //Global Vars Reset
     app.setFromFile=true
-    apps.enableFullAnimation=false
+    //apps.enableFullAnimation=false
     app.currentPlanetIndexBack=-1
     app.currentSignIndex= 0
     app.currentNomBack= ''
@@ -441,7 +441,7 @@ function loadJsonBack(file){
 function loadJsonFromParamsBack(json){
     //Global Vars Reset
     app.setFromFile=true
-    apps.enableFullAnimation=false
+    //apps.enableFullAnimation=false
     app.currentPlanetIndexBack=-1
     app.currentSignIndex= 0
     app.currentNomBack= ''

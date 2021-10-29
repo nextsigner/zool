@@ -317,7 +317,11 @@ Rectangle {
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    app.currentPlanetIndex=index
+                    if(app.currentPlanetIndex!==index){
+                        app.currentPlanetIndex=index
+                    }else{
+                        JS.showIW()
+                    }
                 }
                 Rectangle{
                     anchors.fill: parent

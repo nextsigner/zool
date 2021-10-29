@@ -283,7 +283,9 @@ AppWin {
             //fileName=jsonsFolder+'/zool_'+Qt.platform.os+'.cfg'*/
         }
     }
-    menuBar: Comps.XMenuBar {}
+    menuBar: Comps.XMenuBar {
+        id: menuBar
+    }
     Timer{
         id: tReload
         running: false
@@ -606,6 +608,11 @@ AppWin {
     //        }
     //    }
     LogItem{id: log}
+//    Text{
+//        text: '->'+menuBar.expanded
+//        font.pixelSize: app.fs*3
+//        color: 'red'
+//    }
     Component.onCompleted: {
         //log.visible=true
         //log.l('--------->'+EXTRA.getColor(10))

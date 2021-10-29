@@ -91,6 +91,10 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Enter'
         onActivated: {
+            if(menuBar.expanded){
+                menuBar.e()
+                return
+            }
             if(xEditor.visible){
                 //xEditor.enter()
                 //return
@@ -173,6 +177,10 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Up'
         onActivated: {
+            if(menuBar.expanded){
+                menuBar.u()
+                return
+            }
             if(xSabianos.visible){
                 xSabianos.toup()
                 return
@@ -211,7 +219,12 @@ ApplicationWindow {
     }
     Shortcut{
         sequence: 'Down'
+        //enabled: !menuBar.expanded
         onActivated: {
+            if(menuBar.expanded){
+                menuBar.d()
+                return
+            }
             if(xSabianos.visible){
                 xSabianos.todown()
                 return
@@ -251,6 +264,10 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Left'
         onActivated: {
+            if(menuBar.expanded){
+                menuBar.left()
+                return
+            }
             if(xSabianos.visible){
                 xSabianos.toleft()
                 return
@@ -260,6 +277,10 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Right'
         onActivated: {
+            if(menuBar.expanded){
+                menuBar.right()
+                return
+            }
             if(xSabianos.visible){
                 xSabianos.toright()
                 return

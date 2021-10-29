@@ -229,7 +229,7 @@ Rectangle {
             //visible: false
             visible: opacity===1.0
             opacity: 0.5
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.horizontalCenter: parent?parent.horizontalCenter:undefined
             onJsonChanged:{
                 if(json && Object.keys(item.json).length-1 >0){
 //                    if(json === {}){
