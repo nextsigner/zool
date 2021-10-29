@@ -613,6 +613,7 @@ AppWin {
 //        font.pixelSize: app.fs*3
 //        color: 'red'
 //    }
+    Comps.MenuPlanets{id: menuPlanets}
     Component.onCompleted: {
         //log.visible=true
         //log.l('--------->'+EXTRA.getColor(10))

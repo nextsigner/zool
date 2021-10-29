@@ -6,6 +6,10 @@ Rectangle {
     visible: false
     color: 'black'
     anchors.fill: parent
+    property bool markDown: false
+    onVisibleChanged: {
+        if(!visible)r.markDown=false
+    }
     Flickable{
         width: r.width
         height: r.height
@@ -21,10 +25,12 @@ Rectangle {
             color: 'white'
             font.pixelSize: app.fs*0.5
             wrapMode: Text.WordWrap
-            textFormat: Text.RichText
+            textFormat: r.markDown?Text.MarkdownText:Text.RichText
         }
     }
     function loadData(file){
+        //log.l('XInfoData file: '+file)
+        //log.visible=true
         let fileData=''+unik.getFile(file)
         data.text=fileData
         r.visible=true

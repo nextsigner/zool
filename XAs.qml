@@ -162,6 +162,7 @@ Item{
             id: maSig
             property int vClick: 0
             anchors.fill: parent
+            acceptedButtons: Qt.AllButtons;
             hoverEnabled: true
             onEntered: {
                 vClick=0
@@ -172,9 +173,13 @@ Item{
                 //r.parent.cAs=r.parent
             }
             onClicked: {
-                vClick++
-                tClick.restart()
-                //r.parent.pressed(r)
+                if (mouse.button === Qt.RightButton) { // 'mouse' is a MouseEvent argument passed into the onClicked signal handler
+                    menuPlanets.currentIndexPlanet=r.numAstro
+                    menuPlanets.popup()
+                } else if (mouse.button === Qt.LeftButton) {
+                    vClick++
+                    tClick.restart()
+                }
             }
             onDoubleClicked: {
                 tClick.stop()
