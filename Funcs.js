@@ -872,3 +872,54 @@ function raiseItem(item){
     }
     item.state='show'
 }
+
+//Numerologia
+function getNums(fecha){
+    let d=''
+    let nf=0
+    let f=fecha
+    let m0=f.split('/')
+    let m1=m0[0].split('')
+    let m2=m0[1].split('')
+    let m3=m0[2].split('')
+    nf+=parseInt(m1[0])
+    if(m1.length>1){
+        nf+=parseInt(m1[1])
+    }
+    nf+=parseInt(m2[0])
+    if(m2.length>1){
+        nf+=parseInt(m2[1])
+    }
+    nf+=parseInt(m3[0])
+    if(m3.length>3){
+        nf+=parseInt(m3[1])
+        nf+=parseInt(m3[2])
+        nf+=parseInt(m3[3])
+    }
+    if(nf>9&&nf!==11&&nf!==22&&nf!==33&&nf!==44){
+        let m4=(''+nf).split('')
+        let nnf=parseInt(m4[0])
+        if(m4.length>1){
+            nnf+=parseInt(m4[1])
+        }
+        nf=nnf
+    }
+    d=''+parseInt(m0[0])
+    if(parseInt(m0[0])>9){
+        let m5=d.split('')
+        let nfd=parseInt(m5[0])
+        if(m5.length>1){
+            nfd+=parseInt(m5[1])
+        }
+        d+='-'+nfd
+    }
+    if(nf>9){
+        let m6=(''+nf).split('')
+        let nnf6=parseInt(m6[0])
+        if(m6.length>1){
+            nnf6+=parseInt(m6[1])
+        }
+        nf=nnf6
+    }
+    return [nf, d]
+}

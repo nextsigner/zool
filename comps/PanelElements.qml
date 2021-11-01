@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 import "../"
+import "../Funcs.js" as JS
 
 Item {
     id: r
@@ -29,10 +30,27 @@ Item {
         ListView{
             id: lv
             width: r.width
-            height: apps.elementsFs*3//*0.65*4+apps.elementsFs
+            height: apps.elementsFs*0.65*4//*0.65*4+apps.elementsFs
             delegate: comp
             model: lm
             boundsBehavior: ListView.StopAtBounds
+        }
+        Rectangle{
+            id: xItemNums
+            width: r.width
+            height: apps.elementsFs*0.65
+            border.width: 1
+            border.color: apps.backgroundColor
+            color: apps.fontColor
+            radius: apps.elementsFs*0.15
+            property int nd: 0
+            property string ns: '0'
+            Row{
+                anchors.centerIn: parent
+                spacing: apps.elementsFs*0.5
+                XText{text: '<b>'+xItemNums.nd+'</b>'; color: apps.backgroundColor; font.pixelSize: apps.elementsFs*0.35}
+                XText{text: '<b>'+xItemNums.ns+'</b>'; color: apps.backgroundColor; font.pixelSize: apps.elementsFs*0.35}
+            }
         }
     }
     ListModel{
@@ -166,6 +184,9 @@ Item {
         let af=[parseFloat(rFuego).toFixed(1), parseFloat(rTierra).toFixed(1), parseFloat(rAire).toFixed(1), parseFloat(rAgua).toFixed(1)]
         //console.log('vi:'+v1.toString())
         updateListModel(af, v1, v2, v3, v4)
+        let d = JS.getNums(app.currentFecha)
+        xItemNums.nd=d[0]
+        xItemNums.ns=d[1]
     }
     function updateListModel(af, v1, v2, v3, v4){
         lm.clear()

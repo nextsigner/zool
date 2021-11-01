@@ -25,8 +25,7 @@ Rectangle {
             color: 'white'
             font.pixelSize: app.fs*0.5
             wrapMode: Text.WordWrap
-            //textFormat: r.markDown?Text.MarkdownText:Text.RichText
-            textFormat: Text.MarkdownText
+            textFormat: r.markDown?Text.MarkdownText:Text.RichText
         }
     }
     function loadData(file){
@@ -43,11 +42,10 @@ Rectangle {
                     nfd+=m0[i]+'\n\n'
                 }
             }
-            data.text=nfd//fileData//.replace(/\n/g,'<br /><br />\n')
+            data.text=nfd
         }else{
             data.text=fileData
         }
-
         r.visible=true
     }
 }
