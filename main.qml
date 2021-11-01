@@ -481,7 +481,7 @@ AppWin {
                 width: xApp.width*0.2
                 height: parent.height
 
-                Chat{id: chat; z: onTop?panelPronEdit.z+1:panelControlsSign.z-1}
+                //Chat{id: chat; z: onTop?panelPronEdit.z+1:panelControlsSign.z-1}
                 PanelControlsSign{id: panelControlsSign}
                 PanelDataBodies{id: panelDataBodies}
                 PanelPronEdit{id: panelPronEdit;}

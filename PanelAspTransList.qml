@@ -1,5 +1,5 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.0
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import "Funcs.js" as JS
 
 Rectangle {
@@ -412,15 +412,45 @@ Rectangle {
         const p1= str1.charAt(0).toUpperCase() + str1.slice(1);
         const str2 = app.planetasResAS[apps.currentIndexP2]
         const p2= str2.charAt(0).toUpperCase() + str2.slice(1);
+        let astrologPath=''
+
+        if(Qt.platform.os==='windows'){
+            //Qt.quit()
+            var m0=app.mainLocation.split('/')
+            var np=''
+            for(var i=0;i<m0.length;i++){
+                np+=m0[i]+'\\\\'
+            }
+
+            var nppyl=app.mainLocation+'/Python/python.exe'
+            np+='ast72cli\\\\astrolog.exe'
+//            log.l('np:'+np)
+//            log.visible=true
+//            log.width=xApp.width*0.2
+            var m1=nppyl.split('/')
+            var nppython=""
+            for(i=0;i<m1.length;i++){
+                if(i!==0){
+                    nppython+='\\\\'+m1[i]
+                }else{
+                    nppython+=m1[i]
+                }
+
+            }
+            nppython="\""+nppython+"\""
+            //log.l('nppython:'+nppython)
+            astrologPath=np//(""+app.mainLocation+"").replace('/\//g', '\\\\')+'\\\\ast72cli\\\\astrolog.exe'//.replace('\\', '\\\\')//.replace('/', '\\\\')
+        }
         let finalCmd=''
-            +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_trans.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "/home/ns/Descargas/ast73src/astrolog"'
+            +nppython+' '+app.mainLocation+'/py/astrologica_trans.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "'+astrologPath+'"'
         console.log('cmd astrolog: '+finalCmd)
         let c=''
             +'  if(logData.length<=3||logData==="")return\n'
             +'  let j\n'
             +'try {\n'
             +'  j=JSON.parse(logData)\n'
-            +'  let item=lv.itemAtIndex(r.currentIndexSearching)\n'
+            //+'  let item=lv.itemAtIndex(r.currentIndexSearching)\n'
+            +'  let item=lv.contentItem.children[r.currentIndexSearching]\n'
             +'  item.json=j\n'
         //+'  log.l(JSON.stringify(j))\n'
         //+'  log.l(logData)\n'

@@ -1,5 +1,5 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.0
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 
 Rectangle {
     id: r
@@ -25,14 +25,29 @@ Rectangle {
             color: 'white'
             font.pixelSize: app.fs*0.5
             wrapMode: Text.WordWrap
-            textFormat: r.markDown?Text.MarkdownText:Text.RichText
+            //textFormat: r.markDown?Text.MarkdownText:Text.RichText
+            textFormat: Text.MarkdownText
         }
     }
     function loadData(file){
         //log.l('XInfoData file: '+file)
         //log.visible=true
         let fileData=''+unik.getFile(file)
-        data.text=fileData
+        if(r.markDown){
+            let nfd=''
+            let m0=fileData.split('\n')
+            for(var i=0;i<m0.length;i++){
+                if(m0[i].length===0){
+                    nfd+=m0[i]+'<br/><br/>\n\n'
+                }else{
+                    nfd+=m0[i]+'\n\n'
+                }
+            }
+            data.text=nfd//fileData//.replace(/\n/g,'<br /><br />\n')
+        }else{
+            data.text=fileData
+        }
+
         r.visible=true
     }
 }

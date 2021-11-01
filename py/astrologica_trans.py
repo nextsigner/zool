@@ -47,10 +47,10 @@ astrologPath=sys.argv[13]
 
 if float(gmt) < 0.0:
     gmtCar='W'
-    gmtNum=abs(int(gmt))
+    gmtNum=abs(float(gmt))
 else:
     gmtCar='E'
-    gmtNum=int(gmt)
+    gmtNum=float(gmt)
 
 if float(lon) < 0:
     lonCar='W'
