@@ -161,7 +161,7 @@ AppWin {
         let min=currentDate.getMinutes()
         //xDataBar.currentDateText=d+'/'+parseInt(m + 1)+'/'+a+' '+h+':'+min
         //xDataBar.currentGmtText=''+currentGmt
-        tReload.restart()
+        tReload.restart()        
     }
     onCurrentDateBackChanged: {
         //if(app.currentDataBack===''||app.setFromFile)return
@@ -355,6 +355,7 @@ AppWin {
                 }
                 Item{
                     anchors.fill: parent
+                    PanelSabianos{id: panelSabianos; state: 'show'}
                     PanelRemoto{
                         id: panelRemoto;
                         state: 'show'

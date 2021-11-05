@@ -354,6 +354,10 @@ Item {
                 tLoadSin.start()
             }
             tFirtShow.start()
+            panelSabianos.numSign=app.currentJson.ph.h1.is
+            panelSabianos.numDegree=parseInt(app.currentJson.ph.h1.rsgdeg - 1)
+            panelSabianos.loadData()
+            panelSabianos.state='show'
         } catch(e) {
             //alert(e); // error in the above string (in this case, yes)!
             JS.showMsgDialog('Error de carga', 'Hay un error en la carga de los datos.', 'Error SweGraphic::loadSweJson(json)')

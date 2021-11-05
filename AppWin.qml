@@ -384,6 +384,7 @@ ApplicationWindow {
                 xEditor.save()
                 return
             }
+            panelSabianos.state=panelSabianos.state==='hide'?'show':'hide'
         }
     }
     Shortcut{

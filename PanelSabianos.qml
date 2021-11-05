@@ -5,9 +5,9 @@ import Qt.labs.settings 1.1
 
 Rectangle {
     id: r
-    visible: false
     color: 'white'
-    anchors.fill: parent
+    width: parent.width
+    height: parent.height
     property real fz: 1.0
     property string htmlFolder: ''
     property var signos: ['Aries', 'Tauro', 'Géminis', 'Cáncer', 'Leo', 'Virgo', 'Libra', 'Escorpio', 'Sagitario', 'Capricornio', 'Acuario', 'Piscis']
@@ -17,80 +17,86 @@ Rectangle {
     property real factorZoomByRes: 1.5
     property int currentInterpreter: 0
 
+    state: 'hide'
+    states: [
+        State {
+            name: "show"
+            PropertyChanges {
+                target: r
+                x:0
+            }
+        },
+        State {
+            name: "hide"
+            PropertyChanges {
+                target: r
+                x:0-r.width
+            }
+        }
+    ]
+    Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
+
+
     MouseArea{
         anchors.fill: parent
     }
 
-    Row{
-        id: rowTit
-        spacing: r.fs*0.25
-        anchors.horizontalCenter: parent.horizontalCenter
-        Text {
-            id: currentSign
-            text: '<b>Simbología de los Sabianos</b> - <b>'+r.signos[r.numSign]+'</b>'
-            font.pixelSize: r.fs
-            anchors.verticalCenter: parent.verticalCenter
-        }
-        Item {
-            id: xSigno
-            width: app.fs*1.8
-            height: width
-            Rectangle{
-                anchors.fill: xSigno
-                radius: app.fs*0.25
-                color: 'white'
-                border.width: 2
-                border.color: 'black'
-                Image {
-                    id: sign
-                    source: "./resources/imgs/signos/"+r.numSign+".svg"
-                    width: xSigno.width*0.8
-                    fillMode: Image.PreserveAspectFit
-                    anchors.centerIn: parent
-                }
-            }
-        }
-    }
-    Text{
-        id: data
-        width: r.width-app.fs*0.25
-        anchors.horizontalCenter: r.horizontalCenter
-        anchors.top: rowTit.bottom
-        anchors.topMargin: app.fs*0.5
-        text: '<h1>Los Sabianos</h1>'
-        font.pixelSize: r.fs
-        wrapMode: Text.WordWrap
-        textFormat: Text.RichText
-    }
-    Rectangle{
-        id: xZoom
-        width: app.fs*4
+    Flickable{
+        width: r.width
         height: r.height
-        x:r.width-width
-        color: 'transparent'
+        contentWidth: r.width
+        contentHeight: rowTit.height+app.fs*3
         Column{
-            anchors.centerIn: parent
-            Rectangle{
-                width: xZoom.width
-                height: xZoom.height/2
-                color: 'transparent'
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        zoomUp()
+            id: rowTit
+            spacing: app.fs*0.5
+            anchors.horizontalCenter: parent.horizontalCenter
+            Text {
+                id: currentSign
+                text: '<b>Simbología de los Sabianos</b>'
+                width: r.width-app.fs
+                wrapMode: Text.WordWrap
+                font.pixelSize: app.fs*0.75
+                anchors.horizontalCenter: parent.horizontalCenter
+                //anchors.verticalCenter: parent.verticalCenter
+            }
+            Row{
+                spacing: app.fs*0.5
+                Text {
+                    text:'<b>'+r.signos[r.numSign]+'</b>'
+                    font.pixelSize: app.fs*0.75
+                    anchors.verticalCenter: parent.verticalCenter
+                }
+                Item {
+                    id: xSigno
+                    width: app.fs
+                    height: width
+                    anchors.verticalCenter: parent.verticalCenter
+                    Rectangle{
+                        anchors.fill: xSigno
+                        radius: app.fs*0.25
+                        color: 'white'
+                        border.width: 2
+                        border.color: 'black'
+                        Image {
+                            id: sign
+                            source: "./resources/imgs/signos/"+r.numSign+".svg"
+                            width: xSigno.width*0.8
+                            fillMode: Image.PreserveAspectFit
+                            anchors.centerIn: parent
+                        }
                     }
                 }
             }
-            Rectangle{
-                width: xZoom.width
-                height: xZoom.height/2
-                color: 'transparent'
-                MouseArea{
-                    anchors.fill: parent
-                    onClicked: {
-                        zoomDown()
-                    }
-                }
+            Text{
+                id: data
+                width: r.width-app.fs
+                anchors.horizontalCenter: r.horizontalCenter
+                //anchors.top: rowTit.bottom
+                //anchors.topMargin: app.fs*0.5
+                text: '<h1>Los Sabianos</h1>'
+                font.pixelSize: r.fs
+                wrapMode: Text.WordWrap
+                textFormat: Text.RichText
             }
         }
     }
@@ -103,26 +109,17 @@ Rectangle {
         anchors.bottom: parent.bottom
         visible: false
     }
-    Text {
-        text: 'Presiona\nEscape\npara salir'
-        horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: r.fs*0.25
-        anchors.left: parent.left
-        anchors.leftMargin: app.fs
-        anchors.top: parent.top
-        anchors.topMargin: app.fs*0.5
-    }
     Rectangle{
-        width: app.fs
+        width: app.fs*0.5
         height: width
         color: 'black'
         anchors.right: parent.right
-        anchors.rightMargin: app.fs*0.5
+        anchors.rightMargin: app.fs*0.25
         anchors.top: parent.top
-        anchors.topMargin: app.fs*0.5
+        anchors.topMargin: app.fs*0.25
         MouseArea{
             anchors.fill: parent
-            onClicked: r.visible=false
+            onClicked: r.state='hide'
         }
         Text {
             text: 'X'
@@ -131,10 +128,6 @@ Rectangle {
             color: 'white'
             anchors.centerIn: parent
         }
-    }
-    Component.onCompleted: {
-        if(Screen.width===1280&&Screen.height===720)r.factorZoomByRes=2.0
-        if(Screen.width===1920&&Screen.height===1080)r.factorZoomByRes=1.5
     }
     function ctrlDown(){
         if(r.numSign<11){
@@ -211,23 +204,26 @@ Rectangle {
         loadData()
     }
     function loadData(){
-        let gz=getJsonZoom(r.numSign, r.numDegree, r.currentInterpreter)
-        let zoom=parseFloat(gz).toFixed(1)
-        if(zoom<0.1){
-            zoom=0.1
-            setJsonZoom(r.numSign, r.numDegree, r.currentInterpreter, zoom)
-        }
-        //setJsonZoom(r.numSign, r.numDegree, r.currentInterpreter, zoom)
-        r.fz=parseFloat(zoom).toFixed(1)
-        if(r.fz<0.5){
-            r.fz=0.5
-        }
-        data.font.pixelSize=r.fs*r.factorZoomByRes*r.fz
+        //        let gz=getJsonZoom(r.numSign, r.numDegree, r.currentInterpreter)
+        //        let zoom=parseFloat(gz).toFixed(1)
+        //        if(zoom<0.1){
+        //            zoom=0.1
+        //            setJsonZoom(r.numSign, r.numDegree, r.currentInterpreter, zoom)
+        //        }
+        //        //setJsonZoom(r.numSign, r.numDegree, r.currentInterpreter, zoom)
+        //        r.fz=parseFloat(zoom).toFixed(1)
+        //        if(r.fz<0.5){
+        //            r.fz=0.5
+        //        }
+        //        data.font.pixelSize=r.fs*r.factorZoomByRes*r.fz
 
+        data.font.pixelSize=app.fs*0.5
         if(true){
             let fileData=''+unik.getFile(app.mainLocation+'/resources/sabianos.json')
             let json=JSON.parse(fileData.replace(/\n/g, ''))
-            data.text=json['s'+r.numSign]['g'+r.numDegree]['p'+parseInt(r.currentInterpreter + 1)].text
+            data.text=json['s'+r.numSign]['g'+r.numDegree]['p1'].text
+            data.text+=json['s'+r.numSign]['g'+r.numDegree]['p2'].text
+            data.text+=json['s'+r.numSign]['g'+r.numDegree]['p3'].text
             return
         }
 
