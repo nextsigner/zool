@@ -39,6 +39,12 @@ Rectangle {
 
     MouseArea{
         anchors.fill: parent
+        onDoubleClicked: {
+            xSabianos.numSign=r.numSign
+            xSabianos.numDegree=r.numDegree
+            xSabianos.visible=true
+            xSabianos.loadData()
+        }
     }
 
     Flickable{
@@ -108,6 +114,15 @@ Rectangle {
         //color: 'white'
         anchors.bottom: parent.bottom
         visible: false
+    }
+    MouseArea{
+        anchors.fill: parent
+        onDoubleClicked: {
+            xSabianos.numSign=r.numSign
+            xSabianos.numDegree=r.numDegree
+            xSabianos.visible=true
+            xSabianos.loadData()
+        }
     }
     Rectangle{
         width: app.fs*0.5

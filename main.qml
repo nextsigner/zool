@@ -408,19 +408,23 @@ AppWin {
                         id:xIconClock
                         width: app.fs
                         height: width
-                        anchors.horizontalCenter: parent.horizontalCenter
+                        //anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.right: parent.left
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: app.fs*0.1
                         MouseArea{
                             anchors.fill: parent
-                            onClicked: xControlsTime.showCT=!xControlsTime.showCT
+                            onClicked: {
+                                xControlsTime.showCT=!xControlsTime.showCT
+                                xControlsTimeBack.showCT=false
+                            }
                         }
                         Text{
                             id:ccinit
                             text:'\uf017'
                             font.family: 'FontAwesome'
                             font.pixelSize: app.fs*0.75
-                            color: apps.fontColor
+                            color: apps.houseColor
                             anchors.centerIn: parent
                         }
                     }
@@ -449,13 +453,17 @@ AppWin {
                         id:xIconClockBack
                         width: app.fs
                         height: width
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.horizontalCenterOffset: width+app.fs*0.5
+                        //anchors.horizontalCenter: parent.horizontalCenter
+                        //anchors.horizontalCenterOffset: width+app.fs*0.5
+                        anchors.left: parent.right
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: app.fs*0.1
                         MouseArea{
                             anchors.fill: parent
-                            onClicked: xControlsTimeBack.showCT=!xControlsTime.showCT
+                            onClicked: {
+                                xControlsTimeBack.showCT=!xControlsTimeBack.showCT
+                                xControlsTime.showCT=false
+                            }
                         }
                         Text{
                             id:ccinitBack

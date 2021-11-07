@@ -186,10 +186,10 @@ function getJSON(fileLocation, comp, s, c, nomCuerpo) {
     request.send()
 }
 function showSABIANOS(numSign, numDegree){
-    xSabianos.numSign=numSign
-    xSabianos.numDegree=numDegree
-    xSabianos.visible=true
-    xSabianos.loadData()
+    panelSabianos.numSign=numSign
+    panelSabianos.numDegree=numDegree
+    panelSabianos.state='show'
+    panelSabianos.loadData()
 }
 function quitarAcentos(cadena){
     const acentos = {'á':'a','é':'e','í':'i','ó':'o','ú':'u','Á':'A','É':'E','Í':'I','Ó':'O','Ú':'U'};
