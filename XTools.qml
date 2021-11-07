@@ -16,16 +16,16 @@ Rectangle {
         anchors.rightMargin: app.fs*0.1
         anchors.bottom: parent.bottom
         anchors.bottomMargin: app.fs*0.1
-//        Button{
-//            text: app.uSon
-//            width: app.fs*3
-//            height: app.fs*0.6
-//            anchors.horizontalCenter: parent.horizontalCenter
-//            visible: app.uSon!==''
-//            onClicked: {
-//                JS.showIW()
-//            }
-//        }
+        //        Button{
+        //            text: app.uSon
+        //            width: app.fs*3
+        //            height: app.fs*0.6
+        //            anchors.horizontalCenter: parent.horizontalCenter
+        //            visible: app.uSon!==''
+        //            onClicked: {
+        //                JS.showIW()
+        //            }
+        //        }
         Row{
             spacing: app.fs*0.25
             anchors.horizontalCenter: parent.horizontalCenter
@@ -84,21 +84,34 @@ Rectangle {
             border.width: 1
             border.color: 'white'
             anchors.horizontalCenter: parent.horizontalCenter
-            Column{
+            Row{
                 anchors.centerIn: parent
                 spacing: app.fs*0.25
-                Text{
-                    text: 'Ver/Lupa'
-                    font.pixelSize: app.fs*0.25
-                    color: 'white'
+                Button{
+                    id: bot
+                    width: app.fs*0.5
+                    height: width
+                    text:  ''
+                    onClicked: {
+                        apps.showLupa=!apps.showLupa
+                        //apps.showAspCircle=!apps.showAspCircle
+                    }
+                    Text{
+                        text:  apps.showLupa?'\uf010':'\uf002'
+                        font.family: "FontAwesome"
+                        font.pixelSize: parent.width*0.8
+                        anchors.centerIn: parent
+                    }
                 }
                 Row{
                     spacing: app.fs*0.25
-                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: apps.showLupa
+
                     Button{
-                        text: 'MODO '+parseInt(xLupa.mod + 1)
-                        width: app.fs*2
-                        height: app.fs*0.6
+                        width: app.fs*0.5
+                        height: width
+                        text:  ''
                         onClicked: {
                             if(apps.lupaMod<2){
                                 apps.lupaMod++
@@ -107,34 +120,55 @@ Rectangle {
                             }
                             xLupa.mod=apps.lupaMod
                         }
-                    }
-                    Button{
-                        text: apps.showLupa?'OCULTAR':'MOSTRAR'
-                        width: app.fs*2
-                        height: app.fs*0.6
-                        onClicked: {
-                            apps.showLupa=!apps.showLupa
+                        Text{
+                            text:  '<b>'+parseInt(xLupa.mod + 1)+'</b>'
+                            font.family: "FontAwesome"
+                            font.pixelSize: parent.width*0.8
+                            anchors.centerIn: parent
                         }
                     }
-                }
-                Row{
-                    spacing: app.fs*0.25
-                    anchors.horizontalCenter: parent.horizontalCenter
+
                     Button{
-                        text: apps.lt?'MOVER':'CLICK'
-                        width: app.fs*2
-                        height: app.fs*0.6
+                        width: app.fs*0.5
+                        height: width
+                        text:  ''
                         onClicked: {
                             apps.lt=!apps.lt
                         }
+                        Text{
+                            text:  apps.lt?'\uf245':'\uf255'
+                            font.family: "FontAwesome"
+                            font.pixelSize: parent.width*0.8
+                            anchors.centerIn: parent
+                        }
                     }
                     Button{
-                        text: 'CENTRAR '
-                        width: app.fs*2
-                        height: app.fs*0.6
+                        width: app.fs*0.5
+                        height: width
+                        text:  ''
                         onClicked: {
                             xLupa.x=xLupa.parent.width*0.5-xLupa.height*0.5
                             xLupa.y=xLupa.parent.height*0.5-xLupa.width*0.5+sweg.verticalOffSet-sweg.fs*0.5
+                        }
+                        Text{
+                            text:  '\uf010'
+                            font.family: "FontAwesome"
+                            font.pixelSize: parent.width*0.8
+                            anchors.centerIn: parent
+                        }
+                        Item{
+                            anchors.fill: parent
+                            anchors.horizontalCenterOffset: app.fs
+                            Repeater{
+                                model: 4
+                                Rectangle{
+                                    width: parent.width+app.fs*0.5
+                                    height: 1
+                                    color: 'black'
+                                    rotation: index*90
+                                    anchors.centerIn: parent
+                                    }
+                            }
                         }
                     }
                 }
