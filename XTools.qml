@@ -39,40 +39,97 @@ Rectangle {
             }
         }
         Row{
-            spacing: app.fs*0.1
+            spacing: app.fs*0.25
             anchors.horizontalCenter: parent.horizontalCenter
-            Button{
-                text: 'S-Sol'
-                font.pixelSize: app.fs*0.35
-                width: app.fs*1.5
-                height: app.fs*0.6
-                onClicked: {
-                    let h1=app.currentJson.pc.c0
-                    let gf=h1.rsgdeg//app.currentGradoSolar-gr
-                    app.uSon='sun_'+app.objSignsNames[h1.is]+'_'+h1.ih
-                    JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), gf-1)
+            Rectangle{
+                width: rowBotsSabInt.width+app.fs*0.35
+                height: apps.botSize+app.fs*0.35
+                color: apps.houseColor
+                anchors.verticalCenter: parent.verticalCenterenter
+                Row{
+                    id: rowBotsSabInt
+                    spacing: app.fs*0.1
+                    anchors.centerIn: parent
+                    Button{
+                        text: 'S'
+                        font.pixelSize: app.fs*0.35
+                        width: apps.botSize
+                        height: width
+                        onClicked: {
+                            let h1=app.currentJson.pc.c0
+                            let gf=h1.rsgdeg//app.currentGradoSolar-gr
+                            app.uSon='sun_'+app.objSignsNames[h1.is]+'_'+h1.ih
+                            JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), gf-1)
+                        }
+                    }
+                    Button{
+                        text: 'A'
+                        font.pixelSize: app.fs*0.35
+                        width: apps.botSize
+                        height: width
+                        onClicked: {
+                            let h1=app.currentJson.ph.h1
+                            app.uSon='asc_'+app.objSignsNames[h1.is]+'_1'
+                            JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uAscDegree-1)
+                        }
+                    }
+                    Button{
+                        text: 'M'
+                        font.pixelSize: app.fs*0.35
+                        width: apps.botSize
+                        height: width
+                        onClicked: {
+                            let h1=app.currentJson.ph.h10
+                            app.uSon='mc_'+app.objSignsNames[h1.is]+'_10'
+                            JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uMcDegree-1)
+                        }
+                    }
                 }
             }
-            Button{
-                text: 'S-Asc'
-                font.pixelSize: app.fs*0.35
-                width: app.fs*1.5
-                height: app.fs*0.6
-                onClicked: {
-                    let h1=app.currentJson.ph.h1
-                    app.uSon='asc_'+app.objSignsNames[h1.is]+'_1'
-                    JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uAscDegree-1)
-                }
-            }
-            Button{
-                text: 'S-Mc'
-                font.pixelSize: app.fs*0.35
-                width: app.fs*1.5
-                height: app.fs*0.6
-                onClicked: {
-                    let h1=app.currentJson.ph.h10
-                    app.uSon='mc_'+app.objSignsNames[h1.is]+'_10'
-                    JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uMcDegree-1)
+            Rectangle{
+                width: rowBotsSabIntBack.width+app.fs*0.35
+                height: apps.botSize+app.fs*0.35
+                color: apps.houseColorBack
+                anchors.verticalCenter: parent.verticalCenter
+                visible: app.ev
+                Row{
+                    id: rowBotsSabIntBack
+                    spacing: app.fs*0.1
+                    anchors.centerIn: parent
+                    Button{
+                        text: 'S'
+                        font.pixelSize: app.fs*0.35
+                        width: apps.botSize
+                        height: width
+                        onClicked: {
+                            let h1=app.currentJsonBack.pc.c0
+                            let gf=h1.rsgdeg//app.currentGradoSolar-gr
+                            app.uSon='sun_'+app.objSignsNames[h1.is]+'_'+h1.ih
+                            JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), gf-1)
+                        }
+                    }
+                    Button{
+                        text: 'A'
+                        font.pixelSize: app.fs*0.35
+                        width: apps.botSize
+                        height: width
+                        onClicked: {
+                            let h1=app.currentJsonBack.ph.h1
+                            app.uSon='asc_'+app.objSignsNames[h1.is]+'_1'
+                            JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uAscDegree-1)
+                        }
+                    }
+                    Button{
+                        text: 'M'
+                        font.pixelSize: app.fs*0.35
+                        width: apps.botSize
+                        height: width
+                        onClicked: {
+                            let h1=app.currentJsonBack.ph.h10
+                            app.uSon='mc_'+app.objSignsNames[h1.is]+'_10'
+                            JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uMcDegree-1)
+                        }
+                    }
                 }
             }
         }
@@ -81,35 +138,18 @@ Rectangle {
             width: children[0].width+app.fs*0.25
             height: children[0].height+app.fs*0.25
             color: 'transparent'
-            border.width: 1
+            border.width: apps.showLupa?1:0
             border.color: 'white'
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.right: parent.right
             Row{
                 anchors.centerIn: parent
-                spacing: app.fs*0.25
-                Button{
-                    id: bot
-                    width: app.fs*0.5
-                    height: width
-                    text:  ''
-                    onClicked: {
-                        apps.showLupa=!apps.showLupa
-                        //apps.showAspCircle=!apps.showAspCircle
-                    }
-                    Text{
-                        text:  apps.showLupa?'\uf010':'\uf002'
-                        font.family: "FontAwesome"
-                        font.pixelSize: parent.width*0.8
-                        anchors.centerIn: parent
-                    }
-                }
+                spacing: apps.botSize*0.25
                 Row{
                     spacing: app.fs*0.25
                     anchors.verticalCenter: parent.verticalCenter
                     visible: apps.showLupa
-
                     Button{
-                        width: app.fs*0.5
+                        width: apps.botSize
                         height: width
                         text:  ''
                         onClicked: {
@@ -127,9 +167,8 @@ Rectangle {
                             anchors.centerIn: parent
                         }
                     }
-
                     Button{
-                        width: app.fs*0.5
+                        width: apps.botSize
                         height: width
                         text:  ''
                         onClicked: {
@@ -143,7 +182,7 @@ Rectangle {
                         }
                     }
                     Button{
-                        width: app.fs*0.5
+                        width: apps.botSize
                         height: width
                         text:  ''
                         onClicked: {
@@ -151,33 +190,35 @@ Rectangle {
                             xLupa.y=xLupa.parent.height*0.5-xLupa.width*0.5+sweg.verticalOffSet-sweg.fs*0.5
                         }
                         Text{
-                            text:  '\uf010'
+                            text:  '\uf05b'
                             font.family: "FontAwesome"
                             font.pixelSize: parent.width*0.8
                             anchors.centerIn: parent
                         }
-                        Item{
-                            anchors.fill: parent
-                            anchors.horizontalCenterOffset: app.fs
-                            Repeater{
-                                model: 4
-                                Rectangle{
-                                    width: parent.width+app.fs*0.5
-                                    height: 1
-                                    color: 'black'
-                                    rotation: index*90
-                                    anchors.centerIn: parent
-                                    }
-                            }
-                        }
+
+                    }
+                }
+                Button{
+                    width: apps.botSize
+                    height: width
+                    text:  ''
+                    opacity: apps.showLupa?1.0:0.5
+                    onClicked: {
+                        apps.showLupa=!apps.showLupa
+                        //apps.showAspCircle=!apps.showAspCircle
+                    }
+                    Text{
+                        text:  apps.showLupa?'\uf010':'\uf002'
+                        font.family: "FontAwesome"
+                        font.pixelSize: parent.width*0.8
+                        anchors.centerIn: parent
                     }
                 }
             }
         }
-
         Item{
             anchors.horizontalCenter: parent.horizontalCenter
-            width: xVerLupa.width
+            width: app.fs*3//xVerLupa.width
             height: cbHsys.height
             Row{
                 spacing: app.fs*0.1
@@ -213,7 +254,7 @@ Rectangle {
 
             ComboBox{
                 id: cbHsys
-                width: xVerLupa.width
+                width: app.fs*4
                 height: app.fs*0.75
                 model: app.ahysNames
                 currentIndex: app.ahys.indexOf(apps.currentHsys)

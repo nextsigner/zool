@@ -228,6 +228,8 @@ AppWin {
         property string fontFamily: "ArialMdm"
         property string fontColor: "white"
         property int fontSize: app.fs*0.5
+        property int botSize: app.fs*0.5
+        property int botSizeSpinBoxValue: 50
         property real elementsFs: Screen.width*0.02
 
         property int lupaMod: 2

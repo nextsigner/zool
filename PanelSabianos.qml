@@ -48,10 +48,12 @@ Rectangle {
     }
 
     Flickable{
+        id: flk
         width: r.width
         height: r.height
         contentWidth: r.width
         contentHeight: rowTit.height+app.fs*3
+        Behavior on contentY{NumberAnimation{duration: 250}}
         Column{
             id: rowTit
             spacing: app.fs*0.5
@@ -239,6 +241,7 @@ Rectangle {
             data.text=json['s'+r.numSign]['g'+r.numDegree]['p1'].text
             data.text+=json['s'+r.numSign]['g'+r.numDegree]['p2'].text
             data.text+=json['s'+r.numSign]['g'+r.numDegree]['p3'].text
+            flk.contentY=0
             return
         }
 
