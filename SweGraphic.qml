@@ -320,7 +320,8 @@ Item {
         //console.log('JSON::: '+json)
         //log.visible=true
         //log.l(JSON.stringify(json))
-        app.currentJson=JSON.parse(json)
+        var scorrJson=json.replace(/\n/g, '')
+        //app.currentJson=JSON.parse(scorrJson)
         aspsCircle.clear()
         panelRsList.clear()
         //planetsCircleBack.visible=false
@@ -329,11 +330,13 @@ Item {
         sweg.objHousesCircle.currentHouse=-1
         swegz.sweg.objHousesCircle.currentHouse=-1
         app.currentPlanetIndex=-1
-        var scorrJson=json.replace(/\n/g, '')
+
         //console.log('json: '+json)
         var j
-        try {
+        //try {
+
             j=JSON.parse(scorrJson)
+            app.currentJson=j
             //signCircle.rot=parseInt(j.ph.h1.gdec)
             signCircle.rot=parseFloat(j.ph.h1.gdec).toFixed(2)
             ascMcCircle.loadJson(j)
@@ -349,7 +352,7 @@ Item {
             //if(app.mod!=='rs'&&app.mod!=='pl'&&panelZonaMes.state!=='show')panelRsList.setRsList(61)
             r.v=true
             //apps.enableFullAnimation=true
-            let j=JSON.parse(app.fileData)
+            //let j=JSON.parse(app.fileData)
             if(j.params.tipo==='sin'){
                 tLoadSin.start()
             }
@@ -358,10 +361,10 @@ Item {
             panelSabianos.numDegree=parseInt(app.currentJson.ph.h1.rsgdeg - 1)
             panelSabianos.loadData()
             panelSabianos.state='show'
-        } catch(e) {
-            //alert(e); // error in the above string (in this case, yes)!
-            JS.showMsgDialog('Error de carga', 'Hay un error en la carga de los datos.', 'Error SweGraphic::loadSweJson(json)')
-        }
+//        } catch(e) {
+//            //alert(e); // error in the above string (in this case, yes)!
+//            JS.showMsgDialog('Error de carga', 'Hay un error en la carga de los datos.', 'Error SweGraphic::loadSweJson(json)')
+//        }
     }
     function loadSweJsonBack(json){
         //console.log('JSON::: '+json)

@@ -1,7 +1,7 @@
 message(windows.pri is loaded)
 
 #Windows Deploy
-#E:/Qt/Qt5.12.3/5.12.3/msvc2017_64/bin/windeployqt.exe E:/zool/build_win/zool.exe -qmldir E:/zool
+#E:/Qt/5.15.2/mingw81_64/bin/windeployqt.exe E:/zool/build_win/zool.exe -qmldir E:/zool
 
 TARGET=zool
 
@@ -14,6 +14,6 @@ DESTDIR= $$DD1
 #Building Quazip from Windows 8.1
 INCLUDEPATH += $$PWD/quazip
 DEFINES+=QUAZIP_STATIC
-HEADERS += $$PWD/quazip/*.h
-SOURCES += $$PWD/quazip/*.cpp
-SOURCES += $$PWD/quazip/*.c
+HEADERS += $$PWD\quazip\*.h
+SOURCES += $$PWD\quazip\*.cpp
+SOURCES += $$PWD\quazip\*.c

@@ -28,10 +28,10 @@ Rectangle {
         //        }
         Row{
             spacing: app.fs*0.25
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.right: parent.right
             Button{
                 text: 'MODO '+parseInt(sweg.aStates.indexOf(sweg.state) + 1)
-                //width: app.fs*1.5
+                width: app.fs*2
                 height: app.fs*0.6
                 onClicked: {
                     sweg.nextState()
@@ -40,7 +40,7 @@ Rectangle {
         }
         Row{
             spacing: app.fs*0.25
-            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.right: parent.right
             Rectangle{
                 width: rowBotsSabInt.width+app.fs*0.35
                 height: apps.botSize+app.fs*0.35
@@ -51,7 +51,7 @@ Rectangle {
                     spacing: app.fs*0.1
                     anchors.centerIn: parent
                     Button{
-                        text: 'S'
+                        text: ''
                         font.pixelSize: app.fs*0.35
                         width: apps.botSize
                         height: width
@@ -61,9 +61,14 @@ Rectangle {
                             app.uSon='sun_'+app.objSignsNames[h1.is]+'_'+h1.ih
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), gf-1)
                         }
+                        Text{
+                            text:  '<b>S</b>'
+                            font.pixelSize: parent.width*0.8
+                            anchors.centerIn: parent
+                        }
                     }
                     Button{
-                        text: 'A'
+                        text: ''
                         font.pixelSize: app.fs*0.35
                         width: apps.botSize
                         height: width
@@ -72,9 +77,14 @@ Rectangle {
                             app.uSon='asc_'+app.objSignsNames[h1.is]+'_1'
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uAscDegree-1)
                         }
+                        Text{
+                            text:  '<b>A</b>'
+                            font.pixelSize: parent.width*0.8
+                            anchors.centerIn: parent
+                        }
                     }
                     Button{
-                        text: 'M'
+                        text: ''
                         font.pixelSize: app.fs*0.35
                         width: apps.botSize
                         height: width
@@ -82,6 +92,11 @@ Rectangle {
                             let h1=app.currentJson.ph.h10
                             app.uSon='mc_'+app.objSignsNames[h1.is]+'_10'
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uMcDegree-1)
+                        }
+                        Text{
+                            text:  '<b>M</b>'
+                            font.pixelSize: parent.width*0.8
+                            anchors.centerIn: parent
                         }
                     }
                 }
@@ -97,7 +112,7 @@ Rectangle {
                     spacing: app.fs*0.1
                     anchors.centerIn: parent
                     Button{
-                        text: 'S'
+                        text: ''
                         font.pixelSize: app.fs*0.35
                         width: apps.botSize
                         height: width
@@ -107,9 +122,14 @@ Rectangle {
                             app.uSon='sun_'+app.objSignsNames[h1.is]+'_'+h1.ih
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), gf-1)
                         }
+                        Text{
+                            text:  '<b>S</b>'
+                            font.pixelSize: parent.width*0.8
+                            anchors.centerIn: parent
+                        }
                     }
                     Button{
-                        text: 'A'
+                        text: ''
                         font.pixelSize: app.fs*0.35
                         width: apps.botSize
                         height: width
@@ -118,9 +138,14 @@ Rectangle {
                             app.uSon='asc_'+app.objSignsNames[h1.is]+'_1'
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uAscDegree-1)
                         }
+                        Text{
+                            text:  '<b>A</b>'
+                            font.pixelSize: parent.width*0.8
+                            anchors.centerIn: parent
+                        }
                     }
                     Button{
-                        text: 'M'
+                        text: ''
                         font.pixelSize: app.fs*0.35
                         width: apps.botSize
                         height: width
@@ -128,6 +153,11 @@ Rectangle {
                             let h1=app.currentJsonBack.ph.h10
                             app.uSon='mc_'+app.objSignsNames[h1.is]+'_10'
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uMcDegree-1)
+                        }
+                        Text{
+                            text:  '<b>M</b>'
+                            font.pixelSize: parent.width*0.8
+                            anchors.centerIn: parent
                         }
                     }
                 }
@@ -216,15 +246,16 @@ Rectangle {
                 }
             }
         }
-        Item{
-            anchors.horizontalCenter: parent.horizontalCenter
-            width: app.fs*3//xVerLupa.width
-            height: cbHsys.height
+//        Item{
+//            //anchors.horizontalCenter: parent.horizontalCenter
+//            //anchors.right: parent.right
+//            width: app.fs*3//xVerLupa.width
+//            height: cbHsys.height
             Row{
                 spacing: app.fs*0.1
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.right: parent.left
-                anchors.rightMargin: app.fs*0.1
+                //anchors.verticalCenter: parent.verticalCenter
+                //anchors.right: parent.left
+                //anchors.rightMargin: app.fs*0.1
                 Button{
                     id: botEditSin
                     text: 'Crear Sinastria'
@@ -250,23 +281,23 @@ Rectangle {
                         }
                     }
                 }
-            }
-
-            ComboBox{
-                id: cbHsys
-                width: app.fs*4
-                height: app.fs*0.75
-                model: app.ahysNames
-                currentIndex: app.ahys.indexOf(apps.currentHsys)
-                //anchors.bottom: parent.bottom
-                onCurrentIndexChanged: {
-                    if(currentIndex===app.ahys.indexOf(apps.currentHsys))return
-                    apps.currentHsys=app.ahys[currentIndex]
-                    //JS.showMsgDialog('Zool Informa', 'El sistema de casas ha cambiado.', 'Se ha seleccionado el sistema de casas '+app.ahysNames[currentIndex]+' ['+app.ahys[currentIndex]+'].')
-                    //sweg.load(JSON.parse(app.currentData))
-                    JS.loadJson(apps.url)
+                ComboBox{
+                    id: cbHsys
+                    width: app.fs*4
+                    height: app.fs*0.75
+                    model: app.ahysNames
+                    currentIndex: app.ahys.indexOf(apps.currentHsys)
+                    //anchors.bottom: parent.bottom
+                    onCurrentIndexChanged: {
+                        if(currentIndex===app.ahys.indexOf(apps.currentHsys))return
+                        apps.currentHsys=app.ahys[currentIndex]
+                        //JS.showMsgDialog('Zool Informa', 'El sistema de casas ha cambiado.', 'Se ha seleccionado el sistema de casas '+app.ahysNames[currentIndex]+' ['+app.ahys[currentIndex]+'].')
+                        //sweg.load(JSON.parse(app.currentData))
+                        JS.loadJson(apps.url)
+                    }
                 }
             }
-        }
+
+        //}
     }
 }

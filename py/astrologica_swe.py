@@ -2,7 +2,7 @@ import swisseph as swe
 import jdutil
 import datetime
 from decimal import Decimal
-import sys
+import sys, json
 from subprocess import run, PIPE
 
 sys.stdout.reconfigure(encoding='utf-8')
@@ -177,8 +177,8 @@ min=horaLocal.strftime('%M')
 
 #print('Tiempo: ' + dia + '/' + mes + '/' + anio + ' ' + hora + ':' + min)
 
-swe.set_ephe_path('./swe')
-#swe.set_ephe_path('/usr/share/libswe/ephe')
+#swe.set_ephe_path('./swe')
+swe.set_ephe_path('/usr/share/libswe/ephe')
 
 d = datetime.datetime(int(anio),int(mes),int(dia),int(hora), int(min))
 jd1 =jdutil.datetime_to_jd(d)
@@ -191,6 +191,12 @@ jsonParams+='"hsys": "' + str(houseType) + '"'
 jsonParams+='}'
 
 
+j={}
+j["params"]={}
+j["params"]["jd"]=str(jd1)
+j["params"]["jd"]=jd1
+j["params"]["sdgmt"]=str(dia) + '/' + str(mes) + '/' + str(anio) + ' ' + str(hora) + ':' + str(min)
+j["params"]["hsys"]=houseType
 #La oblicuidad de calcula con ipl = SE_ECL_NUT = -1 en SWE pero en swisseph ECL_NUT = -1
 #posObli=swe.calc(jd1, -1, flag=swe.FLG_SWIEPH+swe.FLG_SPEED)
 #posObli=swe.calc(jd1, swe.ECL_NUT, flag=swe.FLG_SWIEPH+swe.FLG_SPEED)
@@ -209,6 +215,7 @@ jsonString='{'
 #Comienza JSON Bodies
 tuplaPosBodies=()
 jsonBodies='"pc":{'
+j["pc"]={}
 index=0
 for i in np:
     pos=swe.calc_ut(jd1, np[index][1], flag=swe.FLG_SWIEPH+swe.FLG_SPEED)
@@ -242,6 +249,14 @@ for i in np:
     jsonBodies+='"rsgdeg":' + str(rsgdeg)+', '
     jsonBodies+='"mdeg":' + str(mdeg)+', '
     jsonBodies+='"sdeg":' + str(sdeg)+', '
+    j["pc"]["c"+str(index)]={}
+    j["pc"]["c"+str(index)]["nom"]=str(np[index][0])
+    j["pc"]["c"+str(index)]["is"]=indexSign
+    j["pc"]["c"+str(index)]["gdec"]="%.2f" % gObj
+    j["pc"]["c"+str(index)]["gdeg"]="%.2f" % gdeg
+    j["pc"]["c"+str(index)]["rsgdeg"]="%.2f" % rsgdeg
+    j["pc"]["c"+str(index)]["mdeg"]="%.2f" % mdeg
+    j["pc"]["c"+str(index)]["sdeg"]="%.2f" % sdeg
     #posHouse=swe.house_pos(h[0][9],float(lat), oblicuidad, gObj, 0.0, bytes(houseType, encoding = "utf-8"))
 
 
@@ -370,12 +385,16 @@ for i in np:
     jsonBodies+='"dh":' + str(posHouse)+', '
     jsonBodies+='"retro":' + str(retro)
     jsonBodies+='}'
+    j["pc"]["c"+str(index)]["ih"]=int(posHouse)
+    j["pc"]["c"+str(index)]["dh"]="%.2f" %  posHouse
+    j["pc"]["c"+str(index)]["retro"]=retro
     index=index + 1
 
 jsonBodies+='}'
 
 
 jsonAspets='"asps":{'
+j["asps"]={}
 #print(tuplaPosBodies)
 tuplaArr=(())
 arr1=(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15)
@@ -420,8 +439,8 @@ for i in tuplaPosBodies:
             #print(stringActual)
         #opNodos=False
         #if asp >= 0 and stringInvertido not in jsonAspets and controlar == False and opNodos == False:
-        if asp >= 0 and controlar == False and opNodos == False:
-            jsonAspets+='"asp' +str(index) + '": {' if (indexAsp==0) else  ',"asp' +str(index) + '": {'
+        if asp >= 0 and controlar == False and opNodos == False and str(np[index][0]) != str(np[num][0]):
+            jsonAspets+='"asp' +str(indexAsp) + '": {' if (indexAsp==0) else  ',"asp' +str(indexAsp) + '": {'
             #jsonAspets+='"asp' +str(index) + '": {'
             jsonAspets+=stringActual
             jsonAspets+='"c1":"' + str(np[index][0]) + '", '
@@ -431,6 +450,13 @@ for i in tuplaPosBodies:
             jsonAspets+='"gdeg2":' + str(g2) + ','
             jsonAspets+='"dga":' + str(swe.difdegn(g1, g2)) + ''
             jsonAspets+='}'
+            j["asps"]["asp"+str(indexAsp)]={}
+            j["asps"]["asp"+str(indexAsp)]["c1"]=str(np[index][0])
+            j["asps"]["asp"+str(indexAsp)]["c2"]=str(np[num][0])
+            j["asps"]["asp"+str(indexAsp)]["ia"]=asp
+            j["asps"]["asp"+str(indexAsp)]["gdeg1"]="%.2f" % g1
+            j["asps"]["asp"+str(indexAsp)]["gdeg2"]="%.2f" % g2
+            j["asps"]["asp"+str(indexAsp)]["dgq"]="%.2f" % swe.difdegn(g1, g2)
             indexAsp = indexAsp +1
         #print('Dif 1: '+str(swe.difdegn(g1, g2)))
         #print('Dif 2: '+str(swe.difdegn(g2, g1)))
@@ -443,7 +469,8 @@ jsonAspets+='}'
 #print('Cantidad de Aspectos: '+str(indexAsp))
 #Comienza JSON Houses
 jsonHouses='"ph":{'
-numHouse=1
+j["ph"]={}
+numHouse=0
 #print('ARMC:' + str(h[1][2]))
 
 for i in h[0]:
@@ -453,19 +480,25 @@ for i in h[0]:
     sdeg=int(td[2])
     index=getIndexSign(float(i))
     rsgdeg=gdeg - ( index * 30 )
-    jsonHouses+='"h' + str(numHouse) + '": {'
+    jsonHouses+='"h' + str(int(numHouse + 1)) + '": {'
     jsonHouses+='"is":' + str(index)+', '
     jsonHouses+='"gdec":' + str(i)+','
     jsonHouses+='"rsgdeg":' + str(rsgdeg)+', '
     jsonHouses+='"gdeg":' + str(gdeg)+','
     jsonHouses+='"mdeg":' + str(mdeg)+','
     jsonHouses+='"sdeg":' + str(sdeg)+''
-    if numHouse != 12:
+    if numHouse != 11:
         jsonHouses+='},'
     else:
         jsonHouses+='}'
     numHouse = numHouse + 1
-
+    j["ph"]["h"+str(numHouse)]={}
+    j["ph"]["h"+str(numHouse)]["is"]=index
+    j["ph"]["h"+str(numHouse)]["gdec"]="%.2f" % int(i)
+    j["ph"]["h"+str(numHouse)]["rsgdeg"]="%.2f" % rsgdeg
+    j["ph"]["h"+str(numHouse)]["gdeg"]="%.2f" % gdeg
+    j["ph"]["h"+str(numHouse)]["mdeg"]="%.2f" % mdeg
+    j["ph"]["h"+str(numHouse)]["sdeg"]="%.2f" % sdeg
 jsonHouses+='}'
 
 jsonString+='' + jsonBodies + ','
@@ -478,6 +511,10 @@ jsonString+='}'
 #print(jsonHouses)
 #print(jsonAspets)
 print(jsonString)
+#print(str(j).replace('\'', '\"'))
+#resJson=json.dumps(j, indent=4, sort_keys=False, ensure_ascii=False)
+#resJson = resJson.decode("unicode_escape")
+#print(resJson)
 #getinfo(0.0, 0.0, 1970, 1, 1, 0.0, bytes("P", encoding = "utf-8"), display=range(23))
 #getinfo(jd1)
 #print(get)

@@ -53,9 +53,9 @@ Rectangle {
     function setAsp2(c1, c2, ia, iPosAsp){
         if(!r.visible)return
         let column=row.children[c2]
-        let cellRow=column.col.children[c1]
-        cellRow.indexAsp=ia
-        cellRow.indexPosAsp=iPosAsp        
+        //let cellRow=column.col.children[c1]
+        //cellRow.indexAsp=ia
+        //cellRow.indexPosAsp=iPosAsp
     }
     function setAsp(c1, c2, ia, iPosAsp){
         if(!r.visible)return

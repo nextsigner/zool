@@ -7,7 +7,7 @@ Rectangle {
     id: r
     color: 'white'
     width: parent.width
-    height: parent.height
+    height: panelRemoto.state==='hide'?parent.height:parent.height-panelRemoto.height
     property real fz: 1.0
     property string htmlFolder: ''
     property var signos: ['Aries', 'Tauro', 'Géminis', 'Cáncer', 'Leo', 'Virgo', 'Libra', 'Escorpio', 'Sagitario', 'Capricornio', 'Acuario', 'Piscis']
@@ -98,7 +98,7 @@ Rectangle {
             Text{
                 id: data
                 width: r.width-app.fs
-                anchors.horizontalCenter: r.horizontalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
                 //anchors.top: rowTit.bottom
                 //anchors.topMargin: app.fs*0.5
                 text: '<h1>Los Sabianos</h1>'
@@ -238,9 +238,25 @@ Rectangle {
         if(true){
             let fileData=''+unik.getFile(app.mainLocation+'/resources/sabianos.json')
             let json=JSON.parse(fileData.replace(/\n/g, ''))
-            data.text=json['s'+r.numSign]['g'+r.numDegree]['p1'].text
-            data.text+=json['s'+r.numSign]['g'+r.numDegree]['p2'].text
-            data.text+=json['s'+r.numSign]['g'+r.numDegree]['p3'].text
+            let df=r.numDegree
+            let sf=r.numSign
+
+            //if (json['s'+sf]['g'+df]){
+                if(r.numDegree===-1){
+                    df=29
+                    sf--
+                    r.numSign--
+                    if(r.numSign<0){
+                        sf=0
+                        r.numSign=11
+                    }
+                }
+                console.log('df:'+df)
+                console.log('sf:'+sf)
+                data.text=json['s'+sf]['g'+df]['p1'].text
+                data.text+=json['s'+sf]['g'+df]['p2'].text
+                data.text+=json['s'+sf]['g'+df]['p3'].text
+            //}
             flk.contentY=0
             return
         }

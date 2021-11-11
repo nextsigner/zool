@@ -635,7 +635,7 @@ AppWin {
             app.dev=true
         }
         JS.setFs()
-        app.mainLocation=unik.getPath(1)
+        app.mainLocation=unik.getPath(5)
         console.log('app.mainLocation: '+app.mainLocation)
         console.log('documentsPath: '+documentsPath)
         console.log('Init app.url: '+app.url)

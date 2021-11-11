@@ -4,10 +4,11 @@
 #include <QDebug>
 #include <QIcon>
 //#include <QtWebView/QtWebView>
+
 #include "unikqprocess.h"
 #include "unik.h"
 
-#define VERSION "0.57"
+#define VERSION "0.6"
 
 
 int main(int argc, char *argv[])
@@ -95,6 +96,7 @@ int main(int argc, char *argv[])
     }else{
         QDir::setCurrent(qApp->applicationDirPath());
     }
+    mainFolder=mainFolder.replace("\\", "/");
     qDebug()<<"Current folder: "<<QDir::currentPath();
     qDebug()<<"Current mainFolder: "<<mainFolder;
     QString iconPath=mainFolder;
@@ -110,6 +112,7 @@ int main(int argc, char *argv[])
 #endif
     mainPath.append(mainFolder);
     mainPath.append("/main.qml");
+    qDebug()<<"mainPath: "<<mainPath;
     QQmlApplicationEngine engine;
     //const QUrl url(QStringLiteral(mainPath));
     const QUrl url(mainPath);
