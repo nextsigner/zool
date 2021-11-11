@@ -244,6 +244,7 @@ Rectangle {
             //if (json['s'+sf]['g'+df]){
                 if(r.numDegree===-1){
                     df=29
+                    r.numDegree=df
                     sf--
                     r.numSign--
                     if(r.numSign<0){

@@ -335,6 +335,9 @@ Item {
         var j
         //try {
 
+            //log.l(scorrJson)
+            //log.visible=true
+            //log.width=xApp.width*0.4
             j=JSON.parse(scorrJson)
             app.currentJson=j
             //signCircle.rot=parseInt(j.ph.h1.gdec)
