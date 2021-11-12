@@ -415,14 +415,14 @@ Rectangle {
         let astrologPath=''
 
         if(Qt.platform.os==='windows'){
-            //Qt.quit()
-            var m0=app.mainLocation.split('/')
+            let ml0=app.mainLocation.replace(/\"/g, '')
+            var m0=ml0.split('/')
             var np=''
             for(var i=0;i<m0.length;i++){
                 np+=m0[i]+'\\\\'
             }
 
-            var nppyl=app.mainLocation+'/Python/python.exe'
+            var nppyl=ml0+'/Python/python.exe'
             np+='ast72cli\\\\astrolog.exe'
 //            log.l('np:'+np)
 //            log.visible=true
@@ -440,6 +440,15 @@ Rectangle {
             nppython="\""+nppython+"\""
             //log.l('nppython:'+nppython)
             astrologPath=np//(""+app.mainLocation+"").replace('/\//g', '\\\\')+'\\\\ast72cli\\\\astrolog.exe'//.replace('\\', '\\\\')//.replace('/', '\\\\')
+        }
+        if(Qt.platform.os==='linux'){
+            let ml0=app.mainLocation.replace(/\"/g, '')
+
+            var nppython='python3'
+
+            //log.l('nppython:'+nppython)
+            //astrologPath=app.mainLocation+"").replace('/\//g', '\\\\')+'\\\\ast72cli\\\\astrolog.exe'//.replace('\\', '\\\\')//.replace('/', '\\\\')
+            astrologPath=app.mainLocation+'/astrolog/astrolog'
         }
         let finalCmd=''
             +nppython+' '+app.mainLocation+'/py/astrologica_trans.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "'+astrologPath+'"'

@@ -636,6 +636,9 @@ AppWin {
         }
         JS.setFs()
         app.mainLocation=unik.getPath(5)
+        if(Qt.platform.os==='windows'){
+            app.mainLocation="\""+app.mainLocation+"\""
+        }
         console.log('app.mainLocation: '+app.mainLocation)
         console.log('documentsPath: '+documentsPath)
         console.log('Init app.url: '+app.url)
