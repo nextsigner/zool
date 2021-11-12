@@ -221,81 +221,27 @@ Rectangle {
         loadData()
     }
     function loadData(){
-        //        let gz=getJsonZoom(r.numSign, r.numDegree, r.currentInterpreter)
-        //        let zoom=parseFloat(gz).toFixed(1)
-        //        if(zoom<0.1){
-        //            zoom=0.1
-        //            setJsonZoom(r.numSign, r.numDegree, r.currentInterpreter, zoom)
-        //        }
-        //        //setJsonZoom(r.numSign, r.numDegree, r.currentInterpreter, zoom)
-        //        r.fz=parseFloat(zoom).toFixed(1)
-        //        if(r.fz<0.5){
-        //            r.fz=0.5
-        //        }
-        //        data.font.pixelSize=r.fs*r.factorZoomByRes*r.fz
-
         data.font.pixelSize=app.fs*0.5
-        if(true){
-            let fileData=''+unik.getFile(app.mainLocation+'/resources/sabianos.json')
-            let json=JSON.parse(fileData.replace(/\n/g, ''))
-            let df=r.numDegree
-            let sf=r.numSign
-
-            //if (json['s'+sf]['g'+df]){
-                if(r.numDegree===-1){
-                    df=29
-                    r.numDegree=df
-                    sf--
-                    r.numSign--
-                    if(r.numSign<0){
-                        sf=0
-                        r.numSign=11
-                    }
-                }
-                console.log('df:'+df)
-                console.log('sf:'+sf)
-                data.text=json['s'+sf]['g'+df]['p1'].text
-                data.text+=json['s'+sf]['g'+df]['p2'].text
-                data.text+=json['s'+sf]['g'+df]['p3'].text
-            //}
-            flk.contentY=0
-            return
-        }
-
-        let fileData=''+unik.getFile('./360.html')
-        let dataSign=fileData.split('---')
-        let stringSplit=''
-        if(r.numDegree<=8){
-            stringSplit='0'+parseInt(r.numDegree+1)+'°:'
-        }else{
-            stringSplit=''+parseInt(r.numDegree+1)+'°:'
-        }
-        let signData=''+dataSign[r.numSign+1]
-        //console.log('\n\n\nAries---->>'+signData+'\n\n\n')
-        let dataDegree=signData.split('<p ')
-        let htmlPrevio=''
-        let cp=0
-        currentDegree.sd=stringSplit
-        for(var i=0;i<dataDegree.length;i++){
-            //console.log('\n\n\n\n'+stringSplit+'----------->>'+dataDegree[i])
-            if(dataDegree[i].indexOf(stringSplit)>0){
-                htmlPrevio+='<p '+dataDegree[i]
-                cp++
-                //console.log('\n\n----------->>'+htmlPrevio)
+        let df=r.numDegree
+        let sf=r.numSign
+        if(r.numDegree===-1){
+            df=29
+            r.numDegree=df
+            sf--
+            r.numSign--
+            if(r.numSign<0){
+                sf=0
+                r.numSign=11
             }
         }
-        //console.log('Cantidad '+cp)
-        let mapHtmlDegree=htmlPrevio.split('<p ')
-        let dataFinal='<p '+mapHtmlDegree[r.currentInterpreter + 1]
-
-
-        if(dataFinal.indexOf('<p class="entry-excerpt" style="text-align: justify;"><strong><span style="color: rgb(255, 0, 0);">'>=0)){
-            dataFinal=dataFinal.replace('<p class="entry-excerpt" style="text-align: justify;"><strong>','<p class="entry-excerpt" style="text-align: justify;color:red"><strong>')
-        }else{
-            dataFinal=dataFinal.replace('<p class="entry-excerpt" style="text-align: justify;"><strong>','<p class="entry-excerpt" style="text-align: justify;color:green"><strong>')
-        }
-        data.text=dataFinal
-        //console.log('DATA:::'+dataFinal)
+        let fileData=''+unik.getFile(app.mainLocation+'/resources/sab'+r.numSign+'.json')
+        let json=JSON.parse(fileData.replace(/\n/g, ''))
+        //console.log('df:'+df)
+        //console.log('sf:'+sf)
+        data.text=json['g'+df]['p1'].text
+        data.text+=json['g'+df]['p2'].text
+        data.text+=json['g'+df]['p3'].text
+        flk.contentY=0
     }
     function getHtmlData(s, g, item){
         let fileData=''+unik.getFile('360.html')

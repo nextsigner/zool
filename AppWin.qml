@@ -264,7 +264,7 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Left'
         onActivated: {
-            if(menuBar.expanded){
+            if(menuBar.expanded&&!xSabianos.visible){
                 menuBar.left()
                 return
             }
@@ -277,7 +277,7 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Right'
         onActivated: {
-            if(menuBar.expanded){
+            if(menuBar.expanded&&!xSabianos.visible){
                 menuBar.right()
                 return
             }

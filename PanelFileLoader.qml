@@ -33,11 +33,12 @@ Rectangle {
     Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
     onStateChanged: {
         if(state==='hide')txtDataSearch.focus=false
+        if(state==='show')txtDataSearch.focus=true
         //JS.raiseItem(r)
         xApp.focus=true
     }
     onXChanged: {
-        if(x===0){
+        if(x===0&&state==='show'){
             txtDataSearch.selectAll()
             txtDataSearch.focus=true
         }
@@ -74,7 +75,7 @@ Rectangle {
                 width: parent.width-app.fs
                 wrapMode: Text.WordWrap
                 color: apps.fontColor
-                focus: true
+                focus: false
                 anchors.centerIn: parent
                 Keys.onReturnPressed: {
                     JS.loadJson(lm.get(lv.currentIndex).fileName)
@@ -272,7 +273,7 @@ Rectangle {
                     //xNombre.nom=textData
                     lm.append(lm.addItem(file,textData))
                 }
-                txtDataSearch.focus=true
+                if(r.state==='show')txtDataSearch.focus=true
                 //txtDataSearch.selectAll()
             } catch (e) {
                 console.log('Error Json panelFileLoader: '+jsonFileData)
