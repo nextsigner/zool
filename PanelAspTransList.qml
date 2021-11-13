@@ -284,7 +284,7 @@ Rectangle {
                         anchors.verticalCenter: parent.verticalCenter
                         Text {
                             id: txtData
-                            text: '<b>'+anio+'</b> '//+lmAspDates.count
+                            text: '<b>'+parseInt(anio - 1)+'</b> '//+lmAspDates.count
                             font.pixelSize: app.fs*0.5
                             width: contentWidth.width//+app.fs
                             wrapMode: Text.WordWrap
@@ -293,7 +293,7 @@ Rectangle {
                             color: index===lv.currentIndex?apps.backgroundColor:apps.fontColor
                         }
                         Text {
-                            text: 'Edad: '+parseInt(anio - r.uAnioSearch)
+                            text: 'Edad: '+parseInt(anio - 1 - r.uAnioSearch)
                             font.pixelSize: app.fs*0.35
                             width: contentWidth.width//+app.fs
                             horizontalAlignment: Text.AlignHCenter
@@ -360,7 +360,7 @@ Rectangle {
                             Row{
                                 anchors.centerIn: parent
                                 Text{
-                                    text:  vdia+'/'+vmes+'/'+vanio+' '+vhora+':'+vminuto
+                                    text:  vdia+'/'+vmes+'/'+parseInt(vanio - 1)+' '+vhora+':'+vminuto
                                     font.pixelSize: app.fs*0.5
                                     anchors.verticalCenter: parent.verticalCenter
                                     color: lvAspDates.currentIndex===index?apps.backgroundColor:apps.fontColor
@@ -370,7 +370,7 @@ Rectangle {
                                     anchors.verticalCenter: parent.verticalCenter
                                     visible: lvAspDates.currentIndex===index
                                     onClicked: {
-                                        let d1 = new Date(vanio, vmes - 1, vdia, vhora, vminuto)
+                                        let d1 = new Date(parseInt(vanio - 1) , vmes - 1, vdia, vhora, vminuto)
                                         //log.l('Load: '+d1.toString())
                                         //log.visible=true
                                         //log.width=xApp.width*0.2
@@ -444,15 +444,20 @@ Rectangle {
         if(Qt.platform.os==='linux'){
             let ml0=app.mainLocation.replace(/\"/g, '')
 
-            var nppython='python3'
+            nppython='python3'
 
             //log.l('nppython:'+nppython)
             //astrologPath=app.mainLocation+"").replace('/\//g', '\\\\')+'\\\\ast72cli\\\\astrolog.exe'//.replace('\\', '\\\\')//.replace('/', '\\\\')
             astrologPath=app.mainLocation+'/astrolog/astrolog'
         }
         let finalCmd=''
-            +nppython+' '+app.mainLocation+'/py/astrologica_trans.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "'+astrologPath+'"'
+            //+nppython+' '+app.mainLocation+'/py/astrologica_trans.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "'+astrologPath+'"'
+        +nppython+' '+app.mainLocation+'/py/astrologica_trans.py 1 1 '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "'+astrologPath+'"'
         console.log('cmd astrolog: '+finalCmd)
+        log.l('cmd: '+finalCmd)
+        log.visible=true
+        log.width=xApp.width*0.8
+        log.x=xApp.width*0.2
         let c=''
             +'  if(logData.length<=3||logData==="")return\n'
             +'  let j\n'
@@ -466,11 +471,12 @@ Rectangle {
         //+'  log.visible=true\n'
         //+'  log.width=xApp.width*0.5\n'
             +'  logData=""\n'
-            +'  r.currentIndexSearching++\n'
-            +'  r.currentAnioSearching=parseInt(lm.get(r.currentIndexSearching).anio)\n'
+            //+'  r.currentIndexSearching++\n'
+            +'  r.currentAnioSearching=parseInt(lm.get(r.currentIndexSearching).anio - 1)\n'
             +'      if(r.currentIndexSearching<lv.count){\n'
             +'          r.search()\n'
             +'      }\n'
+            +'  r.currentIndexSearching++\n'
             +'} catch(e) {\n'
             +'  console.log(e+" "+logData);\n'
             +'  //unik.speak("error");\n'
