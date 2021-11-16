@@ -1,4 +1,5 @@
-import QtQuick 2.0
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import "../"
 import "../../Funcs.js" as JS
 Item {
@@ -22,85 +23,228 @@ Item {
     }
     onCurrentDateChanged: {
         //currentNum++
-        let aGetNums=JS.getNums('10/2/1999')
+        let d = currentDate.getDate()
+        let m = currentDate.getMonths() + 1
+        let a = currentDate.getFullYear()
+        let f = d + '/' + m + '/' + a
+        let aGetNums=JS.getNums(f)
         currentNumKarma=aGetNums[0]
     }
-
-    //    onCurrentNumChanged: {
-    //        let rot=360/9
-    //        rot=parseInt(rot)
-    //        if(r.dir===0){
-    //            r.uRot=r.uRot+rot//+90
-    //        }else{
-    //            r.uRot=r.uRot-rot//+90
-    //        }
-    //        xNums.rotation=r.uRot
-    //    }
     Row{
+        spacing: app.fs*0.5
         anchors.centerIn: parent
         Item{
+            id: xForm
             width: app.fs*10
             height: r.height
             Column{
                 spacing: app.fs
-                Row{
-                    spacing: app.fs
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    Text{
-                        text: '<b>Fecha de Nacimiento</b>'
-                        color: 'white'
-                        font.pixelSize: app.fs*0.5
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                    ControlsTimeDate{
-                        id: controlTimeDateNac
-                        anchors.verticalCenter: parent.verticalCenter
-                        onCurrentDateChanged: {
-                            let d=currentDate.getDate()
-                            let m=currentDate.getMonth() + 1
-                            let a = currentDate.getFullYear()
-                            let sf=''+d+'/'+m+'/'+a
-                            let aGetNums=JS.getNums(sf)
-                            currentNumKarma=aGetNums[0]
-                            let dateP = new Date(controlTimeDate.currentDate.getFullYear(), m - 1, d, 0, 1)
-                            controlTimeDate.currentDate=dateP
+                Rectangle{
+                    id: xFN
+                    width: xForm.width
+                    height: colFN.height+app.fs
+                    color: 'transparent'
+                    border.width: 2
+                    border.color: apps.fontColor
+                    radius: app.fs*0.2
+                    Column{
+                        id: colFN
+                        spacing: app.fs*0.5
+                        anchors.centerIn: parent
+                        Text{
+                            text: '<b>Fecha de Nacimiento</b>'
+                            color: 'white'
+                            font.pixelSize: app.fs*0.5
+                            //anchors.verticalCenter: parent.verticalCenter
+                        }
+                        ControlsTimeDate{
+                            id: controlTimeDateNac
+                            //anchors.verticalCenter: parent.verticalCenter
+                            onCurrentDateChanged: {
+                                let d=currentDate.getDate()
+                                let m=currentDate.getMonth() + 1
+                                let a = currentDate.getFullYear()
+                                let sf=''+d+'/'+m+'/'+a
+                                let aGetNums=JS.getNums(sf)
+                                currentNumKarma=aGetNums[0]
+                                let dateP = new Date(controlTimeYear.currentDate.getFullYear(), m - 1, d, 0, 1)
+                                controlTimeYear.currentDate=dateP
+                            }
+                        }
+                        Row{
+                            spacing: app.fs*0.5
+                            anchors.horizontalCenter:  parent.horizontalCenter
+                            Text{
+                                text: '<b>N° Karma</b>: '
+                                color: 'white'
+                                font.pixelSize: app.fs*0.5
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Rectangle{
+                                id: xNumKarma
+                                width: app.fs*2
+                                height: width
+                                radius: width*0.5
+                                border.width: app.fs*0.2
+                                border.color: apps.fontColor
+                                //rotation: 360-parent.rotation
+                                color: apps.backgroundColor
+                                anchors.verticalCenter: parent.verticalCenter
+                                Text{
+                                    text: '<b>'+r.currentNumKarma+'</b>'
+                                    font.pixelSize: parent.width*0.8
+                                    color: apps.fontColor
+                                    anchors.centerIn: parent
+                                }
+                            }
                         }
                     }
-                    Text{
-                        text: '<b>N° Karma</b>: '+r.currentNumKarma
-                        color: 'white'
-                        font.pixelSize: app.fs*0.5
-                        anchors.verticalCenter: parent.verticalCenter
+                }
+                Rectangle{
+                    id: xAP
+                    width: xForm.width
+                    height: colAP.height+app.fs
+                    color: 'transparent'
+                    border.width: 2
+                    border.color: apps.fontColor
+                    radius: app.fs*0.2
+                    Column{
+                        id: colAP
+                        spacing: app.fs*0.5
+                        anchors.centerIn: parent
+                        Row{
+                            spacing: app.fs
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            Text{
+                                text: '<b>N° Año Personal</b>'
+                                color: apps.fontColor
+                                font.pixelSize: app.fs*0.5
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            ControlsTimeFullYear{
+                                id: controlTimeYear
+                                anchors.verticalCenter: parent.verticalCenter
+                                onCurrentDateChanged: {
+                                    let d = currentDate.getDate()
+                                    let m = currentDate.getMonth() + 1
+                                    let a = currentDate.getFullYear()
+                                    let sf=''+d+'/'+m+'/'+a
+                                    //let aGetNums=JS.getNums(sf)
+                                    //currentNumAnioPersonal=aGetNums[0]
+                                    let msfd=(''+d).split('')
+                                    let sfd=''+msfd[0]
+                                    if(msfd.length>1){
+                                        sfd +='+'+msfd[1]
+                                    }
+                                    let msfm=(''+m).split('')
+                                    let sfm=''+msfm[0]
+                                    if(msfm.length>1){
+                                        sfm +='+'+msfm[1]
+                                    }
+                                    //let msform=(''+a).split('')
+                                    let msfa=(''+a).split('')
+                                    let sfa=''+msfa[0]
+                                    if(msfa.length>1){
+                                        sfa +='+'+msfa[1]
+                                    }
+                                    if(msfa.length>2){
+                                        sfa +='+'+msfa[2]
+                                    }
+                                    if(msfa.length>3){
+                                        sfa +='+'+msfa[3]
+                                    }
+                                    let sform= sfd + '+' + sfm + '+' + sfa//msform[0] + '+' + msform[1] + '+'  + msform[2]+ '+'  + msform[3]
+                                    let sum=0
+                                    let mSum=sform.split('+')
+                                    for(var i=0;i<mSum.length;i++){
+                                        sum+=parseInt(mSum[i])
+                                    }
+                                    let mCheckSum=(''+sum).split('')
+                                    if(mCheckSum.length>1){
+                                        let dobleDigSum=parseInt(mCheckSum[0])+parseInt(mCheckSum[1])
+                                        sform+='='+sum+'='+dobleDigSum
+                                        let mCheckSum2=(''+dobleDigSum).split('')
+                                        if(mCheckSum2.length>1){
+                                            let dobleDigSum2=parseInt(mCheckSum2[0])+parseInt(mCheckSum2[1])
+                                            sform+='='+dobleDigSum2
+                                            currentNumAnioPersonal=dobleDigSum2
+                                        }else{
+                                            currentNumAnioPersonal=dobleDigSum
+                                        }
+                                    }else{
+                                        currentNumAnioPersonal=sum
+                                    }
+                                    f1.text=sform
+                                    if(panelLog.visible){
+                                        let edad=a - controlTimeDateNac.currentDate.getFullYear()
+                                        panelLog.l('Año: '+a+' - Edad: '+edad+' - Ciclo: '+parseInt(r.currentNum +1)+'\nCálculo: '+f1.text+'\n'+aDes[r.currentNum]+'\n')
+                                    }
+                                }
+                            }
+                        }
+                        Text{
+                            id: f1
+                            color: apps.fontColor
+                            font.pixelSize: app.fs*0.8
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                        Row{
+                            spacing: app.fs*0.5
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            Text{
+                                text: '<b>Año:</b> '
+                                color: apps.fontColor
+                                font.pixelSize: app.fs*0.5
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Rectangle{
+                                id: xNumAP
+                                width: app.fs*2
+                                height: width
+                                radius: width*0.5
+                                border.width: app.fs*0.2
+                                border.color: apps.fontColor
+                                //rotation: 360-parent.rotation
+                                color: apps.backgroundColor
+                                anchors.verticalCenter: parent.verticalCenter
+                                Text{
+                                    text: '<b>'+r.currentNumAnioPersonal+'</b>'
+                                    font.pixelSize: parent.width*0.8
+                                    color: apps.fontColor
+                                    anchors.centerIn: parent
+                                }
+                            }
+                        }
                     }
                 }
                 Row{
-                    spacing: app.fs
+                    spacing: app.fs*0.5
                     anchors.horizontalCenter: parent.horizontalCenter
                     Text{
-                        text: '<b>Fecha</b>'
-                        color: 'white'
+                        text: checkBoxLog.checked?'<b>Ocultar texto</b>':'<b>Mostrar texto.</b>'
+                        color: apps.fontColor
                         font.pixelSize: app.fs*0.5
                         anchors.verticalCenter: parent.verticalCenter
                     }
-                    ControlsTimeDate{
-                        id: controlTimeDate
+                    CheckBox{
+                        id: checkBoxLog
+                        checked: panelLog.visible
                         anchors.verticalCenter: parent.verticalCenter
-                        onCurrentDateChanged: {
-                            let d = currentDate.getDate()
-                            let m = currentDate.getMonth() + 1
-                            let a = currentDate.getFullYear()
-                            let sf=''+d+'/'+m+'/'+a
-                            let aGetNums=JS.getNums(sf)
-                            currentNumAnioPersonal=aGetNums[0]
-                            //r.dir=1
-                            //r.currentNum=currentNumAnioPersonal-1
+                        onCheckedChanged: panelLog.visible=checked
+                    }
+                    Button{
+                        text:  'Limpiar'
+                        onClicked: panelLog.clear()
+                        anchors.verticalCenter: parent.verticalCenter
+                        visible: checkBoxLog.checked
+                    }
+                    Button{
+                        text:  'Copiar'
+                        onClicked: {
+                            clipboard.setText(panelLog.text)
                         }
-                    }
-                    Text{
-                        text: '<b>N° Año Personal</b>: '+r.currentNumAnioPersonal
-                        color: 'white'
-                        font.pixelSize: app.fs*0.5
                         anchors.verticalCenter: parent.verticalCenter
+                        visible: checkBoxLog.checked
                     }
                 }
             }
@@ -233,7 +377,12 @@ Item {
                 }
             }
         }
-
+        PanelLog{
+            id: panelLog
+            width: r.width*0.2
+            height: parent.height
+            visible: true
+        }
     }
     Component.onCompleted: {
         let a =[]
