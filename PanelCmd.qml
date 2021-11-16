@@ -78,14 +78,17 @@ Rectangle {
 
         if(comando[0]==='eclipse'){
             if(comando.length<5)return
-            c='let json=JSON.parse(logData)
+            c='//log.l(logData)
+//log.visible=true
+
+let json=JSON.parse(logData)
 r.state="hide"
 sweg.objEclipseCircle.setEclipse(json.gdec, json.rsgdeg, json.gdeg, json.mdeg, json.is)
 sweg.objEclipseCircle.typeEclipse='+comando[4]+''
             sweg.objHousesCircle.currentHouse=-1
 
             finalCmd=''
-                    +app.pythonLocation+' '+app.pythonLocation+'/py/astrologica_swe_search_eclipses.py '+comando[1]+' '+comando[2]+' '+comando[3]+' '+comando[4]+' '+comando[5]+''
+                    +app.pythonLocation+' '+app.mainLocation+'/py/astrologica_swe_search_eclipses.py '+comando[1]+' '+comando[2]+' '+comando[3]+' '+comando[4]+' '+comando[5]+''
         }
         if(comando[0]==='rs'){
             if(comando.length<1)return

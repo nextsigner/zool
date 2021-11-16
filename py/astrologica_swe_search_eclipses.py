@@ -55,6 +55,7 @@ for ecs in e:
             pos=swe.calc_ut(jd1, int(tipoLuminaria), flag=swe.FLG_SWIEPH+swe.FLG_SPEED)
             grado=pos[0][0]
             #print(pos[0][0])
+            print(pos)
             break
 
 indexSign=getIndexSign(grado)

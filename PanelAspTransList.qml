@@ -38,7 +38,7 @@ Rectangle {
     ]
     onStateChanged: {
         if(state==='show'){
-            if(sbDesde.value<=0){
+            //if(sbDesde.value<=0){
                 sbDesde.from =app.currentDate.getFullYear()
                 sbDesde.to =sbDesde.from + 150 - 1
                 sbDesde.value = app.currentDate.getFullYear()
@@ -48,7 +48,7 @@ Rectangle {
                 //log.l('apps.currentAspCantAniosSearch:'+apps.currentAspCantAniosSearch)
                 //log.visible=true
                 loadItemsYears()
-            }
+            //}
             //            if(lm.count===0){
             //                loadItemsYears()
             //            }
@@ -347,7 +347,7 @@ Rectangle {
                         id: compAspDate
                         Rectangle{
                             width: lv.width-item.border.width*2
-                            height: app.fs
+                            height: botCargar.height+app.fs*0.2
                             border.width: 1
                             border.color: lvAspDates.currentIndex===index?apps.backgroundColor:apps.fontColor
                             color: lvAspDates.currentIndex===index?apps.fontColor:apps.backgroundColor
@@ -359,29 +359,36 @@ Rectangle {
                             }
                             Row{
                                 anchors.centerIn: parent
+                                spacing: app.fs*0.5
                                 Text{
-                                    text:  vdia+'/'+vmes+'/'+parseInt(vanio - 1)+' '+vhora+':'+vminuto
+                                    //text:  vdia+'/'+vmes+'/'+parseInt(vanio - 1)+' '+vhora+':'+vminuto
+                                    text:  vdia+'/'+vmes+' '+vhora+':'+vminuto
                                     font.pixelSize: app.fs*0.5
                                     anchors.verticalCenter: parent.verticalCenter
                                     color: lvAspDates.currentIndex===index?apps.backgroundColor:apps.fontColor
                                 }
                                 Button{
+                                    id: botCargar
                                     text: 'Cargar'
+                                    width: app.fs*2
+                                    height: app.fs
                                     anchors.verticalCenter: parent.verticalCenter
                                     visible: lvAspDates.currentIndex===index
                                     onClicked: {
                                         let d1 = new Date(parseInt(vanio - 1) , vmes - 1, vdia, vhora, vminuto)
-                                        //log.l('Load: '+d1.toString())
-                                        //log.visible=true
-                                        //log.width=xApp.width*0.2
-                                        //let d1=new Date(now_utc);
-                                        //console.log('Zool United KIngston Hour: '+d1.toString());
-
-                                        //Retorna 32 /home/ns/Descargas/ast73src/astrolog -qa 6 20 1987 23 04 3W 69W36 35S28 -dy | grep Squ | grep Venus | grep Pluto
-                                        //Retorna Squ
-                                        //Thu 12/31/1987  7:46pm   Venus (Gem) Squ (Pis) Pluto
-
-                                        JS.loadFromArgsBack(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(),app.currentGmt, app.currentLat,app.currentLon, 0, "Aspectos "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), '*'+app.currentLugar, "trans", true)
+                                        JS.loadFromArgs(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(),app.currentGmt, app.currentLat,app.currentLon, 0, "Aspectos "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), ''+app.currentLugar, "trans", true)
+                                    }
+                                }
+                                Button{
+                                    id: botCargarBack
+                                    text: 'Cargar Ext'
+                                    width: app.fs*3
+                                    height: app.fs
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    visible: lvAspDates.currentIndex===index
+                                    onClicked: {
+                                        let d1 = new Date(parseInt(vanio - 1) , vmes - 1, vdia, vhora, vminuto)
+                                        JS.loadFromArgsBack(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(),app.currentGmt, app.currentLat,app.currentLon, 0, "Aspectos "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), ''+app.currentLugar, "trans", true)
                                     }
                                 }
                             }
@@ -454,10 +461,10 @@ Rectangle {
             //+nppython+' '+app.mainLocation+'/py/astrologica_trans.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "'+astrologPath+'"'
         +nppython+' '+app.mainLocation+'/py/astrologica_trans.py 1 1 '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "'+astrologPath+'"'
         console.log('cmd astrolog: '+finalCmd)
-        log.l('cmd: '+finalCmd)
-        log.visible=true
-        log.width=xApp.width*0.8
-        log.x=xApp.width*0.2
+//        log.l('cmd: '+finalCmd)
+//        log.visible=true
+//        log.width=xApp.width*0.8
+//        log.x=xApp.width*0.2
         let c=''
             +'  if(logData.length<=3||logData==="")return\n'
             +'  let j\n'

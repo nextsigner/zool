@@ -126,7 +126,6 @@ Item {
         rotation: 180
         visible: r.objectName==='sweg'&&planetsCircleBack.visible
     }
-
     NumberLines{}
     Comps.SignCircle{
         id:signCircle
@@ -138,8 +137,6 @@ Item {
         onRotChanged: housesCircle.rotation=rot
         //onShowDecChanged: Qt.quit()
     }
-
-
     AspCircle{
         id: aspsCircle
         rotation: signCircle.rot - 90 + 1
@@ -163,7 +160,6 @@ Item {
         width: housesCircle.width
         height: width
     }
-
     Rectangle{
         //Este esta en el centro
         visible: false
@@ -364,6 +360,7 @@ Item {
             panelSabianos.numDegree=parseInt(app.currentJson.ph.h1.rsgdeg - 1)
             panelSabianos.loadData()
             panelSabianos.state='show'
+            panelAspTransList.state='hide'
 //        } catch(e) {
 //            //alert(e); // error in the above string (in this case, yes)!
 //            JS.showMsgDialog('Error de carga', 'Hay un error en la carga de los datos.', 'Error SweGraphic::loadSweJson(json)')
