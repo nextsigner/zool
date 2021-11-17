@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QDebug>
 #include <QIcon>
+#include "qmlclipboardadapter.h"
 //#include <QtWebView/QtWebView>
 
 #include "unikqprocess.h"
@@ -22,6 +23,7 @@ int main(int argc, char *argv[])
     app.setOrganizationName("Zool.ar");
     app.setApplicationVersion(VERSION);
 
+    QmlClipboardAdapter clipboard;
     Unik u;
 
 #ifdef Q_OS_LINUX
@@ -130,6 +132,7 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("documentsPath", documentsPath);
     engine.rootContext()->setContextProperty("unik", &u);
     engine.rootContext()->setContextProperty("version", VERSION);
+    engine.rootContext()->setContextProperty("clipboard", &clipboard);
     engine.load(url);
 
     return app.exec();

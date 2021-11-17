@@ -43,6 +43,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    qmlclipboardadapter.h \
     row.h \
     unik.h \
     unikqprocess.h

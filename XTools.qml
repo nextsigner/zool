@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
+import "./comps"
 import "Funcs.js" as JS
 
 Rectangle {
@@ -37,6 +38,17 @@ Rectangle {
                     sweg.nextState()
                 }
             }
+            ButtonIcon{
+                text:  'N'
+                width: apps.botSize
+                height: width
+                onClicked: {
+                    ncv.visible=true
+//                    let comp=Qt.createComponent("./comps/num/NumCiclosVida.qml")
+//                    let d = new Date(Date.now())
+//                    let obj=comp.createObject(capa101, {currentDate: d, width: xApp.width, height: xApp.height})
+                }
+            }
         }
         Row{
             spacing: app.fs*0.25
@@ -50,9 +62,8 @@ Rectangle {
                     id: rowBotsSabInt
                     spacing: app.fs*0.1
                     anchors.centerIn: parent
-                    Button{
-                        text: ''
-                        font.pixelSize: app.fs*0.35
+                    ButtonIcon{
+                        text:  '<b>S</b>'
                         width: apps.botSize
                         height: width
                         onClicked: {
@@ -61,15 +72,9 @@ Rectangle {
                             app.uSon='sun_'+app.objSignsNames[h1.is]+'_'+h1.ih
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), gf-1)
                         }
-                        Text{
-                            text:  '<b>S</b>'
-                            font.pixelSize: parent.width*0.8
-                            anchors.centerIn: parent
-                        }
                     }
-                    Button{
-                        text: ''
-                        font.pixelSize: app.fs*0.35
+                    ButtonIcon{
+                        text:  '<b>A</b>'
                         width: apps.botSize
                         height: width
                         onClicked: {
@@ -77,26 +82,15 @@ Rectangle {
                             app.uSon='asc_'+app.objSignsNames[h1.is]+'_1'
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uAscDegree-1)
                         }
-                        Text{
-                            text:  '<b>A</b>'
-                            font.pixelSize: parent.width*0.8
-                            anchors.centerIn: parent
-                        }
                     }
-                    Button{
-                        text: ''
-                        font.pixelSize: app.fs*0.35
+                    ButtonIcon{
+                        text:  '<b>M</b>'
                         width: apps.botSize
                         height: width
                         onClicked: {
                             let h1=app.currentJson.ph.h10
                             app.uSon='mc_'+app.objSignsNames[h1.is]+'_10'
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uMcDegree-1)
-                        }
-                        Text{
-                            text:  '<b>M</b>'
-                            font.pixelSize: parent.width*0.8
-                            anchors.centerIn: parent
                         }
                     }
                 }
@@ -111,9 +105,8 @@ Rectangle {
                     id: rowBotsSabIntBack
                     spacing: app.fs*0.1
                     anchors.centerIn: parent
-                    Button{
-                        text: ''
-                        font.pixelSize: app.fs*0.35
+                    ButtonIcon{
+                        text:  '<b>S</b>'
                         width: apps.botSize
                         height: width
                         onClicked: {
@@ -122,15 +115,9 @@ Rectangle {
                             app.uSon='sun_'+app.objSignsNames[h1.is]+'_'+h1.ih
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), gf-1)
                         }
-                        Text{
-                            text:  '<b>S</b>'
-                            font.pixelSize: parent.width*0.8
-                            anchors.centerIn: parent
-                        }
                     }
-                    Button{
-                        text: ''
-                        font.pixelSize: app.fs*0.35
+                    ButtonIcon{
+                        text:  '<b>A</b>'
                         width: apps.botSize
                         height: width
                         onClicked: {
@@ -138,26 +125,15 @@ Rectangle {
                             app.uSon='asc_'+app.objSignsNames[h1.is]+'_1'
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uAscDegree-1)
                         }
-                        Text{
-                            text:  '<b>A</b>'
-                            font.pixelSize: parent.width*0.8
-                            anchors.centerIn: parent
-                        }
                     }
-                    Button{
-                        text: ''
-                        font.pixelSize: app.fs*0.35
+                    ButtonIcon{
+                        text:  '<b>M</b>'
                         width: apps.botSize
                         height: width
                         onClicked: {
                             let h1=app.currentJsonBack.ph.h10
                             app.uSon='mc_'+app.objSignsNames[h1.is]+'_10'
                             JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uMcDegree-1)
-                        }
-                        Text{
-                            text:  '<b>M</b>'
-                            font.pixelSize: parent.width*0.8
-                            anchors.centerIn: parent
                         }
                     }
                 }

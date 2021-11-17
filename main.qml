@@ -10,6 +10,7 @@ import unik.UnikQProcess 1.0
 import "Funcs.js" as JS
 //import "Extra.js" as EXTRA
 import "./comps" as Comps
+import "./comps/num" as Num
 
 AppWin {
     id: app
@@ -161,7 +162,7 @@ AppWin {
         let min=currentDate.getMinutes()
         //xDataBar.currentDateText=d+'/'+parseInt(m + 1)+'/'+a+' '+h+':'+min
         //xDataBar.currentGmtText=''+currentGmt
-        tReload.restart()        
+        tReload.restart()
     }
     onCurrentDateBackChanged: {
         //if(app.currentDataBack===''||app.setFromFile)return
@@ -266,24 +267,6 @@ AppWin {
                 ip.showSS()
             }
         }
-        Component.onCompleted: {
-            //fontSize=app.fs*0.5
-            //fontColor='red'
-            //backgroundColor='yellow'
-            /*if(!jsonsFolder){
-                console.log('Seteando jsonsFolder...')
-                let docFolder=unik.getPath(3)
-                let jsonsFolderString=docFolder+'/Zool/jsons'
-                if(!unik.folderExist(jsonsFolderString)){
-                    console.log('Creando carpeta '+jsonsFolderString)
-                    unik.mkdir(jsonsFolderString)
-                }else{
-                    console.log('Definiendo carpeta '+jsonsFolderString)
-                }
-                apps.jsonsFolder=jsonsFolderString
-            }
-            //fileName=jsonsFolder+'/zool_'+Qt.platform.os+'.cfg'*/
-        }
     }
     menuBar: Comps.XMenuBar {
         id: menuBar
@@ -338,9 +321,7 @@ AppWin {
     Item{
         id: capa101
         anchors.fill: xApp
-        XDataBar{
-            id: xDataBar
-        }
+        XDataBar{id: xDataBar}
         Row{
             //anchors.centerIn: parent
             anchors.top: xDataBar.bottom
@@ -533,7 +514,7 @@ AppWin {
         XSabianos{id: xSabianos}
         XInfoData{id: xInfoData}
         Editor{id: xEditor}
-
+        Num.NumCiclosVida{id: ncv; anchors.fill: parent}
     }
     Init{longAppName: 'Zool'; folderName: 'zool'}
     Comps.XSelectColor{
@@ -571,59 +552,12 @@ AppWin {
             }
         }
     }
-    //    Rectangle{
-    //        id: log
-    //        width: app.fs*20
-    //        height: xApp.height-(xApp.height-xBottomBar.y)
-    //        color: 'black'
-    //        visible: apps.showLog
-    //        border.width: 2
-    //        border.color: 'white'
-    //        clip: true
-    //        MouseArea{
-    //            anchors.fill: parent
-    //            onClicked: apps.showLog=false
-    //        }
-    //        Flickable{
-    //            id: flLog
-    //            width: parent.width
-    //            height: parent.height
-    //            contentWidth: parent.width
-    //            contentHeight: taLog.contentHeight
-    //            TextArea{
-    //                id: taLog
-    //                width: log.width-app.fs*0.5
-    //                wrapMode: Text.WordWrap
-    //                anchors.horizontalCenter: parent.horizontalCenter
-    //                font.pixelSize: app.fs*0.5
-    //                color: 'white'
-    //                background: Rectangle{color: 'black'}
-    //            }
-    //        }
-    //        Rectangle{
-    //            width: app.fs*0.5
-    //            height: width
-    //            anchors.right: parent.right
-    //            anchors.rightMargin: app.fs*0.1
-    //            anchors.top: parent.top
-    //            anchors.topMargin: app.fs*0.1
-    //            Text{text: 'X';anchors.centerIn: parent}
-    //            MouseArea{
-    //                anchors.fill: parent
-    //                onClicked: apps.showLog=false
-    //            }
-    //        }
-    //        function l(d){
-    //            taLog.text+=d+'\n'
-    //            flLog.contentY=taLog.contentHeight-log.height
-    //        }
-    //    }
     LogItem{id: log}
-//    Text{
-//        text: '->'+menuBar.expanded
-//        font.pixelSize: app.fs*3
-//        color: 'red'
-//    }
+    //    Text{
+    //        text: '->'+menuBar.expanded
+    //        font.pixelSize: app.fs*3
+    //        color: 'red'
+    //    }
     Comps.MenuPlanets{id: menuPlanets}
     Component.onCompleted: {
         //log.visible=true

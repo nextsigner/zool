@@ -116,6 +116,10 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Esc'
         onActivated: {
+            if(ncv.visible){
+                ncv.visible=false
+                return
+            }
             if(xEditor.visible&&xEditor.e.textEdit.focus){
                 xEditor.e.textEdit.focus=false
                 xEditor.focus=true
@@ -298,6 +302,13 @@ ApplicationWindow {
         sequence: 'Ctrl+m'
         onActivated: {
             apps.showMenuBar=!apps.showMenuBar
+        }
+    }
+    //Mostrar/Ocultar Panel Numerología
+    Shortcut{
+        sequence: 'Ctrl+d'
+        onActivated: {
+            ncv.visible=!ncv.visible
         }
     }
     //Mostrar / Ocultar Decanatos

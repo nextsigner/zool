@@ -2,13 +2,15 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import "../"
 import "../../Funcs.js" as JS
-Item {
+
+Rectangle {
     id: r
+    color: apps.backgroundColor
+    visible: false
     property var aDes: ['dato1', 'dato2', 'dato3', 'dato4', 'dato5', 'dato6', 'dato7', 'dato8', 'dato9']
 
-    property var currentDate
+    property alias currentDate: controlTimeDateNac.currentDate
     property int currentNum: 0
-
 
     property color borderColor: apps.fontColor
     property int borderWidth: app.fs*0.15
@@ -22,9 +24,8 @@ Item {
         currentNum=currentNumAnioPersonal-1
     }
     onCurrentDateChanged: {
-        //currentNum++
         let d = currentDate.getDate()
-        let m = currentDate.getMonths() + 1
+        let m = currentDate.getMonth() + 1
         let a = currentDate.getFullYear()
         let f = d + '/' + m + '/' + a
         let aGetNums=JS.getNums(f)
@@ -61,14 +62,16 @@ Item {
                             id: controlTimeDateNac
                             //anchors.verticalCenter: parent.verticalCenter
                             onCurrentDateChanged: {
-                                let d=currentDate.getDate()
-                                let m=currentDate.getMonth() + 1
-                                let a = currentDate.getFullYear()
-                                let sf=''+d+'/'+m+'/'+a
-                                let aGetNums=JS.getNums(sf)
-                                currentNumKarma=aGetNums[0]
-                                let dateP = new Date(controlTimeYear.currentDate.getFullYear(), m - 1, d, 0, 1)
-                                controlTimeYear.currentDate=dateP
+                                if(controlTimeYear.currentDate){
+                                    let d=currentDate.getDate()
+                                    let m=currentDate.getMonth() + 1
+                                    let a = currentDate.getFullYear()
+                                    let sf=''+d+'/'+m+'/'+a
+                                    let aGetNums=JS.getNums(sf)
+                                    currentNumKarma=aGetNums[0]
+                                    let dateP = new Date(controlTimeYear.currentDate.getFullYear(), m - 1, d, 0, 1)
+                                    controlTimeYear.currentDate=dateP
+                                }
                             }
                         }
                         Row{
@@ -232,6 +235,11 @@ Item {
                         anchors.verticalCenter: parent.verticalCenter
                         onCheckedChanged: panelLog.visible=checked
                     }
+                }
+                Row{
+                    spacing: app.fs*0.5
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    visible: checkBoxLog.checked
                     Button{
                         text:  'Limpiar'
                         onClicked: panelLog.clear()
@@ -382,6 +390,14 @@ Item {
             width: r.width*0.2
             height: parent.height
             visible: true
+        }
+    }
+    Button{
+        text:  'Cerrar'
+        width: app.fs*3
+        height: app.fs
+        onClicked: {
+            r.visible=false
         }
     }
     Component.onCompleted: {
