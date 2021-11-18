@@ -46,6 +46,13 @@ Item {
             radius: apps.elementsFs*0.15
             property int nd: 0
             property string ns: '0'
+            MouseArea{
+                anchors.fill: parent
+                onClicked: {
+                    ncv.currentDate=app.currentDateBack
+                    ncv.visible=true
+                }
+            }
             Row{
                 anchors.centerIn: parent
                 spacing: apps.elementsFs*0.5

@@ -31,6 +31,9 @@ Rectangle {
         let aGetNums=JS.getNums(f)
         currentNumKarma=aGetNums[0]
     }
+    MouseArea{
+        anchors.fill: parent
+    }
     Row{
         spacing: app.fs*0.5
         anchors.centerIn: parent
@@ -54,7 +57,7 @@ Rectangle {
                         anchors.centerIn: parent
                         Text{
                             text: '<b>Fecha de Nacimiento</b>'
-                            color: 'white'
+                            color: apps.fontColor
                             font.pixelSize: app.fs*0.5
                             //anchors.verticalCenter: parent.verticalCenter
                         }
@@ -79,7 +82,7 @@ Rectangle {
                             anchors.horizontalCenter:  parent.horizontalCenter
                             Text{
                                 text: '<b>N° Karma</b>: '
-                                color: 'white'
+                                color: apps.fontColor
                                 font.pixelSize: app.fs*0.5
                                 anchors.verticalCenter: parent.verticalCenter
                             }
@@ -241,6 +244,17 @@ Rectangle {
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: checkBoxLog.checked
                     Button{
+                        text:  'Crear Lista'
+                        onClicked: mkDataList()
+                        anchors.verticalCenter: parent.verticalCenter
+                        visible: checkBoxLog.checked
+                    }
+                }
+                Row{
+                    spacing: app.fs*0.5
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    visible: checkBoxLog.checked
+                    Button{
                         text:  'Limpiar'
                         onClicked: panelLog.clear()
                         anchors.verticalCenter: parent.verticalCenter
@@ -321,9 +335,9 @@ Rectangle {
                                 ctx.lineTo(canvasSen.width, 0);
                                 ctx.lineTo(canvasSen.width, canvasSen.width);
                                 ctx.lineTo(0, canvasSen.width*0.5);
-                                ctx.strokeStyle = r.borderColor
+                                ctx.strokeStyle = r.currentNum===index?apps.fontColor:apps.backgroundColor
                                 ctx.lineWidth = 3//canvasSen.parent.height;
-                                ctx.fillStyle = r.borderColor
+                                ctx.fillStyle = r.currentNum===index?apps.backgroundColor:apps.fontColor
                                 ctx.fill();
                                 ctx.stroke();
                             }
@@ -335,7 +349,7 @@ Rectangle {
                         height: width
                         radius: width*0.5
                         border.width: app.fs*0.2
-                        border.color: 'white'
+                        border.color: r.currentNum===index?apps.fontColor:apps.backgroundColor
                         //rotation: 360-parent.rotation
                         color: r.currentNum===index?apps.fontColor:apps.backgroundColor
                         rotation: 360-parent.rotation-parent.parent.rotation//-360/9*r.currentNum-90
@@ -381,7 +395,7 @@ Rectangle {
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                     anchors.centerIn: parent
-                    color: 'white'
+                    color: apps.fontColor
                 }
             }
         }
@@ -423,5 +437,70 @@ Rectangle {
         r.aDes=a
         rep.model=a
         //xNums.rotation=90
+    }
+    function mkDataList(){
+        var ai=r.currentDate.getFullYear()
+        var d = currentDate.getDate()
+        var m = currentDate.getMonth() + 1
+        var sform=''
+        //return
+        for(var i=ai;i<ai+101;i++){
+            panelLog.l('ai:'+ai)
+            panelLog.l('ai i:'+i)
+            panelLog.visible=true
+
+            let a = ai
+            let sf=''+d+'/'+m+'/'+a
+            //let aGetNums=JS.getNums(sf)
+            //currentNumAnioPersonal=aGetNums[0]
+            let msfd=(''+d).split('')
+            let sfd=''+msfd[0]
+            if(msfd.length>1){
+                sfd +='+'+msfd[1]
+            }
+            let msfm=(''+m).split('')
+            let sfm=''+msfm[0]
+            if(msfm.length>1){
+                sfm +='+'+msfm[1]
+            }
+            //let msform=(''+a).split('')
+            let msfa=(''+a).split('')
+            let sfa=''+msfa[0]
+            if(msfa.length>1){
+                sfa +='+'+msfa[1]
+            }
+            if(msfa.length>2){
+                sfa +='+'+msfa[2]
+            }
+            if(msfa.length>3){
+                sfa +='+'+msfa[3]
+            }
+            let sform= sfd + '+' + sfm + '+' + sfa//msform[0] + '+' + msform[1] + '+'  + msform[2]+ '+'  + msform[3]
+            let sum=0
+            let mSum=sform.split('+')
+            for(var i=0;i<mSum.length;i++){
+                sum+=parseInt(mSum[i])
+            }
+            let mCheckSum=(''+sum).split('')
+            if(mCheckSum.length>1){
+                let dobleDigSum=parseInt(mCheckSum[0])+parseInt(mCheckSum[1])
+                sform+='='+sum+'='+dobleDigSum
+                let mCheckSum2=(''+dobleDigSum).split('')
+                if(mCheckSum2.length>1){
+                    let dobleDigSum2=parseInt(mCheckSum2[0])+parseInt(mCheckSum2[1])
+                    sform+='='+dobleDigSum2
+                    //currentNumAnioPersonal=dobleDigSum2
+                }else{
+                    //currentNumAnioPersonal=dobleDigSum
+                }
+            }else{
+                //currentNumAnioPersonal=sum
+            }
+        }
+        //f1.text=sform
+        if(panelLog.visible){
+            let edad=a - ai
+            //panelLog.l('Año: '+a+' - Edad: '+edad+' - Ciclo: '+parseInt(r.currentNum +1)+'\nCálculo: '+f1.text+'\n'+aDes[r.currentNum]+'\n')
+        }
     }
 }

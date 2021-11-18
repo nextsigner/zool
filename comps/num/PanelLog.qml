@@ -5,10 +5,10 @@ Rectangle{
     id: r
     width: app.fs*20
     height: xApp.height-(xApp.height-xBottomBar.y)
-    color: 'black'
+    color: apps.backgroundColor
     visible: apps.showLog
     border.width: 2
-    border.color: 'white'
+    border.color: apps.fontColor
     clip: true
     property alias text: taLog.text
     property bool ww: true
@@ -29,8 +29,8 @@ Rectangle{
             wrapMode: r.ww?Text.WordWrap:Text.WrapAnywhere
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: app.fs*0.5
-            color: 'white'
-            background: Rectangle{color: 'black'}
+            color: apps.fontColor
+            background: Rectangle{color: apps.backgroundColor}
         }
     }
     Rectangle{
@@ -40,7 +40,8 @@ Rectangle{
         anchors.rightMargin: app.fs*0.1
         anchors.top: parent.top
         anchors.topMargin: app.fs*0.1
-        Text{text: 'X';anchors.centerIn: parent}
+        color: apps.fontColor
+        Text{text: 'X';anchors.centerIn: parent;color: apps.backgroundColor}
         MouseArea{
             anchors.fill: parent
             onClicked: {
