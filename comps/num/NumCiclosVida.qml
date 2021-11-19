@@ -19,6 +19,7 @@ Rectangle {
 
     property int currentNumKarma: -1
     property int currentNumAnioPersonal: -1
+    property bool esMaestro: false
 
     onCurrentNumAnioPersonalChanged: {
         currentNum=currentNumAnioPersonal-1
@@ -131,6 +132,7 @@ Rectangle {
                                 id: controlTimeYear
                                 anchors.verticalCenter: parent.verticalCenter
                                 onCurrentDateChanged: {
+                                    r.esMaestro=false
                                     let d = currentDate.getDate()
                                     let m = currentDate.getMonth() + 1
                                     let a = currentDate.getFullYear()
@@ -167,6 +169,9 @@ Rectangle {
                                     }
                                     let mCheckSum=(''+sum).split('')
                                     if(mCheckSum.length>1){
+                                        if(sum===11||sum===22||sum===33){
+                                            r.esMaestro=true
+                                        }
                                         let dobleDigSum=parseInt(mCheckSum[0])+parseInt(mCheckSum[1])
                                         sform+='='+sum+'='+dobleDigSum
                                         let mCheckSum2=(''+dobleDigSum).split('')
@@ -177,13 +182,16 @@ Rectangle {
                                         }else{
                                             currentNumAnioPersonal=dobleDigSum
                                         }
+
                                     }else{
                                         currentNumAnioPersonal=sum
                                     }
                                     f1.text=sform
                                     if(panelLog.visible){
                                         let edad=a - controlTimeDateNac.currentDate.getFullYear()
-                                        panelLog.l('Año: '+a+' - Edad: '+edad+' - Ciclo: '+parseInt(r.currentNum +1)+'\nCálculo: '+f1.text+'\n'+aDes[r.currentNum]+'\n')
+
+                                        let sp='Período: Desde el cumpleaños del día '+d+'/'+m+'/'+a+' hasta el día '+d+'/'+m+'/'+parseInt(a + 1)
+                                        panelLog.l('Año: '+a+' - Edad: '+edad+' - Ciclo: '+parseInt(r.currentNum +1)+'\n'+sp+'\nCálculo: '+f1.text+'\n'+aDes[r.currentNum]+'\n')
                                     }
                                 }
                             }
@@ -355,10 +363,26 @@ Rectangle {
                         rotation: 360-parent.rotation-parent.parent.rotation//-360/9*r.currentNum-90
                         anchors.horizontalCenter: parent.horizontalCenter
                         opacity: r.currentNum!==index?0.5:1.0
-
+                        Timer{
+                            running: r.visible
+                            repeat: true
+                            interval: 500
+                            onTriggered: {
+                                if(index===1){
+                                    txtNum.text=r.esMaestro&&index===r.currentNumAnioPersonal-1?'<b>11</b>':'<b>2</b>'
+                                }else if(index===3){
+                                    txtNum.text=r.esMaestro&&index===r.currentNumAnioPersonal-1?'<b>22</b>':'<b>4</b>'
+                                }else if(index===5){
+                                    txtNum.text=r.esMaestro&&index===r.currentNumAnioPersonal-1?'<b>33</b>':'<b>6</b>'
+                                }else{
+                                    txtNum.text='<b>'+parseInt(index + 1)+'</b>'
+                                }
+                            }
+                        }
                         Text{
+                            id: txtNum
                             text: '<b>'+index+'</b>'
-                            font.pixelSize: parent.width*0.8
+                            font.pixelSize: parent.width*0.75
                             color: r.currentNum===index?apps.backgroundColor:apps.fontColor
                             anchors.centerIn: parent
                             Component.onCompleted: {
@@ -391,7 +415,7 @@ Rectangle {
                     id: data
                     text : ''+r.aDes[r.currentNum]
                     width: parent.width-app.fs
-                    font.pixelSize: parent.width*0.1
+                    font.pixelSize: parent.width*0.08
                     wrapMode: Text.WordWrap
                     horizontalAlignment: Text.AlignHCenter
                     anchors.centerIn: parent
@@ -401,7 +425,7 @@ Rectangle {
         }
         PanelLog{
             id: panelLog
-            width: r.width*0.2
+            width: r.width-app.fs*30-parent.spacing*2
             height: parent.height
             visible: true
         }
@@ -442,14 +466,12 @@ Rectangle {
         var ai=r.currentDate.getFullYear()
         var d = currentDate.getDate()
         var m = currentDate.getMonth() + 1
-        var sform=''
+        var sformTodo=''
         //return
         for(var i=ai;i<ai+101;i++){
-            panelLog.l('ai:'+ai)
-            panelLog.l('ai i:'+i)
-            panelLog.visible=true
-
-            let a = ai
+            var currentNumAP=-1
+            var sform=''
+            let a = i
             let sf=''+d+'/'+m+'/'+a
             //let aGetNums=JS.getNums(sf)
             //currentNumAnioPersonal=aGetNums[0]
@@ -478,8 +500,8 @@ Rectangle {
             let sform= sfd + '+' + sfm + '+' + sfa//msform[0] + '+' + msform[1] + '+'  + msform[2]+ '+'  + msform[3]
             let sum=0
             let mSum=sform.split('+')
-            for(var i=0;i<mSum.length;i++){
-                sum+=parseInt(mSum[i])
+            for(var i2=0;i2<mSum.length;i2++){
+                sum+=parseInt(mSum[i2])
             }
             let mCheckSum=(''+sum).split('')
             if(mCheckSum.length>1){
@@ -489,18 +511,25 @@ Rectangle {
                 if(mCheckSum2.length>1){
                     let dobleDigSum2=parseInt(mCheckSum2[0])+parseInt(mCheckSum2[1])
                     sform+='='+dobleDigSum2
-                    //currentNumAnioPersonal=dobleDigSum2
+                    currentNumAP=dobleDigSum2
                 }else{
-                    //currentNumAnioPersonal=dobleDigSum
+                    currentNumAP=dobleDigSum
                 }
             }else{
-                //currentNumAnioPersonal=sum
+                currentNumAP=sum
             }
-        }
-        //f1.text=sform
-        if(panelLog.visible){
             let edad=a - ai
-            //panelLog.l('Año: '+a+' - Edad: '+edad+' - Ciclo: '+parseInt(r.currentNum +1)+'\nCálculo: '+f1.text+'\n'+aDes[r.currentNum]+'\n')
+            var sp
+            if(edad===0){
+                sp='Período: Desde el nacimiento '+d+'/'+m+'/'+a+' hasta el día '+d+'/'+m+'/'+parseInt(a + 1)
+            }else{
+                sp='Período: Desde el cumpleaños del día '+d+'/'+m+'/'+a+' hasta el día '+d+'/'+m+'/'+parseInt(a + 1)
+            }
+
+            sformTodo+='Año: '+ai+' - Edad: '+edad+' - Ciclo: '+parseInt(currentNumAP)+'\n'+sp+'\nCálculo: '+sform+'\n'+aDes[currentNumAP - 1]+'\n\n'
+        }
+        if(panelLog.visible){
+            panelLog.l(sformTodo)
         }
     }
 }

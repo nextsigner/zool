@@ -30,7 +30,7 @@ Rectangle{
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: app.fs*0.5
             color: apps.fontColor
-            background: Rectangle{color: apps.backgroundColor}
+            background: Rectangle{color: 'transparent'}
         }
     }
     Rectangle{
