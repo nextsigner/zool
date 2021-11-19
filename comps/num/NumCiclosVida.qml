@@ -434,6 +434,7 @@ Rectangle {
         text:  'Cerrar'
         width: app.fs*3
         height: app.fs
+        anchors.bottom: parent.bottom
         onClicked: {
             r.visible=false
         }
@@ -466,7 +467,7 @@ Rectangle {
         var ai=r.currentDate.getFullYear()
         var d = currentDate.getDate()
         var m = currentDate.getMonth() + 1
-        var sformTodo=''
+        var sformTodo='Ciclo de Vida Numerológico\n\n'
         //return
         for(var i=ai;i<ai+101;i++){
             var currentNumAP=-1
@@ -525,8 +526,8 @@ Rectangle {
             }else{
                 sp='Período: Desde el cumpleaños del día '+d+'/'+m+'/'+a+' hasta el día '+d+'/'+m+'/'+parseInt(a + 1)
             }
-
-            sformTodo+='Año: '+ai+' - Edad: '+edad+' - Ciclo: '+parseInt(currentNumAP)+'\n'+sp+'\nCálculo: '+sform+'\n'+aDes[currentNumAP - 1]+'\n\n'
+            //sformTodo+='Año: '+i+' - Edad: '+edad+' - Ciclo: '+parseInt(currentNumAP)+'\n'+sp+'\nCálculo: '+sform+'\n'+aDes[currentNumAP - 1]+'\n\n'
+            sformTodo+='Año: '+i+' - Edad: '+edad+'\nAño personal de ciclo: '+parseInt(currentNumAP)+'\n'+sp+'\nCálculo: '+sform+'\n'+aDes[currentNumAP - 1]+'\n\n'
         }
         if(panelLog.visible){
             panelLog.l(sformTodo)

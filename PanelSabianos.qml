@@ -2,13 +2,13 @@ import QtQuick 2.7
 import QtQuick.Window 2.0
 import QtQuick.Controls 2.0
 import Qt.labs.settings 1.1
-
+import "./comps" as Comps
 Rectangle {
     id: r
     color: 'white'
     width: parent.width
     height: panelRemoto.state==='hide'?parent.height:parent.height-panelRemoto.height
-    property real fz: 1.0
+    clip: true
     property string htmlFolder: ''
     property var signos: ['Aries', 'Tauro', 'Géminis', 'Cáncer', 'Leo', 'Virgo', 'Libra', 'Escorpio', 'Sagitario', 'Capricornio', 'Acuario', 'Piscis']
     property int numSign: 0
@@ -37,15 +37,16 @@ Rectangle {
     Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
 
 
-    MouseArea{
-        anchors.fill: parent
-        onDoubleClicked: {
-            xSabianos.numSign=r.numSign
-            xSabianos.numDegree=r.numDegree
-            xSabianos.visible=true
-            xSabianos.loadData()
-        }
-    }
+    //    MouseArea{
+    //        anchors.fill: parent
+    //        hoverEnabled: true
+    //        onDoubleClicked: {
+    //            xSabianos.numSign=r.numSign
+    //            xSabianos.numDegree=r.numDegree
+    //            xSabianos.visible=true
+    //            xSabianos.loadData()
+    //        }
+    //    }
 
     Flickable{
         id: flk
@@ -63,7 +64,7 @@ Rectangle {
                 text: '<b>Simbología de los Sabianos</b>'
                 width: r.width-app.fs
                 wrapMode: Text.WordWrap
-                font.pixelSize: app.fs*0.75
+                font.pixelSize: app.fs*0.75*apps.panelSabianosFz
                 anchors.horizontalCenter: parent.horizontalCenter
                 //anchors.verticalCenter: parent.verticalCenter
             }
@@ -71,12 +72,12 @@ Rectangle {
                 spacing: app.fs*0.5
                 Text {
                     text:'<b>'+r.signos[r.numSign]+'</b>'
-                    font.pixelSize: app.fs*0.75
+                    font.pixelSize: app.fs*0.75*apps.panelSabianosFz
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Item {
                     id: xSigno
-                    width: app.fs
+                    width: app.fs*apps.panelSabianosFz
                     height: width
                     anchors.verticalCenter: parent.verticalCenter
                     Rectangle{
@@ -102,7 +103,7 @@ Rectangle {
                 //anchors.top: rowTit.bottom
                 //anchors.topMargin: app.fs*0.5
                 text: '<h1>Los Sabianos</h1>'
-                font.pixelSize: r.fs
+                font.pixelSize: app.fs*0.5*apps.panelSabianosFz
                 wrapMode: Text.WordWrap
                 textFormat: Text.RichText
             }
@@ -119,6 +120,16 @@ Rectangle {
     }
     MouseArea{
         anchors.fill: parent
+        hoverEnabled: true
+        onMouseXChanged: {
+            rowBtns.opacity=1.0
+            tHideRowBtns.restart()
+        }
+        onMouseYChanged: {
+            rowBtns.opacity=1.0
+            tHideRowBtns.restart()
+        }
+        onEntered: rowBtns.opacity=1.0
         onDoubleClicked: {
             xSabianos.numSign=r.numSign
             xSabianos.numDegree=r.numDegree
@@ -144,6 +155,74 @@ Rectangle {
             font.pixelSize: parent.width*0.6
             color: 'white'
             anchors.centerIn: parent
+        }
+    }
+    Row{
+        id: rowBtns
+        spacing: app.fs*0.25
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: parent.bottom
+        opacity: 0.0
+        Timer{
+            id: tHideRowBtns
+            running: rowBtns.opacity===1.0
+            repeat: false
+            interval: 5000
+            onTriggered: parent.opacity=0.0
+        }
+        Behavior on opacity{NumberAnimation{duration: 500}}
+        Button{
+            text: 'Copiar HTML'
+            onClicked: {
+                let d = '<!DOCTYPE html><html>'
+                d+='<head>Simbología de los Sabianos<title></title><meta charset="utf-8"></head>'
+                d+='<body>'
+                d += '<h1>Simbología de los Sabianos</h1>'
+                d+='<b>'+r.signos[r.numSign]+'</b><br />'
+                d+=getData()
+                d+='<br /><h3>Fuente: Universidad Norbert Wiener - Perú</h3><br />'
+                d+='</body></html>'
+                clipboard.setText(d)
+            }
+        }
+        Button{
+            text: 'Copiar Texto'
+            onClicked: {
+                let d = '<!DOCTYPE html><html>'
+                d+='<body>'
+                d += '<h1>Simbología de los Sabianos</h1>'
+                d+='<b>'+r.signos[r.numSign]+'</b><br />'
+                d+=getData()
+                d+='<br /><h3>Fuente: Universidad Norbert Wiener - Perú</h3><br />'
+                d+='</body></html>'
+                d=d.replace(/<\/p>/g, '\n')
+                d=d.replace(/<br \/>/g, '\n')
+                d=d.replace(/<\/h1>/g, '</h1>\n')
+                d=d.replace(/<[^>]*>/g, '')
+                clipboard.setText(d)
+            }
+        }
+        Comps.ButtonIcon{
+            text: '\uf010'
+            width: apps.botSize*2
+            height: width
+            anchors.verticalCenter: parent.verticalCenter
+            onClicked: {
+                if(apps.panelSabianosFz>0.5)apps.panelSabianosFz-=0.1
+                rowBtns.opacity=1.0
+                tHideRowBtns.restart()
+            }
+        }
+        Comps.ButtonIcon{
+            text: '\uf00e'
+            width: apps.botSize*2
+            height: width
+            anchors.verticalCenter: parent.verticalCenter
+            onClicked: {
+                if(apps.panelSabianosFz<2.0)apps.panelSabianosFz+=0.1
+                rowBtns.opacity=1.0
+                tHideRowBtns.restart()
+            }
         }
     }
     function ctrlDown(){
@@ -221,7 +300,7 @@ Rectangle {
         loadData()
     }
     function loadData(){
-        data.font.pixelSize=app.fs*0.5
+        //data.font.pixelSize=app.fs*0.5*apps.panelSabianosFz
         let df=r.numDegree
         let sf=r.numSign
         if(r.numDegree===-1){
@@ -244,6 +323,28 @@ Rectangle {
         data.text+=json['g'+df]['p2'].text
         data.text+=json['g'+df]['p3'].text
         flk.contentY=0
+    }
+    function getData(){
+        let df=r.numDegree
+        let sf=r.numSign
+        if(r.numDegree===-1){
+            df=29
+            r.numDegree=df
+            sf--
+            r.numSign--
+            if(r.numSign<0){
+                sf=0
+                r.numSign=11
+            }
+        }
+        let fileUrl=app.mainLocation+'/resources/sab'+r.numSign+'.json'
+        fileUrl=fileUrl.replace(/\"/g, '')
+        let fileData=''+unik.getFile(fileUrl)
+        let json=JSON.parse(fileData.replace(/\n/g, ''))
+        let rd=json['g'+df]['p1'].text
+        rd+=json['g'+df]['p2'].text
+        rd+=json['g'+df]['p3'].text
+        return rd
     }
     function getHtmlData(s, g, item){
         let fileData=''+unik.getFile('360.html')
@@ -355,15 +456,15 @@ Rectangle {
             console.log('NaN! :'+zoom)
             return
         }
-        r.fz-=0.1
-        if(r.fz<0.01){
-            r.fz=0.01
+        apps.panelSabianosFz-=0.1
+        if(apps.panelSabianosFz<0.01){
+            apps.panelSabianosFz=0.01
         }
-        zoom=parseFloat(r.fz).toFixed(1)
+        zoom=parseFloat(apps.panelSabianosFz).toFixed(1)
         //unik.speak('Sube '+zoom)
 
 
-        data.font.pixelSize=r.fs*2*r.fz
+        //data.font.pixelSize=r.fs*2*apps.panelSabianosFz
         console.log('SETZOOM:'+zoom)
         setJsonZoom(r.numSign, r.numDegree, r.currentInterpreter, zoom)
         r.loadData()
@@ -377,13 +478,13 @@ Rectangle {
             console.log('NaN! :'+zoom)
             return
         }
-        r.fz+=0.1
-        zoom=parseFloat(r.fz).toFixed(1)
+        apps.panelSabianosFz+=0.1
+        zoom=parseFloat(apps.panelSabianosFz).toFixed(1)
         //unik.speak('Baja '+zoom)
         /*if(zoom<1.0){
                 zoom=parseFloat(1).toFixed(1)
             }*/
-        data.font.pixelSize=r.fs*2*r.fz
+        //data.font.pixelSize=r.fs*2*apps.panelSabianosFz
         console.log('SETZOOM:'+zoom)
         setJsonZoom(r.numSign, r.numDegree, r.currentInterpreter, zoom)
         r.loadData()

@@ -11,7 +11,7 @@ Item {
     anchors.topMargin: app.fs*0.1+panelElements.height+xItemNums.height*2
     anchors.right: parent.right
     anchors.rightMargin: app.fs*0.1//spacing
-    visible: app.ev
+    visible: app.ev&&app.mod!=='rs'
     property var aPorcs: [0.0, 0.0,0.0,0.0]
     property int spacing: apps.elementsFs.fs*0.1
 
@@ -125,7 +125,7 @@ Item {
             }
         }
     }
-    function load(j){
+    function load(json){
         let cFuego=0
         let cTierra=0
         let cAire=0
@@ -135,6 +135,7 @@ Item {
         let v2=''
         let v3=''
         let v4=''
+        var j=app.currentJsonBack
         for(var i=0;i<12;i++){
             console.log('-------->'+j.pc['c'+i].is)
             if(j.pc['c'+i].is===0||j.pc['c'+i].is===4||j.pc['c'+i].is===8){
@@ -192,9 +193,10 @@ Item {
         let af=[parseFloat(rFuego).toFixed(1), parseFloat(rTierra).toFixed(1), parseFloat(rAire).toFixed(1), parseFloat(rAgua).toFixed(1)]
         //console.log('vi:'+v1.toString())
         updateListModel(af, v1, v2, v3, v4)
+        //let d = JS.getNums('20/06/1975 22:03')
         let d = JS.getNums(app.currentFechaBack)
-        xItemNums.nd=d[0]
-        xItemNums.ns=d[1]
+        //xItemNums.nd=d[0]
+        //xItemNums.ns=d[1]
     }
     function updateListModel(af, v1, v2, v3, v4){
         lm.clear()

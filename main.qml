@@ -247,6 +247,8 @@ AppWin {
         property bool editorShowNumberLines: false
         property int editorTextFormat: 0
 
+        //Panel Sabianos
+        property real panelSabianosFz: 1.0
         //Panel AspTrans
         property int currentIndexP1: 0
         property int currentIndexP2: 0

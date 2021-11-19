@@ -293,6 +293,7 @@ Item {
         let d = new Date(Date.now())
         let ms=d.getTime()
         let hsys=apps.currentHsys
+        app.currentFechaBack=vd+'/'+vm+'/'+va
         if(j.params.hsys)hsys=j.params.hsys
         let c='import QtQuick 2.0\n'
         c+='import unik.UnikQProcess 1.0\n'
@@ -379,7 +380,9 @@ Item {
         }
         panelAspectsBack.load(j)
         aspsCircle.add(j)
-        panelElementsBack.load(j)
+        if(app.mod!=='rs'){
+            panelElementsBack.load(j)
+        }
         housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
         panelDataBodies.loadJsonBack(j)
