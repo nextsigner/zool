@@ -174,6 +174,7 @@ Item{
             }
             onClicked: {
                 if (mouse.button === Qt.RightButton) { // 'mouse' is a MouseEvent argument passed into the onClicked signal handler
+                    app.uSonFCMB=''+app.planetasRes[r.numAstro]+'_'+app.objSignsNames[r.is]+'_'+objData.ih
                     menuPlanets.currentIndexPlanet=r.numAstro
                     menuPlanets.popup()
                 } else if (mouse.button === Qt.LeftButton) {

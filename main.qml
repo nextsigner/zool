@@ -77,6 +77,7 @@ AppWin {
 
     property bool lock: false
     property string uSon: ''
+    property string uSonFCMB: ''
     property string uSonBack: ''
 
     property string uCuerpoAsp: ''

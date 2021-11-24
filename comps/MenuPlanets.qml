@@ -1,8 +1,9 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-
+import "../Funcs.js" as JS
 Menu {
     id: r
+    width: app.fs*8
     property int currentIndexPlanet: -1
     property var aMI: []
     onOpenedChanged:  menuBar.expanded=opened
@@ -69,8 +70,16 @@ Menu {
         }
     }
     title: 'Menu '+app.planetas[r.currentIndexPlanet]
-    Action {text: qsTr("Características"); onTriggered: {
+    Action {text: qsTr("Características de "+app.planetas[app.planetasRes.indexOf(app.uSonFCMB.split('_')[0])]); onTriggered: {
             xInfoData.markDown=true
             xInfoData.loadData('./resources/caracteristicas_'+(''+app.planetas[r.currentIndexPlanet]).toLocaleLowerCase()+'')}
+    }
+    Action {text: qsTr('Info '+app.planetas[app.planetasRes.indexOf(app.uSonFCMB.split('_')[0])]+' en '+app.signos[app.objSignsNames.indexOf(app.uSonFCMB.split('_')[1])]+' en casa '+app.uSonFCMB.split('_')[2]); onTriggered: {
+            JS.showIWFromCtxMenuBar()
+        }
+    }
+    Action {text: qsTr(apps.anColorXAs?"No Centellar":"Centellar"); onTriggered: {
+            apps.anColorXAs=!apps.anColorXAs
+        }
     }
 }

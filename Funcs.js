@@ -122,6 +122,25 @@ function showIW(){
     getJSON(jsonFileName, comp, app.objSignsNames.indexOf(m0[1])+1, numHome, nomCuerpo)
     //}
 }
+function showIWFromCtxMenuBar(){
+    let m0=app.uSonFCMB.split('_')
+    let fileLocation='./iw/main.qml'
+    let comp=Qt.createComponent(fileLocation)
+
+    //Cuerpo en Casa
+    let nomCuerpo=m0[0]!=='asc'?app.planetas[app.planetasRes.indexOf(m0[0])]:'Ascendente'
+    let jsonFileName=m0[0]!=='asc'?quitarAcentos(nomCuerpo.toLowerCase())+'.json':'asc.json'
+    let jsonFileLocation='./quiron/data/'+jsonFileName
+    //    if(!unik.fileExist(jsonFileLocation)){
+    //        let obj=comp.createObject(app, {textData:'No hay datos disponibles.', width: sweg.width, height: sweg.height, x:0, y:0, fs: app.fs*0.5, title:'Sin datos'})
+    //    }else{
+    let numHome=m0[0]!=='asc'?-1:1
+    let vNumRom=['I', 'II', 'III', 'IV', 'V', 'VI', 'VII', 'VIII', 'IX', 'X', 'XI', 'XII']
+    numHome=parseInt(m0[2])//vNumRom.indexOf(m0[2])+1
+    console.log('::::Abriendo signo: '+app.objSignsNames.indexOf(m0[1])+' casa: '+numHome+' nomCuerpo: '+nomCuerpo)
+    getJSON(jsonFileName, comp, app.objSignsNames.indexOf(m0[1])+1, numHome, nomCuerpo)
+    //}
+}
 function showEditor(j){
     let json=JSON.parse(j)
     let fileLocation='./editor/main.qml'
