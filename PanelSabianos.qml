@@ -183,6 +183,7 @@ Rectangle {
                 d+='<br /><h3>Fuente: Universidad Norbert Wiener - Perú</h3><br />'
                 d+='</body></html>'
                 clipboard.setText(d)
+                tHideRowBtns.restart()
             }
         }
         Button{
@@ -200,11 +201,12 @@ Rectangle {
                 d=d.replace(/<\/h1>/g, '</h1>\n')
                 d=d.replace(/<[^>]*>/g, '')
                 clipboard.setText(d)
+                tHideRowBtns.restart()
             }
         }
         Comps.ButtonIcon{
             text: '\uf010'
-            width: apps.botSize*2
+            width: apps.botSize
             height: width
             anchors.verticalCenter: parent.verticalCenter
             onClicked: {
@@ -215,13 +217,28 @@ Rectangle {
         }
         Comps.ButtonIcon{
             text: '\uf00e'
-            width: apps.botSize*2
+            width: apps.botSize
             height: width
             anchors.verticalCenter: parent.verticalCenter
             onClicked: {
                 if(apps.panelSabianosFz<2.0)apps.panelSabianosFz+=0.1
                 rowBtns.opacity=1.0
                 tHideRowBtns.restart()
+            }
+        }
+        Comps.ButtonIcon{
+            text: '\uf06e'
+            width: apps.botSize*2
+            height: width
+            anchors.verticalCenter: parent.verticalCenter
+            onClicked: {
+                apps.autoShow=!apps.autoShow
+                tHideRowBtns.restart()
+            }
+            Text{
+                text:apps.autoShow?'\uf023':'\uf13e'
+                font.pixelSize: parent.width*0.5
+                anchors.right:parent.right
             }
         }
     }

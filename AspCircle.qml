@@ -2,6 +2,7 @@ import QtQuick 2.0
 
 Rectangle {
     id: r
+    width: planetsCircle.width-((planetsCircle.totalPosX*planetsCircle.planetSize)*2)-sweg.fs*2-(apps.showNumberLines?sweg.fs:0)
     height: width
     radius: width*0.5
     color: 'transparent'
@@ -13,33 +14,37 @@ Rectangle {
     property int currentAspSelected: -1
     property int currentAspSelectedBack: -1
     property int widthNodosAspSelected: 8
-    state: sweg.state
-    states: [
-        State {
-            name: sweg.aStates[0]
-            PropertyChanges {
-                target: r
-                width: planetsCircle.width-((planetsCircle.totalPosX*planetsCircle.planetSize)*2)-sweg.fs
-                opacity: 0.0
-            }
-        },
-        State {
-            name: sweg.aStates[1]
-            PropertyChanges {
-                target: r
-                width: sweg.fs*4//Está invisible, no sirve de nada que le ponga una medida acá. XD
-                //opacity: 0.0
-            }
-        },
-        State {
-            name: sweg.aStates[2]
-            PropertyChanges {
-                target: r
-                width: planetsCircle.width-((planetsCircle.totalPosX*planetsCircle.planetSize)*2)-sweg.fs*2-(apps.showNumberLines?sweg.fs:0)
-                opacity: 1.0
-            }
-        }
-    ]
+
+//    state: sweg.state
+//    states: [
+//        State {
+//            name: sweg.aStates[0]
+//            PropertyChanges {
+//                target: r
+//                //width: planetsCircle.width-((planetsCircle.totalPosX*planetsCircle.planetSize)*2)-sweg.fs
+//                width: planetsCircle.width-((planetsCircle.totalPosX*planetsCircle.planetSize)*2)-sweg.fs*2-(apps.showNumberLines?sweg.fs:0)
+//                //opacity: 0.0
+//            }
+//        },
+//        State {
+//            name: sweg.aStates[1]
+//            PropertyChanges {
+//                target: r
+//                //width: sweg.fs*4//Está invisible, no sirve de nada que le ponga una medida acá. XD
+//                width: planetsCircle.width-((planetsCircle.totalPosX*planetsCircle.planetSize)*2)-sweg.fs*2-(apps.showNumberLines?sweg.fs:0)
+//                //opacity: 0.0
+//            }
+//        },
+//        State {
+//            name: sweg.aStates[2]
+//            PropertyChanges {
+//                target: r
+//                width: planetsCircle.width-((planetsCircle.totalPosX*planetsCircle.planetSize)*2)-sweg.fs*2-(apps.showNumberLines?sweg.fs:0)
+//                //opacity: 1.0
+//            }
+//        }
+//    ]
+
     onCurrentAspSelectedChanged: setPosCurrentAsp(currentAspSelected,0)
     onCurrentAspSelectedBackChanged: setPosCurrentAsp(currentAspSelectedBack,1)
     onWidthChanged: {
@@ -107,7 +112,6 @@ Rectangle {
             //drawPoint(ctx, px2, py2, 8, 'white')
         }
     }
-
     Canvas {
         id:canvas
         width: r.width//-sweg.fs

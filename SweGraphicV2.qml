@@ -5,10 +5,13 @@ import "./comps" as Comps
 
 Item {
     id: r
-    height: parent.height
-    opacity: 0.0
+    width: parent.height-app.fs*3
+    height: width
     anchors.centerIn: parent
-    anchors.verticalCenterOffset: verticalOffSet
+    //anchors.fill: parent
+    opacity: 0.0
+    //anchors.centerIn: parent
+    //anchors.verticalCenterOffset: verticalOffSet
     property int  verticalOffSet: xDataBar.state==='show'?sweg.fs*1.25:0
     property int fs: r.objectName==='sweg'?apps.sweFs:apps.sweFs*2
     property int w: fs
@@ -26,13 +29,14 @@ Item {
     property color backgroundColor: enableBackgroundColor?apps.backgroundColor:'transparent'
     property bool enableBackgroundColor: apps.enableBackgroundColor
     property string currentHsys: apps.currentHsys
+
     state: apps.swegMod//aStates[0]
     states: [
         State {//PS
             name: aStates[0]
             PropertyChanges {
                 target: r
-                width: app.ev?r.fs*(12 +6):r.fs*(12 +10)
+                //width: app.ev?r.fs*(12 +6):r.fs*(12 +10)
             }
             PropertyChanges {
                 target: signCircle
@@ -47,7 +51,7 @@ Item {
             name: aStates[1]
             PropertyChanges {
                 target: r
-                width: app.ev?r.fs*(15 +6):r.fs*(15 +10)
+                //width: app.ev?r.fs*(15 +6):r.fs*(15 +10)
             }
             PropertyChanges {
                 target: signCircle
@@ -62,7 +66,7 @@ Item {
             name: aStates[2]
             PropertyChanges {
                 target: r
-                width: app.ev?r.fs*(12 +6):r.fs*(12 +10)
+                //width: app.ev?r.fs*(12 +6):r.fs*(12 +10)
             }
             PropertyChanges {
                 target: signCircle
@@ -74,6 +78,7 @@ Item {
             }
         }
     ]
+
     onStateChanged: {
         swegz.sweg.state=state
         apps.swegMod=state
@@ -81,32 +86,212 @@ Item {
     Behavior on opacity{NumberAnimation{duration: 1500}}
     Behavior on verticalOffSet{NumberAnimation{duration: app.msDesDuration}}
     Item{id: xuqp}
-    Rectangle{
-        id: bg
-        width: parent.width*10
-        height: width
-        color: backgroundColor
-        visible: signCircle.v
+    Flickable{
+        id: flick
+        anchors.fill: parent
+        //clip: true
+        // Map
+        Rectangle {
+            id: rect
+            border.width: 2
+            width: Math.max(xSweg.width, flick.width)
+            height: Math.max(xSweg.height, flick.height)
+            color: 'transparent'
+            //visible: !apps.showLupa
+            transform: Scale {
+                id: scaler
+                origin.x: pinchArea.m_x2
+                origin.y: pinchArea.m_y2
+                xScale: pinchArea.m_zoom2
+                yScale: pinchArea.m_zoom2
+            }
+            PinchArea {
+                id: pinchArea
+                anchors.fill: parent
+                enabled: !apps.showLupa
+                property real m_x1: 0
+                property real m_y1: 0
+                property real m_y2: 0
+                property real m_x2: 0
+                property real m_zoom1: 1.0
+                property real m_zoom2: 1.0
+                property real m_max: 6
+                property real m_min: 1.0
+
+                onPinchStarted: {
+                    console.log("Pinch Started")
+                    m_x1 = scaler.origin.x
+                    m_y1 = scaler.origin.y
+                    m_x2 = pinch.startCenter.x
+                    m_y2 = pinch.startCenter.y
+                    rect.x = rect.x + (pinchArea.m_x1-pinchArea.m_x2)*(1-pinchArea.m_zoom1)
+                    rect.y = rect.y + (pinchArea.m_y1-pinchArea.m_y2)*(1-pinchArea.m_zoom1)
+                }
+                onPinchUpdated: {
+                    console.log("Pinch Updated")
+                    m_zoom1 = scaler.xScale
+                    var dz = pinch.scale-pinch.previousScale
+                    var newZoom = m_zoom1+dz
+                    if (newZoom <= m_max && newZoom >= m_min) {
+                        m_zoom2 = newZoom
+                    }
+                }
+                MouseArea {
+                    id: dragArea
+                    hoverEnabled: true
+                    anchors.fill: parent
+                    drag.target: rect
+                    drag.filterChildren: true
+                    enabled: !apps.showLupa
+
+                    onWheel: {
+                        console.log("Wheel Scrolled")
+                        pinchArea.m_x1 = scaler.origin.x
+                        pinchArea.m_y1 = scaler.origin.y
+                        pinchArea.m_zoom1 = scaler.xScale
+                        pinchArea.m_x2 = mouseX
+                        pinchArea.m_y2 = mouseY
+
+                        var newZoom
+                        if (wheel.angleDelta.y > 0) {
+                            newZoom = pinchArea.m_zoom1+0.1
+                            if (newZoom <= pinchArea.m_max) {
+                                pinchArea.m_zoom2 = newZoom
+                            } else {
+                                pinchArea.m_zoom2 = pinchArea.m_max
+                            }
+                        } else {
+                            newZoom = pinchArea.m_zoom1-0.1
+                            if (newZoom >= pinchArea.m_min) {
+                                pinchArea.m_zoom2 = newZoom
+                            } else {
+                                pinchArea.m_zoom2 = pinchArea.m_min
+                            }
+                        }
+                        rect.x = rect.x + (pinchArea.m_x1-pinchArea.m_x2)*(1-pinchArea.m_zoom1)
+                        rect.y = rect.y + (pinchArea.m_y1-pinchArea.m_y2)*(1-pinchArea.m_zoom1)
+
+                        console.debug(rect.width+" -- "+rect.height+"--"+rect.scale)
+
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: console.log("Click in child")
+                    }
+                }
+            }
+            Item{
+                id: xSweg
+                width: r.width*0.5
+                height: width
+                anchors.centerIn: parent
+                //anchors.centerIn: parent
+                MouseArea{
+                    enabled: false
+                    width: r.width*3
+                    height: width
+                    anchors.centerIn: parent
+                    drag.target: xSweg
+                    drag.axis: Drag.XAndYAxis
+                    onDoubleClicked: {
+                        xSweg.scale=1.0
+                        //flkSweg.contentX=0-flkSweg.contentWidth*0.5
+                        //flkSweg.contentY=0-flkSweg.contentHeight*0.5
+                    }
+                    onWheel: {
+                        //apps.enableFullAnimation=false
+                        if(wheel.modifiers == Qt.ControlModifier){
+                            if(wheel.angleDelta.y>=0){
+                                if(xSweg.scale<6.0){
+                                    xSweg.scale+=0.1
+                                }else{
+                                    //xSweg.scale=1.0
+                                }
+                            }else{
+                                if(xSweg.scale>1.0){
+                                    xSweg.scale-=0.1
+                                }else{
+                                    //xSweg.scale=6.0
+                                }
+                            }
+                            let pcW=wheel.x/xSweg.width*100
+                            let pcH=wheel.y/xSweg.width*100
+                            //log.l('pcw: '+pcW)
+                            //log.visible=true
+                            //log.width=xApp.width*0.2
+                            //flkSweg.contentX=(xSweg.width*xSweg.scale)/100/pcW///flkSweg.contentWidth*100
+                            //flkSweg.contentY=((flkSweg.contentWidth*0.25)/(pcH)*100)
+                            //log.l('flkSweg.contentX: '+flkSweg.contentX)
+                            //log.l('flkSweg.contentY: '+flkSweg.contentY)
+                            //flkSweg.contentY=flkSweg.contentHeight/100*pcH
+                        }
+                    }
+                }
+                Rectangle{
+                    id: bg
+                    width: parent.width*10
+                    height: width
+                    color: backgroundColor
+                    visible: signCircle.v
+                }
+                BackgroundImages{id: backgroundImages}
+                Comps.HouseCircleBack{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
+                    id:housesCircleBack
+                    height: width
+                    anchors.centerIn: signCircle
+                    w: r.fs*6
+                    widthAspCircle: aspsCircle.width
+                    visible: app.ev
+                    //visible: planetsCircleBack.visible
+                }
+                Comps.HouseCircle{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
+                    id:housesCircle
+                    height: width
+                    anchors.centerIn: signCircle
+                    w: r.fs*6
+                    widthAspCircle: aspsCircle.width
+                    visible: r.v
+                }
+                AxisCircle{id: axisCircle}
+                NumberLines{}
+                Comps.SignCircle{
+                    id:signCircle
+                    //width: planetsCircle.expand?r.width-r.fs*6+r.fs*2:r.width-r.fs*6
+                    anchors.centerIn: parent
+                    showBorder: true
+                    v:r.v
+                    w: r.w
+                    onRotChanged: housesCircle.rotation=rot
+                    //onShowDecChanged: Qt.quit()
+                }
+                AspCircle{
+                    id: aspsCircle
+                    rotation: signCircle.rot - 90 + 1
+                }
+                PlanetsCircle{
+                    id:planetsCircle
+                    height: width
+                    anchors.centerIn: parent
+                    //showBorder: true
+                    //v:r.v
+                }
+                PlanetsCircleBack{
+                    id:planetsCircleBack
+                    height: width
+                    anchors.centerIn: parent
+                    visible: app.ev
+                }
+                AscMcCircle{id: ascMcCircle}
+                EclipseCircle{
+                    id: eclipseCircle
+                    width: housesCircle.width
+                    height: width
+                }
+            }
+        }
     }
-    BackgroundImages{id: backgroundImages}
-    Comps.HouseCircleBack{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
-        id:housesCircleBack
-        height: width
-        anchors.centerIn: signCircle
-        w: r.fs*6
-        widthAspCircle: aspsCircle.width
-        visible: app.ev
-        //visible: planetsCircleBack.visible
-    }
-    Comps.HouseCircle{//rotation: parseInt(signCircle.rot);//z:signCircle.z+1;
-        id:housesCircle
-        height: width
-        anchors.centerIn: signCircle
-        w: r.fs*6
-        widthAspCircle: aspsCircle.width
-        visible: r.v
-    }
-    AxisCircle{id: axisCircle}
+
+
     PanelAspects{
         id: panelAspects
         anchors.bottom: parent.bottom
@@ -126,40 +311,12 @@ Item {
         rotation: 180
         visible: r.objectName==='sweg'&&planetsCircleBack.visible
     }
-    NumberLines{}
-    Comps.SignCircle{
-        id:signCircle
-        //width: planetsCircle.expand?r.width-r.fs*6+r.fs*2:r.width-r.fs*6
-        anchors.centerIn: parent
-        showBorder: true
-        v:r.v
-        w: r.w
-        onRotChanged: housesCircle.rotation=rot
-        //onShowDecChanged: Qt.quit()
-    }
-    AspCircle{
-        id: aspsCircle
-        rotation: signCircle.rot - 90 + 1
-    }
-    PlanetsCircle{
-        id:planetsCircle
-        height: width
-        anchors.centerIn: parent
-        //showBorder: true
-        //v:r.v
-    }
-    PlanetsCircleBack{
-        id:planetsCircleBack
-        height: width
-        anchors.centerIn: parent
-        visible: app.ev
-    }
-    AscMcCircle{id: ascMcCircle}
-    EclipseCircle{
-        id: eclipseCircle
-        width: housesCircle.width
-        height: width
-    }
+    //    Rectangle{
+    //        color: 'red'
+    //        border.color: 'blue'
+    //        border.width: 10
+    //        anchors.fill: parent
+    //    }
     Rectangle{
         //Este esta en el centro
         visible: false
@@ -293,6 +450,7 @@ Item {
         let d = new Date(Date.now())
         let ms=d.getTime()
         let hsys=apps.currentHsys
+        app.currentFechaBack=vd+'/'+vm+'/'+va
         if(j.params.hsys)hsys=j.params.hsys
         let c='import QtQuick 2.0\n'
         c+='import unik.UnikQProcess 1.0\n'
@@ -321,7 +479,7 @@ Item {
         aspsCircle.clear()
         panelRsList.clear()
         //planetsCircleBack.visible=false
-        app.ev=false
+        //app.ev=false
         panelAspectsBack.visible=false
         sweg.objHousesCircle.currentHouse=-1
         swegz.sweg.objHousesCircle.currentHouse=-1
@@ -331,40 +489,42 @@ Item {
         var j
         //try {
 
-            //log.l(scorrJson)
-            //log.visible=true
-            //log.width=xApp.width*0.4
-            j=JSON.parse(scorrJson)
-            app.currentJson=j
-            //signCircle.rot=parseInt(j.ph.h1.gdec)
-            signCircle.rot=parseFloat(j.ph.h1.gdec).toFixed(2)
-            ascMcCircle.loadJson(j)
-            housesCircle.loadHouses(j)
-            planetsCircle.loadJson(j)
-            //planetsCircleBack.loadJson(j)
-            panelAspects.load(j)
-            panelDataBodies.loadJson(j)
-            aspsCircle.load(j)
-            panelElements.load(j)
-            eclipseCircle.arrayWg=housesCircle.arrayWg
-            eclipseCircle.isEclipse=-1
-            //if(app.mod!=='rs'&&app.mod!=='pl'&&panelZonaMes.state!=='show')panelRsList.setRsList(61)
-            r.v=true
-            //apps.enableFullAnimation=true
-            //let j=JSON.parse(app.fileData)
-            if(j.params.tipo==='sin'){
-                tLoadSin.start()
-            }
-            tFirtShow.start()
-            panelSabianos.numSign=app.currentJson.ph.h1.is
-            panelSabianos.numDegree=parseInt(app.currentJson.ph.h1.rsgdeg - 1)
-            panelSabianos.loadData()
+        //log.l(scorrJson)
+        //log.visible=true
+        //log.width=xApp.width*0.4
+        j=JSON.parse(scorrJson)
+        app.currentJson=j
+        //signCircle.rot=parseInt(j.ph.h1.gdec)
+        signCircle.rot=parseFloat(j.ph.h1.gdec).toFixed(2)
+        ascMcCircle.loadJson(j)
+        housesCircle.loadHouses(j)
+        planetsCircle.loadJson(j)
+        //planetsCircleBack.loadJson(j)
+        panelAspects.load(j)
+        panelDataBodies.loadJson(j)
+        aspsCircle.load(j)
+        panelElements.load(j)
+        eclipseCircle.arrayWg=housesCircle.arrayWg
+        eclipseCircle.isEclipse=-1
+        //if(app.mod!=='rs'&&app.mod!=='pl'&&panelZonaMes.state!=='show')panelRsList.setRsList(61)
+        r.v=true
+        //apps.enableFullAnimation=true
+        //let j=JSON.parse(app.fileData)
+        if(j.params.tipo==='sin'){
+            tLoadSin.start()
+        }
+        tFirtShow.start()
+        panelSabianos.numSign=app.currentJson.ph.h1.is
+        panelSabianos.numDegree=parseInt(app.currentJson.ph.h1.rsgdeg - 1)
+        panelSabianos.loadData()
+        if(apps.autoShow){
             panelSabianos.state='show'
-            panelAspTransList.state='hide'
-//        } catch(e) {
-//            //alert(e); // error in the above string (in this case, yes)!
-//            JS.showMsgDialog('Error de carga', 'Hay un error en la carga de los datos.', 'Error SweGraphic::loadSweJson(json)')
-//        }
+        }
+        panelAspTransList.state='hide'
+        //        } catch(e) {
+        //            //alert(e); // error in the above string (in this case, yes)!
+        //            JS.showMsgDialog('Error de carga', 'Hay un error en la carga de los datos.', 'Error SweGraphic::loadSweJson(json)')
+        //        }
     }
     function loadSweJsonBack(json){
         //console.log('JSON::: '+json)
@@ -379,7 +539,9 @@ Item {
         }
         panelAspectsBack.load(j)
         aspsCircle.add(j)
-        panelElementsBack.load(j)
+        if(app.mod!=='rs'){
+            panelElementsBack.load(j)
+        }
         housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
         panelDataBodies.loadJsonBack(j)
@@ -395,5 +557,15 @@ Item {
         }
         r.state=r.aStates[currentIndexState]
         swegz.sweg.state=r.state
+    }
+    function restoreZoom(){
+        pinchArea.m_x1 = 0
+        pinchArea.m_y1 = 0
+        pinchArea.m_x2 = 0
+        pinchArea.m_y2 = 0
+        pinchArea.m_zoom1 = 1.0
+        pinchArea.m_zoom2 = 1.0
+        rect.x = 0
+        rect.y = 0
     }
 }

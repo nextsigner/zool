@@ -255,6 +255,7 @@ AppWin {
         property int currentIndexP2: 0
         property int currentIndexAsp: 0
         property int currentAspCantAniosSearch: 20
+        property bool autoShow: false
 
         property bool chat: false
 
@@ -263,6 +264,7 @@ AppWin {
         property bool enableFullAnimation: false
 
         property string jsonsFolder: documentsPath
+        onShowLupaChanged: sweg.restoreZoom()
         onEnableBackgroundColorChanged: {
             if(enableBackgroundColor){
                 ip.hideSS()
@@ -297,7 +299,14 @@ AppWin {
     Item{
         id: xApp
         anchors.fill: parent
-        SweGraphic{id: sweg;objectName: 'sweg'}
+        Item{
+            id: xSwe1
+            width: xApp.width-xLatIzq.width-xLatDer.width
+            height: xLatIzq.height
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            SweGraphicV2{id: sweg;objectName: 'sweg'}
+        }
         Rectangle{
             id: xMsgProcDatos
             width: txtPD.contentWidth+app.fs
@@ -319,7 +328,6 @@ AppWin {
                 onClicked: parent.visible=false
             }
         }
-
     }
     Item{
         id: capa101
@@ -337,7 +345,7 @@ AppWin {
                     //anchors.fill: parent
                     width: parent.width
                     height: panelRemoto.state==='show'?parent.height*0.5:parent.height
-                    SweGraphicZoom{id: swegz; visible:apps.showSWEZ&&apps.showLupa}
+                    SweGraphicZoomV2{id: swegz; visible:apps.showSWEZ&&apps.showLupa}
                 }
                 Item{
                     anchors.fill: parent
@@ -519,6 +527,7 @@ AppWin {
         Editor{id: xEditor}
         Num.NumCiclosVida{id: ncv; anchors.fill: parent}
     }
+    //XSweZoom{id: xSweZoom}
     Init{longAppName: 'Zool'; folderName: 'zool'}
     Comps.XSelectColor{
         id: xSelectColor

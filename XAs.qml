@@ -164,15 +164,44 @@ Item{
             anchors.fill: parent
             acceptedButtons: Qt.AllButtons;
             hoverEnabled: true
+//            onWheel: {
+//                //apps.enableFullAnimation=false
+//                if(wheel.angleDelta.y>=0){
+//                    if(reSizeAppsFs.fs<app.fs*2){
+//                        reSizeAppsFs.fs+=reSizeAppsFs.fs*0.1
+//                    }else{
+//                        reSizeAppsFs.fs=app.fs
+//                    }
+//                }else{
+//                    if(reSizeAppsFs.fs>app.fs){
+//                        reSizeAppsFs.fs-=reSizeAppsFs.fs*0.1
+//                    }else{
+//                        reSizeAppsFs.fs=app.fs*2
+//                    }
+//                }
+//                reSizeAppsFs.restart()
+//            }
             onEntered: {
                 vClick=0
                 r.parent.cAs=r
             }
+//            Timer{
+//                id: reSizeAppsFs
+//                running: false
+//                repeat: false
+//                interval: 500
+//                property int fs: app.fs
+//                onTriggered: {
+//                    apps.sweFs=fs
+//                    //Qt.quit()
+//                }
+//            }
             onExited: {
                 vClick=0
                 //r.parent.cAs=r.parent
             }
             onClicked: {
+                //apps.sweFs=app.fs
                 if (mouse.button === Qt.RightButton) { // 'mouse' is a MouseEvent argument passed into the onClicked signal handler
                     app.uSonFCMB=''+app.planetasRes[r.numAstro]+'_'+app.objSignsNames[r.is]+'_'+objData.ih
                     menuPlanets.currentIndexPlanet=r.numAstro
