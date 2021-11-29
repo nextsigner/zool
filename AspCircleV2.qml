@@ -10,16 +10,18 @@ Rectangle {
     border.color: 'white'
     anchors.centerIn: parent
     antialiasing: true
-    //visible: sweg.state===sweg.aStates[0] || sweg.state===sweg.aStates[2]
     property int currentAspSelected: -1
     property int currentAspSelectedBack: -1
     property int widthNodosAspSelected: 8
-    onCurrentAspSelectedChanged: setPosCurrentAsp(currentAspSelected,0)
-    onCurrentAspSelectedBackChanged: setPosCurrentAsp(currentAspSelectedBack,1)
+    property var aAspStr1: []
+    //onCurrentAspSelectedChanged: setPosCurrentAsp(currentAspSelected,0)
+    //onCurrentAspSelectedBackChanged: setPosCurrentAsp(currentAspSelectedBack,1)
     onWidthChanged: {
         currentAspSelected=-1
         //clear_canvas()
         //clear_canvasBg()
+        tLoadJson.restart()
+        tLoadJsonBack.restart()
     }
     Behavior on opacity {
         NumberAnimation{
@@ -34,33 +36,85 @@ Rectangle {
             easing.type: Easing.InOutQuad
         }
     }
-    Timer{
-        running: currentAspSelected!==-1
-        repeat: true
-        interval: 500
-        onTriggered: canvasBg.visible=!canvasBg.visible
+    Rectangle{
+        id: bg
+        width: r.width
+        height: width
+        color: apps.backgroundColor
+        radius: width*0.5
+        anchors.centerIn: r
+        //visible: !app.ev?apps.showAspCircle:(apps.showAspCircle && apps.showAspCircleBack)
     }
-    Timer{
-        running: currentAspSelectedBack!==-1
-        repeat: true
-        interval: 500
-        onTriggered: canvasBgBack.visible=!canvasBgBack.visible
+    Rectangle{
+        id: bgTotalBack
+        width: r.width
+        height: width
+        //color: app.ev?'red':'blue'//apps.backgroundColor//'black'
+        color: apps.backgroundColor
+        radius: width*0.5
+        anchors.centerIn: r
+        property var json
+        onJsonChanged: tLoadJsonBack.restart()
+        visible: apps.showAspCircleBack
+        Timer{
+            id: tLoadJsonBack
+            running: false
+            repeat: false
+            interval: 500
+            onTriggered: {
+                clearSL(bgTotalBack)
+                var x = bgTotalBack.width*0.5;
+                var y = bgTotalBack.height*0.5;
+                var radius=bgTotalBack.width*0.5
+                var cx=bgTotalBack.width*0.5
+                var cy=bgTotal.height*0.5
+                if(bgTotalBack.json&&bgTotalBack.json.asps){
+                    let asp=bgTotalBack.json.asps
+                    for(var i=0;i<Object.keys(asp).length;i++){
+                        if(asp['asp'+parseInt(i +1)]){
+                            if((asp['asp'+parseInt(i +1)].ic1===10 && asp['asp'+parseInt(i +1)].ic2===11)||(asp['asp'+parseInt(i +1)].ic1===11 && asp['asp'+parseInt(i +1)].ic2===10)){
+                                continue
+                            }else{
+                                let a=asp['asp'+parseInt(i +1)]
+                                let colorAsp='black'
+                                //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
+                                if(a.ia===0){
+                                    colorAsp='red'
+                                }
+                                if(a.ia===1){
+                                    colorAsp='#ff8833'
+                                }
+                                if(a.ia===2){
+                                    colorAsp='green'
+                                }
+                                if(a.ia===3){
+                                    colorAsp='blue'
+                                }
+                                drawAsp(cx, cy, a.gdeg1, a.gdeg2, colorAsp, i, bgTotalBack, true)
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     Rectangle{
         id: bgTotal
         width: r.width
         height: width
-        color: apps.backgroundColor//'black'
+        color: 'transparent'//apps.backgroundColor//'black'
         radius: width*0.5
         anchors.centerIn: r
         property var json
         onJsonChanged: tLoadJson.restart()
+        visible: apps.showAspCircle
         Timer{
             id: tLoadJson
             running: false
             repeat: false
-            interval: 5000
+            interval: 500
             onTriggered: {
+                clearSL(bgTotal)
                 var x = bgTotal.width*0.5;
                 var y = bgTotal.height*0.5;
                 var radius=bgTotal.width*0.5
@@ -88,26 +142,16 @@ Rectangle {
                                 if(a.ia===3){
                                     colorAsp='blue'
                                 }
-                                drawAsp(cx, cy, a.gdeg1, a.gdeg2, colorAsp)
+                                drawAsp(cx, cy, a.gdeg1, a.gdeg2, colorAsp, i, bgTotal, false)
                             }
                         }
                     }
                 }
             }
         }
-        MouseArea{
-            anchors.fill: parent
-            onClicked: Qt.quit()
-        }
     }
-    function drawPoint(ctx, x, y, r, c){
-        ctx.beginPath();
-        ctx.arc(x, y, r, 0, 2 * Math.PI);
-        ctx.lineWidth = 2
-        ctx.strokeStyle = c;
-        ctx.stroke();
-    }
-    function drawAsp(cx, cy, gdeg1, gdeg2, c){
+
+    function drawAsp(cx, cy, gdeg1, gdeg2, c, i, item, isBack){
         var angulo= gdeg1
         var coords=gCoords(radius, angulo)
         var px1 = coords[0]
@@ -116,28 +160,7 @@ Rectangle {
         coords=gCoords(radius, angulo)
         var px2 = coords[0]
         var py2 = coords[1]
-        //drawLine(ctx, px1+cx, py1+cy, px2+cx, py2+cy, c, 2, dash)
-        //let coord=rotate_point(px1, py1, px2, py2, gdeg1)
-        let coord=rotate_point(px1+cx, py1+cy, px2+cx, py2+cy, gdeg1)
-        //drawAspRect(coord[0], coord[1], c, angle(px1+cx, py1+cy, px2+cx, py2+cy))
-        //drawAspRect(coord[0], coord[1], c, angle(px1, py1, px2, py2))
-        //drawAspRect(coord[0], coord[1], c, angle(px1+cx, py1+cy, px2+cx, py2+cy), gdeg1)
-        //drawAspRect(px1+cx, py1+cy, px2+cx, py2+cy, c)
-        drawAspRect(px1+cx, py1+cy, px2+cx, py2+cy, c)
-    }
-    function drawLine(ctx, px1, py1, px2, py2, c, w, dash){
-        ctx.beginPath();
-        ctx.moveTo(px1, py1);
-        ctx.lineTo(px2, py2);
-        if(dash){
-            ctx.lineWidth = w+2
-            ctx.setLineDash([sweg.fs*0.1, sweg.fs*0.05])
-        }else{
-            ctx.lineWidth = w
-        }
-        ctx.strokeStyle = c;
-        ctx.stroke();
-
+        drawAspRect(px1+cx, py1+cy, px2+cx, py2+cy, c, i, item, isBack)
     }
     function gCoords(radius, angle) {
         var d = Math.PI/180 //to convert deg to rads
@@ -149,120 +172,34 @@ Rectangle {
         y = radius * Math.sin(deg)
         return [ x, y ];
     }
-    function clear_canvas() {
-        var ctx = canvas.getContext("2d");
-        if(ctx)ctx.reset();
-        canvas.requestPaint();
-    }
-    function clear_canvasBg() {
-        var ctx = canvasBg.getContext("2d");
-        if(ctx)ctx.reset();
-        canvasBg.requestPaint();
-    }
-    function clear_canvasBgBack() {
-        var ctx = canvasBgBack.getContext("2d");
-        if(ctx)ctx.reset();
-        canvasBgBack.requestPaint();
-    }
     function load(json){
-        clearSL()
-        //canvas.json=jsonData
+        clearSL(bgTotal)
+        r.aAspStr1=[]
         bgTotal.json=json
-
     }
-    function add(jsonData){
-        canvasBack.json=jsonData
+    function add(json){
+        console.log('Json Asp Back: '+JSON.stringify(json))
+        clearSL(bgTotalBack)
+        bgTotalBack.json=json
+    }
+    function drawAspRect(sx, sy, px, py, c, i, item, isBack){
+        let s='s'+sx+'-'+sy+'-'+px+'-'+py
+        if(r.aAspStr1.indexOf(s)<0){
+            let comp=Qt.createComponent("./comps/AspShapeLine.qml")
+            let obj=comp.createObject(item,{sx: sx, sy: sy, px: px, py: py, c: c, n:i, isBack: isBack})
+            r.aAspStr1.push(s)
+            //console.log('aps s: '+s)
+            //console.log('aps l: '+r.aAspStr1.length)
+        }
+
     }
     function clear(){
-        //canvas.json=JSON.parse('{}')
-        //canvasBack.json=JSON.parse('{}')
+        clearSL(bgTotal)
+        clearSL(bgTotalBack)
     }
-    function setPosCurrentAsp(ci, c){
-        clear_canvasBg()
-        if(c===0){
-            let asp=canvas.json.asps
-            //for(var i=0;i<Object.keys(asp).length;i++){
-            if(asp['asp'+parseInt(r.currentAspSelected +1)]){
-                let a=asp['asp'+parseInt(r.currentAspSelected +1)]
-                let colorAsp=apps.fontColor//'black'
-                //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
-                if(a.ia===0){
-                    colorAsp='red'
-                }
-                if(a.ia===1){
-                    colorAsp='#ff8833'
-                }
-                if(a.ia===2){
-                    colorAsp='green'
-                }
-                if(a.ia===3){
-                    colorAsp='blue'
-                }
-                var cx=canvas.width*0.5
-                var cy=canvas.height*0.5
-                var radius=canvas.width*0.5
-                var coords=gCoords(radius, a.gdeg1)
-                var coords2=gCoords(radius, a.gdeg2)
-                punto.x=cx+coords[0]
-                punto.y=cy+coords[1]
-                punto2.x=cx+coords2[0]
-                punto2.y=cy+coords2[1]
-                clear_canvasBg()
-                canvasBg.px1=cx+coords[0]
-                canvasBg.py1=cx+coords[1]
-                canvasBg.px2=cx+coords2[0]
-                canvasBg.py2=cx+coords2[1]
-                canvasBg.requestPaint()
-                //canvas.visible=false
-            }
-        }
-        if(c===1){
-
-            let asp=canvasBack.json.asps
-            //for(var i=0;i<Object.keys(asp).length;i++){
-            if(asp['asp'+parseInt(r.currentAspSelectedBack +1)]){
-                let a=asp['asp'+parseInt(r.currentAspSelectedBack +1)]
-                let colorAsp=apps.fontColor//'black'
-                //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
-                if(a.ia===0){
-                    colorAsp='red'
-                }
-                if(a.ia===1){
-                    colorAsp='#ff8833'
-                }
-                if(a.ia===2){
-                    colorAsp='green'
-                }
-                if(a.ia===3){
-                    colorAsp='blue'
-                }
-                cx=canvas.width*0.5
-                cy=canvas.height*0.5
-                radius=canvas.width*0.5
-                coords=gCoords(radius, a.gdeg1)
-                coords2=gCoords(radius, a.gdeg2)
-                punto.x=cx+coords[0]
-                punto.y=cy+coords[1]
-                punto2.x=cx+coords2[0]
-                punto2.y=cy+coords2[1]
-                clear_canvasBgBack()
-                canvasBgBack.px1=cx+coords[0]
-                canvasBgBack.py1=cx+coords[1]
-                canvasBgBack.px2=cx+coords2[0]
-                canvasBgBack.py2=cx+coords2[1]
-                canvasBgBack.requestPaint()
-
-                //canvas.visible=false
-            }
-        }
-    }
-    function drawAspRect(sx, sy, px, py, c){
-        let comp=Qt.createComponent("./comps/ShapeLIne.qml")
-        let obj=comp.createObject(bgTotal,{sx: sx, sy: sy, px: px, py: py, c: c})
-    }
-    function clearSL(){
-        for(var i=0;i<bgTotal.children.length;i++){
-            bgTotal.children[i].destroy(1)
+    function clearSL(item){
+        for(var i=0;i<item.children.length;i++){
+            item.children[i].destroy(1)
         }
     }
     function rotate_point(pointX, pointY, originX, originY, angle) {
