@@ -9,7 +9,7 @@ Item {
     opacity: 0.0
     anchors.centerIn: parent
     anchors.verticalCenterOffset: verticalOffSet
-    property int  verticalOffSet: xDataBar.state==='show'?sweg.fs*1.25:0
+    property int  verticalOffSet: 0//xDataBar.state==='show'?sweg.fs*1.25:0
     property int fs: r.objectName==='sweg'?apps.sweFs:apps.sweFs*2
     property int w: fs
     property bool v: false

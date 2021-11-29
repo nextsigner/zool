@@ -12,7 +12,7 @@ Item {
     opacity: 0.0
     //anchors.centerIn: parent
     //anchors.verticalCenterOffset: verticalOffSet
-    property int  verticalOffSet: xDataBar.state==='show'?sweg.fs*1.25:0
+    property int  verticalOffSet: 0//xDataBar.state==='show'?sweg.fs*1.25:0
     property int fs: r.objectName==='sweg'?apps.sweFs:apps.sweFs*2
     property int w: fs
     property bool v: false
@@ -89,15 +89,13 @@ Item {
     Flickable{
         id: flick
         anchors.fill: parent
-        //clip: true
-        // Map
         Rectangle {
             id: rect
             border.width: 2
             width: Math.max(xSweg.width, flick.width)
             height: Math.max(xSweg.height, flick.height)
             color: 'transparent'
-            //visible: !apps.showLupa
+            antialiasing: true
             transform: Scale {
                 id: scaler
                 origin.x: pinchArea.m_x2
@@ -106,6 +104,7 @@ Item {
                 yScale: pinchArea.m_zoom2
             }
             PinchArea {
+                //z:parent.z-1
                 id: pinchArea
                 anchors.fill: parent
                 enabled: !apps.showLupa
@@ -137,6 +136,7 @@ Item {
                     }
                 }
                 MouseArea {
+                    //z:parent.z-1
                     id: dragArea
                     hoverEnabled: true
                     anchors.fill: parent
@@ -145,7 +145,7 @@ Item {
                     enabled: !apps.showLupa
 
                     onWheel: {
-                        console.log("Wheel Scrolled")
+                        //console.log("Wheel Scrolled")
                         pinchArea.m_x1 = scaler.origin.x
                         pinchArea.m_y1 = scaler.origin.y
                         pinchArea.m_zoom1 = scaler.xScale
@@ -170,11 +170,10 @@ Item {
                         }
                         rect.x = rect.x + (pinchArea.m_x1-pinchArea.m_x2)*(1-pinchArea.m_zoom1)
                         rect.y = rect.y + (pinchArea.m_y1-pinchArea.m_y2)*(1-pinchArea.m_zoom1)
-
                         console.debug(rect.width+" -- "+rect.height+"--"+rect.scale)
-
                     }
                     MouseArea {
+                        enabled: false
                         anchors.fill: parent
                         onClicked: console.log("Click in child")
                     }
@@ -185,48 +184,6 @@ Item {
                 width: r.width*0.5
                 height: width
                 anchors.centerIn: parent
-                //anchors.centerIn: parent
-                MouseArea{
-                    enabled: false
-                    width: r.width*3
-                    height: width
-                    anchors.centerIn: parent
-                    drag.target: xSweg
-                    drag.axis: Drag.XAndYAxis
-                    onDoubleClicked: {
-                        xSweg.scale=1.0
-                        //flkSweg.contentX=0-flkSweg.contentWidth*0.5
-                        //flkSweg.contentY=0-flkSweg.contentHeight*0.5
-                    }
-                    onWheel: {
-                        //apps.enableFullAnimation=false
-                        if(wheel.modifiers == Qt.ControlModifier){
-                            if(wheel.angleDelta.y>=0){
-                                if(xSweg.scale<6.0){
-                                    xSweg.scale+=0.1
-                                }else{
-                                    //xSweg.scale=1.0
-                                }
-                            }else{
-                                if(xSweg.scale>1.0){
-                                    xSweg.scale-=0.1
-                                }else{
-                                    //xSweg.scale=6.0
-                                }
-                            }
-                            let pcW=wheel.x/xSweg.width*100
-                            let pcH=wheel.y/xSweg.width*100
-                            //log.l('pcw: '+pcW)
-                            //log.visible=true
-                            //log.width=xApp.width*0.2
-                            //flkSweg.contentX=(xSweg.width*xSweg.scale)/100/pcW///flkSweg.contentWidth*100
-                            //flkSweg.contentY=((flkSweg.contentWidth*0.25)/(pcH)*100)
-                            //log.l('flkSweg.contentX: '+flkSweg.contentX)
-                            //log.l('flkSweg.contentY: '+flkSweg.contentY)
-                            //flkSweg.contentY=flkSweg.contentHeight/100*pcH
-                        }
-                    }
-                }
                 Rectangle{
                     id: bg
                     width: parent.width*10
@@ -264,7 +221,7 @@ Item {
                     onRotChanged: housesCircle.rotation=rot
                     //onShowDecChanged: Qt.quit()
                 }
-                AspCircle{
+                AspCircleV2{
                     id: aspsCircle
                     rotation: signCircle.rot - 90 + 1
                 }

@@ -105,6 +105,7 @@ Rectangle {
 
                     }
                     MouseArea {
+                        enabled: false
                         anchors.fill: parent
                         onClicked: console.log("Click in child")
                     }

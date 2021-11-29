@@ -32,14 +32,14 @@ Item {
     Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: 250}}
     Rectangle{
         anchors.fill: r
-        color: apps.enableBackgroundColor?apps.backgroundColor:'black'
+        color: apps.backgroundColor
     }
     Item{
         id: xSwegZoom
         width: xApp.width//Screen.width
         height: xApp.height//Screen.height
         x:r.lupaX+r.width*0.5-xLupa.width*0.5//0-lupaX*r.zoom+xApp.width*(r.zoom*0.25)//-r.width*0.5
-        y: r.lupaY+r.height*0.5-xLupa.height*0.5//0-lupaY*r.zoom+xApp.height*(r.zoom*0.25)//-r.width*0.5
+        y: r.lupaY+r.height*0.5-xLupa.height*0.5//-app.fs//0-lupaY*r.zoom+xApp.height*(r.zoom*0.25)//-r.width*0.5
         SweGraphic{
             id: objSweGraphinZoom
             anchors.centerIn: parent
@@ -49,11 +49,6 @@ Item {
             //scale: 2.0
 
         }
-//        MouseArea{
-//            anchors.fill: parent
-//            drag.target: xSwegZoom
-//            drag.axis: Drag.XAndYAxis
-//        }
     }
     XText {
         id: info

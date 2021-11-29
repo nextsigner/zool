@@ -215,6 +215,9 @@ AppWin {
         property real xAsBackgroundOpacityBack: 0.5
         property bool anColorXAs: false
 
+        //Asp
+        property int aspLineWidth: 3
+
         //Swe
         property string swegMod: 'ps'
         property bool showNumberLines: true
@@ -345,7 +348,7 @@ AppWin {
                     //anchors.fill: parent
                     width: parent.width
                     height: panelRemoto.state==='show'?parent.height*0.5:parent.height
-                    SweGraphicZoomV2{id: swegz; visible:apps.showSWEZ&&apps.showLupa}
+                    SweGraphicZoom{id: swegz; visible:apps.showSWEZ&&apps.showLupa}
                 }
                 Item{
                     anchors.fill: parent

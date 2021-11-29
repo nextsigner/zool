@@ -53,192 +53,53 @@ Rectangle {
         color: apps.backgroundColor//'black'
         radius: width*0.5
         anchors.centerIn: r
+        property var json
+        onJsonChanged: tLoadJson.restart()
+        Timer{
+            id: tLoadJson
+            running: false
+            repeat: false
+            interval: 5000
+            onTriggered: {
+                var x = bgTotal.width*0.5;
+                var y = bgTotal.height*0.5;
+                var radius=bgTotal.width*0.5
+                var cx=bgTotal.width*0.5
+                var cy=bgTotal.height*0.5
+                if(bgTotal.json&&bgTotal.json.asps){
+                    let asp=bgTotal.json.asps
+                    for(var i=0;i<Object.keys(asp).length;i++){
+                        if(asp['asp'+parseInt(i +1)]){
+                            if((asp['asp'+parseInt(i +1)].ic1===10 && asp['asp'+parseInt(i +1)].ic2===11)||(asp['asp'+parseInt(i +1)].ic1===11 && asp['asp'+parseInt(i +1)].ic2===10)){
+                                continue
+                            }else{
+                                let a=asp['asp'+parseInt(i +1)]
+                                let colorAsp='black'
+                                //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
+                                if(a.ia===0){
+                                    colorAsp='red'
+                                }
+                                if(a.ia===1){
+                                    colorAsp='#ff8833'
+                                }
+                                if(a.ia===2){
+                                    colorAsp='green'
+                                }
+                                if(a.ia===3){
+                                    colorAsp='blue'
+                                }
+                                drawAsp(cx, cy, a.gdeg1, a.gdeg2, colorAsp)
+                            }
+                        }
+                    }
+                }
+            }
+        }
         MouseArea{
             anchors.fill: parent
             onClicked: Qt.quit()
         }
     }
-    Canvas {
-        id:canvasBg
-        width: canvas.width
-        height: width
-        visible: false
-        property int px1: -1
-        property int py1: -1
-        property int px2: -1
-        property int py2: -1
-        onPy2Changed: requestPaint()
-        onPaint:{
-            var ctx = canvasBg.getContext('2d');
-            ctx.reset();
-            var x = canvasBg.width*0.5;
-            var y = canvasBg.height*0.5;
-            var radius=canvasBg.width*0.5-2
-            drawLine(ctx, px1, py1+2, px2, py2+2, 'white', 7)
-            //drawPoint(ctx, px1, py1, 8, 'white')
-            //drawPoint(ctx, px2, py2, 8, 'white')
-        }
-    }
-    Canvas {
-        id:canvas
-        width: r.width//-sweg.fs
-        height: width
-        visible: apps.showAspCircle
-        anchors.centerIn: r
-        antialiasing: true
-        property var json
-        property bool dash: false
-        onJsonChanged: requestPaint()
-        onPaint:{
-            var ctx = canvas.getContext('2d');
-            if(ctx)ctx.reset();
-            var x = canvas.width*0.5;
-            var y = canvas.height*0.5;
-            var radius=canvas.width*0.5
-            var cx=canvas.width*0.5
-            var cy=canvas.height*0.5
-
-            //Dibujo punto inicio en Aries
-            //drawLine(ctx, radius-3, 0, px3+cx, py3+cy)
-
-            if(json&&json.asps){
-                let asp=json.asps
-                for(var i=0;i<Object.keys(asp).length;i++){
-                    if(asp['asp'+parseInt(i +1)]){
-                        if((asp['asp'+parseInt(i +1)].ic1===10 && asp['asp'+parseInt(i +1)].ic2===11)||(asp['asp'+parseInt(i +1)].ic1===11 && asp['asp'+parseInt(i +1)].ic2===10)){
-                            continue
-                        }else{
-                            let a=asp['asp'+parseInt(i +1)]
-                            let colorAsp='black'
-                            //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
-                            if(a.ia===0){
-                                colorAsp='red'
-                            }
-                            if(a.ia===1){
-                                colorAsp='#ff8833'
-                            }
-                            if(a.ia===2){
-                                colorAsp='green'
-                            }
-                            if(a.ia===3){
-                                colorAsp='blue'
-                            }
-                            drawAsp(ctx, cx, cy, a.gdeg1, a.gdeg2, colorAsp, canvas.dash)
-                            if(i===3)break
-                            //drawAspRect(cx, cy, colorAsp)
-                        }
-                    }
-                }
-            }
-        }
-    }
-    Canvas {
-        id:canvasBgBack
-        width: canvas.width
-        height: width
-        visible: false
-        property int px1: -1
-        property int py1: -1
-        property int px2: -1
-        property int py2: -1
-        onPy2Changed: requestPaint()
-        onPaint:{
-            var ctx = canvasBgBack.getContext('2d');
-            ctx.reset();
-            var x = canvasBgBack.width*0.5;
-            var y = canvasBgBack.height*0.5;
-            var radius=canvasBg.width*0.5-2
-            drawLine(ctx, px1, py1, px2, py2, 'white', 7, false)
-            //drawPoint(ctx, px1, py1, 8, 'white')
-            //drawPoint(ctx, px2, py2, 8, 'white')
-        }
-    }
-    Canvas {
-        id:canvasBack
-        width: canvas.width//-sweg.fs
-        height: width
-        visible: apps.showAspCircleBack
-        anchors.centerIn: r
-        property var json
-        property bool dash: true
-        onJsonChanged: requestPaint()
-        onPaint:{
-            var ctx = canvasBack.getContext('2d');
-            if(ctx)ctx.reset();
-            var x = canvasBack.width*0.5;
-            var y = canvasBack.height*0.5;
-            var radius=canvasBack.width*0.5
-            var cx=canvasBack.width*0.5
-            var cy=canvasBack.height*0.5
-
-            //Dibujo punto inicio en Aries
-            //drawLine(ctx, radius-3, 0, px3+cx, py3+cy)
-
-            if(json&&json.asps){
-                let asp=json.asps
-                for(var i=0;i<Object.keys(asp).length;i++){
-                    if(asp['asp'+parseInt(i +1)]){
-                        if((asp['asp'+parseInt(i +1)].ic1===10 && asp['asp'+parseInt(i +1)].ic2===11)||(asp['asp'+parseInt(i +1)].ic1===11 && asp['asp'+parseInt(i +1)].ic2===10)){
-                            continue
-                        }else{
-                            let a=asp['asp'+parseInt(i +1)]
-                            let colorAsp=apps.fontColor//'black'
-                            //# -1 = no hay aspectos. 0 = oposición. 1 = cuadratura. 2 = trígono
-                            if(a.ia===0){
-                                colorAsp='red'
-                            }
-                            if(a.ia===1){
-                                colorAsp='#ff8833'
-                            }
-                            if(a.ia===2){
-                                colorAsp='green'
-                            }
-                            if(a.ia===3){
-                                colorAsp='blue'
-                            }
-                            //colorAsp='white'
-                            drawAsp(ctx, cx, cy, a.gdeg1, a.gdeg2, colorAsp, canvasBack.dash)
-                        }
-                    }
-                }
-            }
-        }
-    }
-    Item{
-        id: punto
-        width: 1
-        height: width
-        visible: canvasBg.visible
-        Rectangle{
-            width: widthNodosAspSelected
-            height: width
-            radius: width*0.5
-            color: 'white'
-            anchors.centerIn: parent
-        }
-    }
-    Item{
-        id: punto2
-        width: 1
-        height: width
-        visible: canvasBg.visible
-        Rectangle{
-            width: widthNodosAspSelected
-            height: width
-            radius: width*0.5
-            color: 'white'
-            anchors.centerIn: parent
-        }
-    }
-    Rectangle {
-        id: borde
-        anchors.fill: r
-        color: 'transparent'
-        radius: width*0.5
-        border.width: 1
-        border.color: 'white'
-    }
-
     function drawPoint(ctx, x, y, r, c){
         ctx.beginPath();
         ctx.arc(x, y, r, 0, 2 * Math.PI);
@@ -246,7 +107,7 @@ Rectangle {
         ctx.strokeStyle = c;
         ctx.stroke();
     }
-    function drawAsp(ctx, cx, cy, gdeg1, gdeg2, c, dash){
+    function drawAsp(cx, cy, gdeg1, gdeg2, c){
         var angulo= gdeg1
         var coords=gCoords(radius, angulo)
         var px1 = coords[0]
@@ -303,16 +164,18 @@ Rectangle {
         if(ctx)ctx.reset();
         canvasBgBack.requestPaint();
     }
-    function load(jsonData){
+    function load(json){
         clearSL()
-        canvas.json=jsonData
+        //canvas.json=jsonData
+        bgTotal.json=json
+
     }
     function add(jsonData){
         canvasBack.json=jsonData
     }
     function clear(){
-        canvas.json=JSON.parse('{}')
-        canvasBack.json=JSON.parse('{}')
+        //canvas.json=JSON.parse('{}')
+        //canvasBack.json=JSON.parse('{}')
     }
     function setPosCurrentAsp(ci, c){
         clear_canvasBg()
