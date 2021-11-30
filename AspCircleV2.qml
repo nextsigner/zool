@@ -14,12 +14,10 @@ Rectangle {
     property int currentAspSelectedBack: -1
     property int widthNodosAspSelected: 8
     property var aAspStr1: []
-    //onCurrentAspSelectedChanged: setPosCurrentAsp(currentAspSelected,0)
-    //onCurrentAspSelectedBackChanged: setPosCurrentAsp(currentAspSelectedBack,1)
+    property var aAspStr2: []
     onWidthChanged: {
         currentAspSelected=-1
-        //clear_canvas()
-        //clear_canvasBg()
+        currentAspSelectedBack=-1
         tLoadJson.restart()
         tLoadJsonBack.restart()
     }
@@ -150,7 +148,6 @@ Rectangle {
             }
         }
     }
-
     function drawAsp(cx, cy, gdeg1, gdeg2, c, i, item, isBack){
         var angulo= gdeg1
         var coords=gCoords(radius, angulo)
@@ -161,6 +158,19 @@ Rectangle {
         var px2 = coords[0]
         var py2 = coords[1]
         drawAspRect(px1+cx, py1+cy, px2+cx, py2+cy, c, i, item, isBack)
+    }
+    function drawAspRect(sx, sy, px, py, c, i, item, isBack){
+        let s='s'+sx+'-'+sy+'-'+px+'-'+py
+        if(!isBack && r.aAspStr1.indexOf(s)<0){
+            let comp=Qt.createComponent("./comps/AspShapeLine.qml")
+            let obj=comp.createObject(item,{sx: sx, sy: sy, px: px, py: py, c: c, n:i, isBack: isBack})
+            r.aAspStr1.push(s)
+        }
+        if(isBack && r.aAspStr2.indexOf(s)<0){
+            let comp=Qt.createComponent("./comps/AspShapeLine.qml")
+            let obj=comp.createObject(item,{sx: sx, sy: sy, px: px, py: py, c: c, n:i, isBack: isBack})
+            r.aAspStr2.push(s)
+        }
     }
     function gCoords(radius, angle) {
         var d = Math.PI/180 //to convert deg to rads
@@ -178,20 +188,10 @@ Rectangle {
         bgTotal.json=json
     }
     function add(json){
-        console.log('Json Asp Back: '+JSON.stringify(json))
+        //console.log('Json Asp Back: '+JSON.stringify(json))
         clearSL(bgTotalBack)
+        r.aAspStr2=[]
         bgTotalBack.json=json
-    }
-    function drawAspRect(sx, sy, px, py, c, i, item, isBack){
-        let s='s'+sx+'-'+sy+'-'+px+'-'+py
-        if(r.aAspStr1.indexOf(s)<0){
-            let comp=Qt.createComponent("./comps/AspShapeLine.qml")
-            let obj=comp.createObject(item,{sx: sx, sy: sy, px: px, py: py, c: c, n:i, isBack: isBack})
-            r.aAspStr1.push(s)
-            //console.log('aps s: '+s)
-            //console.log('aps l: '+r.aAspStr1.length)
-        }
-
     }
     function clear(){
         clearSL(bgTotal)

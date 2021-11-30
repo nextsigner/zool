@@ -6,7 +6,7 @@ import "Funcs.js" as JS
 Rectangle {
     id: r
     width: parent.width
-    height: parent.height*0.5
+    height: parent.height//*0.5
     color: apps.backgroundColor
     border.width: 2
     border.color: 'white'

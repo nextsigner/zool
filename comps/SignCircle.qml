@@ -18,7 +18,7 @@ Item {
     //        }
     //    }
     Repeater{
-        model: 36
+        model: apps.enableWheelAspCircle?36:0
         Item{
             width: r.width
             height: 1

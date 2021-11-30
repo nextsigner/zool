@@ -5,15 +5,18 @@ import "./comps" as Comps
 
 Item {
     id: r
-    width: parent.height-app.fs*3
+    width: parent.height*2-app.fs*4
     height: width
-    anchors.centerIn: parent
+    x: xSweg.width*0.085
+    y: app.fs
+    //anchors.horizontalCenter: parent.horizontalCenter
+    //anchors.centerIn: parent
     //anchors.fill: parent
     opacity: 0.0
     //anchors.centerIn: parent
     //anchors.verticalCenterOffset: verticalOffSet
     property int  verticalOffSet: 0//xDataBar.state==='show'?sweg.fs*1.25:0
-    property int fs: r.objectName==='sweg'?apps.sweFs:apps.sweFs*2
+    property int fs: r.objectName==='sweg'?apps.sweFs*1.5:apps.sweFs*3
     property int w: fs
     property bool v: false
     property alias expand: planetsCircle.expand
@@ -89,6 +92,10 @@ Item {
     Flickable{
         id: flick
         anchors.fill: parent
+        //width: parent.width
+        //height: parent.height
+        //x:0-r.width
+        //contentX: 500
         Rectangle {
             id: rect
             border.width: 2
@@ -96,6 +103,7 @@ Item {
             height: Math.max(xSweg.height, flick.height)
             color: 'transparent'
             antialiasing: true
+            //x:(parent.width-width)/2
             transform: Scale {
                 id: scaler
                 origin.x: pinchArea.m_x2
@@ -104,18 +112,16 @@ Item {
                 yScale: pinchArea.m_zoom2
             }
             PinchArea {
-                //z:parent.z-1
                 id: pinchArea
                 anchors.fill: parent
-                enabled: !apps.showLupa
                 property real m_x1: 0
                 property real m_y1: 0
                 property real m_y2: 0
                 property real m_x2: 0
-                property real m_zoom1: 1.0
-                property real m_zoom2: 1.0
+                property real m_zoom1: 0.5
+                property real m_zoom2: 0.5
                 property real m_max: 6
-                property real m_min: 1.0
+                property real m_min: 0.5
 
                 onPinchStarted: {
                     console.log("Pinch Started")
@@ -142,10 +148,7 @@ Item {
                     anchors.fill: parent
                     drag.target: rect
                     drag.filterChildren: true
-                    enabled: !apps.showLupa
-
                     onWheel: {
-                        //console.log("Wheel Scrolled")
                         pinchArea.m_x1 = scaler.origin.x
                         pinchArea.m_y1 = scaler.origin.y
                         pinchArea.m_zoom1 = scaler.xScale
@@ -173,15 +176,14 @@ Item {
                         console.debug(rect.width+" -- "+rect.height+"--"+rect.scale)
                     }
                     MouseArea {
-                        enabled: false
                         anchors.fill: parent
-                        onClicked: console.log("Click in child")
+                        //onClicked: console.log("Click in child")
                     }
                 }
             }
             Item{
                 id: xSweg
-                width: r.width*0.5
+                width: r.width//*0.25
                 height: width
                 anchors.centerIn: parent
                 Rectangle{
@@ -244,26 +246,37 @@ Item {
                     width: housesCircle.width
                     height: width
                 }
+                Rectangle{
+                    width: 3
+                    height: r.height*2
+                    color: apps.fontColor
+                    anchors.centerIn: parent
+                    visible: app.showCenterLine
+                }
+                Rectangle{
+                    width: r.height*2
+                    height: 3
+                    color: apps.fontColor
+                    anchors.centerIn: parent
+                    visible: app.showCenterLine
+                }
             }
         }
     }
-
-
     PanelAspects{
         id: panelAspects
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: verticalOffSet
+        anchors.bottomMargin: xBottomBar.state==='hide'?0-app.fs*2:0-app.fs*2+xBottomBar.height
         anchors.left: parent.left
-        anchors.leftMargin: 0-((xApp.width-r.width)/2)+swegz.width
+        anchors.leftMargin: 0-(r.parent.width-r.width)/2
         visible: r.objectName==='sweg'
-        //Rectangle{anchors.fill: parent; color: 'red';border.width: 1;border.color: 'white'}
     }
     PanelAspectsBack{
         id: panelAspectsBack
         anchors.top: parent.top
-        anchors.topMargin: xDataBar.state==='hide'?verticalOffSet*0.5:verticalOffSet*0.5-app.fs*0.25
+        anchors.topMargin: 0-(r.parent.height-r.height)/2
         anchors.left: parent.left
-        anchors.leftMargin: 0-((xApp.width-r.width)/2)+swegz.width+width
+        anchors.leftMargin: 0-(r.parent.width-r.width)/2+width
         transform: Scale{ xScale: -1 }
         rotation: 180
         visible: r.objectName==='sweg'&&planetsCircleBack.visible
@@ -439,7 +452,7 @@ Item {
         //app.ev=false
         panelAspectsBack.visible=false
         sweg.objHousesCircle.currentHouse=-1
-        swegz.sweg.objHousesCircle.currentHouse=-1
+        //swegz.sweg.objHousesCircle.currentHouse=-1
         app.currentPlanetIndex=-1
 
         //console.log('json: '+json)
@@ -520,9 +533,12 @@ Item {
         pinchArea.m_y1 = 0
         pinchArea.m_x2 = 0
         pinchArea.m_y2 = 0
-        pinchArea.m_zoom1 = 1.0
-        pinchArea.m_zoom2 = 1.0
-        rect.x = 0
-        rect.y = 0
+        pinchArea.m_zoom1 = 0.5
+        pinchArea.m_zoom2 = 0.5
+        //rect.x = rect.x + (0-r.width)*(1-pinchArea.m_zoom1)
+        //rect.y = rect.y + (0-r.width)*(1-pinchArea.m_zoom1)
+        rect.x = 0//-r.width*3
+        rect.y = 0//-r.width*2.8
+//        pinchArea.update()
     }
 }

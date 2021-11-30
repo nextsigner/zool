@@ -29,6 +29,7 @@ AppWin {
     property string url
     property string mod: 'mi'
 
+    property bool showCenterLine: false
     property bool enableAn: false
     property int msDesDuration: 500
     //property var api: [panelNewVNA, panelFileLoader]
@@ -216,7 +217,7 @@ AppWin {
         property bool anColorXAs: false
 
         //Asp
-        property int aspLineWidth: 3
+        property int aspLineWidth: 6
 
         //Swe
         property string swegMod: 'ps'
@@ -224,6 +225,7 @@ AppWin {
         property int sweFs: Screen.width*0.02
         property bool showAspCircle: true
         property bool showAspCircleBack: true
+        property bool enableWheelAspCircle: false
 
         //GUI
         property bool showLog: false
@@ -309,6 +311,24 @@ AppWin {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             SweGraphicV2{id: sweg;objectName: 'sweg'}
+            Rectangle{
+                width: 6
+                height: xApp.height*2
+                color: 'transparent'//apps.fontColor
+                border.width: 1
+                border.color: 'red'
+                anchors.centerIn: parent
+                visible: app.showCenterLine
+            }
+            Rectangle{
+                width: xApp.height*2
+                height: 6
+                color: 'transparent'//apps.fontColor
+                border.width: 1
+                border.color: 'red'
+                anchors.centerIn: parent
+                visible: app.showCenterLine
+            }
         }
         Rectangle{
             id: xMsgProcDatos
@@ -344,12 +364,6 @@ AppWin {
                 id: xLatIzq
                 width: xApp.width*0.2
                 height: parent.height
-                Item{
-                    //anchors.fill: parent
-                    width: parent.width
-                    height: panelRemoto.state==='show'?parent.height*0.5:parent.height
-                    SweGraphicZoom{id: swegz; visible:apps.showSWEZ&&apps.showLupa}
-                }
                 Item{
                     anchors.fill: parent
                     PanelSabianos{id: panelSabianos; state: 'show'}
@@ -494,30 +508,6 @@ AppWin {
 
             }
         }
-        XLupa{
-            id: xLupa;
-            visible: apps.showLupa
-            onXChanged: setGui()
-            onYChanged: setGui()
-            function setGui(){
-                if(panelRsList.state==='show'){
-                    panelRsList.state='hide'
-                }
-                if(panelFileLoader.state==='show'){
-                    panelFileLoader.state='hide'
-                }
-                if(panelNewVNA.state==='show'){
-                    panelNewVNA.state='hide'
-                }
-                if(xBottomBar.state==='show'){
-                    xBottomBar.state='hide'
-                }
-                apps.lupaX=x
-                apps.lupaY=y
-            }
-        }
-        XLupaMan{}
-        Comps.XLayerTouch{id: xLayerTouch}
         XTools{
             id: xTools
             anchors.bottom: parent.bottom
