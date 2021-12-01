@@ -5,16 +5,11 @@ import "./comps" as Comps
 
 Item {
     id: r
-    width: parent.height*2-app.fs*4
+    width: !app.ev?parent.height*2-app.fs*4:housesCircleBack.width-housesCircleBack.extraWidth-fs
     height: width
-    x: xSweg.width*0.085
-    y: app.fs
-    //anchors.horizontalCenter: parent.horizontalCenter
-    //anchors.centerIn: parent
-    //anchors.fill: parent
+    anchors.centerIn: parent
     opacity: 0.0
-    //anchors.centerIn: parent
-    //anchors.verticalCenterOffset: verticalOffSet
+    clip: true
     property int  verticalOffSet: 0//xDataBar.state==='show'?sweg.fs*1.25:0
     property int fs: r.objectName==='sweg'?apps.sweFs*1.5:apps.sweFs*3
     property int w: fs
@@ -83,7 +78,7 @@ Item {
     ]
 
     onStateChanged: {
-        swegz.sweg.state=state
+        //swegz.sweg.state=state
         apps.swegMod=state
     }
     Behavior on opacity{NumberAnimation{duration: 1500}}
@@ -92,15 +87,12 @@ Item {
     Flickable{
         id: flick
         anchors.fill: parent
-        //width: parent.width
-        //height: parent.height
-        //x:0-r.width
-        //contentX: 500
         Rectangle {
             id: rect
-            border.width: 2
-            width: Math.max(xSweg.width, flick.width)
-            height: Math.max(xSweg.height, flick.height)
+            border.width: 20
+            width: Math.max(xSweg.width, flick.width)*2
+            height: Math.max(xSweg.height, flick.height)*2
+            border.color: '#ff8833'
             color: 'transparent'
             antialiasing: true
             //x:(parent.width-width)/2
@@ -173,11 +165,13 @@ Item {
                         }
                         rect.x = rect.x + (pinchArea.m_x1-pinchArea.m_x2)*(1-pinchArea.m_zoom1)
                         rect.y = rect.y + (pinchArea.m_y1-pinchArea.m_y2)*(1-pinchArea.m_zoom1)
-                        console.debug(rect.width+" -- "+rect.height+"--"+rect.scale)
+                        //console.debug(rect.width+" -- "+rect.height+"--"+rect.scale)
                     }
                     MouseArea {
                         anchors.fill: parent
-                        //onClicked: console.log("Click in child")
+                        onDoubleClicked: {
+                            restoreZoom()
+                        }
                     }
                 }
             }
@@ -186,6 +180,7 @@ Item {
                 width: r.width//*0.25
                 height: width
                 anchors.centerIn: parent
+                //anchors.horizontalCenterOffset: xSweg.width*0.5
                 Rectangle{
                     id: bg
                     width: parent.width*10
@@ -266,17 +261,16 @@ Item {
     PanelAspects{
         id: panelAspects
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: xBottomBar.state==='hide'?0-app.fs*2:0-app.fs*2+xBottomBar.height
-        anchors.left: parent.left
-        anchors.leftMargin: 0-(r.parent.width-r.width)/2
+        parent: xMed
         visible: r.objectName==='sweg'
     }
     PanelAspectsBack{
         id: panelAspectsBack
         anchors.top: parent.top
-        anchors.topMargin: 0-(r.parent.height-r.height)/2
+        //anchors.topMargin: 0-(r.parent.height-r.height)/2
+        parent: xMed
         anchors.left: parent.left
-        anchors.leftMargin: 0-(r.parent.width-r.width)/2+width
+        anchors.leftMargin: width
         transform: Scale{ xScale: -1 }
         rotation: 180
         visible: r.objectName==='sweg'&&planetsCircleBack.visible
@@ -394,7 +388,7 @@ Item {
         c+='        let json=(\'\'+logData)\n'
         c+='        //console.log(\'JSON: \'+json)\n'
         c+='        loadSweJson(json)\n'
-        c+='        swegz.sweg.loadSweJson(json)\n'
+        c+='        //swegz.sweg.loadSweJson(json)\n'
         c+='        uqp'+ms+'.destroy(3000)\n'
         c+='    }\n'
         c+='    Component.onCompleted:{\n'
@@ -430,7 +424,7 @@ Item {
         c+='        let json=(\'\'+logData)\n'
         c+='        console.log(\'JSON Back: \'+json)\n'
         c+='        loadSweJsonBack(json)\n'
-        c+='        swegz.sweg.loadSweJsonBack(json)\n'
+        c+='        //swegz.sweg.loadSweJsonBack(json)\n'
         c+='        uqp'+ms+'.destroy(3000)\n'
         c+='    }\n'
         c+='    Component.onCompleted:{\n'
@@ -511,6 +505,10 @@ Item {
         aspsCircle.add(j)
         if(app.mod!=='rs'){
             panelElementsBack.load(j)
+            //panelElementsBack.visible=true
+            //Qt.quit()
+        }else{
+            //panelElementsBack.visible=false
         }
         housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
@@ -526,7 +524,7 @@ Item {
             currentIndexState=0
         }
         r.state=r.aStates[currentIndexState]
-        swegz.sweg.state=r.state
+        //swegz.sweg.state=r.state
     }
     function restoreZoom(){
         pinchArea.m_x1 = 0

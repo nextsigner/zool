@@ -32,6 +32,7 @@ function setFs() {
 
 //Funciones de Cargar Datos Interior
 function loadFromArgs(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo, save){
+    app.ev=false
     let dataMs=new Date(Date.now())
     let j='{"params":{"tipo":"'+tipo+'","ms":'+dataMs.getTime()+',"n":"'+nom+'","d":'+d+',"m":'+m+',"a":'+a+',"h":'+h+',"min":'+min+',"gmt":'+gmt+',"lat":'+lat+',"lon":'+lon+',"alt":'+alt+',"ciudad":"'+ciudad+'"}}'
     setTitleData(nom, d, m, a, h, min, gmt, ciudad, lat, lon, 1)
@@ -51,6 +52,7 @@ function loadFromArgs(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo, sa
 
 //Funciones de Cargar Datos Exterior
 function loadFromArgsBack(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo, save){
+    app.ev=true
     let dataMs=new Date(Date.now())
     let j='{"params":{"tipo":"'+tipo+'","ms":'+dataMs.getTime()+',"n":"'+nom+'","d":'+d+',"m":'+m+',"a":'+a+',"h":'+h+',"min":'+min+',"gmt":'+gmt+',"lat":'+lat+',"lon":'+lon+',"alt":'+alt+',"ciudad":"'+ciudad+'"}}'
     app.mod=tipo
@@ -724,7 +726,7 @@ function loadJsonNow(file){
     o.n=(o.n+' '+o.d+'-'+o.m+'-'+o.a+'-'+o.h+':'+o.min).replace(/Ahora/g, '').replace(/ahora/g, '')
     json.params=o
     sweg.loadSign(json)
-    swegz.sweg.loadSign(json)
+    //swegz.sweg.loadSign(json)
     let nom=o.n.replace(/_/g, ' ')
     let vd=o.d
     let vm=o.m

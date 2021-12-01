@@ -309,10 +309,10 @@ Item {
                 anchors.fill: parent
                 onClicked: {
                     sweg.state=sweg.aStates[1]
-                    swegz.sweg.state=sweg.aStates[1]
+                    //swegz.sweg.state=sweg.aStates[1]
                     let ni=sweg.objHousesCircle.currentHouse!==r.n?r.n:-1
                     sweg.objHousesCircle.currentHouse=ni
-                    swegz.sweg.objHousesCircle.currentHouse=ni
+                    //swegz.sweg.objHousesCircle.currentHouse=ni
                 }
             }
             XText{

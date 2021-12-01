@@ -195,8 +195,8 @@ Item {
         updateListModel(af, v1, v2, v3, v4)
         //let d = JS.getNums('20/06/1975 22:03')
         let d = JS.getNums(app.currentFechaBack)
-        //xItemNums.nd=d[0]
-        //xItemNums.ns=d[1]
+        xItemNums.nd=d[0]
+        xItemNums.ns=d[1]
     }
     function updateListModel(af, v1, v2, v3, v4){
         lm.clear()

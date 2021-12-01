@@ -59,12 +59,12 @@ Rectangle {
         onClicked: {
             if(sweg.objAspsCircle.currentAspSelected!==r.indexPosAsp){
                 sweg.objAspsCircle.currentAspSelected=r.indexPosAsp
-                swegz.sweg.objAspsCircle.currentAspSelected=r.indexPosAsp
+                //swegz.sweg.objAspsCircle.currentAspSelected=r.indexPosAsp
                 ma.uCurrentPlanetIndex=app.currentPlanetIndex
                 app.currentPlanetIndex=-1
             }else{
                 sweg.objAspsCircle.currentAspSelected=-1
-                swegz.sweg.objAspsCircle.currentAspSelected=-1
+                //swegz.sweg.objAspsCircle.currentAspSelected=-1
                 app.currentPlanetIndex=ma.uCurrentPlanetIndex
             }
         }

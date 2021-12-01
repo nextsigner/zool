@@ -310,6 +310,7 @@ AppWin {
             height: xLatIzq.height
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
+            clip: true
             SweGraphicV2{id: sweg;objectName: 'sweg'}
             Rectangle{
                 width: 6
@@ -520,7 +521,6 @@ AppWin {
         Editor{id: xEditor}
         Num.NumCiclosVida{id: ncv; anchors.fill: parent}
     }
-    //XSweZoom{id: xSweZoom}
     Init{longAppName: 'Zool'; folderName: 'zool'}
     Comps.XSelectColor{
         id: xSelectColor

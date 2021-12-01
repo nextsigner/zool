@@ -267,7 +267,7 @@ Item {
                     //swegz.sweg.state=sweg.aStates[1]
                     let ni=sweg.objHousesCircleBack.currentHouse!==r.n?r.n:-1
                     sweg.objHousesCircleBack.currentHouse=ni
-                    swegz.sweg.objHousesCircleBack.currentHouse=ni
+                    //swegz.sweg.objHousesCircleBack.currentHouse=ni
                 }
             }
             XText{

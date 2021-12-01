@@ -75,7 +75,7 @@ Item {
         }
     ]
     onStateChanged: {
-        swegz.sweg.state=state
+        //swegz.sweg.state=state
         apps.swegMod=state
     }
     Behavior on opacity{NumberAnimation{duration: 1500}}
