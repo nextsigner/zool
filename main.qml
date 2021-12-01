@@ -147,14 +147,15 @@ AppWin {
     onCurrentGmtChanged: {
         if(app.currentData===''||app.setFromFile)return
         //xDataBar.currentGmtText=''+currentGmt
-        //tReload.restart()
+        tReload.restart()
     }
     onCurrentGmtBackChanged: {
         //if(app.currentData===''||app.setFromFile)return
         //xDataBar.currentGmtText=''+currentGmtBack
-        //tReloadBack.restart()
+        tReloadBack.restart()
     }
     onCurrentDateChanged: {
+        controlsTime.setTime(currentDate)
         if(app.currentData===''||app.setFromFile)return
         xDataBar.state='show'
         let a=currentDate.getFullYear()
@@ -167,11 +168,9 @@ AppWin {
         tReload.restart()
     }
     onCurrentDateBackChanged: {
-        //if(app.currentDataBack===''||app.setFromFile)return
-        //if(app.currentDataBack===''||app.setFromFile)return
+        controlsTimeBack.setTime(currentDateBack)
         if(app.mod==='trans'){
-            JS.loadTransFromTime(app.currentDateBack)
-            //return
+            JS.loadTransFromTime(app.currentDateBack)            
         }
         xDataBar.state='show'
         let a=currentDateBack.getFullYear()
@@ -179,8 +178,6 @@ AppWin {
         let d=currentDateBack.getDate()
         let h=currentDateBack.getHours()
         let min=currentDateBack.getMinutes()
-        //xDataBar.currentDateText=d+'/'+parseInt(m + 1)+'/'+a+' '+h+':'+min
-        //xDataBar.currentGmtText=''+currentGmt
         tReloadBack.restart()
     }
     FontLoader {name: "FontAwesome";source: "qrc:/resources/fontawesome-webfont.ttf";}

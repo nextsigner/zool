@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 5.0.3, 2021-11-19T20:46:46. -->
+<!-- Written by QtCreator 5.0.3, 2021-12-01T16:33:51. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -239,14 +239,14 @@
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:E:/zool/zool.pro</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">E:/zool/zool.pro</value>
-    <value type="QString" key="RunConfiguration.Arguments">-folder=&quot;C:/PP Files/Zool&quot;</value>
+    <value type="QString" key="RunConfiguration.Arguments">-folder=E:/zool</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>
     <value type="bool" key="RunConfiguration.UseQmlDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseQmlDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseTerminal">false</value>
-    <value type="QString" key="RunConfiguration.WorkingDirectory">C:/PP Files/Zool</value>
+    <value type="QString" key="RunConfiguration.WorkingDirectory">E:/zool/</value>
     <value type="QString" key="RunConfiguration.WorkingDirectory.default">E:/zool/build_win</value>
    </valuemap>
    <value type="int" key="ProjectExplorer.Target.RunConfigurationCount">1</value>

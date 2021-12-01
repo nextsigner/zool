@@ -15,20 +15,24 @@ Rectangle {
     property int hora: 0
     property int minuto: 0
     property int fs: app.fs*0.5
+    property bool setAppTime: true
     onCurrentDateChanged: {
         r.anio=r.currentDate.getFullYear()
         r.mes=r.currentDate.getMonth() + 1
         r.dia=r.currentDate.getDate()
         r.hora=r.currentDate.getHours()
         r.minuto=r.currentDate.getMinutes()
-        if(!r.isBack){
-            app.currentDate=r.currentDate
-        }else{
-            app.currentDateBack=r.currentDate
-//            log.l('cdb:'+app.currentDateBack.toString())
-//            log.width=xApp.width*0.2
-//            log.visible=true
+        if(r.setAppTime){
+            if(!r.isBack){
+                app.currentDate=r.currentDate
+            }else{
+                app.currentDateBack=r.currentDate
+    //            log.l('cdb:'+app.currentDateBack.toString())
+    //            log.width=xApp.width*0.2
+    //            log.visible=true
+            }
         }
+        r.setAppTime=true
     }
     Row{
         Rectangle{
@@ -314,5 +318,9 @@ Rectangle {
     }
     Component.onCompleted: {
         if(!r.currentDate)r.currentDate=new Date(Date.now())
+    }
+    function setTime(datetime){
+        r.setAppTime=false
+        r.currentDate=datetime
     }
 }
