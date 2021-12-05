@@ -581,6 +581,16 @@ Rectangle {
             vtv=parseInt(m0[0])+parseInt(m0[1])
             sfv+='='+vtv
         }
+        if(vtv>9){
+            m0=(''+vtv).split('')
+            vtv=parseInt(m0[0])+parseInt(m0[1])
+            sfv+='='+vtv
+        }
+        if(vtc>9){
+            m0=(''+vtc).split('')
+            vtc=parseInt(m0[0])+parseInt(m0[1])
+            sfc+='='+vtc
+        }
         if(vtc>9){
             m0=(''+vtc).split('')
             vtc=parseInt(m0[0])+parseInt(m0[1])
