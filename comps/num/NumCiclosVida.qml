@@ -7,6 +7,7 @@ Rectangle {
     id: r
     color: apps.backgroundColor
     visible: false
+    property string jsonNum: ''
     property var aDes: ['dato1', 'dato2', 'dato3', 'dato4', 'dato5', 'dato6', 'dato7', 'dato8', 'dato9']
 
     property alias currentDate: controlTimeDateNac.currentDate
@@ -43,7 +44,7 @@ Rectangle {
             width: app.fs*10
             height: r.height
             Column{
-                spacing: app.fs
+                spacing: app.fs*0.25
                 Rectangle{
                     id: xFN
                     width: xForm.width
@@ -227,6 +228,82 @@ Rectangle {
                                     color: apps.fontColor
                                     anchors.centerIn: parent
                                 }
+                            }
+                        }
+                    }
+                }
+                Rectangle{
+                    id: xFormNom
+                    width: xForm.width
+                    height: colNom.height+app.fs
+                    color: 'transparent'
+                    border.width: 2
+                    border.color: apps.fontColor
+                    radius: app.fs*0.2
+                    Column{
+                        id: colNom
+                        spacing: app.fs*0.5
+                        anchors.centerIn: parent
+                        Text{
+                            text: '<b>Calcular Nombre</b>'
+                            color: apps.fontColor
+                            font.pixelSize: app.fs*0.5
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+                        Row{
+                            id: rowTiNom
+                            spacing: app.fs*0.5
+                            //anchors.horizontalCenter: parent.horizontalCenter
+                            Text{
+                                id: labelTiNom
+                                text: '<b>Nombre:</b>'
+                                color: apps.fontColor
+                                font.pixelSize: app.fs*0.5
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Rectangle{
+                                id:xTiNombre
+                                width: xForm.width-labelTiNom.contentWidth-app.fs
+                                height: app.fs*1.2
+                                color: apps.backgroundColor
+                                border.width: 2
+                                border.color: apps.fontColor
+                                //anchors.horizontalCenter: parent.horizontalCenter
+                                TextInput {
+                                    id: txtDataSearchNom
+                                    text: 'Nombre'
+                                    font.pixelSize: app.fs*0.5
+                                    width: parent.width-app.fs
+                                    wrapMode: Text.WordWrap
+                                    color: apps.fontColor
+                                    focus: false
+                                    anchors.centerIn: parent
+                                    Keys.onReturnPressed: {
+                                        calcularNom(text)
+                                    }
+                                    onTextChanged: {
+                                        //updateList()
+                                    }
+                                    onFocusChanged: {
+                                        if(focus)selectAll()
+                                    }
+                                    Rectangle{
+                                        width: parent.width+app.fs
+                                        height: parent.height+app.fs
+                                        color: 'transparent'
+                                        //border.width: 2
+                                        //border.color: 'white'
+                                        z: parent.z-1
+                                        anchors.centerIn: parent
+                                    }
+                                }
+                            }
+                            Text{
+                                id: res1
+                                text: '?'
+                                color: apps.fontColor
+                                font.pixelSize: app.fs*0.5
+                                anchors.verticalCenter: parent.verticalCenter
                             }
                         }
                     }
@@ -462,6 +539,116 @@ Rectangle {
         r.aDes=a
         rep.model=a
         //xNums.rotation=90
+    }
+    function calcularNom(text){
+        panelLog.l(text)
+        let t=text.toUpperCase().replace(/ /g, '')
+        let av=[]
+        let ac=[]
+        let ml=t.split('')
+        for(var i=0;i<ml.length;i++){
+            let l=ml[i]
+            if(l==='A'||l==='E'||l==='I'||l==='O'||l==='U'||l==='Á'||l==='É'||l==='Í'||l==='Ó'||l==='Ú'){
+                av.push(l)
+            }else{
+                ac.push(l)
+            }
+        }
+        let vtv=0
+        let vtc=0
+        let sfv=''
+        let sfc=''
+        let rc=0
+        for(i=0;i<av.length;i++){
+            rc=gvl(av[i])
+            vtv+=rc
+            if(i===0){
+                sfv+=rc
+            }else{
+                sfv+='+'+rc
+            }
+        }
+        sfv+='='+vtv
+        for(i=0;i<ac.length;i++){
+            rc=gvl(ac[i])
+            vtc+=rc
+            if(i===0){
+                sfc+=rc
+            }else{
+                sfc+='+'+rc
+            }
+        }
+        sfc+='='+vtc
+        if(vtc>9){
+            let m0=(''+vtc).split('')
+            vtc=parseInt(m0[0])+parseInt(m0[1])
+            sfc+='='+vtc
+        }
+        let dataInt
+        let st='int'
+        if(vtv===11||vtv===33){
+            st='intm'
+            vtv=1
+        }
+        if(vtv===22||vtv===44){
+            st='intm'
+            vtv=2
+        }
+        dataInt=getDataNum(st, vtv)
+        panelLog.l('Vocales: '+av.toString())
+        panelLog.l('Consonantes: '+ac.toString())
+        panelLog.l('\n')
+        panelLog.l('Fórmula de Vocales: '+sfv)
+        panelLog.l('Vibración '+dataInt)
+        panelLog.l('\n')
+        panelLog.l('Fórmula de Vocales: '+sfc)
+        panelLog.l('Vibración '+getDataNum('ext', vtc))
+    }
+    function getDataNum(t, v){
+        let ret='?'
+        let jsonString
+        if(r.jsonNum===''){
+            r.jsonNum=unik.getFile('./resources/num.json')
+        }
+        jsonString=r.jsonNum.replace(/\n/g, ' ')
+        let json=JSON.parse(jsonString)
+
+        ret=json[''+t+''+v]
+        return ret
+    }
+    function gvl(l){
+        let r=-1
+        let col1=['A', 'J', 'R']
+        let col2=['B', 'K', 'S']
+        let col3=['C', 'L', 'T']
+        let col4=['D', 'M', 'U']
+        let col5=['E', 'N', 'V']
+        let col6=['F', 'Ñ', 'W']
+        let col7=['G', 'O', 'X']
+        let col8=['H', 'P', 'Y']
+        let col9=['I', 'Q', 'Z']
+        if(col1.indexOf(l)>=0){
+            r=1
+        }else if(col2.indexOf(l)>=0){
+            r=2
+        }else if(col3.indexOf(l)>=0){
+            r=3
+        }else if(col4.indexOf(l)>=0){
+            r=4
+        }else if(col5.indexOf(l)>=0){
+            r=5
+        }else if(col6.indexOf(l)>=0){
+            r=6
+        }else if(col7.indexOf(l)>=0){
+            r=7
+        }else if(col8.indexOf(l)>=0){
+            r=8
+        }else if(col9.indexOf(l)>=0){
+            r=9
+        }else{
+            r=9
+        }
+        return r
     }
     function mkDataList(){
         var ai=r.currentDate.getFullYear()
