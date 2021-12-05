@@ -32,6 +32,7 @@ Rectangle {
         let f = d + '/' + m + '/' + a
         let aGetNums=JS.getNums(f)
         currentNumKarma=aGetNums[0]
+        txtDataDia.text=d
     }
     MouseArea{
         anchors.fill: parent
@@ -295,12 +296,95 @@ Rectangle {
                                 }
                             }
                         }
+                        Row{
+                            spacing: app.fs*0.5
+                            Text{
+                                text: '<b>Mostrar cálculo</b>'
+                                color: apps.fontColor
+                                font.pixelSize: app.fs*0.25
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            CheckBox{
+                                id: checkBoxFormula
+                                checked: false
+                                anchors.verticalCenter: parent.verticalCenter
+                                //onCheckedChanged: panelLog.visible=checked
+                            }
+                        }
+                        Row{
+                            spacing: app.fs*0.5
+                            Text{
+                                text: '<b>Día:</b>'
+                                color: apps.fontColor
+                                font.pixelSize: app.fs*0.25
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            CheckBox{
+                                id: checkBoxDia
+                                checked: false
+                                anchors.verticalCenter: parent.verticalCenter
+                                //onCheckedChanged: panelLog.visible=checked
+                            }
+                            Rectangle{
+                                id:xTiDia
+                                width: app.fs
+                                height: app.fs*1.2
+                                color: apps.backgroundColor
+                                border.width: 2
+                                border.color: apps.fontColor
+                                anchors.verticalCenter: parent.verticalCenter
+                                visible: checkBoxDia.checked
 
-                        CheckBox{
-                            id: checkBoxFormula
-                            checked: false
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            onCheckedChanged: panelLog.visible=checked
+                                TextInput {
+                                    id: txtDataDia
+                                    text: ''
+                                    font.pixelSize: app.fs*0.5
+                                    width: parent.width-app.fs*0.2
+                                    wrapMode: Text.WordWrap
+                                    color: apps.fontColor
+                                    focus: false
+                                    anchors.centerIn: parent
+                                    validator: IntValidator {
+                                        bottom: 1
+                                        top: 31
+                                    }
+                                    onFocusChanged: {
+                                        if(focus)selectAll()
+                                    }
+                                }
+                                MouseArea{
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        visible=false
+                                        showTiMaDia.restart()
+                                    }
+                                    onWheel: {
+                                        let n=parseInt(txtDataDia.text)
+                                        if(wheel.angleDelta.y>=0){
+                                            if(n<31){
+                                                n++
+                                            }else{
+                                                n=1
+                                            }
+                                        }else{
+                                            if(n>1){
+                                                n--
+                                            }else{
+                                                n=31
+                                            }
+                                        }
+                                        txtDataDia.text=n
+                                    }
+
+                                    Timer{
+                                        id: showTiMaDia
+                                        repeat: false
+                                        running: false
+                                        interval: 5000
+                                        onTriggered: parent.visible=true
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -516,7 +600,7 @@ Rectangle {
         let a =[]
         let d = 'INICIOS, VIDA NUEVA, RENOVACIONES'
         a.push(d)
-        d = 'TOMA DE DESICIONES, SALIR DE TUS FRONTERAS, LA REALIDAD TE ALCANZA'
+        d = 'TOMA DE DESICIONES, SALIR DE TUS FRONTERAS, LA REALIDAD SE TE PONE CARA A CARA, NO PODES ESQUIVARLA, MOMENTO DE HACERSE CARGO, ACEPTAR LA REALIDAD'
         a.push(d)
         d = 'NOTORIEDAD, BRILLO, OPCIONES, OPORTUNIDADES'
         a.push(d)
@@ -576,63 +660,77 @@ Rectangle {
         }
         sfc+='='+vtc
         let m0
-        if(vtv>9){
-            m0=(''+vtv).split('')
-            vtv=parseInt(m0[0])+parseInt(m0[1])
-            sfv+='='+vtv
-        }
-        if(vtv>9){
-            m0=(''+vtv).split('')
-            vtv=parseInt(m0[0])+parseInt(m0[1])
-            sfv+='='+vtv
-        }
-        if(vtc>9){
-            m0=(''+vtc).split('')
-            vtc=parseInt(m0[0])+parseInt(m0[1])
-            sfc+='='+vtc
-        }
-        if(vtc>9){
-            m0=(''+vtc).split('')
-            vtc=parseInt(m0[0])+parseInt(m0[1])
-            sfc+='='+vtc
-        }
-        let dataInt
-        let dataExt
+
+        let dataInt=''
+        let dataExt=''
         let st='int'
         let st2='ext'
+        let resM1=-1
+        let resM2=-1
         if(vtv===11||vtv===33){
-            st='intm'
-            vtv=1
+            dataInt='En su interior nació con el número Maestro '+vtv+'\n'
+            dataInt+=getDataNum('intm', vtv)+'\n\n'
+            //vtv=1
         }
         if(vtv===22||vtv===44){
-            st='intm'
-            vtv=2
+            dataInt='En su interior nació con el número Maestro '+vtv+'\n'
+            dataInt+=getDataNum('intm', vtv)+'\n\n'
+            //vtv=2
         }
         if(vtc===11||vtc===33){
-            st2='extm'
-            vtc=1
+            dataExt='En su exterior nació con el número Maestro '+vtc+'\n'
+            dataExt+=getDataNum('extm', vtc)+'\n\n'
+            //vtc=1
         }
         if(vtc===22||vtc===44){
-            st2='extm'
-            vtc=2
+            dataExt='En su exterior nació con el número Maestro '+vtc+'\n'
+            dataExt+=getDataNum('extm', vtc)+'\n\n'
+            //vtc=2
         }
-        dataInt=getDataNum(st, vtv)
-        dataExt=getDataNum(st2, vtc)
+        if(vtv>9){
+            m0=(''+vtv).split('')
+            vtv=parseInt(m0[0])+parseInt(m0[1])
+            sfv+='='+vtv
+        }
+        if(vtv>9){
+            m0=(''+vtv).split('')
+            vtv=parseInt(m0[0])+parseInt(m0[1])
+            sfv+='='+vtv
+        }
+        if(vtc>9){
+            m0=(''+vtc).split('')
+            vtc=parseInt(m0[0])+parseInt(m0[1])
+            sfc+='='+vtc
+        }
+        if(vtc>9){
+            m0=(''+vtc).split('')
+            vtc=parseInt(m0[0])+parseInt(m0[1])
+            sfc+='='+vtc
+        }
+        //panelLog.l('st:'+st+' vtv:'+vtv)
+        dataInt+=getDataNum(st, vtv)
+        //panelLog.l('st2:'+st2+' vtc: '+vtc)
+        dataExt+=getDataNum(st2, vtc)
         if(checkBoxFormula.checked){
             ret+='Vocales: '+av.toString()+'\n'
-            ret+='Consonantes: '+ac.toString()+'\n'
-            ret+='\n'
             ret+='Fórmula de Vocales: '+sfv+'\n'
             ret+='Vibración '+dataInt+'\n'
             ret+='\n'
+            ret+='Consonantes: '+ac.toString()+'\n'
             ret+='Fórmula de Consonantes: '+sfc+'\n'
             ret+='Vibración '+dataExt+'\n'
         }else{
-            ret+='¿Cómo es la forma de ser de '+txtDataSearchNom.text+' por dentro?\n'+dataInt+'\n'
-            ret+='\n'
-            ret+='¿Cómo es la forma de ser de '+txtDataSearchNom.text+' hacia afuera?\n'+dataExt+'\n'
+            ret+='¿Cómo es la forma de ser de '+txtDataSearchNom.text+' por dentro?\n\n'+dataInt+'\n\n'
+            ret+='¿Cómo es la forma de ser de '+txtDataSearchNom.text+' hacia afuera?\n\n'+dataExt+'\n\n'
         }
-
+        let stringDia=''
+        if(checkBoxDia.checked){
+            let dia=parseInt(txtDataDia.text)
+            if(dia>0&&dia<=31){
+                stringDia=getDataNumDia(dia)
+                ret+='Natalicio en día '+dia+': '+stringDia
+            }
+        }
         return ret
     }
     function getDataNum(t, v){
@@ -647,6 +745,18 @@ Rectangle {
         let json=JSON.parse(jsonString)
 
         ret=json[''+t+''+v]
+        return ret
+    }
+    function getDataNumDia(dia){
+        let ret='?'
+        let jsonString
+        if(r.jsonNum===''){
+            r.jsonNum=unik.getFile('./resources/num.json')
+        }
+        jsonString=r.jsonNum.replace(/\n/g, ' ')
+        let json=JSON.parse(jsonString)
+
+        ret=json['d'+dia]
         return ret
     }
     function gvl(l){
