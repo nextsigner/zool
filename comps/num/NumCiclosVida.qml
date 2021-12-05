@@ -250,61 +250,57 @@ Rectangle {
                             font.pixelSize: app.fs*0.5
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
-                        Row{
-                            id: rowTiNom
-                            spacing: app.fs*0.5
-                            //anchors.horizontalCenter: parent.horizontalCenter
+                        Rectangle{
+                            id:xTiNombre
+                            width: xForm.width-app.fs*0.5
+                            height: app.fs*1.2
+                            color: apps.backgroundColor
+                            border.width: 2
+                            border.color: apps.fontColor
+                            anchors.horizontalCenter: parent.horizontalCenter
                             Text{
-                                id: labelTiNom
                                 text: '<b>Nombre:</b>'
                                 color: apps.fontColor
-                                font.pixelSize: app.fs*0.5
-                                anchors.verticalCenter: parent.verticalCenter
+                                font.pixelSize: app.fs*0.25
+                                anchors.bottom: parent.top
+                                anchors.bottomMargin: app.fs*0.25
                             }
-                            Rectangle{
-                                id:xTiNombre
-                                width: xForm.width-labelTiNom.contentWidth-app.fs
-                                height: app.fs*1.2
-                                color: apps.backgroundColor
-                                border.width: 2
-                                border.color: apps.fontColor
-                                //anchors.horizontalCenter: parent.horizontalCenter
-                                TextInput {
-                                    id: txtDataSearchNom
-                                    text: 'Nombre'
-                                    font.pixelSize: app.fs*0.5
-                                    width: parent.width-app.fs
-                                    wrapMode: Text.WordWrap
-                                    color: apps.fontColor
-                                    focus: false
+                            TextInput {
+                                id: txtDataSearchNom
+                                text: ''
+                                font.pixelSize: app.fs*0.5
+                                width: parent.width-app.fs*0.2
+                                wrapMode: Text.WordWrap
+                                color: apps.fontColor
+                                focus: false
+                                anchors.centerIn: parent
+                                Keys.onReturnPressed: {
+                                    if(text==='')return
+                                    panelLog.l(getNumNomText(text))
+                                }
+                                onTextChanged: {
+                                    //updateList()
+                                }
+                                onFocusChanged: {
+                                    if(focus)selectAll()
+                                }
+                                Rectangle{
+                                    width: parent.width+app.fs
+                                    height: parent.height+app.fs
+                                    color: 'transparent'
+                                    //border.width: 2
+                                    //border.color: 'white'
+                                    z: parent.z-1
                                     anchors.centerIn: parent
-                                    Keys.onReturnPressed: {
-                                        calcularNom(text)
-                                    }
-                                    onTextChanged: {
-                                        //updateList()
-                                    }
-                                    onFocusChanged: {
-                                        if(focus)selectAll()
-                                    }
-                                    Rectangle{
-                                        width: parent.width+app.fs
-                                        height: parent.height+app.fs
-                                        color: 'transparent'
-                                        //border.width: 2
-                                        //border.color: 'white'
-                                        z: parent.z-1
-                                        anchors.centerIn: parent
-                                    }
                                 }
                             }
-                            Text{
-                                id: res1
-                                text: '?'
-                                color: apps.fontColor
-                                font.pixelSize: app.fs*0.5
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
+                        }
+
+                        CheckBox{
+                            id: checkBoxFormula
+                            checked: false
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            onCheckedChanged: panelLog.visible=checked
                         }
                     }
                 }
@@ -540,8 +536,8 @@ Rectangle {
         rep.model=a
         //xNums.rotation=90
     }
-    function calcularNom(text){
-        panelLog.l(text)
+    function getNumNomText(text){
+        let ret=''
         let t=text.toUpperCase().replace(/ /g, '')
         let av=[]
         let ac=[]
@@ -579,13 +575,21 @@ Rectangle {
             }
         }
         sfc+='='+vtc
+        let m0
+        if(vtv>9){
+            m0=(''+vtv).split('')
+            vtv=parseInt(m0[0])+parseInt(m0[1])
+            sfv+='='+vtv
+        }
         if(vtc>9){
-            let m0=(''+vtc).split('')
+            m0=(''+vtc).split('')
             vtc=parseInt(m0[0])+parseInt(m0[1])
             sfc+='='+vtc
         }
         let dataInt
+        let dataExt
         let st='int'
+        let st2='ext'
         if(vtv===11||vtv===33){
             st='intm'
             vtv=1
@@ -594,17 +598,36 @@ Rectangle {
             st='intm'
             vtv=2
         }
+        if(vtc===11||vtc===33){
+            st2='extm'
+            vtc=1
+        }
+        if(vtc===22||vtc===44){
+            st2='extm'
+            vtc=2
+        }
         dataInt=getDataNum(st, vtv)
-        panelLog.l('Vocales: '+av.toString())
-        panelLog.l('Consonantes: '+ac.toString())
-        panelLog.l('\n')
-        panelLog.l('Fórmula de Vocales: '+sfv)
-        panelLog.l('Vibración '+dataInt)
-        panelLog.l('\n')
-        panelLog.l('Fórmula de Vocales: '+sfc)
-        panelLog.l('Vibración '+getDataNum('ext', vtc))
+        dataExt=getDataNum(st2, vtc)
+        if(checkBoxFormula.checked){
+            ret+='Vocales: '+av.toString()+'\n'
+            ret+='Consonantes: '+ac.toString()+'\n'
+            ret+='\n'
+            ret+='Fórmula de Vocales: '+sfv+'\n'
+            ret+='Vibración '+dataInt+'\n'
+            ret+='\n'
+            ret+='Fórmula de Consonantes: '+sfc+'\n'
+            ret+='Vibración '+dataExt+'\n'
+        }else{
+            ret+='¿Cómo es la forma de ser de '+txtDataSearchNom.text+' por dentro?\n'+dataInt+'\n'
+            ret+='\n'
+            ret+='¿Cómo es la forma de ser de '+txtDataSearchNom.text+' hacia afuera?\n'+dataExt+'\n'
+        }
+
+        return ret
     }
     function getDataNum(t, v){
+        //panelLog.l('t:'+t)
+        //panelLog.l('v:'+v)
         let ret='?'
         let jsonString
         if(r.jsonNum===''){
