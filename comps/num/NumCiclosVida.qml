@@ -385,6 +385,14 @@ Rectangle {
                                     }
                                 }
                             }
+                            Button{
+                                text:  'Calcular'
+                                onClicked: {
+                                    if(txtDataSearchNom.text==='')return
+                                    panelLog.l(getNumNomText(txtDataSearchNom.text))
+                                }
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
                         }
                     }
                 }
