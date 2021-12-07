@@ -42,7 +42,7 @@ Rectangle {
         anchors.centerIn: parent
         Item{
             id: xForm
-            width: app.fs*10
+            width: app.fs*16
             height: r.height
             Column{
                 spacing: app.fs*0.25
@@ -77,70 +77,6 @@ Rectangle {
                                     currentNumKarma=aGetNums[0]
                                     let dateP = new Date(controlTimeYear.currentDate.getFullYear(), m - 1, d, 0, 1)
                                     controlTimeYear.currentDate=dateP
-                                }
-                            }
-                        }
-                        Row{
-                            spacing: app.fs*0.5
-                            anchors.horizontalCenter:  parent.horizontalCenter
-                            Text{
-                                text: '<b>N° Karma</b>: '
-                                color: apps.fontColor
-                                font.pixelSize: app.fs*0.5
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            Rectangle{
-                                id: xNumKarma
-                                width: app.fs*2
-                                height: width
-                                radius: width*0.5
-                                border.width: app.fs*0.2
-                                border.color: apps.fontColor
-                                //rotation: 360-parent.rotation
-                                color: apps.backgroundColor
-                                anchors.verticalCenter: parent.verticalCenter
-                                Text{
-                                    text: '<b>'+r.currentNumKarma+'</b>'
-                                    font.pixelSize: parent.width*0.8
-                                    color: apps.fontColor
-                                    anchors.centerIn: parent
-                                }
-                            }
-                        }
-                    }
-                }
-                Rectangle{
-                    id: xAP
-                    width: xForm.width
-                    height: colAP.height+app.fs
-                    color: 'transparent'
-                    border.width: 2
-                    border.color: apps.fontColor
-                    radius: app.fs*0.2
-                    Column{
-                        id: colAP
-                        spacing: app.fs*0.5
-                        anchors.centerIn: parent
-                        Row{
-                            spacing: app.fs
-                            anchors.horizontalCenter: parent.horizontalCenter
-                            Text{
-                                text: '<b>N° Año Personal</b>'
-                                color: apps.fontColor
-                                font.pixelSize: app.fs*0.5
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            ControlsTimeFullYear{
-                                id: controlTimeYear
-                                anchors.verticalCenter: parent.verticalCenter
-                                onCurrentDateChanged: {
-                                    r.esMaestro=false
-                                    let d = currentDate.getDate()
-                                    let m = currentDate.getMonth() + 1
-                                    let a = currentDate.getFullYear()
-                                    let sf=''+d+'/'+m+'/'+a
-                                    //let aGetNums=JS.getNums(sf)
-                                    //currentNumAnioPersonal=aGetNums[0]
                                     let msfd=(''+d).split('')
                                     let sfd=''+msfd[0]
                                     if(msfd.length>1){
@@ -172,7 +108,7 @@ Rectangle {
                                     let mCheckSum=(''+sum).split('')
                                     if(mCheckSum.length>1){
                                         if(sum===11||sum===22||sum===33){
-                                            r.esMaestro=true
+                                            //r.esMaestro=true
                                         }
                                         let dobleDigSum=parseInt(mCheckSum[0])+parseInt(mCheckSum[1])
                                         sform+='='+sum+'='+dobleDigSum
@@ -180,41 +116,41 @@ Rectangle {
                                         if(mCheckSum2.length>1){
                                             let dobleDigSum2=parseInt(mCheckSum2[0])+parseInt(mCheckSum2[1])
                                             sform+='='+dobleDigSum2
-                                            currentNumAnioPersonal=dobleDigSum2
+                                            currentNumKarma=dobleDigSum2
                                         }else{
-                                            currentNumAnioPersonal=dobleDigSum
+                                            currentNumKarma=dobleDigSum
                                         }
 
                                     }else{
-                                        currentNumAnioPersonal=sum
+                                        currentNumKarma=sum
                                     }
-                                    f1.text=sform
-                                    if(panelLog.visible){
-                                        let edad=a - controlTimeDateNac.currentDate.getFullYear()
+                                    f0.text=sform
+                                    //                                    if(panelLog.visible){
+                                    //                                        let edad=a - controlTimeDateNac.currentDate.getFullYear()
 
-                                        let sp='Período: Desde el cumpleaños del día '+d+'/'+m+'/'+a+' hasta el día '+d+'/'+m+'/'+parseInt(a + 1)
-                                        panelLog.l('Año: '+a+' - Edad: '+edad+' - Ciclo: '+parseInt(r.currentNum +1)+'\n'+sp+'\nCálculo: '+f1.text+'\n'+aDes[r.currentNum]+'\n')
-                                    }
+                                    //                                        let sp='Período: Desde el cumpleaños del día '+d+'/'+m+'/'+a+' hasta el día '+d+'/'+m+'/'+parseInt(a + 1)
+                                    //                                        panelLog.l('Año: '+a+' - Edad: '+edad+' - Ciclo: '+parseInt(r.currentNum +1)+'\n'+sp+'\nCálculo: '+f1.text+'\n'+aDes[r.currentNum]+'\n')
+                                    //                                    }
                                 }
                             }
                         }
                         Text{
-                            id: f1
+                            id: f0
                             color: apps.fontColor
                             font.pixelSize: app.fs*0.8
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
                         Row{
                             spacing: app.fs*0.5
-                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.horizontalCenter:  parent.horizontalCenter
                             Text{
-                                text: '<b>Año:</b> '
+                                text: '<b>N° Karma</b>: '
                                 color: apps.fontColor
                                 font.pixelSize: app.fs*0.5
                                 anchors.verticalCenter: parent.verticalCenter
                             }
                             Rectangle{
-                                id: xNumAP
+                                id: xNumKarma
                                 width: app.fs*2
                                 height: width
                                 radius: width*0.5
@@ -224,11 +160,25 @@ Rectangle {
                                 color: apps.backgroundColor
                                 anchors.verticalCenter: parent.verticalCenter
                                 Text{
-                                    text: '<b>'+r.currentNumAnioPersonal+'</b>'
+                                    text: '<b>'+r.currentNumKarma+'</b>'
                                     font.pixelSize: parent.width*0.8
                                     color: apps.fontColor
                                     anchors.centerIn: parent
                                 }
+                            }
+                            Button{
+                                text:  'Mostrar Personalidad'
+                                onClicked: {
+                                    if(checkBoxFormula.checked){
+                                        panelLog.l('Fórmula: '+f0.text+'\n')
+                                        panelLog.l('Personalidad '+r.currentNumKarma+'\n')
+                                        panelLog.l(getItemJson('per'+r.currentNumKarma))
+                                    }else{
+                                        panelLog.l('¿Cómo es su personalidad?\n')
+                                        panelLog.l(getItemJson('per'+r.currentNumKarma))
+                                    }
+                                }
+                                anchors.verticalCenter: parent.verticalCenter
                             }
                         }
                     }
@@ -412,185 +362,329 @@ Rectangle {
                         onCheckedChanged: panelLog.visible=checked
                     }
                 }
-                Row{
-                    spacing: app.fs*0.5
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    visible: checkBoxLog.checked
-                    Button{
-                        text:  'Crear Lista'
-                        onClicked: mkDataList()
-                        anchors.verticalCenter: parent.verticalCenter
-                        visible: checkBoxLog.checked
-                    }
                 }
-                Row{
-                    spacing: app.fs*0.5
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    visible: checkBoxLog.checked
-                    Button{
-                        text:  'Limpiar'
-                        onClicked: panelLog.clear()
-                        anchors.verticalCenter: parent.verticalCenter
-                        visible: checkBoxLog.checked
-                    }
-                    Button{
-                        text:  'Copiar'
-                        onClicked: {
-                            clipboard.setText(panelLog.text)
-                        }
-                        anchors.verticalCenter: parent.verticalCenter
-                        visible: checkBoxLog.checked
-                    }
-                }
-            }
         }
         Rectangle{
-            id: xNums
-            width: app.fs*20
-            height: width
-            border.width: r.borderWidth
-            border.color: r.borderColor
-            color: apps.backgroundColor
-            radius: width*0.5
+            id: xFormNumCiclo
+            width: xNums.width+app.fs
+            height: xApp.height
+            color: 'transparent'
+            //border.width: 2
+            //border.color: apps.fontColor
+            //radius: app.fs*0.2
             anchors.verticalCenter: parent.verticalCenter
-            Behavior on rotation{NumberAnimation{duration: 500}}
-            MouseArea{
-                anchors.fill: parent
-                onWheel: {
-                    if(wheel.angleDelta.y>=0){
-                        r.dir=1
-                        if(r.currentNum<8){
-                            r.currentNum++
-                        }else{
-                            r.currentNum=0
-                        }
-                    }else{
-                        r.dir=0
-                        if(r.currentNum>0){
-                            r.currentNum--
-                        }else{
-                            r.currentNum=8
-                        }
-                    }
-                }
-            }
-            Repeater{
-                id: rep
-                model: r.aDes
-                Item{
-                    width: 1
-                    height: parent.width-parent.border.width*2
-                    anchors.centerIn: parent
-                    rotation: 360/9*index//+90
-                    Rectangle{
-                        width: r.borderWidth
-                        height: parent.parent.height*0.5-xNum.width-xData.width*0.5-canvasSen.width*0.5
-                        color: apps.fontColor
-                        opacity: r.currentNum!==index?0.5:1.0
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        anchors.top: parent.top
-                        anchors.topMargin:  xNum.width
-                        visible: r.currentNum===index
-                        Canvas {
-                            id:canvasSen
-                            width: app.fs
-                            height: width
+            Column{
+                spacing: app.fs*0.25
+                anchors.centerIn: parent
+                Rectangle{
+                    id: xAP
+                    width: parent.width//-app.fs*0.5
+                    height: colAP.height+app.fs
+                    color: 'transparent'
+                    border.width: 2
+                    border.color: apps.fontColor
+                    radius: app.fs*0.2
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    Column{
+                        id: colAP
+                        spacing: app.fs*0.5
+                        anchors.centerIn: parent
+                        Row{
+                            spacing: app.fs
                             anchors.horizontalCenter: parent.horizontalCenter
-                            anchors.bottom: parent.bottom
-                            //anchors.verticalCenter: parent.verticalCenter
-                            //anchors.left: parent.right
-                            antialiasing: true
-                            rotation: -90
-                            onPaint:{
-                                var ctx = canvasSen.getContext('2d');
-                                ctx.beginPath();
-                                ctx.moveTo(0, canvasSen.width*0.5);
-                                ctx.lineTo(canvasSen.width, 0);
-                                ctx.lineTo(canvasSen.width, canvasSen.width);
-                                ctx.lineTo(0, canvasSen.width*0.5);
-                                ctx.strokeStyle = r.currentNum===index?apps.fontColor:apps.backgroundColor
-                                ctx.lineWidth = 3//canvasSen.parent.height;
-                                ctx.fillStyle = r.currentNum===index?apps.backgroundColor:apps.fontColor
-                                ctx.fill();
-                                ctx.stroke();
+                            Text{
+                                text: '<b>N° Año Personal</b>'
+                                color: apps.fontColor
+                                font.pixelSize: app.fs*0.5
+                                anchors.verticalCenter: parent.verticalCenter
                             }
-                        }
-                    }
-                    Rectangle{
-                        id: xNum
-                        width: app.fs*3
-                        height: width
-                        radius: width*0.5
-                        border.width: app.fs*0.2
-                        border.color: r.currentNum===index?apps.fontColor:apps.backgroundColor
-                        //rotation: 360-parent.rotation
-                        color: r.currentNum===index?apps.fontColor:apps.backgroundColor
-                        rotation: 360-parent.rotation-parent.parent.rotation//-360/9*r.currentNum-90
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        opacity: r.currentNum!==index?0.5:1.0
-                        Timer{
-                            running: r.visible
-                            repeat: true
-                            interval: 500
-                            onTriggered: {
-                                if(index===1){
-                                    txtNum.text=r.esMaestro&&index===r.currentNumAnioPersonal-1?'<b>11</b>':'<b>2</b>'
-                                }else if(index===3){
-                                    txtNum.text=r.esMaestro&&index===r.currentNumAnioPersonal-1?'<b>22</b>':'<b>4</b>'
-                                }else if(index===5){
-                                    txtNum.text=r.esMaestro&&index===r.currentNumAnioPersonal-1?'<b>33</b>':'<b>6</b>'
-                                }else{
-                                    txtNum.text='<b>'+parseInt(index + 1)+'</b>'
+                            ControlsTimeFullYear{
+                                id: controlTimeYear
+                                anchors.verticalCenter: parent.verticalCenter
+                                onCurrentDateChanged: {
+                                    r.esMaestro=false
+                                    let d = currentDate.getDate()
+                                    let m = currentDate.getMonth() + 1
+                                    let a = currentDate.getFullYear()
+                                    let sf=''+d+'/'+m+'/'+a
+                                    //let aGetNums=JS.getNums(sf)
+                                    //currentNumAnioPersonal=aGetNums[0]
+                                    let msfd=(''+d).split('')
+                                    let sfd=''+msfd[0]
+                                    if(msfd.length>1){
+                                        sfd +='+'+msfd[1]
+                                    }
+                                    let msfm=(''+m).split('')
+                                    let sfm=''+msfm[0]
+                                    if(msfm.length>1){
+                                        sfm +='+'+msfm[1]
+                                    }
+                                    //let msform=(''+a).split('')
+                                    let msfa=(''+a).split('')
+                                    let sfa=''+msfa[0]
+                                    if(msfa.length>1){
+                                        sfa +='+'+msfa[1]
+                                    }
+                                    if(msfa.length>2){
+                                        sfa +='+'+msfa[2]
+                                    }
+                                    if(msfa.length>3){
+                                        sfa +='+'+msfa[3]
+                                    }
+                                    let sform= sfd + '+' + sfm + '+' + sfa//msform[0] + '+' + msform[1] + '+'  + msform[2]+ '+'  + msform[3]
+                                    let sum=0
+                                    let mSum=sform.split('+')
+                                    for(var i=0;i<mSum.length;i++){
+                                        sum+=parseInt(mSum[i])
+                                    }
+                                    let mCheckSum=(''+sum).split('')
+                                    if(mCheckSum.length>1){
+                                        if(sum===11||sum===22||sum===33){
+                                            r.esMaestro=true
+                                        }
+                                        let dobleDigSum=parseInt(mCheckSum[0])+parseInt(mCheckSum[1])
+                                        sform+='='+sum+'='+dobleDigSum
+                                        let mCheckSum2=(''+dobleDigSum).split('')
+                                        if(mCheckSum2.length>1){
+                                            let dobleDigSum2=parseInt(mCheckSum2[0])+parseInt(mCheckSum2[1])
+                                            sform+='='+dobleDigSum2
+                                            currentNumAnioPersonal=dobleDigSum2
+                                        }else{
+                                            currentNumAnioPersonal=dobleDigSum
+                                        }
+
+                                    }else{
+                                        currentNumAnioPersonal=sum
+                                    }
+                                    f1.text=sform
+                                    if(panelLog.visible){
+                                        let edad=a - controlTimeDateNac.currentDate.getFullYear()
+
+                                        let sp='Período: Desde el cumpleaños del día '+d+'/'+m+'/'+a+' hasta el día '+d+'/'+m+'/'+parseInt(a + 1)
+                                        panelLog.l('Año: '+a+' - Edad: '+edad+' - Ciclo: '+parseInt(r.currentNum +1)+'\n'+sp+'\nCálculo: '+f1.text+'\n'+aDes[r.currentNum]+'\n')
+                                    }
+                                }
+                            }
+                            Row{
+                                spacing: app.fs*0.5
+                                anchors.verticalCenter: parent.verticalCenter
+                                Text{
+                                    text: '<b>Año:</b> '
+                                    color: apps.fontColor
+                                    font.pixelSize: app.fs*0.5
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                                Rectangle{
+                                    id: xNumAP
+                                    width: app.fs*2
+                                    height: width
+                                    radius: width*0.5
+                                    border.width: app.fs*0.2
+                                    border.color: apps.fontColor
+                                    //rotation: 360-parent.rotation
+                                    color: apps.backgroundColor
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    Text{
+                                        text: '<b>'+r.currentNumAnioPersonal+'</b>'
+                                        font.pixelSize: parent.width*0.8
+                                        color: apps.fontColor
+                                        anchors.centerIn: parent
+                                    }
                                 }
                             }
                         }
                         Text{
-                            id: txtNum
-                            text: '<b>'+index+'</b>'
-                            font.pixelSize: parent.width*0.75
-                            color: r.currentNum===index?apps.backgroundColor:apps.fontColor
-                            anchors.centerIn: parent
-                            Component.onCompleted: {
-                                if(index===1){
-                                    text='<b>11</b>'
+                            id: f1
+                            color: apps.fontColor
+                            font.pixelSize: app.fs*0.8
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
+
+                    }
+                }
+                Rectangle{
+                    id: xNums
+                    width: xApp.height-xAP.height-xBtns.height-app.fs*0.5
+                    height: width
+                    border.width: r.borderWidth
+                    border.color: r.borderColor
+                    color: apps.backgroundColor
+                    radius: width*0.5
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    Behavior on rotation{NumberAnimation{duration: 500}}
+                    MouseArea{
+                        anchors.fill: parent
+                        onWheel: {
+                            if(wheel.angleDelta.y>=0){
+                                r.dir=1
+                                if(r.currentNum<8){
+                                    r.currentNum++
                                 }else{
-                                    text='<b>'+parseInt(index + 1)+'</b>'
+                                    r.currentNum=0
+                                }
+                            }else{
+                                r.dir=0
+                                if(r.currentNum>0){
+                                    r.currentNum--
+                                }else{
+                                    r.currentNum=8
                                 }
                             }
                         }
                     }
+                    Repeater{
+                        id: rep
+                        model: r.aDes
+                        Item{
+                            width: 1
+                            height: parent.width-parent.border.width*2
+                            anchors.centerIn: parent
+                            rotation: 360/9*index//+90
+                            Rectangle{
+                                width: r.borderWidth
+                                height: parent.parent.height*0.5-xNum.width-xData.width*0.5-canvasSen.width*0.5
+                                color: apps.fontColor
+                                opacity: r.currentNum!==index?0.5:1.0
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                anchors.top: parent.top
+                                anchors.topMargin:  xNum.width
+                                visible: r.currentNum===index
+                                Canvas {
+                                    id:canvasSen
+                                    width: app.fs
+                                    height: width
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.bottom: parent.bottom
+                                    //anchors.verticalCenter: parent.verticalCenter
+                                    //anchors.left: parent.right
+                                    antialiasing: true
+                                    rotation: -90
+                                    onPaint:{
+                                        var ctx = canvasSen.getContext('2d');
+                                        ctx.beginPath();
+                                        ctx.moveTo(0, canvasSen.width*0.5);
+                                        ctx.lineTo(canvasSen.width, 0);
+                                        ctx.lineTo(canvasSen.width, canvasSen.width);
+                                        ctx.lineTo(0, canvasSen.width*0.5);
+                                        ctx.strokeStyle = r.currentNum===index?apps.fontColor:apps.backgroundColor
+                                        ctx.lineWidth = 3//canvasSen.parent.height;
+                                        ctx.fillStyle = r.currentNum===index?apps.backgroundColor:apps.fontColor
+                                        ctx.fill();
+                                        ctx.stroke();
+                                    }
+                                }
+                            }
+                            Rectangle{
+                                id: xNum
+                                width: app.fs*3
+                                height: width
+                                radius: width*0.5
+                                border.width: app.fs*0.2
+                                border.color: r.currentNum===index?apps.fontColor:apps.backgroundColor
+                                //rotation: 360-parent.rotation
+                                color: r.currentNum===index?apps.fontColor:apps.backgroundColor
+                                rotation: 360-parent.rotation-parent.parent.rotation//-360/9*r.currentNum-90
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                opacity: r.currentNum!==index?0.5:1.0
+                                Timer{
+                                    running: r.visible
+                                    repeat: true
+                                    interval: 500
+                                    onTriggered: {
+                                        if(index===1){
+                                            txtNum.text=r.esMaestro&&index===r.currentNumAnioPersonal-1?'<b>11</b>':'<b>2</b>'
+                                        }else if(index===3){
+                                            txtNum.text=r.esMaestro&&index===r.currentNumAnioPersonal-1?'<b>22</b>':'<b>4</b>'
+                                        }else if(index===5){
+                                            txtNum.text=r.esMaestro&&index===r.currentNumAnioPersonal-1?'<b>33</b>':'<b>6</b>'
+                                        }else{
+                                            txtNum.text='<b>'+parseInt(index + 1)+'</b>'
+                                        }
+                                    }
+                                }
+                                Text{
+                                    id: txtNum
+                                    text: '<b>'+index+'</b>'
+                                    font.pixelSize: parent.width*0.75
+                                    color: r.currentNum===index?apps.backgroundColor:apps.fontColor
+                                    anchors.centerIn: parent
+                                    Component.onCompleted: {
+                                        if(index===1){
+                                            text='<b>11</b>'
+                                        }else{
+                                            text='<b>'+parseInt(index + 1)+'</b>'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    Rectangle{
+                        id: xData
+                        width: parent.width*0.4
+                        height: width
+                        border.width: r.borderWidth
+                        border.color: r.borderColor
+                        color: 'transparent'//apps.backgroundColor
+                        radius: width*0.5
+                        anchors.centerIn: parent
+                        Text{
+                            id: data
+                            text : ''+r.aDes[r.currentNum]
+                            width: parent.width-app.fs
+                            font.pixelSize: parent.width*0.08
+                            wrapMode: Text.WordWrap
+                            horizontalAlignment: Text.AlignHCenter
+                            anchors.centerIn: parent
+                            color: apps.fontColor
+                        }
+                    }
                 }
-            }
-            //            Text{
-            //                text: ''+xNums.rotation
-            //                anchors.centerIn: parent
-            //                color: 'white'
-            //                font.pixelSize: app.fs*2
-            //            }
-            Rectangle{
-                id: xData
-                width: parent.width*0.4
-                height: width
-                border.width: r.borderWidth
-                border.color: r.borderColor
-                color: 'transparent'//apps.backgroundColor
-                radius: width*0.5
-                anchors.centerIn: parent
-                Text{
-                    id: data
-                    text : ''+r.aDes[r.currentNum]
-                    width: parent.width-app.fs
-                    font.pixelSize: parent.width*0.08
-                    wrapMode: Text.WordWrap
-                    horizontalAlignment: Text.AlignHCenter
-                    anchors.centerIn: parent
-                    color: apps.fontColor
+                Rectangle{
+                    id: xBtns
+                    width: parent.width//-app.fs*0.5
+                    height: colBtns.height+app.fs
+                    color: 'transparent'
+                    border.width: 2
+                    border.color: apps.fontColor
+                    radius: app.fs*0.2
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    Column{
+                        id: colBtns
+                        spacing: app.fs
+                        anchors.centerIn: parent
+                        Row{
+                            spacing: app.fs*0.5
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            visible: checkBoxLog.checked
+                            Button{
+                                text:  'Limpiar'
+                                onClicked: panelLog.clear()
+                                anchors.verticalCenter: parent.verticalCenter
+                                visible: checkBoxLog.checked
+                            }
+                            Button{
+                                text:  'Copiar'
+                                onClicked: {
+                                    clipboard.setText(panelLog.text)
+                                }
+                                anchors.verticalCenter: parent.verticalCenter
+                                visible: checkBoxLog.checked
+                            }
+                            Button{
+                                text:  'Crear Lista'
+                                onClicked: mkDataList()
+                                anchors.verticalCenter: parent.verticalCenter
+                                visible: checkBoxLog.checked
+                            }
+                        }
+                    }
                 }
             }
         }
         PanelLog{
             id: panelLog
-            width: r.width-app.fs*30-parent.spacing*2
+            width: xApp.width-xFormNumCiclo.width-xForm.width-parent.spacing*2
             height: parent.height
             visible: true
         }
@@ -765,6 +859,18 @@ Rectangle {
         let json=JSON.parse(jsonString)
 
         ret=json['d'+dia]
+        return ret
+    }
+    function getItemJson(i){
+        let ret='?'
+        let jsonString
+        if(r.jsonNum===''){
+            r.jsonNum=unik.getFile('./resources/num.json')
+        }
+        jsonString=r.jsonNum.replace(/\n/g, ' ')
+        let json=JSON.parse(jsonString)
+
+        ret=json[i]
         return ret
     }
     function gvl(l){
