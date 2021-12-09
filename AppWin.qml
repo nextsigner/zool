@@ -281,6 +281,10 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Right'
         onActivated: {
+            if(panelNewVNA.state==='show'){
+                panelNewVNA.toRight()
+                return
+            }
             if(menuBar.expanded&&!xSabianos.visible){
                 menuBar.right()
                 return

@@ -15,7 +15,10 @@ Rectangle {
     property int hora: 0
     property int minuto: 0
     property int fs: app.fs*0.5
-    property bool setAppTime: true
+    property bool setAppTime: false
+    onFocusChanged: {
+        if(!focus)controlTimeFecha.cFocus=-1
+    }
     onCurrentDateChanged: {
         r.anio=r.currentDate.getFullYear()
         r.mes=r.currentDate.getMonth() + 1
@@ -227,6 +230,7 @@ Rectangle {
                     font.pixelSize: r.fs
                     anchors.centerIn: parent
                 }
+
             }
             Rectangle{
                 id: xMes
@@ -316,11 +320,47 @@ Rectangle {
             }
         }
     }
+    property var aRect: [t4, t6, t8, t3, t2, t1]
+    property int cFocus: -1
+    onCFocusChanged: {
+        t1.visible=true
+        t2.visible=true
+        t3.visible=true
+        t4.visible=true
+        t5.visible=true
+        t6.visible=true
+        //t7.visible=true
+        t8.visible=true
+    }
+    Timer{
+        running: r.cFocus>=0
+        repeat: true
+        interval: 250
+        onTriggered: {
+            let b=!aRect[r.cFocus].visible
+            if(aRect[r.cFocus]!==t1)t1.visible=true
+            if(aRect[r.cFocus]!==t2)t2.visible=true
+            if(aRect[r.cFocus]!==t3)t3.visible=true
+            if(aRect[r.cFocus]!==t4)t4.visible=true
+            if(aRect[r.cFocus]!==t5)t5.visible=true
+            if(aRect[r.cFocus]!==t6)t6.visible=true
+            if(aRect[r.cFocus]!==t8)t8.visible=true
+            aRect[r.cFocus].visible=b
+        }
+    }
     Component.onCompleted: {
         if(!r.currentDate)r.currentDate=new Date(Date.now())
     }
     function setTime(datetime){
         r.setAppTime=false
         r.currentDate=datetime
+    }
+    function toRight(){
+        if(r.cFocus<5){
+            r.cFocus++
+        }else{
+            r.cFocus=0
+        }
+
     }
 }

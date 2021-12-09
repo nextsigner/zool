@@ -48,6 +48,7 @@ Rectangle {
             //txtDataSearch.focus=true
         }
     }
+
     Column{
         id: col
         anchors.centerIn: parent
@@ -63,11 +64,11 @@ Rectangle {
             width: r.width-app.fs*0.5
             t.font.pixelSize: app.fs*0.65
             anchors.horizontalCenter: parent.horizontalCenter
-            KeyNavigation.tab: tiFecha1.t
+            KeyNavigation.tab: controlTimeFecha
             t.maximumLength: 30
             onPressed: {
-                tiFecha1.t.focus=true
-                tiFecha1.t.selectAll()
+                controlTimeFecha.focus=true
+                controlTimeFecha.cFocus=0
             }
             Text {
                 text: 'Nombre'
@@ -77,142 +78,23 @@ Rectangle {
                 anchors.bottom: parent.top
             }
         }
-
         Row{
             spacing: app.fs*0.1
             anchors.horizontalCenter: parent.horizontalCenter
-            Comps.XText{text:'Fecha:'; t.font.pixelSize: app.fs*0.35;height: app.fs*0.8}
-            Comps.XTextInput{
-                id: tiFecha1;
-                width: app.fs;
-                t.font.pixelSize: app.fs*0.65;
-                c: true
-                KeyNavigation.tab: tiFecha2.t
-                t.inputMask: "00"
-                t.width: width
-                onPressed: {
-                    tiFecha2.t.focus=true
-                    tiFecha2.t.selectAll()
+            Comps.ControlsTime{
+                id: controlTimeFecha
+                onCurrentDateChanged: {
+                    //log.l('PanelVN CurrenDate: '+currentDate.toString())
+                    //log.visible=true
+                    //log.x=xApp.width*0.2
                 }
                 Text {
-                    text: 'Día'
+                    text: 'Fecha'
                     font.pixelSize: app.fs*0.5
                     color: 'white'
-                    anchors.horizontalCenter: parent.horizontalCenter
                     anchors.bottom: parent.top
                 }
             }
-            Text {
-                text: '/'
-                font.pixelSize: app.fs*0.65
-                color: 'white'
-            }
-            Comps.XTextInput{
-                id: tiFecha2;
-                width: app.fs;
-                t.font.pixelSize: app.fs*0.65;
-                c: true
-                KeyNavigation.tab: tiFecha3.t
-                t.inputMask: "00"
-                t.width: width
-                onPressed: {
-                    tiFecha3.t.focus=true
-                    tiFecha3.t.selectAll()
-                }
-                Text {
-                    text: 'Mes'
-                    font.pixelSize: app.fs*0.5
-                    color: 'white'
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.bottom: parent.top
-                }
-            }
-            Text {
-                text: '/'
-                font.pixelSize: app.fs*0.65
-                color: 'white'
-            }
-            Comps.XTextInput{
-                id: tiFecha3;
-                width: app.fs*2;
-                t.font.pixelSize: app.fs*0.65;
-                c: true
-                KeyNavigation.tab: tiHora1.t
-                t.inputMask: "0000"
-                t.width: width
-                Text {
-                    text: 'Año'
-                    font.pixelSize: app.fs*0.5
-                    color: 'white'
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.bottom: parent.top
-                }
-            }
-        }
-        Row{
-            spacing: app.fs*0.5
-            anchors.horizontalCenter: parent.horizontalCenter
-            Comps.XText{text:'Hora:'; t.font.pixelSize: app.fs*0.35;height: app.fs*0.8}
-            Comps.XTextInput{
-                id: tiHora1;
-                width: app.fs;
-                t.font.pixelSize: app.fs*0.65;
-                c: true
-                KeyNavigation.tab: tiHora2.t
-                t.inputMask: "00"
-                t.width: width
-                //t.color: valid?'white':'red'
-                t.color: 'white'
-                property   bool valid: false
-                onTextChanged: {
-                    //                        let s=text.split(':')
-                    //                        if(s[0].length<2||s[1].length<2){
-                    //                            valid=false
-                    //                        }else{
-                    //                            valid=true
-                    //                        }
-                }
-                Text {
-                    text: 'Hora'
-                    font.pixelSize: app.fs*0.5
-                    color: 'white'
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.bottom: parent.top
-                }
-            }
-            Text {
-                text: ':'
-                font.pixelSize: app.fs*0.65
-                color: 'white'
-            }
-            Comps.XTextInput{
-                id: tiHora2;
-                width: app.fs;
-                t.font.pixelSize: app.fs*0.65;
-                c: true
-                KeyNavigation.tab: tiCiudad.t
-                t.inputMask: "00"
-                t.width: width
-                //t.color: valid?'white':'red'
-                t.color: 'white'
-                property   bool valid: false
-                onTextChanged: {
-                    //                        let s=text.split(':')
-                    //                        if(s[0].length<2||s[1].length<2){
-                    //                            valid=false
-                    //                        }else{
-                    //                            valid=true
-                    //                        }
-                }
-                Text {
-                    text: 'Minuto'
-                    font.pixelSize: app.fs*0.5
-                    color: 'white'
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.bottom: parent.top
-                }
-            }
-
         }
         Comps.XTextInput{
             id: tiCiudad
@@ -296,7 +178,7 @@ Rectangle {
                 id: botClear
                 text: 'Limpiar'
                 font.pixelSize: app.fs*0.5
-                opacity:  r.lat!==-100.00||r.lon!==-100.00||tiNombre.text!==''||tiFecha1.text!==''||tiFecha2.text!==''||tiFecha3.text!==''||tiHora1.text!==''||tiHora2.text!==''||tiGMT.text!==''||tiCiudad.text!==''?1.0:0.0
+                opacity:  r.lat!==-100.00||r.lon!==-100.00||tiNombre.text!==''||tiGMT.text!==''||tiCiudad.text!==''?1.0:0.0
                 enabled: opacity===1.0
                 onClicked: {
                     clear()
@@ -307,7 +189,7 @@ Rectangle {
                 text: 'Crear'
                 font.pixelSize: app.fs*0.5
                 KeyNavigation.tab: tiNombre.t
-                visible: r.ulat!==-1&&r.ulon!==-1&&tiNombre.text!==''&&tiFecha1.text!==''&&tiFecha2.text!==''&&tiFecha3.text!==''&&tiHora1.text!==''&&tiHora2.text!==''&&tiGMT.text!==''&&tiCiudad.text!==''
+                visible: r.ulat!==-1&&r.ulon!==-1&&tiNombre.text!==''&&tiGMT.text!==''&&tiCiudad.text!==''
                 onClicked: {
                     searchGeoLoc(true)
                 }
@@ -322,35 +204,24 @@ Rectangle {
                             r.uFileNameLoaded=tiNombre.text
                             let jsonFileData=unik.getFile(fileName)
                             let j=JSON.parse(jsonFileData)
-                            if(tiFecha1.text.replace(/ /g, '')===''&&tiFecha2.text.replace(/ /g, '')===''&&tiFecha3.text.replace(/ /g, '')===''){
-                                //unik.speak('set file')
-                                let dia=''+j.params.d
-                                if(parseInt(dia)<=9){
-                                    dia='0'+dia
-                                }
-                                let mes=''+j.params.m
-                                if(parseInt(mes)<=9){
-                                    mes='0'+mes
-                                }
-                                //tiFecha.text=dia+'/'+mes+'/'+j.params.a
-                                tiFecha1.text=dia
-                                tiFecha2.text=mes
-                                tiFecha3.text=j.params.a
+                            let dia=''+j.params.d
+                            if(parseInt(dia)<=9){
+                                dia='0'+dia
                             }
-                            if(tiHora1.text.replace(/ /g, '')===''){
-                                //unik.speak('set file')
-                                let hora=''+j.params.h
-                                if(parseInt(hora)<=9){
-                                    hora='0'+hora
-                                }
-                                let minuto=''+j.params.min
-                                if(parseInt(minuto)<=9){
-                                    minuto='0'+minuto
-                                }
-                                //tiHora.text=hora+':'+minuto
-                                tiHora1.text=hora
-                                tiHora2.text=minuto
+                            let mes=''+j.params.m
+                            if(parseInt(mes)<=9){
+                                mes='0'+mes
                             }
+                            let hora=''+j.params.h
+                            if(parseInt(hora)<=9){
+                                hora='0'+hora
+                            }
+                            let minuto=''+j.params.min
+                            if(parseInt(minuto)<=9){
+                                minuto='0'+minuto
+                            }
+                            let nt=new Date(parseInt(j.params.a), parseInt(mes - 1), parseInt(dia), parseInt(hora), parseInt(minuto))
+                            controlTimeFecha.currentDate=nt
                             if(tiGMT.text.replace(/ /g, '')===''){
                                 tiGMT.text=j.params.gmt
                             }
@@ -361,12 +232,8 @@ Rectangle {
                             r.lon=j.params.lon
                             r.ulat=j.params.lat
                             r.ulon=j.params.lon
-                            //let m0=tiFecha.t.text.split('/')
-                            //if(m0.length!==3)return
                             let vd=parseInt(tiFecha1.t.text)
                             let vm=parseInt(tiFecha2.t.text)
-                            //let va=parseInt(tiFecha3.t.text)
-                            //m0=tiHora.t.text.split(':')
                             let vh=parseInt(tiHora1.t.text)
                             let vmin=parseInt(tiHora2.t.text)
                             let vgmt=tiGMT.t.text
@@ -453,13 +320,19 @@ Rectangle {
 
         //let m0=tiFecha.t.text.split('/')
         //if(m0.length!==3)return
-        let vd=parseInt(tiFecha1.t.text)
-        let vm=parseInt(tiFecha2.t.text)
-        let va=parseInt(tiFecha3.t.text)
+        //let vd=parseInt(tiFecha1.t.text)
+        //let vm=parseInt(tiFecha2.t.text)
+        //let va=parseInt(tiFecha3.t.text)
 
         //m0=tiHora.t.text.split(':')
-        let vh=parseInt(tiHora1.t.text)
-        let vmin=parseInt(tiHora2.t.text)
+        //let vh=parseInt(tiHora1.t.text)
+        //let vmin=parseInt(tiHora2.t.text)
+
+        let vd=controlTimeFecha.dia
+        let vm=controlTimeFecha.mes
+        let va=controlTimeFecha.anio
+        let vh=controlTimeFecha.hora
+        let vmin=controlTimeFecha.minuto
 
         let vgmt=tiGMT.t.text
         let vlon=r.lon
@@ -500,9 +373,14 @@ Rectangle {
         tiFecha1.t.text=''
         tiFecha2.t.text=''
         tiFecha3.t.text=''
-        tiHora1.t.text=''
+        //tiHora1.t.text=''
         tiHora2.t.text=''
         tiCiudad.t.text=''
         tiGMT.t.text=''
+    }
+    function toRight(){
+        if(controlTimeFecha.focus){
+            controlTimeFecha.toRight()
+        }
     }
 }
