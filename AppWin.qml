@@ -181,6 +181,10 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Up'
         onActivated: {
+            if(panelNewVNA.state==='show'){
+                panelNewVNA.toUp()
+                return
+            }
             if(menuBar.expanded){
                 menuBar.u()
                 return
@@ -225,6 +229,10 @@ ApplicationWindow {
         sequence: 'Down'
         //enabled: !menuBar.expanded
         onActivated: {
+            if(panelNewVNA.state==='show'){
+                panelNewVNA.toDown()
+                return
+            }
             if(menuBar.expanded){
                 menuBar.d()
                 return
@@ -268,6 +276,10 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Left'
         onActivated: {
+            if(panelNewVNA.state==='show'){
+                panelNewVNA.toLeft()
+                return
+            }
             if(menuBar.expanded&&!xSabianos.visible){
                 menuBar.left()
                 return

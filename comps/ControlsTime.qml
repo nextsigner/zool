@@ -14,6 +14,7 @@ Rectangle {
     property int dia: 0
     property int hora: 0
     property int minuto: 0
+    property real gmt: !r.isBack?app.currentGmt:app.currentGmtBack
     property int fs: app.fs*0.5
     property bool setAppTime: false
     onFocusChanged: {
@@ -158,7 +159,7 @@ Rectangle {
             border.color: apps.fontColor
             Text{
                 id: t8
-                text: !r.isBack?app.currentGmt:app.currentGmtBack
+                text: r.gmt
                 color: apps.fontColor
                 font.pixelSize: r.fs
                 anchors.centerIn: parent
@@ -166,18 +167,14 @@ Rectangle {
             MouseArea {
                 id: maw
                 anchors.fill: parent
-                onClicked: r.v=!r.v
+                //onClicked: r.v=!r.v
                 property int m:0
                 property date uDate//: app.currentDate
                 property int f: 0
                 property int uY: 0
                 onWheel: {
                     let cgmt
-                    if(!r.isBack){
-                        cgmt=app.currentGmt
-                    }else{
-                        cgmt=app.currentGmtBack
-                    }
+                    cgmt=r.gmt
                     if(wheel.angleDelta.y===120){
                         if(cgmt<12.00){
                             cgmt+=0.1
@@ -191,11 +188,7 @@ Rectangle {
                             cgmt=12.00
                         }
                     }
-                    if(!r.isBack){
-                        app.currentGmt=parseFloat(cgmt).toFixed(1)
-                    }else{
-                        app.currentGmtBack=parseFloat(cgmt).toFixed(1)
-                    }
+                    r.gmt=parseFloat(cgmt).toFixed(1)
                 }
             }
         }
@@ -361,6 +354,105 @@ Rectangle {
         }else{
             r.cFocus=0
         }
-
+    }
+    function toLeft(){
+        if(r.cFocus>0){
+            r.cFocus--
+        }else{
+            r.cFocus=5
+        }
+    }
+    function toUp(){
+        let cgmt
+        if(r.cFocus>=0&&r.cFocus!==2){
+            let d = controlTimeFecha.currentDate
+            let d2
+            if(r.cFocus===0){
+                d2 = new Date(d)
+                d2=d2.setHours(d2.getHours() + 1)
+            }
+            if(r.cFocus===1){
+                d2 = new Date(d)
+                d2=d2.setMinutes(d2.getMinutes() + 1)
+            }
+            if(r.cFocus===2){
+                let cgmt
+                cgmt=r.gmt
+                if(cgmt<12.00){
+                    cgmt+=0.1
+                }else{
+                    cgmt=-12.00
+                }
+                r.gmt=parseFloat(cgmt).toFixed(1)
+            }
+            if(r.cFocus===3){
+                d2 = new Date(d)
+                d2=d2.setDate(d2.getDate() + 1)
+            }
+            if(r.cFocus===4){
+                d2 = new Date(d)
+                d2=d2.setMonth(d2.getMonth() + 1)
+            }
+            if(r.cFocus===5){
+                d2 = new Date(d)
+                d2=d2.setFullYear(d2.getFullYear() + 1)
+            }
+            controlTimeFecha.currentDate=new Date(d2)
+        }
+        if(r.cFocus===2){
+            cgmt=r.gmt
+            if(cgmt<12.00){
+                cgmt+=0.1
+            }else{
+                cgmt=-12.00
+            }
+            r.gmt=parseFloat(cgmt).toFixed(1)
+        }
+    }
+    function toDown(){
+        let cgmt
+        if(r.cFocus>=0&&r.cFocus!==2){
+            let d = controlTimeFecha.currentDate
+            let d2
+            if(r.cFocus===0){
+                d2 = new Date(d)
+                d2=d2.setHours(d2.getHours() - 1)
+            }
+            if(r.cFocus===1){
+                d2 = new Date(d)
+                d2=d2.setMinutes(d2.getMinutes() - 1)
+            }
+            if(r.cFocus===2){
+                cgmt=r.gmt
+                if(cgmt>-12.00){
+                    cgmt-=0.1
+                }else{
+                    cgmt=12.00
+                }
+                r.gmt=parseFloat(cgmt).toFixed(1)
+            }
+            if(r.cFocus===3){
+                d2 = new Date(d)
+                d2=d2.setDate(d2.getDate() - 1)
+            }
+            if(r.cFocus===4){
+                d2 = new Date(d)
+                d2=d2.setMonth(d2.getMonth() - 1)
+            }
+            if(r.cFocus===5){
+                d2 = new Date(d)
+                d2=d2.setFullYear(d2.getFullYear() - 1)
+            }
+            controlTimeFecha.currentDate=new Date(d2)
+        }
+        if(r.cFocus===2){
+            cgmt=r.gmt
+            if(cgmt>-12.00){
+                cgmt-=0.1
+            }else{
+                cgmt=12.00
+            }
+            r.gmt=parseFloat(cgmt).toFixed(1)
+        }
     }
 }

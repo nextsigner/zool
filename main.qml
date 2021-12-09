@@ -443,6 +443,7 @@ AppWin {
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: h
                         property int h: parent.showCT?0:0-height
+                        onGmtChanged: app.currentGmt=gmt
                         Behavior on h{NumberAnimation{duration: 250; easing.type: Easing.InOutQuad}}
                     }
                 }
@@ -490,6 +491,7 @@ AppWin {
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: h
                         property int h: parent.showCT?0:0-height
+                        onGmtChanged: app.currentGmtBack=gmt
                         Behavior on h{NumberAnimation{duration: 250; easing.type: Easing.InOutQuad}}
                     }
                 }

@@ -83,6 +83,7 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             Comps.ControlsTime{
                 id: controlTimeFecha
+                gmt: 0
                 onCurrentDateChanged: {
                     //log.l('PanelVN CurrenDate: '+currentDate.toString())
                     //log.visible=true
@@ -156,22 +157,6 @@ Rectangle {
             }
         }
         Row{
-            spacing: app.fs*0.5
-            Comps.XText{text:'GMT:'; t.font.pixelSize: app.fs*0.35;height: app.fs*0.8}
-            Comps.XTextInput{
-                id: tiGMT;
-                width: app.fs*2;
-                t.font.pixelSize: app.fs*0.65;
-                t.width: width
-                c: true
-                KeyNavigation.tab: botCrear
-                t.validator: IntValidator {
-                    bottom: parseInt(-11)
-                    top: parseInt(12)
-                }
-            }
-        }
-        Row{
             anchors.horizontalCenter: parent.horizontalCenter
             spacing: app.fs*0.25
             Button{
@@ -189,7 +174,7 @@ Rectangle {
                 text: 'Crear'
                 font.pixelSize: app.fs*0.5
                 KeyNavigation.tab: tiNombre.t
-                visible: r.ulat!==-1&&r.ulon!==-1&&tiNombre.text!==''&&tiGMT.text!==''&&tiCiudad.text!==''
+                visible: r.ulat!==-1&&r.ulon!==-1&&tiNombre.text!==''&&tiCiudad.text!==''
                 onClicked: {
                     searchGeoLoc(true)
                 }
@@ -222,9 +207,7 @@ Rectangle {
                             }
                             let nt=new Date(parseInt(j.params.a), parseInt(mes - 1), parseInt(dia), parseInt(hora), parseInt(minuto))
                             controlTimeFecha.currentDate=nt
-                            if(tiGMT.text.replace(/ /g, '')===''){
-                                tiGMT.text=j.params.gmt
-                            }
+                            controlTimeFecha.gmt=j.params.gmt
                             if(tiCiudad.text.replace(/ /g, '')===''){
                                 tiCiudad.text=j.params.ciudad
                             }
@@ -236,7 +219,7 @@ Rectangle {
                             let vm=parseInt(tiFecha2.t.text)
                             let vh=parseInt(tiHora1.t.text)
                             let vmin=parseInt(tiHora2.t.text)
-                            let vgmt=tiGMT.t.text
+                            let vgmt=controlTimeFecha.gmt//tiGMT.t.text
                             let vCiudad=tiCiudad.t.text.replace(/_/g, ' ')
                             if(j.params.d!==vd||j.params.m!==vm||j.params.a!==va||j.params.h!==vh||j.params.min!==vmin||r.lat!==r.ulat||r.lon!==r.ulon){
                                 botCrear.text='Modificar'
@@ -289,9 +272,9 @@ Rectangle {
             c+='                r.ulat=json.coords.lat\n'
             c+='                r.ulon=json.coords.lon\n'
             //c+='                    setNewJsonFileData()\n'
-            c+='                if(tiGMT.t.text===""){\n'
-            c+='                    tiGMT.t.text=parseFloat(r.ulat / 10).toFixed(1)\n'
-            c+='                }\n'
+            //c+='                if(tiGMT.t.text===""){\n'
+            //c+='                    tiGMT.t.text=parseFloat(r.ulat / 10).toFixed(1)\n'
+            //c+='                }\n'
         }
         c+='                }\n'
         c+='        }else{\n'
@@ -334,7 +317,7 @@ Rectangle {
         let vh=controlTimeFecha.hora
         let vmin=controlTimeFecha.minuto
 
-        let vgmt=tiGMT.t.text
+        let vgmt=controlTimeFecha.gmt//tiGMT.t.text
         let vlon=r.lon
         let vlat=r.lat
         let vCiudad=tiCiudad.t.text.replace(/_/g, ' ')
@@ -381,6 +364,21 @@ Rectangle {
     function toRight(){
         if(controlTimeFecha.focus){
             controlTimeFecha.toRight()
+        }
+    }
+    function toLeft(){
+        if(controlTimeFecha.focus){
+            controlTimeFecha.toLeft()
+        }
+    }
+    function toUp(){
+        if(controlTimeFecha.focus){
+            controlTimeFecha.toUp()
+        }
+    }
+    function toDown(){
+        if(controlTimeFecha.focus){
+            controlTimeFecha.toDown()
         }
     }
 }
