@@ -19,6 +19,7 @@ Rectangle {
     property bool setAppTime: false
     onFocusChanged: {
         if(!focus)controlTimeFecha.cFocus=-1
+        if(focus)controlTimeFecha.cFocus=0
     }
     onCurrentDateChanged: {
         r.anio=r.currentDate.getFullYear()
@@ -31,9 +32,6 @@ Rectangle {
                 app.currentDate=r.currentDate
             }else{
                 app.currentDateBack=r.currentDate
-    //            log.l('cdb:'+app.currentDateBack.toString())
-    //            log.width=xApp.width*0.2
-    //            log.visible=true
             }
         }
         r.setAppTime=true

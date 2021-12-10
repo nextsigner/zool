@@ -477,11 +477,11 @@ Item {
         if(j.params.tipo==='sin'){
             tLoadSin.start()
         }
-        tFirtShow.start()
+        tFirtShow.start()        
         panelSabianos.numSign=app.currentJson.ph.h1.is
         panelSabianos.numDegree=parseInt(app.currentJson.ph.h1.rsgdeg - 1)
         panelSabianos.loadData()
-        if(apps.autoShow){
+        if(apps.sabianosAutoShow){
             panelSabianos.state='show'
         }
         panelAspTransList.state='hide'

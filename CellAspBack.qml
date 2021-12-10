@@ -3,7 +3,7 @@ import QtQuick 2.0
 Rectangle {
     id: r
     height: width
-    color: indexAsp!==-1?arrColors[indexAsp]:'transparent'
+    color: indexAsp!==-1?arrColors[indexAsp]:(!apps.panelAspShowBg?'transparent':apps.backgroundColor)
     property var arrColors: ['red','#ff8833',  'green', '#124cb1']
     property int indexAsp: -1
     property int indexPosAsp: -1

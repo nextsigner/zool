@@ -215,6 +215,7 @@ AppWin {
 
         //Asp
         property int aspLineWidth: 6
+        property bool panelAspShowBg: true
 
         //Swe
         property string swegMod: 'ps'
@@ -252,6 +253,8 @@ AppWin {
 
         //Panel Sabianos
         property real panelSabianosFz: 1.0
+        property bool sabianosAutoShow: false
+
         //Panel AspTrans
         property int currentIndexP1: 0
         property int currentIndexP2: 0
@@ -266,6 +269,7 @@ AppWin {
         property bool enableFullAnimation: false
 
         property string jsonsFolder: documentsPath
+
         onShowLupaChanged: sweg.restoreZoom()
         onEnableBackgroundColorChanged: {
             if(enableBackgroundColor){
@@ -364,7 +368,7 @@ AppWin {
                 height: parent.height
                 Item{
                     anchors.fill: parent
-                    PanelSabianos{id: panelSabianos; state: 'show'}
+                    PanelSabianos{id: panelSabianos;}
                     PanelRemoto{
                         id: panelRemoto;
                         state: 'show'

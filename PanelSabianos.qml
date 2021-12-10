@@ -16,8 +16,8 @@ Rectangle {
     property int fs: width*0.025
     property real factorZoomByRes: 1.5
     property int currentInterpreter: 0
-
-    state: 'hide'
+    x:0-r.width
+    state: 'hide'//apps.sabianosAutoShow?'show':'hide'
     states: [
         State {
             name: "show"
@@ -35,19 +35,6 @@ Rectangle {
         }
     ]
     Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
-
-
-    //    MouseArea{
-    //        anchors.fill: parent
-    //        hoverEnabled: true
-    //        onDoubleClicked: {
-    //            xSabianos.numSign=r.numSign
-    //            xSabianos.numDegree=r.numDegree
-    //            xSabianos.visible=true
-    //            xSabianos.loadData()
-    //        }
-    //    }
-
     Flickable{
         id: flk
         width: r.width
@@ -232,11 +219,11 @@ Rectangle {
             height: width
             anchors.verticalCenter: parent.verticalCenter
             onClicked: {
-                apps.autoShow=!apps.autoShow
+                apps.sabianosAutoShow=!apps.sabianosAutoShow
                 tHideRowBtns.restart()
             }
             Text{
-                text:apps.autoShow?'\uf023':'\uf13e'
+                text:apps.sabianosAutoShow?'\uf023':'\uf13e'
                 font.pixelSize: parent.width*0.5
                 anchors.right:parent.right
             }

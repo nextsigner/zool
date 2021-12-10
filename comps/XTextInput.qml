@@ -52,7 +52,7 @@ Item {
             id: txt
             font.pixelSize: r.fs
             color: 'white'
-            width: parent.width-app.fs
+            width: parent.width-app.fs*0.25
             anchors.centerIn: parent
             horizontalAlignment: r.c?TextInput.AlignHCenter:TextInput.AlignLeft
             onTextChanged: r.textChanged(text)

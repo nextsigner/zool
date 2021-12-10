@@ -977,4 +977,17 @@ Rectangle {
             panelLog.l(sformTodo)
         }
     }
+    function printData(nom, date){
+        txtDataSearchNom.text=nom
+        let d = date.getDate()
+        let m = date.getMonth() + 1
+        let a = date.getFullYear()
+        let f = d + '/' + m + '/' + a
+        let aGetNums=JS.getNums(f)
+        let vCurrentNumKarma=aGetNums[0]
+        panelLog.l('Número de Karma '+vCurrentNumKarma+'\n')
+        panelLog.l(getNumNomText(nom))
+        panelLog.l('¿Cómo es su personalidad?\n')
+        panelLog.l(getItemJson('per'+vCurrentNumKarma))
+    }
 }

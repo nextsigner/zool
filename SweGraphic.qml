@@ -359,7 +359,9 @@ Item {
             panelSabianos.numSign=app.currentJson.ph.h1.is
             panelSabianos.numDegree=parseInt(app.currentJson.ph.h1.rsgdeg - 1)
             panelSabianos.loadData()
-            panelSabianos.state='show'
+            if(apps.sabianosAutoShow){
+                panelSabianos.state='show'
+            }
             panelAspTransList.state='hide'
 //        } catch(e) {
 //            //alert(e); // error in the above string (in this case, yes)!

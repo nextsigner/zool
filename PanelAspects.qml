@@ -15,15 +15,6 @@ Rectangle {
             CellColumnAsp{planet: index;cellWidth: r.cellWidth; objectName: 'cellRowAsp_'+index}
         }
     }
-    MouseArea{
-        anchors.fill: r
-        enabled: sweg.state!==sweg.aStates[2]
-        onClicked: {
-            sweg.state=sweg.aStates[2]
-            //swegz.sweg.state=sweg.aStates[2]
-        }
-        //Rectangle{anchors.fill: parent; color: 'red';opacity:0.5}
-    }
     Button{
         id: bot
         width: r.cellWidth

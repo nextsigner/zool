@@ -84,6 +84,7 @@ Rectangle {
             Comps.ControlsTime{
                 id: controlTimeFecha
                 gmt: 0
+                KeyNavigation.tab: tiCiudad.t
                 onCurrentDateChanged: {
                     //log.l('PanelVN CurrenDate: '+currentDate.toString())
                     //log.visible=true
@@ -97,21 +98,21 @@ Rectangle {
                 }
             }
         }
+        Item{width: 1;height: app.fs*0.25}
         Comps.XTextInput{
             id: tiCiudad
             width: tiNombre.width
             t.font.pixelSize: app.fs*0.65;
-            KeyNavigation.tab: tiGMT.t
+            KeyNavigation.tab: botCrear.visible&&botCrear.opacity===1.0?botCrear:botClear
             t.maximumLength: 50
             onTextChanged: {
                 tSearch.restart()
                 t.color='white'
             }
             Text {
-                text: 'Lugar'
+                text: 'Lugar, ciudad, provincia,\nregión y/o país de nacimiento'
                 font.pixelSize: app.fs*0.5
                 color: 'white'
-                //anchors.horizontalCenter: parent.horizontalCenter
                 anchors.bottom: parent.top
             }
         }
