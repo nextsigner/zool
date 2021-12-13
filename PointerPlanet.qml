@@ -34,14 +34,15 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.horizontalCenter
             anchors.rightMargin: r.width*0.5//0-(r.parent.parent.planetSize+apps.pointerLineWidth)
-            Rectangle{
-                width: 20
-                height: 60
-                color: '#ff8833'
-                opacity: 0.5
-                anchors.horizontalCenter: parent.left
-                anchors.verticalCenter: parent.top
-            }
+            //scale: 2.0-sweg.xs*0.5
+//            Rectangle{
+//                width: 20
+//                height: 60
+//                color: '#ff8833'
+//                opacity: 0.5
+//                anchors.horizontalCenter: parent.left
+//                anchors.verticalCenter: parent.top
+//            }
             Rectangle{
                 width: col.width+app.fs
                 height: col.height+app.fs
@@ -53,6 +54,7 @@ Item {
                 //visible: false
                 anchors.horizontalCenter: parent.left
                 anchors.verticalCenter: parent.top
+                //scale: (6-sweg.z1)*0.1
                 Column{
                     id: col
                     spacing: app.fs*0.5
