@@ -62,66 +62,68 @@ Item{
         if(selected)housesCircle.currentHouse=objData.ih
     }
 
-    PointerPlanet{
-        id: pointerPlanet
-        is:r.is
-        gdeg: objData.g
-        mdeg: objData.m
-        rsgdeg:objData.rsg
-        ih:objData.ih
-        expand: r.selected
-        iconoSignRot: img.rotation
-        p: r.numAstro
-        opacity: r.selected?1.0:0.0
-        //z:co1.z+1
-    }
+
     Rectangle{
         id: xIcon
-        width: !selected?r.fs*0.85:r.fs*1.4
+        //width: !selected?r.fs*0.85:r.fs*1.4
+        width: r.fs*0.85
         height: width
         anchors.left: parent.left
         //anchors.leftMargin: !r.selected?0:width*0.5
         anchors.verticalCenter: parent.verticalCenter
         color: r.selected?apps.backgroundColor:'transparent'
         radius: width*0.5
+        PointerPlanet{
+            id: pointerPlanet
+            is:r.is
+            gdeg: objData.g
+            mdeg: objData.m
+            rsgdeg:objData.rsg
+            ih:objData.ih
+            expand: r.selected
+            iconoSignRot: img.rotation
+            p: r.numAstro
+            opacity: r.selected?1.0:0.0
+            //anchors.centerIn: xIcon
+            //z:co1.z+1
+        }
         MouseArea{
             id: maSig
             property int vClick: 0
             anchors.fill: parent
             acceptedButtons: Qt.AllButtons;
             hoverEnabled: true
-//            onWheel: {
-//                //apps.enableFullAnimation=false
-//                if(wheel.angleDelta.y>=0){
-//                    if(reSizeAppsFs.fs<app.fs*2){
-//                        reSizeAppsFs.fs+=reSizeAppsFs.fs*0.1
-//                    }else{
-//                        reSizeAppsFs.fs=app.fs
-//                    }
-//                }else{
-//                    if(reSizeAppsFs.fs>app.fs){
-//                        reSizeAppsFs.fs-=reSizeAppsFs.fs*0.1
-//                    }else{
-//                        reSizeAppsFs.fs=app.fs*2
-//                    }
-//                }
-//                reSizeAppsFs.restart()
-//            }
+            onWheel: {
+                //apps.enableFullAnimation=false
+                if (wheel.modifiers & Qt.ControlModifier) {
+                    if(wheel.angleDelta.y>=0){
+                            pointerPlanet.pointerRot+=5
+                    }else{
+                            pointerPlanet.pointerRot-=5
+                    }
+                }else{
+                    if(wheel.angleDelta.y>=0){
+    //                    if(reSizeAppsFs.fs<app.fs*2){
+    //                        reSizeAppsFs.fs+=reSizeAppsFs.fs*0.1
+    //                    }else{
+    //                        reSizeAppsFs.fs=app.fs
+    //                    }
+                        pointerPlanet.pointerRot+=45
+                    }else{
+    //                    if(reSizeAppsFs.fs>app.fs){
+    //                        reSizeAppsFs.fs-=reSizeAppsFs.fs*0.1
+    //                    }else{
+    //                        reSizeAppsFs.fs=app.fs*2
+    //                    }
+                        pointerPlanet.pointerRot-=45
+                    }
+                }
+                //reSizeAppsFs.restart()
+            }
             onEntered: {
                 vClick=0
                 r.parent.cAs=r
             }
-//            Timer{
-//                id: reSizeAppsFs
-//                running: false
-//                repeat: false
-//                interval: 500
-//                property int fs: app.fs
-//                onTriggered: {
-//                    apps.sweFs=fs
-//                    //Qt.quit()
-//                }
-//            }
             onExited: {
                 vClick=0
                 //r.parent.cAs=r.parent

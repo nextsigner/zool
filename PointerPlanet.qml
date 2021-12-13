@@ -19,18 +19,29 @@ Item {
     property bool expand: false
     property int wtc: (sweg.fs*0.5)/(sweg.xs*0.5) //width of each circle de triple circle
     property int p: -1
+    property alias pointerRot: eje.rotation
     Rectangle{
+        id: eje
         width: r.width
-        height: 8
+        height: width
         color: 'transparent'
-        anchors.verticalCenter: parent.verticalCenter
+        anchors.centerIn: parent
         Rectangle{
-            width: parent.width*0.5
+            width: app.fs*6
             height: apps.pointerLineWidth
             color: apps.pointerLineColor
+            //anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-            anchors.left: parent.left
-            anchors.leftMargin: r.parent.parent.planetSize+apps.pointerLineWidth
+            anchors.right: parent.horizontalCenter
+            anchors.rightMargin: r.width*0.5//0-(r.parent.parent.planetSize+apps.pointerLineWidth)
+            Rectangle{
+                width: 20
+                height: 60
+                color: '#ff8833'
+                opacity: 0.5
+                anchors.horizontalCenter: parent.left
+                anchors.verticalCenter: parent.top
+            }
             Rectangle{
                 width: col.width+app.fs
                 height: col.height+app.fs
@@ -38,16 +49,44 @@ Item {
                 border.width: 3
                 border.color: apps.pointerLineColor
                 radius: app.fs*0.5
-                rotation: r.iconoSignRot
-                anchors.right: parent.right
-                anchors.rightMargin: parent.height*0.5
-                anchors.verticalCenter: parent.verticalCenter
+                rotation: r.iconoSignRot-eje.rotation
+                //visible: false
+                anchors.horizontalCenter: parent.left
+                anchors.verticalCenter: parent.top
                 Column{
                     id: col
+                    spacing: app.fs*0.5
                     anchors.centerIn: parent
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
+                        Rectangle{
+                            width: app.fs*2
+                            height: width
+                            radius: width*0.5
+                            color: apps.fontColor
+                            border.width: 2
+                            border.color: apps.backgroundColor
+                            anchors.verticalCenter: parent.verticalCenter
+                            Image {
+                                id: img0
+                                source: "./resources/imgs/planetas/"+app.planetasRes[r.p]+".svg"
+                                width: parent.width*0.8
+                                height: width
+                                anchors.centerIn: parent
+                                //rotation: r.iconoSignRot + 60 - r.rotation
+                                antialiasing: true
+                                visible: false
+                            }
+                            ColorOverlay {
+                                id: co0
+                                anchors.fill: img0
+                                source: img0
+                                color: apps.backgroundColor
+                                //rotation: img1.rotation
+                                antialiasing: true
+                            }
+                        }
                         Text{
                             text: app.planetas[r.p]+' en '+app.signos[r.is]
                             font.pixelSize: app.fs
@@ -87,7 +126,7 @@ Item {
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
                         Text{
-                            text: 'En el grado °'+r.gdeg+'\''+r.mdeg+' Casa '
+                            text: 'En el grado °'+r.rsgdeg+'\''+r.mdeg+' Casa '
                             font.pixelSize: app.fs
                             color: apps.backgroundColor
                             anchors.verticalCenter: parent.verticalCenter
@@ -132,8 +171,9 @@ Item {
                 width: apps.pointerLineWidth*4
                 height: width
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.left: parent.left
-                anchors.leftMargin: 0-width*0.5
+                anchors.right: parent.right
+                //anchors.leftMargin: 0-width*0.5
+                rotation: 180
                 antialiasing: true
                 onPaint:{
                     var ctx = canvasSen.getContext('2d');
