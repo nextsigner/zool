@@ -41,7 +41,7 @@ Item{
     ]
     Repeater{
         model: app.planetasRes
-        XAs{fs:r.planetSize;astro:modelData;numAstro: index}
+        XAsV2{fs:r.planetSize;astro:modelData;numAstro: index}
     }
     function pressed(o){
         if(app.currentPlanetIndex!==o.numAstro){

@@ -10,6 +10,7 @@ Item {
     anchors.centerIn: parent
     opacity: 0.0
     clip: true
+    property real xs: scaler.xScale
     property int  verticalOffSet: 0//xDataBar.state==='show'?sweg.fs*1.25:0
     property int fs: r.objectName==='sweg'?apps.sweFs*1.5:apps.sweFs*3
     property int w: fs

@@ -212,6 +212,9 @@ AppWin {
         property color xAsBackgroundColorBack: 'white'
         property real xAsBackgroundOpacityBack: 0.5
         property bool anColorXAs: false
+        property bool anRotation3CXAs: false
+        property color pointerLineColor: 'red'
+        property int pointerLineWidth: 4
 
         //Asp
         property int aspLineWidth: 6
