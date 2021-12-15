@@ -215,6 +215,8 @@ AppWin {
         property bool anRotation3CXAs: false
         property color pointerLineColor: 'red'
         property int pointerLineWidth: 4
+        property bool xAsShowIcon: false
+
 
         //Asp
         property int aspLineWidth: 6

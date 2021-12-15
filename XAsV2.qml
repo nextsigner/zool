@@ -59,14 +59,17 @@ Item{
     ]
     onSelectedChanged: {
         if(selected)app.uSon=''+app.planetasRes[r.numAstro]+'_'+app.objSignsNames[r.is]+'_'+objData.ih
-        if(selected)housesCircle.currentHouse=objData.ih
+        if(selected){
+            pointerPlanet.setPointerFs()
+            housesCircle.currentHouse=objData.ih
+        }
     }
 
 
     Rectangle{
         id: xIcon
         //width: !selected?r.fs*0.85:r.fs*1.4
-        width: r.fs*0.85
+        width: !apps.xAsShowIcon?r.fs*0.85:r.fs*2
         height: width
         anchors.left: parent.left
         //anchors.leftMargin: !r.selected?0:width*0.5
@@ -84,8 +87,6 @@ Item{
             iconoSignRot: img.rotation
             p: r.numAstro
             opacity: r.selected?1.0:0.0
-            //anchors.centerIn: xIcon
-            //z:co1.z+1
         }
         MouseArea{
             id: maSig
@@ -159,7 +160,7 @@ Item{
         }
         Image {
             id: img
-            source: app.planetasRes[r.numAstro]?"./resources/imgs/planetas/"+app.planetasRes[r.numAstro]+".svg":""
+            source: app.planetasRes[r.numAstro]?"./resources/imgs/planetas/"+app.planetasRes[r.numAstro]+(apps.xAsShowIcon?"_i.png":".svg"):""
             //width: r.parent.parent.objectName==='sweg'?!r.selected?parent.width:parent.width*2:!r.selected?parent.width:parent.width*1.25
             width: parent.width*0.8
             height: width
@@ -191,6 +192,7 @@ Item{
             color: r.selected?apps.fontColor:apps.xAsColor
             rotation: img.rotation
             antialiasing: true
+            visible: !apps.xAsShowIcon
         }
 
     }

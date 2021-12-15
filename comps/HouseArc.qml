@@ -358,11 +358,23 @@ Item {
     }
     Timer{
         id: tc
-        running: r.selected
+        running: r.selected && !apps.xAsShowIcon
         repeat: true
         interval: 350
         onTriggered: {
             canvas.opacity=canvas.opacity===1.0?0.65:1.0
+        }
+    }
+    Timer{
+        id: tc2
+        running: apps.xAsShowIcon
+        repeat: true
+        interval: 350
+        onRunningChanged: {
+            if(!running)canvas.opacity=1.0
+        }
+        onTriggered: {
+            canvas.opacity=0.0
         }
     }
 

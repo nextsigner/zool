@@ -22,30 +22,25 @@ Item {
     property alias pointerRot: eje.rotation
     property int pointerFs: app.fs*5.5
     property real xs: sweg.xs
+    onOpacityChanged: {
+        if(opacity===1.0)setPointerFs()
+    }
     onXsChanged: {
-//        if(xs>=0.5&&xs<0.6)pointerFs=app.fs*5.5
-//        if(xs>=0.6&&xs<0.7)pointerFs=app.fs*5.5/2
-//        if(xs>=0.7&&xs<0.8)pointerFs=app.fs*5.5/2.25
-//        if(xs>=0.8&&xs<0.9)pointerFs=app.fs*5.5/2.5
-//        if(xs>=0.9&&xs<1.0)pointerFs=app.fs*5.5/2.75
-//        if(xs>=1.0&&xs<1.1)pointerFs=app.fs*5.5/3
-//        if(xs>=1.1&&xs<1.2)pointerFs=app.fs*5.5/3.25
-//        if(xs>=1.2&&xs<1.3)pointerFs=app.fs*5.5/3.5
-//        if(xs>=1.3&&xs<1.4)pointerFs=app.fs*5.5/3.75
-//        if(xs>=1.3&&xs<1.4)pointerFs=app.fs*5.5/3.75
-        let f1=0.5
-        let f2=0.6
+        setPointerFs()
+    }
+    function setPointerFs(){
+        let f1=0.4
+        let f2=0.5
         let f3=2.0
-        for(var i=0;i<45;i++){
+        for(var i=0;i<46;i++){
             f1+=0.1
             f2+=0.1
             f3+=0.25
-            if(xs>=f1&&xs<f2){
+            if(r.xs>=f1&&r.xs<f2){
                 pointerFs=app.fs*5.5/f3
                 break
             }
         }
-
     }
     Rectangle{
         id: eje
@@ -102,6 +97,10 @@ Item {
                                 color: apps.backgroundColor
                                 //rotation: img1.rotation
                                 antialiasing: true
+                            }
+                            MouseArea{
+                                anchors.fill: parent
+                                onClicked: apps.xAsShowIcon=!apps.xAsShowIcon
                             }
                         }
                         Text{
