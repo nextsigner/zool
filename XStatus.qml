@@ -47,10 +47,10 @@ Rectangle{
             font.pixelSize: r.height*0.5
             color: 'white'
         }
-        XText {
-            text: '<b>LT:</b> '+(xLayerTouch.visible?'SI':'NO')
-            font.pixelSize: app.fs*0.5
-            color: 'white'
-        }
+//        XText {
+//            text: '<b>LT:</b> '+(xLayerTouch.visible?'SI':'NO')
+//            font.pixelSize: app.fs*0.5
+//            color: 'white'
+//        }
     }
 }

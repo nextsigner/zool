@@ -19,6 +19,8 @@ Item{
     property int m: -1
     property int numAstro: 0
 
+    property var aIcons: [0,1,2,3,4,5,6,7,8,9,12]
+
     property color colorCuerpo: '#ff3300'
 
     state: sweg.state
@@ -69,12 +71,13 @@ Item{
     Rectangle{
         id: xIcon
         //width: !selected?r.fs*0.85:r.fs*1.4
-        width: !apps.xAsShowIcon?r.fs*0.85:r.fs*2
+        width: !apps.xAsShowIcon||r.aIcons.indexOf(r.numAstro)<0?r.fs*0.85:r.fs*2
         height: width
         anchors.left: parent.left
         //anchors.leftMargin: !r.selected?0:width*0.5
+        //anchors.horizontalCenterOffset: apps.xAsShowIcon?0-sweg.fs*0.5:0
         anchors.verticalCenter: parent.verticalCenter
-        color: r.selected?apps.backgroundColor:'transparent'
+        color: !apps.xAsShowIcon?(r.selected?apps.backgroundColor:'transparent'):'transparent'
         radius: width*0.5
         PointerPlanet{
             id: pointerPlanet
@@ -160,15 +163,14 @@ Item{
         }
         Image {
             id: img
-            source: app.planetasRes[r.numAstro]?"./resources/imgs/planetas/"+app.planetasRes[r.numAstro]+(apps.xAsShowIcon?"_i.png":".svg"):""
+            source: app.planetasRes[r.numAstro]?"./resources/imgs/planetas/"+app.planetasRes[r.numAstro]+(apps.xAsShowIcon&&r.aIcons.indexOf(r.numAstro)>=0?"_i.png":".svg"):""
             //width: r.parent.parent.objectName==='sweg'?!r.selected?parent.width:parent.width*2:!r.selected?parent.width:parent.width*1.25
             width: parent.width*0.8
             height: width
-            //x:!r.selected?0:r.parent.width*0.5-img.width*0.5-(apps.showNumberLines?sweg.fs*0.5:0)//+sweg.fs*2
-            //y: (parent.width-width)/2
             rotation: 0-parent.parent.rotation
             antialiasing: true
             anchors.centerIn: parent
+            anchors.horizontalCenterOffset: apps.xAsShowIcon?0-sweg.fs*0.5:0
             Behavior on width {
                 enabled: apps.enableFullAnimation;
                 NumberAnimation{
@@ -189,12 +191,11 @@ Item{
             id: co1
             anchors.fill: img
             source: img
-            color: r.selected?apps.fontColor:apps.xAsColor
+            color: !apps.xAsShowIcon?(r.selected?apps.fontColor:apps.xAsColor):'white'
             rotation: img.rotation
             antialiasing: true
-            visible: !apps.xAsShowIcon
+            visible: !apps.xAsShowIcon||r.aIcons.indexOf(r.numAstro)<0
         }
-
     }
     Image {
         id: imgEarth

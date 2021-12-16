@@ -164,7 +164,7 @@ Rectangle {
                 id: botClear
                 text: 'Limpiar'
                 font.pixelSize: app.fs*0.5
-                opacity:  r.lat!==-100.00||r.lon!==-100.00||tiNombre.text!==''||tiGMT.text!==''||tiCiudad.text!==''?1.0:0.0
+                opacity:  r.lat!==-100.00||r.lon!==-100.00||tiNombre.text!==''||tiCiudad.text!==''?1.0:0.0
                 enabled: opacity===1.0
                 onClicked: {
                     clear()
