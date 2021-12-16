@@ -50,6 +50,13 @@ ApplicationWindow {
         }
     }
     Shortcut{
+        sequence: 'Space'
+        onActivated: {
+            apps.xAsShowIcon=!apps.xAsShowIcon
+        }
+    }
+
+    Shortcut{
         sequence: 'Ctrl+Space'
         onActivated: {
             if(panelZonaMes.state==='show'){

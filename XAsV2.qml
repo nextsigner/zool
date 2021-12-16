@@ -196,4 +196,14 @@ Item{
         }
 
     }
+    Image {
+        id: imgEarth
+        source: "./resources/imgs/planetas/earth.png"
+        width: app.fs*3
+        height: width
+        rotation: -45
+        antialiasing: true
+        anchors.centerIn: parent
+        visible: r.numAstro===0&&apps.xAsShowIcon
+    }
 }

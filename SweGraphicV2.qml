@@ -462,6 +462,8 @@ Item {
         app.currentJson=j
         //signCircle.rot=parseInt(j.ph.h1.gdec)
         signCircle.rot=parseFloat(j.ph.h1.gdec).toFixed(2)
+        //r.earth.rotation=0-(signCircle.rot+parseFloat(j.pc.c0.gdec).toFixed(2))
+        //r.earth.rotation=(0-120)-(signCircle.rot)+parseFloat(j.pc.c0.gdec).toFixed(2)
         ascMcCircle.loadJson(j)
         housesCircle.loadHouses(j)
         planetsCircle.loadJson(j)
