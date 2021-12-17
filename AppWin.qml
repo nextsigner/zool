@@ -59,6 +59,10 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Ctrl+Space'
         onActivated: {
+            if(app.currentPlanetIndex>=0&&app.currentXAs){
+                app.showPointerXAs=!app.showPointerXAs
+                return
+            }
             if(panelZonaMes.state==='show'){
                 panelZonaMes.pause()
                 return
@@ -287,6 +291,10 @@ ApplicationWindow {
                 panelNewVNA.toLeft()
                 return
             }
+            if(app.currentPlanetIndex>=0 && app.currentXAs){
+                app.currentXAs.rot(false)
+                return
+            }
             if(menuBar.expanded&&!xSabianos.visible){
                 menuBar.left()
                 return
@@ -304,14 +312,28 @@ ApplicationWindow {
                 panelNewVNA.toRight()
                 return
             }
+            if(app.currentPlanetIndex>=0 && app.currentXAs){
+                app.currentXAs.rot(true)
+                return
+            }
             if(menuBar.expanded&&!xSabianos.visible){
                 menuBar.right()
                 return
             }
+
             if(xSabianos.visible){
                 xSabianos.toright()
                 return
             }
+
+        }
+    }
+
+    //Restaurar xAs Pointer rotation
+    Shortcut{
+        sequence: 'r'
+        onActivated: {
+            app.currentXAs.restoreRot()
         }
     }
     Shortcut{

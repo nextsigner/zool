@@ -23,6 +23,8 @@ Item{
 
     property color colorCuerpo: '#ff3300'
 
+    property int uRot: 0
+
     state: sweg.state
     states: [
         State {
@@ -64,6 +66,9 @@ Item{
         if(selected){
             pointerPlanet.setPointerFs()
             housesCircle.currentHouse=objData.ih
+            app.currentXAs=r
+            setRot()
+            app.showPointerXAs=true
         }
     }
 
@@ -89,7 +94,7 @@ Item{
             expand: r.selected
             iconoSignRot: img.rotation
             p: r.numAstro
-            opacity: r.selected?1.0:0.0
+            opacity: r.selected&&app.showPointerXAs?1.0:0.0
         }
         MouseArea{
             id: maSig
@@ -170,7 +175,7 @@ Item{
             rotation: 0-parent.parent.rotation
             antialiasing: true
             anchors.centerIn: parent
-            anchors.horizontalCenterOffset: apps.xAsShowIcon?0-sweg.fs*0.5:0
+            //anchors.horizontalCenterOffset: apps.xAsShowIcon?0-sweg.fs*0.5:0
             Behavior on width {
                 enabled: apps.enableFullAnimation;
                 NumberAnimation{
@@ -206,5 +211,34 @@ Item{
         antialiasing: true
         anchors.centerIn: parent
         visible: r.numAstro===0&&apps.xAsShowIcon
+    }
+    function rot(d){
+        if(d){
+                pointerPlanet.pointerRot+=5
+        }else{
+                pointerPlanet.pointerRot-=5
+        }
+        saveRot(pointerPlanet.pointerRot)
+    }
+    function saveRot(rot){
+        let json=JSON.parse(app.fileData)
+        if(!json.rots){
+            json.rots={}
+        }
+        json.rots['rc'+r.numAstro]=rot
+        let njson=JSON.stringify(json)
+        app.fileData=njson
+        app.currentData=app.fileData
+        unik.setFile(apps.url.replace('file://', ''), app.fileData)
+    }
+    function setRot(){
+        let json=JSON.parse(app.fileData)
+        if(json.rots){
+            r.uRot=json.rots['rc'+r.numAstro]
+            pointerPlanet.pointerRot=r.uRot
+        }
+    }
+    function restoreRot(){
+        pointerPlanet.pointerRot=r.uRot
     }
 }

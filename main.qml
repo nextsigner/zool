@@ -121,6 +121,10 @@ AppWin {
 
     property bool ev: false //Exterior Visible
 
+    //XAs
+    property var currentXAs
+    property bool showPointerXAs: true
+
     property bool sspEnabled: false
 
     onCurrentPlanetIndexChanged: {

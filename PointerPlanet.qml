@@ -8,7 +8,6 @@ Item {
     anchors.centerIn: parent
     z:r.parent.z-1
     rotation: 0-signCircle.rotation
-    //visible: p===0
     property int iconoSignRot: 0
     property int is: -1
     property int gdeg: -1
@@ -54,7 +53,7 @@ Item {
             color: apps.pointerLineColor
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.horizontalCenter
-            anchors.rightMargin: r.width*0.5
+            anchors.rightMargin: apps.xAsShowIcon?r.width*0.5:r.width*0.5+sweg.fs*0.25
             Rectangle{
                 id: rectData
                 width: col.width+r.pointerFs*0.5
@@ -188,7 +187,7 @@ Item {
                 height: width
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                //anchors.leftMargin: 0-width*0.5
+                anchors.rightMargin: 0-width*0.5
                 rotation: 180
                 antialiasing: true
                 onPaint:{
