@@ -104,7 +104,13 @@ Item {
                 origin.y: pinchArea.m_y2
                 xScale: pinchArea.m_zoom2
                 yScale: pinchArea.m_zoom2
+                Behavior on origin.x{NumberAnimation{duration: 2500}}
+                Behavior on origin.y{NumberAnimation{duration: 2500}}
+                Behavior on xScale{NumberAnimation{duration: 2500}}
+                Behavior on yScale{NumberAnimation{duration: 2500}}
             }
+            Behavior on x{NumberAnimation{duration: 2500}}
+            Behavior on y{NumberAnimation{duration: 2500}}
             PinchArea {
                 id: pinchArea
                 anchors.fill: parent
@@ -172,7 +178,7 @@ Item {
                     MouseArea {
                         anchors.fill: parent
                         onDoubleClicked: {
-                            restoreZoom()
+                            centerZoomAndPos()
                         }
                     }
                 }
@@ -530,17 +536,36 @@ Item {
         r.state=r.aStates[currentIndexState]
         //swegz.sweg.state=r.state
     }
-    function restoreZoom(){
+    function centerZoomAndPos(){
         pinchArea.m_x1 = 0
         pinchArea.m_y1 = 0
         pinchArea.m_x2 = 0
         pinchArea.m_y2 = 0
         pinchArea.m_zoom1 = 0.5
         pinchArea.m_zoom2 = 0.5
-        //rect.x = rect.x + (0-r.width)*(1-pinchArea.m_zoom1)
-        //rect.y = rect.y + (0-r.width)*(1-pinchArea.m_zoom1)
-        rect.x = 0//-r.width*3
-        rect.y = 0//-r.width*2.8
-//        pinchArea.update()
+        rect.x = 0
+        rect.y = 0
+    }
+    function setZoomAndPos(zp){
+        pinchArea.m_x1 = zp[0]
+        pinchArea.m_y1 = zp[1]
+        pinchArea.m_x2 = zp[2]
+        pinchArea.m_y2 = zp[3]
+        pinchArea.m_zoom1 = zp[4]
+        pinchArea.m_zoom2 = zp[5]
+        rect.x = zp[6]
+        rect.y = zp[7]
+    }
+    function getZoomAndPos(){
+        let a = []
+        a.push(pinchArea.m_x1)
+        a.push(pinchArea.m_y1)
+        a.push(pinchArea.m_x2)
+        a.push(pinchArea.m_y2)
+        a.push(pinchArea.m_zoom1)
+        a.push(pinchArea.m_zoom2)
+        a.push(rect.x)
+        a.push(rect.y)
+        return a
     }
 }

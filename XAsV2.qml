@@ -68,6 +68,7 @@ Item{
             housesCircle.currentHouse=objData.ih
             app.currentXAs=r
             setRot()
+            setZoomAndPos()
             app.showPointerXAs=true
         }
     }
@@ -231,14 +232,35 @@ Item{
         app.currentData=app.fileData
         unik.setFile(apps.url.replace('file://', ''), app.fileData)
     }
+
+    //Rot
     function setRot(){
         let json=JSON.parse(app.fileData)
-        if(json.rots){
+        if(json.rots&&json.rots['rc'+r.numAstro]){
             r.uRot=json.rots['rc'+r.numAstro]
             pointerPlanet.pointerRot=r.uRot
         }
     }
     function restoreRot(){
         pointerPlanet.pointerRot=r.uRot
+    }
+
+    //Zoom And Pos
+    function saveZoonAndPos(){
+        let json=JSON.parse(app.fileData)
+        if(!json.zoompos){
+            json.zoompos={}
+        }
+        json.zoompos['zpc'+r.numAstro]=sweg.getZoomAndPos()
+        let njson=JSON.stringify(json)
+        app.fileData=njson
+        app.currentData=app.fileData
+        unik.setFile(apps.url.replace('file://', ''), app.fileData)
+    }
+    function setZoomAndPos(){
+        let json=JSON.parse(app.fileData)
+        if(json.zoompos&&json.zoompos['zpc'+r.numAstro]){
+            sweg.setZoomAndPos(json.zoompos['zpc'+r.numAstro])
+        }
     }
 }

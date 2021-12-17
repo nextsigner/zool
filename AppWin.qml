@@ -329,6 +329,16 @@ ApplicationWindow {
         }
     }
 
+    //Guardar Zoom y Pos
+    Shortcut{
+        sequence: 'Ctrl+Shift+r'
+        onActivated: {
+            if(app.currentPlanetIndex>=0&&app.currentXAs){
+                app.currentXAs.saveZoonAndPos()
+                return
+            }
+        }
+    }
     //Restaurar xAs Pointer rotation
     Shortcut{
         sequence: 'r'
