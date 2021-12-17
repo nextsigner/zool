@@ -30,6 +30,8 @@ Item {
     property bool enableBackgroundColor: apps.enableBackgroundColor
     property string currentHsys: apps.currentHsys
 
+    property bool enableAnZoomAndPos: true
+
     state: apps.swegMod//aStates[0]
     states: [
         State {//PS
@@ -83,6 +85,9 @@ Item {
         //swegz.sweg.state=state
         apps.swegMod=state
     }
+    onEnableAnZoomAndPosChanged: {
+        tEnableAnZoomAndPos.restart()
+    }
     Behavior on opacity{NumberAnimation{duration: 1500}}
     Behavior on verticalOffSet{NumberAnimation{duration: app.msDesDuration}}
     Item{id: xuqp}
@@ -104,13 +109,13 @@ Item {
                 origin.y: pinchArea.m_y2
                 xScale: pinchArea.m_zoom2
                 yScale: pinchArea.m_zoom2
-                Behavior on origin.x{NumberAnimation{duration: 2500}}
-                Behavior on origin.y{NumberAnimation{duration: 2500}}
-                Behavior on xScale{NumberAnimation{duration: 2500}}
-                Behavior on yScale{NumberAnimation{duration: 2500}}
+                Behavior on origin.x{NumberAnimation{duration: r.enableAnZoomAndPos?2500:1}}
+                Behavior on origin.y{NumberAnimation{duration: r.enableAnZoomAndPos?2500:1}}
+                Behavior on xScale{NumberAnimation{duration: r.enableAnZoomAndPos?2500:1}}
+                Behavior on yScale{NumberAnimation{duration: r.enableAnZoomAndPos?2500:1}}
             }
-            Behavior on x{NumberAnimation{duration: 2500}}
-            Behavior on y{NumberAnimation{duration: 2500}}
+            Behavior on x{NumberAnimation{duration: r.enableAnZoomAndPos?2500:1}}
+            Behavior on y{NumberAnimation{duration: r.enableAnZoomAndPos?2500:1}}
             PinchArea {
                 id: pinchArea
                 anchors.fill: parent
@@ -141,6 +146,13 @@ Item {
                         m_zoom2 = newZoom
                     }
                 }
+                Timer{
+                    id: tEnableAnZoomAndPos
+                    running: false
+                    repeat: false
+                    interval: 1500
+                    onTriggered: r.enableAnZoomAndPos=true
+                }
                 MouseArea {
                     //z:parent.z-1
                     id: dragArea
@@ -149,6 +161,7 @@ Item {
                     drag.target: rect
                     drag.filterChildren: true
                     onWheel: {
+                        r.enableAnZoomAndPos=false
                         pinchArea.m_x1 = scaler.origin.x
                         pinchArea.m_y1 = scaler.origin.y
                         pinchArea.m_zoom1 = scaler.xScale

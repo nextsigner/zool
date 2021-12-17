@@ -71,11 +71,17 @@ ApplicationWindow {
             //swegz.sweg.nextState()
         }
     }
+    //Seleccionar Planeta
     Shortcut{
         sequence: 'Ctrl+0'
         onActivated: {
-            panelDataBodies.currentIndex=-1
-            //app.lock=!app.lock
+            app.currentPlanetIndex=0
+        }
+    }
+    Shortcut{
+        sequence: 'Ctrl+1'
+        onActivated: {
+            app.currentPlanetIndex=1
         }
     }
     Shortcut{
@@ -334,7 +340,16 @@ ApplicationWindow {
         sequence: 'Ctrl+Shift+r'
         onActivated: {
             if(app.currentPlanetIndex>=0&&app.currentXAs){
-                app.currentXAs.saveZoonAndPos()
+                if(app.currentPlanetIndex===14||app.currentPlanetIndex===15){
+                    if(app.currentPlanetIndex===14){
+                        app.currentXAs.saveZoomAndPos('mc')
+                    }
+                    if(app.currentPlanetIndex===15){
+                        app.currentXAs.saveZoomAndPos('asc')
+                    }
+                }else{
+                    app.currentXAs.saveZoomAndPos()
+                }
                 return
             }
         }

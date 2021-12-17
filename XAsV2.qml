@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
-
+import "./comps" as Comps
 Item{
     id: r
     //width: !selected?(planetsCircle.expand?parent.width-(r.fs*2*objData.p)-r.fs:parent.width-(r.fs*1.5*objData.p))-r.fs:parent.width//-sweg.fs*2-(r.fs*1.5*(planetsCircle.totalPosX-1))
@@ -73,6 +73,24 @@ Item{
         }
     }
 
+
+    Rectangle{
+        width: r.width*0.5-xIcon.width
+        height: app.fs*0.25
+        color: 'transparent'
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        visible: apps.xAsShowIcon
+        anchors.leftMargin: xIcon.width*0.5
+        Comps.XSignal{
+            width: parent.width
+            anchors.verticalCenter: parent.verticalCenter
+            height: app.fs*6
+            numAstro: r.numAstro
+            //visible: r.numAstro===0
+            visible: r.selected
+        }
+    }
 
     Rectangle{
         id: xIcon
@@ -246,7 +264,7 @@ Item{
     }
 
     //Zoom And Pos
-    function saveZoonAndPos(){
+    function saveZoomAndPos(){
         let json=JSON.parse(app.fileData)
         if(!json.zoompos){
             json.zoompos={}

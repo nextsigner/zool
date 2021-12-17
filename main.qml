@@ -279,7 +279,7 @@ AppWin {
 
         property string jsonsFolder: documentsPath
 
-        onShowLupaChanged: sweg.restoreZoom()
+        onShowLupaChanged: sweg.centerZoomAndPos()
         onEnableBackgroundColorChanged: {
             if(enableBackgroundColor){
                 ip.hideSS()

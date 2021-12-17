@@ -85,6 +85,9 @@ Item {
             //anchors.rightMargin: sweg.fs
             onSelectedChanged:{
                 app.uSon='asc_'+app.objSignsNames[r.isAsc]+'_1'
+                setZoomAndPos('asc')
+                app.currentXAs=r
+                app.showPointerXAs=true
             }
             state: sweg.state
             states: [
@@ -246,6 +249,9 @@ Item {
             //opacity: app.currentPlanetIndex===16&&anchors.rightMargin!==0?1.0:0.0
             onSelectedChanged:{
                 app.uSon='mc_'+app.objSignsNames[r.isMC]+'_10'
+                setZoomAndPos('mc')
+                app.currentXAs=r
+                app.showPointerXAs=true
             }
             Behavior on anchors.rightMargin{enabled: apps.enableFullAnimation;NumberAnimation{duration: 500;easing.type: Easing.InOutQuad}}
             Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: 500;easing.type: Easing.InOutQuad}}
@@ -372,5 +378,22 @@ Item {
         app.uMcDegree=o1.rsgdeg
         ejeMC.rotation=degs-360-o1.gdeg
         xIconMC.rotation=0-ejeMC.rotation
+    }
+    function saveZoomAndPos(eje){
+        let json=JSON.parse(app.fileData)
+        if(!json.zoompos){
+            json.zoompos={}
+        }
+        json.zoompos[''+eje]=sweg.getZoomAndPos()
+        let njson=JSON.stringify(json)
+        app.fileData=njson
+        app.currentData=app.fileData
+        unik.setFile(apps.url.replace('file://', ''), app.fileData)
+    }
+    function setZoomAndPos(eje){
+        let json=JSON.parse(app.fileData)
+        if(json.zoompos&&json.zoompos[''+eje]){
+            sweg.setZoomAndPos(json.zoompos[''+eje])
+        }
     }
 }
