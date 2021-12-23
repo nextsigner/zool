@@ -53,21 +53,41 @@ Rectangle {
         }
 
     }
-    Timer{
-        running: true
-        repeat: false
-        interval: 3000
-        property string url
-        onTriggered: JS.getRD(url, r)
-        Component.onCompleted: {
-            if(unik.fileExist('/home/ns/nsp/uda/nextsigner.github.io/zool/panelremoto/main.qml')){
-                url='file:////home/ns/nsp/uda/nextsigner.github.io/zool/panelremoto/main.qml'
-                panelRemoto.state='show'
+    Loader{
+        id: l
+        anchors.fill: parent
+        onStatusChanged: {
+            let lp=unik.getPath(5)+'/comps/UPanelRemoto.qml'
+            if(status==Loader.Error){
+                source='file:///'+lp
+                log.ls('Loader local!', 0, 500)
             }else{
-                url='https://github.com/nextsigner/nextsigner.github.io/raw/master/zool/panelremoto/main.qml'
+                if(status==Loader.Ready){
+                    log.ls('Loader! remoto', 0, 500)
+                }
             }
         }
+        Component.onCompleted: {
+            let lpr='https://github.com/nextsigner/nextsigner.github.io/raw/master/comps/UPanelRemoto.qml'
+            source=lpr
+        }
     }
+
+    //    Timer{
+    //        running: true
+    //        repeat: false
+    //        interval: 3000
+    //        property string url
+    //        onTriggered: JS.getRD(url, r)
+    //        Component.onCompleted: {
+    //            if(unik.fileExist('/home/ns/nsp/uda/nextsigner.github.io/zool/panelremoto/main.qml')){
+    //                url='file:////home/ns/nsp/uda/nextsigner.github.io/zool/panelremoto/main.qml'
+    //                panelRemoto.state='show'
+    //            }else{
+    //                url='https://github.com/nextsigner/nextsigner.github.io/raw/master/zool/panelremoto/main.qml'
+    //            }
+    //        }
+    //    }
 
     function setData(data, isData){
         if(isData){

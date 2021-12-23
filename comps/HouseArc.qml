@@ -99,6 +99,9 @@ Item {
     onSelectedChanged: {
         if(!selected)canvas.opacity=0.5
     }
+    onWgChanged:{
+        canvas.opacity=0.5
+    }
     Behavior on opacity{enabled: apps.enableFullAnimation;
         NumberAnimation{duration: r.opacitySpeed}
     }

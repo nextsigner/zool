@@ -52,6 +52,12 @@ Rectangle{
         taLog.text+=d+'\n'
         flLog.contentY=taLog.contentHeight-r.height
     }
+    function ls(d, x, w){
+        taLog.text+=d+'\n'
+        flLog.contentY=taLog.contentHeight-r.height
+        r.visible=true
+        r.width=w
+    }
     function clear(){
         taLog.clear()
     }

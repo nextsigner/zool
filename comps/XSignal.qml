@@ -13,6 +13,7 @@ Item {
             id: rep
             model: 30
             Rectangle{
+                id: xSen
                 width: r.width/rep.model//.length
                 height: r.height//ancho de señal no afecta
                 //border.width: 1
@@ -20,10 +21,15 @@ Item {
                 color: 'transparent'
                 anchors.verticalCenter: parent.verticalCenter
                 onOpacityChanged: if(opacity===0.0)tShow.restart()
+                property int dur: 250
+                Behavior on opacity{NumberAnimation{id: na1;duration: xSen.dur}}
                 Timer{
                     id: tShow
                     interval: 1000
-                    onTriggered: parent.opacity=1.0
+                    onTriggered: {
+                        xSen.dur=250
+                        parent.opacity=1.0
+                    }
                 }
                 XEmisor{
                     id: emisor1
@@ -60,8 +66,10 @@ Item {
         property int ce: 0
         onTriggered: {
             if(row.children[ce].opacity===1.0){
+                //row.children[ce].dur=250
                 row.children[ce].opacity=0.0
             }else{
+                //row.children[ce].dur=10
                 row.children[ce].opacity=1.0
             }
             if(ce<rep.model){

@@ -5,13 +5,16 @@ import "./comps" as Comps
 
 Item {
     id: r
-    width: !app.ev?parent.height*2-app.fs*4:housesCircleBack.width-housesCircleBack.extraWidth-fs
+    width: !app.ev?parent.height*2-app.fs*6:housesCircleBack.width-housesCircleBack.extraWidth-fs
     height: width
     anchors.centerIn: parent
     opacity: 0.0
     clip: true
+    property bool zoomAndPosCentered: pinchArea.m_x1===0 && pinchArea.m_y1===0 && pinchArea.m_y2===0 && pinchArea.m_x2===0 && pinchArea.m_zoom1===0.5 && pinchArea.m_zoom2===0.5 && pinchArea.m_max===6 && pinchArea.m_min===0.5
     property real xs: scaler.xScale
     property real z1: pinchArea.m_zoom1
+    property var uZp
+
     property int  verticalOffSet: 0//xDataBar.state==='show'?sweg.fs*1.25:0
     property int fs: r.objectName==='sweg'?apps.sweFs*1.5:apps.sweFs*3
     property int w: fs
@@ -119,6 +122,7 @@ Item {
             PinchArea {
                 id: pinchArea
                 anchors.fill: parent
+
                 property real m_x1: 0
                 property real m_y1: 0
                 property real m_y2: 0
@@ -560,6 +564,7 @@ Item {
         rect.y = 0
     }
     function setZoomAndPos(zp){
+        r.uZp=zp
         pinchArea.m_x1 = zp[0]
         pinchArea.m_y1 = zp[1]
         pinchArea.m_x2 = zp[2]

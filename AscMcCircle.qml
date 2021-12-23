@@ -64,7 +64,7 @@ Item {
     ]
     Rectangle{
         id: ejeAsc
-        width: sweg.objSignsCircle.width
+        width: sweg.objSignsCircle.width//+sweg.fs
         height: 1
         anchors.centerIn: parent
         color: 'transparent'
@@ -72,22 +72,24 @@ Item {
         Rectangle{
             id: xIconAsc
             property bool selected: app.currentPlanetIndex===15
-            width: selected?sweg.fs*2:sweg.fs
+            width: sweg.fs
             height: width
             radius: width*0.5
-            color: 'black'
+            color: selected?apps.backgroundColor:apps.fontColor
             border.width: sweg.objHousesCircle.wb
             border.color: co.color
             antialiasing: true
             anchors.verticalCenter: parent.verticalCenter
-            anchors.verticalCenterOffset: 0
+            anchors.verticalCenterOffset: 0-sweg.fs*2
             anchors.right: parent.left
-            //anchors.rightMargin: sweg.fs
+            anchors.rightMargin: 0+sweg.fs
             onSelectedChanged:{
-                app.uSon='asc_'+app.objSignsNames[r.isAsc]+'_1'
-                setZoomAndPos('asc')
-                app.currentXAs=r
-                app.showPointerXAs=true
+                if(selected){
+                    app.uSon='asc_'+app.objSignsNames[r.isAsc]+'_1'
+                    setZoomAndPos('asc')
+                    app.currentXAs=r
+                    app.showPointerXAs=true
+                }
             }
             state: sweg.state
             states: [
@@ -95,33 +97,33 @@ Item {
                     name: sweg.aStates[0]
                     PropertyChanges {
                         target: xIconAsc
-                        anchors.rightMargin: !xIconAsc.selected?0+sweg.fs:0-sweg.width*0.5-sweg.fs*0.25
-                        anchors.verticalCenterOffset: !xIconAsc.selected?0-sweg.fs*2:0
-
+                        //anchors.rightMargin: !xIconAsc.selected?0+sweg.fs:0-sweg.width*0.5-sweg.fs*0.25
+                        //anchors.verticalCenterOffset: !xIconAsc.selected?0-sweg.fs*2:0
                     }
                 },
                 State {
                     name: sweg.aStates[1]
                     PropertyChanges {
                         target: xIconAsc
-                        anchors.rightMargin: app.currentPlanetIndex===14?0- housesCircle.width*0.5-xIconAsc.width*0.5-sweg.fs*1.5:0+sweg.fs
-                        //anchors.rightMargin: !xIconAsc.selected?0:0-sweg.width*0.5-sweg.fs*0.25
-                        anchors.verticalCenterOffset: !xIconAsc.selected?0-sweg.fs*2:0
+                        //anchors.rightMargin: app.currentPlanetIndex===14?0- housesCircle.width*0.5-xIconAsc.width*0.5-sweg.fs*1.5:0+sweg.fs
+                        //anchors.verticalCenterOffset: !xIconAsc.selected?0-sweg.fs*2:0
                     }
                 },
                 State {
                     name: sweg.aStates[2]
                     PropertyChanges {
                         target: xIconAsc
-                        anchors.rightMargin: !xIconAsc.selected?0+sweg.fs:0+sweg.fs//*0.25
-                        //anchors.rightMargin: !xIconAsc.selected?0:0-sweg.width*0.5-sweg.fs*0.25
-                        anchors.verticalCenterOffset: !xIconAsc.selected?0-sweg.fs*2:0
+                        //anchors.rightMargin: !xIconAsc.selected?0+sweg.fs:0+sweg.fs//*0.25
+                        //anchors.verticalCenterOffset: !xIconAsc.selected?0-sweg.fs*2:0
                     }
                 }
             ]
             SequentialAnimation on color {
-                running: true
+                running: xIconAsc.selected
                 loops: Animation.Infinite
+                onRunningChanged: {
+                    if(!running)co.color=apps.backgroundColor
+                }
                 PropertyAnimation {
                     target: co;
                     property: "color"
@@ -145,13 +147,13 @@ Item {
                 source: "./resources/imgs/signos/"+r.isAsc+".svg"
                 width: parent.width*0.65
                 height: width
-                anchors.centerIn: parent                
+                anchors.centerIn: parent
             }
             ColorOverlay {
                 id: co
                 anchors.fill: img
                 source: img
-                color: 'red'
+                color: apps.backgroundColor
             }
             MouseArea{
                 anchors.fill: parent
@@ -236,22 +238,23 @@ Item {
         Rectangle{
             id: xIconMC
             property bool selected: app.currentPlanetIndex===16
-            width: selected?sweg.fs*2:sweg.fs
+            width: sweg.fs
             height: width
             radius: width*0.5
-            color: 'black'
+            color: selected?apps.backgroundColor:apps.fontColor
             border.width: sweg.objHousesCircle.wb
             border.color: co2.color
             antialiasing: true
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.left
-            anchors.rightMargin: 0
-            //opacity: app.currentPlanetIndex===16&&anchors.rightMargin!==0?1.0:0.0
+            anchors.rightMargin: app.fs*1.25
             onSelectedChanged:{
-                app.uSon='mc_'+app.objSignsNames[r.isMC]+'_10'
-                setZoomAndPos('mc')
-                app.currentXAs=r
-                app.showPointerXAs=true
+                if(selected){
+                    app.uSon='mc_'+app.objSignsNames[r.isMC]+'_10'
+                    setZoomAndPos('mc')
+                    app.currentXAs=r
+                    app.showPointerXAs=true
+                }
             }
             Behavior on anchors.rightMargin{enabled: apps.enableFullAnimation;NumberAnimation{duration: 500;easing.type: Easing.InOutQuad}}
             Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: 500;easing.type: Easing.InOutQuad}}
@@ -261,27 +264,30 @@ Item {
                     name: sweg.aStates[0]
                     PropertyChanges {
                         target: xIconMC
-                        anchors.rightMargin: !xIconMC.selected?0:0-sweg.width*0.5-sweg.fs
-                    }                   
+                        //anchors.rightMargin: !xIconMC.selected?0:0-sweg.width*0.5-sweg.fs
+                    }
                 },
                 State {
                     name: sweg.aStates[1]
                     PropertyChanges {
                         target: xIconMC
-                        anchors.rightMargin: !xIconMC.selected?0:0-sweg.width*0.5+sweg.fs*0.5
+                        //anchors.rightMargin: !xIconMC.selected?0:0-sweg.width*0.5+sweg.fs*0.5
                     }
                 },
                 State {
                     name: sweg.aStates[2]
                     PropertyChanges {
                         target: xIconMC
-                        anchors.rightMargin: !xIconMC.selected?0+sweg.fs*0.5:0-sweg.width*0.5-sweg.fs*0.5
+                        //anchors.rightMargin: !xIconMC.selected?0+sweg.fs*0.5:0-sweg.width*0.5-sweg.fs*0.5
                     }
                 }
             ]
             SequentialAnimation on color {
-                running: true
+                running: xIconMC.selected
                 loops: Animation.Infinite
+                onRunningChanged: {
+                    if(!running)co2.color=apps.backgroundColor
+                }
                 PropertyAnimation {
                     target: co2;
                     property: "color"
@@ -317,7 +323,7 @@ Item {
                 id: co2
                 anchors.fill: img2
                 source: img2
-                color: 'red'
+                color: apps.backgroundColor
             }
             Text{
                 text: 'MC '+app.signos[r.isMC]

@@ -200,6 +200,9 @@ AppWin {
         property bool showSWEZ: true
         property bool showDec: false
 
+        //Paneles
+        property string panelRemotoState: 'show'
+
         //Houses
         property string defaultHsys: 'T'
         property string currentHsys: 'T'
@@ -377,11 +380,8 @@ AppWin {
                 height: parent.height
                 Item{
                     anchors.fill: parent
+                    PanelRemotoV2{id: panelRemoto;}
                     PanelSabianos{id: panelSabianos;}
-                    PanelRemoto{
-                        id: panelRemoto;
-                        state: 'show'
-                    }
                     //PanelZonaMes{id: panelZonaMes;}
                     PanelAspTransList{id: panelAspTransList}
                     PanelRsList{id: panelRsList}

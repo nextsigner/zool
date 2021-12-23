@@ -26,7 +26,7 @@ ApplicationWindow {
                 showSS()
 
             }
-        }        
+        }
     }
 
     Shortcut{
@@ -82,6 +82,76 @@ ApplicationWindow {
         sequence: 'Ctrl+1'
         onActivated: {
             app.currentPlanetIndex=1
+        }
+    }
+    //Seleccionar Planeta
+    Shortcut{
+        sequence: 'Ctrl+2'
+        onActivated: {
+            app.currentPlanetIndex=2
+        }
+    }
+    //Seleccionar Planeta
+    Shortcut{
+        sequence: 'Ctrl+3'
+        onActivated: {
+            app.currentPlanetIndex=3
+        }
+    }
+    //Seleccionar Planeta
+    Shortcut{
+        sequence: 'Ctrl+4'
+        onActivated: {
+            app.currentPlanetIndex=4
+        }
+    }
+    //Seleccionar Planeta
+    Shortcut{
+        sequence: 'Ctrl+5'
+        onActivated: {
+            app.currentPlanetIndex=5
+        }
+    }
+    //Seleccionar Planeta
+    Shortcut{
+        sequence: 'Ctrl+6'
+        onActivated: {
+            app.currentPlanetIndex=6
+        }
+    }
+    //Seleccionar Planeta
+    Shortcut{
+        sequence: 'Ctrl+7'
+        onActivated: {
+            app.currentPlanetIndex=7
+        }
+    }
+    //Seleccionar Planeta
+    Shortcut{
+        sequence: 'Ctrl+8'
+        onActivated: {
+            app.currentPlanetIndex=8
+        }
+    }
+    //Seleccionar Planeta
+    Shortcut{
+        sequence: 'Ctrl+9'
+        onActivated: {
+            app.currentPlanetIndex=9
+        }
+    }
+    //Seleccionar Planeta
+    Shortcut{
+        sequence: 'Ctrl+*'
+        onActivated: {
+            app.currentPlanetIndex=15
+        }
+    }
+    //Seleccionar Planeta
+    Shortcut{
+        sequence: 'Ctrl+/'
+        onActivated: {
+            app.currentPlanetIndex=16
         }
     }
     Shortcut{
@@ -237,7 +307,7 @@ ApplicationWindow {
             if(currentPlanetIndex>-1){
                 currentPlanetIndex--
             }else{
-                currentPlanetIndex=17
+                currentPlanetIndex=16
             }
             //xAreaInteractiva.back()
         }
@@ -282,11 +352,15 @@ ApplicationWindow {
                 }
                 return
             }
-            if(currentPlanetIndex<17){
+            if(currentPlanetIndex<16){
                 currentPlanetIndex++
             }else{
                 currentPlanetIndex=-1
             }
+            //log.visible=true
+            //log.width=xApp.width*0.2
+            //log.l('currentPlanetIndex: '+currentPlanetIndex)
+            //log.l('app.currentPlanetIndex: '+app.currentPlanetIndex)
             //xAreaInteractiva.next()
         }
     }
@@ -340,8 +414,8 @@ ApplicationWindow {
         sequence: 'Ctrl+Shift+r'
         onActivated: {
             if(app.currentPlanetIndex>=0&&app.currentXAs){
-                if(app.currentPlanetIndex===14||app.currentPlanetIndex===15){
-                    if(app.currentPlanetIndex===14){
+                if(app.currentPlanetIndex===16||app.currentPlanetIndex===15){
+                    if(app.currentPlanetIndex===16){
                         app.currentXAs.saveZoomAndPos('mc')
                     }
                     if(app.currentPlanetIndex===15){
@@ -361,6 +435,18 @@ ApplicationWindow {
             app.currentXAs.restoreRot()
         }
     }
+    //Centrar Sweg
+    Shortcut{
+        sequence: 'Ctrl+Shift+Space'
+        onActivated: {
+            if(!sweg.zoomAndPosCentered){
+                sweg.centerZoomAndPos()
+            }else{
+                sweg.setZoomAndPos(sweg.uZp)
+            }
+        }
+    }
+
     Shortcut{
         sequence: 'Ctrl+Shift+a'
         onActivated: {
@@ -411,12 +497,12 @@ ApplicationWindow {
         }
     }
     //Mostrar Mostrar Reloj
-//    Shortcut{
-//        sequence: 'Ctrl+t'
-//        onActivated: {
-//            apps.showTimes=!apps.showTimes
-//        }
-//    }
+    //    Shortcut{
+    //        sequence: 'Ctrl+t'
+    //        onActivated: {
+    //            apps.showTimes=!apps.showTimes
+    //        }
+    //    }
     //Mostrar Panel para Lineas de Comando
     Shortcut{
         sequence: 'Ctrl+Shift+c'
@@ -465,6 +551,10 @@ ApplicationWindow {
                 xEditor.save()
                 return
             }
+            //panelSabianos.z=panelRemoto.z+1
+            //if(panelSabianos.z<panelSa)
+            log.ls('z1:'+panelSabianos.z, xApp.width*0.2, xApp.width*0.2)
+            log.ls('z2:'+panelRemoto.z, xApp.width*0.2, xApp.width*0.2)
             panelSabianos.state=panelSabianos.state==='hide'?'show':'hide'
         }
     }

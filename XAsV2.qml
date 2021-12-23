@@ -74,23 +74,6 @@ Item{
     }
 
 
-    Rectangle{
-        width: r.width*0.5-xIcon.width
-        height: app.fs*0.25
-        color: 'transparent'
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.left: parent.left
-        visible: apps.xAsShowIcon
-        anchors.leftMargin: xIcon.width*0.5
-        Comps.XSignal{
-            width: parent.width
-            anchors.verticalCenter: parent.verticalCenter
-            height: app.fs*6
-            numAstro: r.numAstro
-            //visible: r.numAstro===0
-            visible: r.selected
-        }
-    }
 
     Rectangle{
         id: xIcon
@@ -230,6 +213,23 @@ Item{
         antialiasing: true
         anchors.centerIn: parent
         visible: r.numAstro===0&&apps.xAsShowIcon
+    }
+    Rectangle{
+        width: r.width*0.5-xIcon.width
+        height: app.fs*0.25
+        color: 'transparent'
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        visible: apps.xAsShowIcon
+        anchors.leftMargin: xIcon.width*0.5
+        Comps.XSignal{
+            width: parent.width
+            anchors.verticalCenter: parent.verticalCenter
+            height: app.fs*6
+            numAstro: r.numAstro
+            //visible: r.numAstro===0
+            visible: r.selected
+        }
     }
     function rot(d){
         if(d){
