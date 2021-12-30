@@ -131,6 +131,13 @@ RicardoMartinPizarro<br />
                                 running=false
                             }
                         }
+                        Component.onCompleted: {
+                            if(unik.fileExist('/home/ns/tempzooltext')){
+                                let data=unik.getFile('/home/ns/tempzooltext')
+                                aData=data.split('---')
+                                //console.log('data: '+data)
+                            }
+                        }
                     }
                     }
 
@@ -279,7 +286,7 @@ RicardoMartinPizarro<br />
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Destello de planetas';anchors.verticalCenter: parent.verticalCenter}
+                        XText{text: 'Destello de planetas';t.font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: apps.anColorXAs
                             anchors.verticalCenter: parent.verticalCenter
@@ -290,7 +297,7 @@ RicardoMartinPizarro<br />
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Ver Lineas de Grados';anchors.verticalCenter: parent.verticalCenter}
+                        XText{text: 'Ver Lineas de Grados';t.font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: apps.showNumberLines
                             anchors.verticalCenter: parent.verticalCenter
@@ -300,7 +307,7 @@ RicardoMartinPizarro<br />
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Ver Ejes de Casas';anchors.verticalCenter: parent.verticalCenter}
+                        XText{text: 'Ver Ejes de Casas';t.font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: apps.showHousesAxis
                             anchors.verticalCenter: parent.verticalCenter
@@ -310,7 +317,7 @@ RicardoMartinPizarro<br />
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Ancho del Ejes de Casas';anchors.horizontalCenter: parent.horizontalCenter}
+                        XText{text: 'Ancho del Ejes de Casas';t.font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: 2.0
                             value: apps.widthHousesAxis
@@ -326,7 +333,7 @@ RicardoMartinPizarro<br />
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Ancho del Circulo signos';anchors.horizontalCenter: parent.horizontalCenter}
+                        XText{text: 'Ancho del Circulo signos';t.font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: app.fs*0.1
                             value: sweg.w
@@ -362,7 +369,7 @@ RicardoMartinPizarro<br />
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Tamaño de Lista de Elementos';anchors.horizontalCenter: parent.horizontalCenter}
+                        XText{text: 'Tamaño de Lista de Elementos';t.font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: 1.0
                             value: 50
@@ -393,7 +400,7 @@ RicardoMartinPizarro<br />
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Tamaño de Botones';anchors.horizontalCenter: parent.horizontalCenter}
+                        XText{text: 'Tamaño de Botones';t.font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: 1.0
                             value: apps.botSizeSpinBoxValue
@@ -459,7 +466,7 @@ RicardoMartinPizarro<br />
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Mostrar Automático';anchors.verticalCenter: parent.verticalCenter}
+                        XText{text: 'Mostrar Automático'; t.font.pixelSize: app.fs*0.5; anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: tAutoMaticPlanets.running
                             anchors.verticalCenter: parent.verticalCenter

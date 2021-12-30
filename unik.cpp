@@ -1919,7 +1919,7 @@ QByteArray Unik::getHttpFile(QByteArray url)
     QNetworkRequest req(QUrl(url.constData()));
 
     QNetworkReply *reply = mgr.get(req);
-    connect(reply,SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
+    //connect(reply,SIGNAL(downloadProgress(qint64,qint64)), this, SLOT(downloadProgress(qint64,qint64)));
     eventLoop.exec();
     QByteArray err;
     if (reply->error() == QNetworkReply::NoError) {

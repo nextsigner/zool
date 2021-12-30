@@ -56,20 +56,35 @@ Rectangle {
     Loader{
         id: l
         anchors.fill: parent
-        onStatusChanged: {
-            let lp=unik.getPath(5)+'/comps/UPanelRemoto.qml'
-            if(status==Loader.Error){
-                source='file:///'+lp
-                log.ls('Loader local!', 0, 500)
-            }else{
-                if(status==Loader.Ready){
-                    log.ls('Loader! remoto', 0, 500)
-                }
-            }
-        }
+        asynchronous: true
+//        onLoaded: {
+//        //´onStatusChanged: {
+//            let lp=unik.getPath(5)+'/comps/UPanelRemoto.qml'
+//            if(status==Loader.Error&&source.toString().indexOf('ft.qml')>=0){
+//                source='file:///'+lp
+//                log.ls('Loader local 1' + source, 0, 500)
+//            }else{
+//                if(status==Loader.Ready&&source.toString().indexOf('file:')>0){
+//                    log.ls('Loader! local 2 '+source, 0, 500)
+//                }
+//                if(status==Loader.Ready&&source.toString().indexOf('https:')>0){
+//                    log.ls('Loader! remoto '+source, 0, 500)
+//                }
+//            }
+//        }
         Component.onCompleted: {
-            let lpr='https://github.com/nextsigner/nextsigner.github.io/raw/master/comps/UPanelRemoto.qml'
-            source=lpr
+//            let c=unik.getHttpFile('https://raw.githubusercontent.com/nextsigner/zool/main/comps/UPanelRemoto.qml')
+//            let tfp='/tmp/ft.qml'
+//            unik.setFile(tfp, c)
+//            //log.ls('emoto: '+c, 0, 500)
+//            //let lpr='https://raw.githubusercontent.com/nextsigner/zool/main/comps/UPanelRemoto.qml'
+//            let lpr='file:///'+tfp
+//            log.ls('tmp: '+lpr, 0, 500)
+//            source=lpr
+
+            let lp=unik.getPath(1)+'/comps/UPanelRemoto.qml'
+            //console.log('tmp: '+lp)
+            source=lp
         }
     }
 
