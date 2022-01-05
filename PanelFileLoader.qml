@@ -259,6 +259,7 @@ Rectangle {
     }
     function enter(){
         JS.loadJson(r.currentFile)
-        r.state='hide'
+        r.currentIndex=-1
+        //r.state='hide'
     }
 }

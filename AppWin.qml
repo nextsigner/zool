@@ -161,15 +161,15 @@ ApplicationWindow {
                 xBottomBar.enter()
                 return
             }
-            if(apps.currentSwipeViewIndex===1){
+            if(apps.currentSwipeViewIndex===2&&panelFileLoader.currentIndex>=0){
                 panelFileLoader.enter()
                 return
             }
-            if(apps.currentSwipeViewIndex===2){
+            if(apps.currentSwipeViewIndex===3){
                 panelNewVNA.enter()
                 return
             }
-            if(apps.currentSwipeViewIndex===3){
+            if(apps.currentSwipeViewIndex===4){
                 panelRsList.enter()
                 return
             }
@@ -186,15 +186,15 @@ ApplicationWindow {
                 //xEditor.enter()
                 //return
             }
-            if(apps.currentSwipeViewIndex===1){
+            if(apps.currentSwipeViewIndex===2&&panelFileLoader.currentIndex>=0){
                 panelFileLoader.enter()
                 return
             }
-            if(apps.currentSwipeViewIndex===2){
+            if(apps.currentSwipeViewIndex===3){
                 panelNewVNA.enter()
                 return
             }
-            if(apps.currentSwipeViewIndex===3){
+            if(apps.currentSwipeViewIndex===4){
                 panelRsList.enter()
                 return
             }
@@ -268,10 +268,6 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Up'
         onActivated: {
-            if(panelNewVNA.state==='show'){
-                panelNewVNA.toUp()
-                return
-            }
             if(menuBar.expanded){
                 menuBar.u()
                 return
@@ -281,12 +277,16 @@ ApplicationWindow {
                 return
             }
             //if(panelFileLoader.state==='show'){
-            if(apps.currentSwipeViewIndex===1){
+            if(apps.currentSwipeViewIndex===2){
                 if(panelFileLoader.currentIndex>0){
                     panelFileLoader.currentIndex--
                 }else{
                     panelFileLoader.currentIndex=panelFileLoader.listModel.count-1
                 }
+                return
+            }
+            if(apps.currentSwipeViewIndex===3){
+                panelNewVNA.toUp()
                 return
             }
             if(panelControlsSign.state==='show'&&panelDataBodies.state==='hide'){
@@ -317,10 +317,6 @@ ApplicationWindow {
         sequence: 'Down'
         //enabled: !menuBar.expanded
         onActivated: {
-            if(panelNewVNA.state==='show'){
-                panelNewVNA.toDown()
-                return
-            }
             if(menuBar.expanded){
                 menuBar.d()
                 return
@@ -330,12 +326,16 @@ ApplicationWindow {
                 return
             }
             //if(panelFileLoader.state==='show'){
-            if(apps.currentSwipeViewIndex===1){
+            if(apps.currentSwipeViewIndex===2){
                 if(panelFileLoader.currentIndex<panelFileLoader.listModel.count){
                     panelFileLoader.currentIndex++
                 }else{
                     panelFileLoader.currentIndex=0
                 }
+                return
+            }
+            if(apps.currentSwipeViewIndex===3){
+                panelNewVNA.toDown()
                 return
             }
             if(panelControlsSign.state==='show'&&panelDataBodies.state==='hide'){

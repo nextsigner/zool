@@ -427,25 +427,6 @@ AppWin {
                         }
                     }
                 }
-                Rectangle{
-                    width: app.fs*0.5
-                    height: width
-                    radius: width*0.15
-                    border.width: 1
-                    anchors.bottom: parent.bottom
-                    anchors.bottomMargin: app.fs*0.25
-                    anchors.left: parent.left
-                    anchors.leftMargin: app.fs*0.25
-                    opacity: panelRemoto.x!==0?1.0:0.0
-                    Behavior on opacity{NumberAnimation{duration: 500}}
-                    Text{text: '>';font.pixelSize: parent.width*0.8;anchors.centerIn: parent}
-                    MouseArea{
-                        anchors.fill: parent
-                        onClicked: {
-                            panelRemoto.state='show'
-                        }
-                    }
-                }
             }
             Item{
                 id: xMed

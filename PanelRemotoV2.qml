@@ -104,7 +104,8 @@ Rectangle {
             //panelSabianos.z=comp.z+1
         }else{
             console.log('setXZoolStart Data '+isData+': '+data)
-            r.state='show'
+            //r.state='show'
+            sv.currentIndex=6
             bot.visible=true
             if(unik.fileExist(apps.jsonsFolder+'/PanelRemotoDoc.qml')){
                 let fd=unik.getFile(apps.jsonsFolder+'/PanelRemotoDoc.qml')

@@ -509,7 +509,8 @@ Item {
         panelSabianos.numDegree=parseInt(app.currentJson.ph.h1.rsgdeg - 1)
         panelSabianos.loadData()
         if(apps.sabianosAutoShow){
-            panelSabianos.state='show'
+            //panelSabianos.state='show'
+            sv.currentIndex=1
         }
         panelAspTransList.state='hide'
         //        } catch(e) {
