@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import Qt.labs.settings 1.1
+import "../"
 import "../Funcs.js" as JS
 import "../Extra.js" as EXTRA
 
@@ -13,6 +14,7 @@ Rectangle{
     border.width: 1
     border.color: apps.fontColor
     anchors.centerIn: parent
+    //property alias objPanelSabianos: panelSabianos
     //property string parentState: panelRemoto
     //    onParentStateChanged: {
     //        if(panelRemoto.state==='show')prs.state='show'
@@ -29,10 +31,7 @@ Rectangle{
         currentIndex: prs.currentViewIndex
         onCurrentIndexChanged: prs.currentViewIndex=currentIndex
         anchors.fill: parent
-        //width: r.width
-        //height: r.height
-
-        //Información
+        //Zool Text
         Item{
             id: xShowAboutZool
             width: r.width
@@ -75,37 +74,7 @@ Rectangle{
                         textFormat: Text.MarkdownText
                         wrapMode: Text.WordWrap
                         //onLinkActivated: Qt.openUrlExternally(link)
-                        property var aData: ['# Zool<br />
-### Aplicación de Astrología<br />
-
-Creada por<br />
-Ricardo Martín Pizarro<br />
-
-Inicio del Desarrollo:<br />
-14/04/2021', '# Licencia de Zool<br />
-Esta aplicación es de uso libre y gratuito.<br />
-
-Esta aplicación es distribuida bajo las licencias GPL2.', '### Descargar Zool<br />
-
-**Sitio Web:** Zool.ar<br />
-
-### Información del Código fuente<br />
-
-**Repositorio Público:** GitHub.com/nextsigner/zool', '## Zool fue creado con:<br />
-* Qt Open Source
-* SwissEph
-* Astrolog', '# Contacto<br />
-
-**Whatsapp:**<br />
-+549 11 3802 4370<br />
-
-**E-Mail:**<br />
-nextsigner@gmail.com<br />
-
-**Twitch:**<br />
-RicardoMartinPizarro<br />
-']
-
+                        property var aData: []
                         Behavior on opacity{NumberAnimation{duration: 1500}}
                         onOpacityChanged: {
                             if(opacity===0.0){
@@ -132,11 +101,19 @@ RicardoMartinPizarro<br />
                             }
                         }
                         Component.onCompleted: {
-                            if(unik.fileExist('/home/ns/tempzooltext')){
-                                let data=unik.getFile('/home/ns/tempzooltext')
-                                aData=data.split('---')
-                                //console.log('data: '+data)
+                            let appArgs=Qt.application.arguments
+                            let fp
+                            let data
+                            fp='./resources/zooltext.txt'
+                            if(appArgs.indexOf('tempzooltext')>=0){
+                                fp=unik.getPath(7)+'/tempzooltext'
+                                if(unik.fileExist(fp)){
+                                    data=unik.getFile(fp)
+                                }
+                            }else{
+                                data=unik.getFile(fp)
                             }
+                            aData=data.split('---')
                         }
                     }
                     }
@@ -151,6 +128,8 @@ RicardoMartinPizarro<br />
                 }
             }
         }
+
+        //PanelSabianos{id: panelSabianos;}
 
         //Información
         Item{
@@ -286,7 +265,7 @@ RicardoMartinPizarro<br />
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Destello de planetas';t.font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
+                        Text{text: 'Destello de planetas';font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: apps.anColorXAs
                             anchors.verticalCenter: parent.verticalCenter
@@ -297,7 +276,7 @@ RicardoMartinPizarro<br />
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Ver Lineas de Grados';t.font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
+                        Text{text: 'Ver Lineas de Grados';font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: apps.showNumberLines
                             anchors.verticalCenter: parent.verticalCenter
@@ -307,7 +286,7 @@ RicardoMartinPizarro<br />
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Ver Ejes de Casas';t.font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
+                        Text{text: 'Ver Ejes de Casas';font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: apps.showHousesAxis
                             anchors.verticalCenter: parent.verticalCenter
@@ -317,7 +296,7 @@ RicardoMartinPizarro<br />
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Ancho del Ejes de Casas';t.font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
+                        Text{text: 'Ancho del Ejes de Casas';font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: 2.0
                             value: apps.widthHousesAxis
@@ -333,10 +312,10 @@ RicardoMartinPizarro<br />
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Ancho del Circulo signos';t.font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
+                        Text{text: 'Ancho del Circulo signos';font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: app.fs*0.1
-                            value: sweg.w
+                            value: apps.sweFs
                             onValueChanged: {
                                 if(value<app.fs*0.5||value>app.fs*2){
                                     apps.sweFs=app.fs
@@ -369,7 +348,7 @@ RicardoMartinPizarro<br />
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Tamaño de Lista de Elementos';t.font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
+                        Text{text: 'Tamaño de Lista de Elementos';font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: 1.0
                             value: 50
@@ -400,7 +379,7 @@ RicardoMartinPizarro<br />
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Tamaño de Botones';t.font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
+                        Text{text: 'Tamaño de Botones';font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: 1.0
                             value: apps.botSizeSpinBoxValue
@@ -466,7 +445,7 @@ RicardoMartinPizarro<br />
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        XText{text: 'Mostrar Automático'; t.font.pixelSize: app.fs*0.5; anchors.verticalCenter: parent.verticalCenter}
+                        Text{text: 'Mostrar Automático'; font.pixelSize: app.fs*0.5; anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: tAutoMaticPlanets.running
                             anchors.verticalCenter: parent.verticalCenter
@@ -757,20 +736,6 @@ RicardoMartinPizarro<br />
         anchors.left: parent.left
         anchors.leftMargin: app.fs*0.15
         spacing:app.fs*0.15
-        Rectangle{
-            width: app.fs*0.5
-            height: width
-            radius: width*0.15
-            border.width: 1
-            anchors.verticalCenter: parent.verticalCenter
-            Text{text: 'X';font.pixelSize: parent.width*0.8;anchors.centerIn: parent}
-            MouseArea{
-                anchors.fill: parent
-                onClicked: {
-                    prs.state='hide'
-                }
-            }
-        }
         Repeater{
             model: 3
             Rectangle{

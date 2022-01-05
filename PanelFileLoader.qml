@@ -13,32 +13,10 @@ Rectangle {
     property alias currentIndex: lv.currentIndex
     property alias listModel: lm
     property string currentFile: ''
-    state: 'hide'
-    states: [
-        State {
-            name: "show"
-            PropertyChanges {
-                target: r
-                x:0
-            }
-        },
-        State {
-            name: "hide"
-            PropertyChanges {
-                target: r
-                x:0-r.width
-            }
-        }
-    ]
-    Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
-    onStateChanged: {
-        if(state==='hide')txtDataSearch.focus=false
-        if(state==='show')txtDataSearch.focus=true
-        //JS.raiseItem(r)
-        xApp.focus=true
-    }
-    onXChanged: {
-        if(x===0&&state==='show'){
+    property int svIndex: sv.currentIndex
+    property int itemIndex: -1
+    onSvIndexChanged: {
+        if(svIndex===itemIndex){
             txtDataSearch.selectAll()
             txtDataSearch.focus=true
         }
@@ -134,8 +112,6 @@ Rectangle {
             onCurrentIndexChanged: r.currentFile=lm.get(currentIndex).fileName
         }
     }
-
-
     ListModel{
         id: lm
         function addItem(vFileName, vData){

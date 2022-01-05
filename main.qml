@@ -174,7 +174,7 @@ AppWin {
     onCurrentDateBackChanged: {
         controlsTimeBack.setTime(currentDateBack)
         if(app.mod==='trans'){
-            JS.loadTransFromTime(app.currentDateBack)            
+            JS.loadTransFromTime(app.currentDateBack)
         }
         xDataBar.state='show'
         let a=currentDateBack.getFullYear()
@@ -202,6 +202,7 @@ AppWin {
 
         //Paneles
         property string panelRemotoState: 'show'
+        property int currentSwipeViewIndex: 0
 
         //Houses
         property string defaultHsys: 'T'
@@ -378,16 +379,53 @@ AppWin {
                 id: xLatIzq
                 width: xApp.width*0.2
                 height: parent.height
-                Item{
-                    anchors.fill: parent
-                    PanelRemotoV2{id: panelRemoto;}
-                    PanelSabianos{id: panelSabianos;}
-                    //PanelZonaMes{id: panelZonaMes;}
-                    PanelAspTransList{id: panelAspTransList}
-                    PanelRsList{id: panelRsList}
-                    PanelFileLoader{id: panelFileLoader}
-                    PanelNewVNA{id: panelNewVNA}
+                Column{
+                    anchors.centerIn: parent
+                    Rectangle{
+                        id: xPanelesTits
+                        width: xLatIzq.width
+                        height: app.fs*1.2
+                        color: apps.fontColor
+                        property var aPanelesTits: ['Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Aspecto en Tránsito', 'Opciones']
+                        Text{
+                            text: parseInt(sv.currentIndex + 1)+': '+xPanelesTits.aPanelesTits[sv.currentIndex]
+                            color: apps.backgroundColor
+                            font.pixelSize: app.fs*0.8
+                            anchors.centerIn: parent
+                        }
+                    }
+                    SwipeView{
+                        id: sv
+                        currentIndex: apps.currentSwipeViewIndex
+                        onCurrentIndexChanged: apps.currentSwipeViewIndex=currentIndex
+                        width: xLatIzq.width
+                        height: xLatIzq.height-indicatorSV.height-xPanelesTits.height
+                        clip: true
+                        XPaneles{Comps.PanelZoolText{id: panelZoolText;itemIndex: 0}}
+                        XPaneles{PanelSabianos{id: panelSabianos;itemIndex: 1}}
+                        XPaneles{PanelFileLoader{id: panelFileLoader;itemIndex: 2}}
+                        XPaneles{PanelNewVNA{id: panelNewVNA;itemIndex: 3}}
+                        XPaneles{PanelRsList{id: panelRsList;itemIndex: 4}}
+                        XPaneles{PanelAspTransList{id: panelAspTransList;itemIndex: 5}}
+                        //XPaneles{PanelZonaMes{id: panelZonaMes;;itemIndex: 6}}
+                        XPaneles{PanelRemotoV2{id: panelRemoto;itemIndex: 6}}
 
+                    }
+                    PageIndicator {
+                        id: indicatorSV
+                        interactive: true
+                        count: sv.count
+                        currentIndex: sv.currentIndex
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        onCurrentIndexChanged: sv.currentIndex=currentIndex
+                        delegate: Rectangle{
+                            width: app.fs*0.5
+                            height: width
+                            radius: width / 2
+                            color: apps.fontColor
+                            opacity: index === indicatorSV.currentIndex?0.95: pressed ? 0.7: 0.45
+                        }
+                    }
                 }
                 Rectangle{
                     width: app.fs*0.5

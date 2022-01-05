@@ -10,7 +10,6 @@ Rectangle {
     color: 'black'
     border.width: 2
     border.color: 'white'
-    x:0-r.width
     property real lat:-100.00
     property real lon:-100.00
 
@@ -18,37 +17,15 @@ Rectangle {
     property real ulon:-100.00
 
     property string uFileNameLoaded: ''
-
-    state: 'hide'
-    states: [
-        State {
-            name: "show"
-            PropertyChanges {
-                target: r
-                x:0
-            }
-        },
-        State {
-            name: "hide"
-            PropertyChanges {
-                target: r
-                x:0-r.width
-            }
+    property int svIndex: sv.currentIndex
+    property int itemIndex: -1
+    onSvIndexChanged: {
+        if(svIndex===itemIndex){
+            tiNombre.t.selectAll()
+            tiNombre.t.focus=true
         }
-    ]
+    }
     Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
-    onStateChanged: {
-        if(state==='show')tiNombre.t.focus=true
-        //JS.raiseItem(r)
-        //xApp.focus=true
-    }
-    onXChanged: {
-        if(x===0){
-            //txtDataSearch.selectAll()
-            //txtDataSearch.focus=true
-        }
-    }
-
     Column{
         id: col
         anchors.centerIn: parent

@@ -144,7 +144,7 @@ Rectangle {
                             spacing: app.fs*0.5
                             anchors.horizontalCenter:  parent.horizontalCenter
                             Text{
-                                text: '<b>N° Karma</b>: '
+                                text: '<b>N° Destino/Karma</b>: '
                                 color: apps.fontColor
                                 font.pixelSize: app.fs*0.5
                                 anchors.verticalCenter: parent.verticalCenter
@@ -167,14 +167,15 @@ Rectangle {
                                 }
                             }
                             Button{
-                                text:  'Mostrar Personalidad'
+                                text:  'Mostrar'
                                 onClicked: {
                                     if(checkBoxFormula.checked){
                                         panelLog.l('Fórmula: '+f0.text+'\n')
-                                        panelLog.l('Personalidad '+r.currentNumKarma+'\n')
+                                        panelLog.l('Número de Nacimiento/Karma '+r.currentNumKarma+'\n')
+                                        panelLog.l('¿Como es su vibración o karma de nacimiento '+r.currentNumKarma+'?\n')
                                         panelLog.l(getItemJson('per'+r.currentNumKarma))
                                     }else{
-                                        panelLog.l('¿Cómo es su personalidad?\n')
+                                        panelLog.l('¿Como es su vibración o karma de nacimiento '+r.currentNumKarma+'?\n')
                                         panelLog.l(getItemJson('per'+r.currentNumKarma))
                                     }
                                 }

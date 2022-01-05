@@ -157,20 +157,20 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Return'
         onActivated: {
-            if(panelNewVNA.state==='show'){
-                panelNewVNA.enter()
-                return
-            }
-            if(panelRsList.state==='show'){
-                panelRsList.enter()
-                return
-            }
             if(xBottomBar.state==='show'){
                 xBottomBar.enter()
                 return
             }
-            if(panelFileLoader.state==='show'){
+            if(apps.currentSwipeViewIndex===1){
                 panelFileLoader.enter()
+                return
+            }
+            if(apps.currentSwipeViewIndex===2){
+                panelNewVNA.enter()
+                return
+            }
+            if(apps.currentSwipeViewIndex===3){
+                panelRsList.enter()
                 return
             }
         }
@@ -186,16 +186,16 @@ ApplicationWindow {
                 //xEditor.enter()
                 //return
             }
-            if(panelNewVNA.state==='show'){
+            if(apps.currentSwipeViewIndex===1){
+                panelFileLoader.enter()
+                return
+            }
+            if(apps.currentSwipeViewIndex===2){
                 panelNewVNA.enter()
                 return
             }
-            if(panelRsList.state==='show'){
+            if(apps.currentSwipeViewIndex===3){
                 panelRsList.enter()
-                return
-            }
-            if(panelFileLoader.state==='show'){
-                panelFileLoader.enter()
                 return
             }
         }
@@ -280,7 +280,8 @@ ApplicationWindow {
                 xSabianos.toup()
                 return
             }
-            if(panelFileLoader.state==='show'){
+            //if(panelFileLoader.state==='show'){
+            if(apps.currentSwipeViewIndex===1){
                 if(panelFileLoader.currentIndex>0){
                     panelFileLoader.currentIndex--
                 }else{
@@ -328,7 +329,8 @@ ApplicationWindow {
                 xSabianos.todown()
                 return
             }
-            if(panelFileLoader.state==='show'){
+            //if(panelFileLoader.state==='show'){
+            if(apps.currentSwipeViewIndex===1){
                 if(panelFileLoader.currentIndex<panelFileLoader.listModel.count){
                     panelFileLoader.currentIndex++
                 }else{
@@ -367,7 +369,8 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Left'
         onActivated: {
-            if(panelNewVNA.state==='show'){
+            //if(panelNewVNA.state==='show'){
+            if(sv.currentIndex===2){
                 panelNewVNA.toLeft()
                 return
             }
@@ -388,7 +391,7 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Right'
         onActivated: {
-            if(panelNewVNA.state==='show'){
+            if(sv.currentIndex===2){
                 panelNewVNA.toRight()
                 return
             }
@@ -406,6 +409,26 @@ ApplicationWindow {
                 return
             }
 
+        }
+    }
+    Shortcut{
+        sequence: 'Ctrl+Left'
+        onActivated: {
+            if(sv.currentIndex>0){
+                sv.currentIndex--
+            }else{
+                sv.currentIndex=sv.count-1
+            }
+        }
+    }
+    Shortcut{
+        sequence: 'Ctrl+Right'
+        onActivated: {
+            if(sv.currentIndex<sv.count-1){
+                sv.currentIndex++
+            }else{
+                sv.currentIndex=0
+            }
         }
     }
 
@@ -479,7 +502,8 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Ctrl+f'
         onActivated: {
-            panelFileLoader.state=panelFileLoader.state==='show'?'hide':'show'
+            apps.currentSwipeViewIndex=2
+            //apps.currentSwipeViewIndex
         }
     }
     //Mostrar Panel PL Signos

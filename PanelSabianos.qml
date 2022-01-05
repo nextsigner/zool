@@ -7,7 +7,7 @@ Rectangle {
     id: r
     color: 'white'
     width: parent.width
-    height: panelRemoto.state==='hide'?parent.height:parent.height-panelRemoto.height
+    height: parent.height//panelRemoto.state==='hide'?parent.height:parent.height-panelRemoto.height
     clip: true
     property string htmlFolder: ''
     property var signos: ['Aries', 'Tauro', 'Géminis', 'Cáncer', 'Leo', 'Virgo', 'Libra', 'Escorpio', 'Sagitario', 'Capricornio', 'Acuario', 'Piscis']
@@ -16,24 +16,9 @@ Rectangle {
     property int fs: width*0.025
     property real factorZoomByRes: 1.5
     property int currentInterpreter: 0
-    x:0-r.width
-    state: 'hide'//apps.sabianosAutoShow?'show':'hide'
-    states: [
-        State {
-            name: "show"
-            PropertyChanges {
-                target: r
-                x:0
-            }
-        },
-        State {
-            name: "hide"
-            PropertyChanges {
-                target: r
-                x:0-r.width
-            }
-        }
-    ]
+
+    property int itemIndex: -1
+
     Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
     Flickable{
         id: flk

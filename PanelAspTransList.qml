@@ -18,27 +18,10 @@ Rectangle {
 
     property var aAspNames: ['Oposición', 'Conjunción', 'Trígono', 'Cuadratura', 'Sextil']
     property var aAspNamesRes: ['Opp','Con', 'Tri', 'Squ', 'Sex']
-
-    state: 'hide'
-    states: [
-        State {
-            name: "show"
-            PropertyChanges {
-                target: r
-                x:0
-            }
-        },
-        State {
-            name: "hide"
-            PropertyChanges {
-                target: r
-                x:0-r.width
-            }
-        }
-    ]
-    onStateChanged: {
-        if(state==='show'){
-            //if(sbDesde.value<=0){
+    property int svIndex: sv.currentIndex
+    property int itemIndex: -1
+    onSvIndexChanged: {
+        if(svIndex===itemIndex){
                 sbDesde.from =app.currentDate.getFullYear()
                 sbDesde.to =sbDesde.from + 150 - 1
                 sbDesde.value = app.currentDate.getFullYear()
@@ -47,41 +30,18 @@ Rectangle {
                 sbHasta.value = apps.currentAspCantAniosSearch
                 //log.l('apps.currentAspCantAniosSearch:'+apps.currentAspCantAniosSearch)
                 //log.visible=true
-                loadItemsYears()
-            //}
-            //            if(lm.count===0){
-            //                loadItemsYears()
-            //            }
+                loadItemsYears()            
         }
     }
-    Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
     Behavior on height{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
     Column{
         spacing: app.fs*0.5
         anchors.horizontalCenter: parent.horizontalCenter
-        Rectangle{
-            id:xTit
-            width: lv.width
-            height: app.fs*1.5
-            color: apps.fontColor
-            border.width: 2
-            border.color: txtLabelTit.focus?'red':'white'
-            anchors.horizontalCenter: parent.horizontalCenter
-            XText {
-                id: txtLabelTit
-                text: 'Aspectos en Tránsito'
-                font.pixelSize: app.fs*0.5
-                width: parent.width-app.fs
-                wrapMode: Text.WordWrap
-                color: apps.backgroundColor
-                focus: true
-                anchors.centerIn: parent
-            }
-        }
         Column{
             id: colCbs
             spacing: app.fs*0.5
             anchors.horizontalCenter: parent.horizontalCenter
+            Item{width: 1; height: app.fs*0.5}
             Row{
                 spacing: app.fs*0.5
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -194,7 +154,7 @@ Rectangle {
         ListView{
             id: lv
             width: r.width
-            height: r.height-xTit.height-colCbs.height-app.fs
+            height: r.height-colCbs.height-app.fs
             anchors.horizontalCenter: parent.horizontalCenter
             delegate: compItemList
             model: lm

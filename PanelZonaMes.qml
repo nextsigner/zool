@@ -20,36 +20,19 @@ Rectangle {
     property real currentLon: 0.000
     property int currentGmt: -0
     property string currentIdZona: ''
-    //property int currentIndexSign: -1
-    state: 'hide'
-    states: [
-        State {
-            name: "show"
-            PropertyChanges {
-                target: r
-                x:0
-            }
-        },
-        State {
-            name: "hide"
-            PropertyChanges {
-                target: r
-                x:0-r.width
-            }
-        }
-    ]
-    onStateChanged:{
-        if(state==='hide'){
+    property int svIndex: sv.currentIndex
+    property int itemIndex: -1
+    onSvIndexChanged: {
+        if(svIndex!==itemIndex){
             detener()
             return
         }
-        if(state==='show'){
+        if(svIndex===itemIndex){
             iniciar()
             //JS.raiseItem(r)
             return
         }
     }
-    Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
     Behavior on height{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
     Settings{
         id: s

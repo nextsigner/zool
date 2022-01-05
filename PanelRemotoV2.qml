@@ -11,28 +11,19 @@ Rectangle {
     color: apps.backgroundColor
     border.width: 2
     border.color: 'white'
-    x:0-r.width
-    anchors.bottom: parent.bottom
+    //anchors.bottom: parent.bottom
     clip: true
-    state: apps.panelRemotoState
-    states: [
-        State {
-            name: "show"
-            PropertyChanges {
-                target: r
-                x:0
-            }
-        },
-        State {
-            name: "hide"
-            PropertyChanges {
-                target: r
-                x:0-r.width
-            }
+    property int svIndex: sv.currentIndex
+    property int itemIndex: -1
+    onSvIndexChanged: {
+        if(svIndex===itemIndex){
+
         }
-    ]
-    onStateChanged: apps.panelRemotoState=state
-    Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
+    }
+    Rectangle{
+        anchors.fill: parent
+        color: 'transparent'
+    }
     Column{
         anchors.centerIn: parent
         spacing: app.fs*0.25

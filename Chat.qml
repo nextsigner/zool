@@ -9,6 +9,7 @@ Rectangle{
     color: apps.backgroundColor
     clip: true
     visible: apps.chat
+    flags: Qt.WindowStaysOnTopHint
     property bool onTop: false
     MouseArea{
         anchors.fill: r

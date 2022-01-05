@@ -13,29 +13,12 @@ Rectangle {
     property alias listModel: lm
     property int edadMaxima: 0
     property string jsonFull: ''
-    state: 'hide'
-    states: [
-        State {
-            name: "show"
-            PropertyChanges {
-                target: r
-                x:0
-            }
-        },
-        State {
-            name: "hide"
-            PropertyChanges {
-                target: r
-                x:0-r.width
-            }
-        }
-    ]
-    onStateChanged: {
-        if(state==='show'){
+    property int svIndex: sv.currentIndex
+    property int itemIndex: -1
+    onSvIndexChanged: {
+        if(svIndex===itemIndex){
             if(edadMaxima<=0)xTit.showTi=true
         }
-        //JS.raiseItem(r)
-        //xApp.focus=true
     }
     Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
     Behavior on height{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
