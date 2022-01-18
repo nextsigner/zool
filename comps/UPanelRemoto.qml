@@ -31,106 +31,6 @@ Rectangle{
         currentIndex: prs.currentViewIndex
         onCurrentIndexChanged: prs.currentViewIndex=currentIndex
         anchors.fill: parent
-        //Zool Text
-        Item{
-            id: xShowAboutZool
-            width: r.width
-            height: r.height
-            Column{
-                id: col0
-                anchors.centerIn: parent
-                Rectangle{
-                    id: xTxtAboutZool
-                    width: xShowAboutZool.width
-                    height: xShowAboutZool.height-cameraArea.height
-                    color: apps.backgroundColor
-                    border.width: 1
-                    border.color: apps.fontColor
-                    clip: true
-                    MouseArea{
-                        anchors.fill: parent
-                        acceptedButtons: Qt.LeftButton | Qt.RightButton
-                        onClicked: {
-                            if (mouse.button === Qt.RightButton) {
-                                tTxtAboutZool.running=false
-                                if(tTxtAboutZool.v<txtAboutZool.aData.length-1){
-                                    tTxtAboutZool.v++
-                                }else{
-                                    tTxtAboutZool.v=0
-                                }
-                                txtAboutZool.text=txtAboutZool.aData[tTxtAboutZool.v]
-                            }else{
-                                tTxtAboutZool.running=!tTxtAboutZool.running
-                            }
-                        }
-                    }
-                    Text{
-                        id: txtAboutZool
-                        text: aData[0]
-                        font.pixelSize: app.fs*0.75
-                        color: 'white'
-                        width: r.width-app.fs
-                        anchors.centerIn: parent
-                        textFormat: Text.MarkdownText
-                        wrapMode: Text.WordWrap
-                        //onLinkActivated: Qt.openUrlExternally(link)
-                        property var aData: []
-                        Behavior on opacity{NumberAnimation{duration: 1500}}
-                        onOpacityChanged: {
-                            if(opacity===0.0){
-                                txtAboutZool.text=txtAboutZool.aData[tTxtAboutZool.v]
-                                tTxtAboutZool.running=true
-                                txtAboutZool.opacity=1.0
-                            }
-                        }
-                        Timer{
-                            id: tTxtAboutZool
-                            running: view.currentIndex===0
-                            repeat: true
-                            interval: 12000
-                            property int v: 1
-                            onTriggered: {
-                                //txtAboutZool.text=txtAboutZool.aData[v]
-                                if(v<txtAboutZool.aData.length-1){
-                                    v++
-                                }else{
-                                    v=0
-                                }
-                                txtAboutZool.opacity=0.0
-                                running=false
-                            }
-                        }
-                        Component.onCompleted: {
-                            let appArgs=Qt.application.arguments
-                            let fp
-                            let data
-                            fp='./resources/zooltext.txt'
-                            if(appArgs.indexOf('tempzooltext')>=0){
-                                fp=unik.getPath(7)+'/tempzooltext'
-                                if(unik.fileExist(fp)){
-                                    data=unik.getFile(fp)
-                                }
-                            }else{
-                                data=unik.getFile(fp)
-                            }
-                            aData=data.split('---')
-                        }
-                    }
-                    }
-
-                Rectangle{
-                    id: cameraArea
-                    width: xShowAboutZool.width
-                    height: app.fs*6
-                    color: apps.backgroundColor
-                    border.width: 1
-                    border.color: apps.fontColor
-                }
-            }
-        }
-
-        //PanelSabianos{id: panelSabianos;}
-
         //Información
         Item{
             id:xShowIW
@@ -445,7 +345,7 @@ Rectangle{
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        Text{text: 'Mostrar Automático'; font.pixelSize: app.fs*0.5; anchors.verticalCenter: parent.verticalCenter}
+                        Text{text: 'Mostrar Automático'; font.pixelSize: app.fs*0.5; color:apps.fontColor; anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: tAutoMaticPlanets.running
                             anchors.verticalCenter: parent.verticalCenter

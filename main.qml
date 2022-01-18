@@ -386,7 +386,7 @@ AppWin {
                         width: xLatIzq.width
                         height: app.fs*1.2
                         color: apps.fontColor
-                        property var aPanelesTits: ['Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Aspecto en Tránsito', 'Opciones']
+                        property var aPanelesTits: ['Información','Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Aspecto en Tránsito', 'Opciones']
                         Text{
                             text: parseInt(sv.currentIndex + 1)+': '+xPanelesTits.aPanelesTits[sv.currentIndex]
                             color: apps.backgroundColor

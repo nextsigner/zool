@@ -19,8 +19,20 @@ Rectangle {
         if(svIndex===itemIndex){
             txtDataSearch.selectAll()
             txtDataSearch.focus=true
+            //tF.restart()
         }
     }
+//    Timer{
+//        id: tF
+//        running: svIndex===itemIndex
+//        repeat: true
+//        interval: 500
+//        onTriggered: {
+//            //r.focus=true
+//            txtDataSearch.focus=true
+//            txtDataSearch.selectAll()
+//        }
+//    }
     FolderListModel{
         id: flm
         //folder: 'file:./'+app.mainLocation+'/jsons'
@@ -35,7 +47,6 @@ Rectangle {
             updateList()
         }
     }
-
     Column{
         anchors.horizontalCenter: parent.horizontalCenter
         Rectangle{
@@ -48,12 +59,12 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             TextInput {
                 id: txtDataSearch
-                text: 'Archivos'
+                text: 'Archivos svIndex: '+r.svIndex+' itemIndex: '+r.itemIndex+' focus:'+focus
                 font.pixelSize: app.fs*0.5
                 width: parent.width-app.fs
                 wrapMode: Text.WordWrap
                 color: apps.fontColor
-                focus: false
+                focus: r.itemIndex===r.svIndex
                 anchors.centerIn: parent
                 Keys.onReturnPressed: {
                     JS.loadJson(lm.get(lv.currentIndex).fileName)
@@ -186,7 +197,6 @@ Rectangle {
             }
         }
     }
-
     function deleteVnData(fileName){
         unik.deleteFile(fileName)
         let fn=fileName.replace('cap_', '').replace('.png', '')
@@ -249,7 +259,7 @@ Rectangle {
                     //xNombre.nom=textData
                     lm.append(lm.addItem(file,textData))
                 }
-                if(r.state==='show')txtDataSearch.focus=true
+                if(r.itemIndex===r.svIndex)txtDataSearch.focus=true
                 //txtDataSearch.selectAll()
             } catch (e) {
                 console.log('Error Json panelFileLoader: '+jsonFileData)

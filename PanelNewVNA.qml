@@ -62,6 +62,7 @@ Rectangle {
                 id: controlTimeFecha
                 gmt: 0
                 KeyNavigation.tab: tiCiudad.t
+                setAppTime: false
                 onCurrentDateChanged: {
                     //log.l('PanelVN CurrenDate: '+currentDate.toString())
                     //log.visible=true

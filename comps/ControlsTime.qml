@@ -34,7 +34,7 @@ Rectangle {
                 app.currentDateBack=r.currentDate
             }
         }
-        r.setAppTime=true
+        //r.setAppTime=true
     }
     Row{
         Rectangle{
