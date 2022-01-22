@@ -3,18 +3,19 @@ import QtQuick.Controls 2.0
 
 Rectangle{
     id: r
-    width: app.fs*20
-    height: xApp.height-(xApp.height-xBottomBar.y)
+    width: parent.width
+    height: parent.height
     color: apps.backgroundColor
-    visible: apps.showLog
+    visible: false
     border.width: 2
     border.color: apps.fontColor
     clip: true
+    property alias flk: flLog
     property alias text: taLog.text
     property bool ww: true
     MouseArea{
         anchors.fill: parent
-        onClicked: apps.showLog=false
+        onClicked: r.visible=false
     }
     Flickable{
         id: flLog
@@ -23,14 +24,16 @@ Rectangle{
         contentWidth: parent.width
         contentHeight: taLog.contentHeight
         clip: true
-        TextArea{
+        TextEdit{
             id: taLog
             width: r.width-app.fs//*0.5
-            wrapMode: r.ww?Text.WordWrap:Text.WrapAnywhere
+            //wrapMode: r.ww?Text.WordWrap:Text.WrapAnywhere
+            wrapMode: Text.WordWrap
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: app.fs*0.5
             color: apps.fontColor
-            background: Rectangle{color: 'transparent'}
+            //background: Rectangle{color: 'transparent'}
+            //enabled: false
         }
     }
     Rectangle{
@@ -45,7 +48,7 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                apps.showLog=false
+                r.visible=false
                 r.visible=apps.showLog
             }
         }
@@ -55,6 +58,11 @@ Rectangle{
         flLog.contentY=taLog.contentHeight-r.height
     }
     function clear(){
-        taLog.clear()
+        taLog.text=''
+        //taLog.clear()
+    }
+    function cp(){
+        taLog.selectAll()
+        taLog.copy()
     }
 }

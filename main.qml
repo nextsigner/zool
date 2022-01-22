@@ -283,6 +283,12 @@ AppWin {
 
         property string jsonsFolder: documentsPath
 
+        //Num
+        property string numUFecha
+        property string numUNom
+        property string numUFirma
+        property bool numShowFormula: true
+
         onShowLupaChanged: sweg.centerZoomAndPos()
         onEnableBackgroundColorChanged: {
             if(enableBackgroundColor){
@@ -386,7 +392,7 @@ AppWin {
                         width: xLatIzq.width
                         height: app.fs*1.2
                         color: apps.fontColor
-                        property var aPanelesTits: ['Información','Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Aspecto en Tránsito', 'Opciones']
+                        property var aPanelesTits: ['Información','Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Aspecto en Tránsito', 'Numerología', 'Opciones']
                         Text{
                             text: parseInt(sv.currentIndex + 1)+': '+xPanelesTits.aPanelesTits[sv.currentIndex]
                             color: apps.backgroundColor
@@ -408,7 +414,8 @@ AppWin {
                         XPaneles{PanelRsList{id: panelRsList;itemIndex: 4}}
                         XPaneles{PanelAspTransList{id: panelAspTransList;itemIndex: 5}}
                         //XPaneles{PanelZonaMes{id: panelZonaMes;;itemIndex: 6}}
-                        XPaneles{PanelRemotoV2{id: panelRemoto;itemIndex: 6}}
+                        XPaneles{Num.NumPit{id: ncv;itemIndex: 6}}
+                        XPaneles{PanelRemotoV2{id: panelRemoto;itemIndex: 7}}
 
                     }
                     PageIndicator {
@@ -527,6 +534,7 @@ AppWin {
                         Behavior on h{NumberAnimation{duration: 250; easing.type: Easing.InOutQuad}}
                     }
                 }
+
             }
             Item{
                 id: xLatDer
@@ -550,7 +558,8 @@ AppWin {
         XSabianos{id: xSabianos}
         XInfoData{id: xInfoData}
         Editor{id: xEditor}
-        Num.NumCiclosVida{id: ncv; anchors.fill: parent}
+        Num.PanelLog{id: panelLog}
+        //Num.NumCiclosVida{id: ncv; anchors.fill: parent}
     }
     Init{longAppName: 'Zool'; folderName: 'zool'}
     Comps.XSelectColor{
