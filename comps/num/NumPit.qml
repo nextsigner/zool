@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import "../"
+import "../../comps" as Comps
 import "../../Funcs.js" as JS
 
 Rectangle {
@@ -23,6 +24,7 @@ Rectangle {
 
     //Número total de la fecha de nacimiento
     property int currentNumNacimiento: -1
+    property int currentNumNatalicio: -1
 
     //Numero total de Nombre
     property int currentNumNombre: -1
@@ -55,8 +57,11 @@ Rectangle {
     property int currentNumAnioPersonal: -1
     property bool esMaestro: false
 
+    //String Fórmulas
     property string sFormulaInt : ''
     property string sFormulaExt: ''
+    property string sFormulaNumPer : ''
+    property string sFormulaNatalicio : ''
 
     property int itemIndex: -1
 
@@ -70,13 +75,16 @@ Rectangle {
         currentNum=currentNumAnioPersonal-1
     }
     onCurrentDateChanged: {
+        //panelLog.l('CurrentDate: '+currentDate.toString())
+        //panelLog.visible=true
         let d = currentDate.getDate()
         let m = currentDate.getMonth() + 1
         let a = currentDate.getFullYear()
         let f = d + '/' + m + '/' + a
         let aGetNums=JS.getNums(f)
         currentNumNacimiento=aGetNums[0]
-        //txtDataDia.text=d
+        r.currentNumNatalicio=d
+        r.sFormulaNatalicio=aGetNums[1]
     }
     MouseArea{
         anchors.fill: parent
@@ -436,24 +444,216 @@ Rectangle {
                     }
                 }
             }
-            Text{
-                id: txtPersonalidad
-                text: opacity<1.0?'Esperando...':'<b>Personalidad:</b> '+r.currentNumPersonalidad+'<br /><b>N° de Nombre:</b> '+r.currentNumNombre+'<br /><b>Interior:</b> '+r.sFormulaInt+''+r.currentNumNombreInt+'<br /><b>Exterior:</b> '+r.sFormulaExt+''+r.currentNumNombreExt+'<br /><b>N° de Firma:</b> '+r.currentNumFirma+'<br /><b>Destino:</b> '+r.currentNumDestino
-                color: apps.fontColor
-                font.pixelSize: app.fs*0.5
-                width: parent.width-app.fs
-                textFormat: Text.RichText
+            Rectangle{
+                id: xResults
+                width: r.width-app.fs*0.25
+                height: children[0].height+app.fs*0.5
+                border.width: 2
+                border.color: apps.fontColor
+                color: 'transparent'
+                radius: app.fs*0.25
                 anchors.horizontalCenter: parent.horizontalCenter
-                opacity: r.currentNumPersonalidad!==-1&&r.currentNumNombre!==-1&&r.currentNumNombreInt!==-1&&r.currentNumNombreExt!==-1&&r.currentNumFirma!==-1&&r.currentNumDestino!==-1?1.0:0.5
-            }
-            Button{
-                text:  'Calcular'
-                anchors.horizontalCenter: parent.horizontalCenter
-                visible: txtPersonalidad.opacity<1.0
-                onClicked: {
-                    calc()
+                Column{
+                    spacing: app.fs*0.5
+                    width: r.width-app.fs*0.5
+                    anchors.centerIn: parent
+                    opacity: r.currentNumPersonalidad!==-1&&r.currentNumNombre!==-1&&r.currentNumNombreInt!==-1&&r.currentNumNombreExt!==-1&&r.currentNumFirma!==-1&&r.currentNumDestino!==-1?1.0:0.5
+                    Text{
+                        text:'<b>Resultados</b> '
+                        font.pixelSize: app.fs*0.75
+                        color: apps.fontColor
+                        //anchors.verticalCenter: parent.verticalCenter
+                    }
+                    Row{
+                        spacing: app.fs*0.25
+                        Text{
+                            text:'<b>N° de Nacimiento/Karma:</b> '+r.currentNumNacimiento
+                            font.pixelSize: app.fs*0.5
+                            color: apps.fontColor
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Comps.ButtonIcon{
+                            text: '\uf06e'
+                            width: app.fs*0.6
+                            height: width
+                            anchors.verticalCenter: parent.verticalCenter
+                            onClicked: {
+                                let genero='m'
+                                if(rbF.checked)genero='f'
+                                panelLog.clear()
+                                if(checkBoxFormula.checked){
+                                    panelLog.l('N° de Nacimiento/Karma '+r.currentNumNacimiento+'\n')
+                                    panelLog.l('Fórmula: '+f0.text+'\n')
+                                    panelLog.l(getItemJson('per'+r.currentNumNacimiento+genero))
+                                }else{
+                                    panelLog.l('¿Cómo es su vibración de nacimiento o karma '+r.currentNumNacimiento+'?\n')
+                                    panelLog.l(getItemJson('per'+r.currentNumNacimiento+genero))
+                                }
+                                panelLog.visible=true
+                                panelLog.flk.contentY=0
+                            }
+                        }
+                    }
+                    Row{
+                        spacing: app.fs*0.25
+                        Text{
+                            text:'<b>Personalidad:</b> '+r.currentNumPersonalidad
+                            font.pixelSize: app.fs*0.5
+                            color: apps.fontColor
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Comps.ButtonIcon{
+                            text: '\uf06e'
+                            width: app.fs*0.6
+                            height: width
+                            anchors.verticalCenter: parent.verticalCenter
+                            onClicked: {
+                                let genero='m'
+                                if(rbF.checked)genero='f'
+                                panelLog.clear()
+                                if(checkBoxFormula.checked){
+                                    panelLog.l('Personalidad '+r.currentNumPersonalidad+'\n')
+                                    panelLog.l('Fórmula: '+r.sFormulaNumPer+'\n')
+                                    panelLog.l(getItemJson('per'+r.currentNumPersonalidad+genero))
+                                }else{
+                                    panelLog.l('¿Cómo es su personalidad?\n')
+                                    panelLog.l(getItemJson('per'+r.currentNumPersonalidad+genero))
+                                }
+                                panelLog.visible=true
+                                panelLog.flk.contentY=0
+                            }
+                        }
+                    }
+                    Rectangle{
+                        width: xResults.width-app.fs*0.25
+                        height: children[0].height+app.fs*0.5
+                        border.width: 2
+                        border.color: apps.fontColor
+                        color: 'transparent'
+                        Column{
+                            anchors.centerIn: parent
+                            spacing: app.fs*0.25
+                            width: parent.width-app.fs*0.5
+                            Row{
+                                spacing: app.fs*0.5
+                                Text{
+                                    text:'<b>Nombre:</b> '+r.currentNumNombre
+                                    font.pixelSize: app.fs*0.5
+                                    color: apps.fontColor
+                                    anchors.verticalCenter: parent.verticalCenter
+                                }
+                                Comps.ButtonIcon{
+                                    text: '\uf06e'
+                                    width: app.fs*0.6
+                                    height: width
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    onClicked: {
+                                        if(txtDataSearchNom.text==='')return
+                                        panelLog.clear()
+                                        panelLog.l(getNumNomText(txtDataSearchNom.text))
+                                        panelLog.visible=true
+                                        panelLog.flk.contentY=0
+                                    }
+                                }
+                            }
+                            Text{
+                                text:'<b>* Interior:</b> '+r.sFormulaInt+''+r.currentNumNombreInt+'<br />       <b>* Exterior:</b> '+r.sFormulaExt+''+r.currentNumNombreExt
+                                width: r.width-app.fs*0.6
+                                wrapMode: Text.WordWrap
+                                font.pixelSize: app.fs*0.5
+                                color: apps.fontColor
+                                //anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                    }
+                    Row{
+                        spacing: app.fs*0.25
+                        Text{
+                            text:'<b>Natalicio:</b> '+r.currentNumNatalicio+' / '+r.sFormulaNatalicio
+                            font.pixelSize: app.fs*0.5
+                            color: apps.fontColor
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Comps.ButtonIcon{
+                            text: '\uf06e'
+                            width: app.fs*0.6
+                            height: width
+                            anchors.verticalCenter: parent.verticalCenter
+                            onClicked: {
+                                if(txtDataSearchNom.text==='')return
+                                panelLog.clear()
+                                panelLog.l(getDataJsonNumDia())
+                                panelLog.visible=true
+                                panelLog.flk.contentY=0
+                            }
+                        }
+                    }
+                    Row{
+                        spacing: app.fs*0.25
+                        Text{
+                            text:'<b>Firma:</b> '+r.currentNumFirma
+                            font.pixelSize: app.fs*0.5
+                            color: apps.fontColor
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Comps.ButtonIcon{
+                            text: '\uf06e'
+                            width: app.fs*0.6
+                            height: width
+                            anchors.verticalCenter: parent.verticalCenter
+                            onClicked: {
+                                panelLog.clear()
+                                panelLog.l('¿Cómo es la energía de su firma?\n')
+                                panelLog.l(getItemJson('firma'+r.currentNumFirma))
+                                panelLog.visible=true
+                                panelLog.flk.contentY=0
+                            }
+                        }
+                    }
+                    Row{
+                        spacing: app.fs*0.25
+                        Text{
+                            text:'<b>Destino:</b> '+r.currentNumDestino
+                            font.pixelSize: app.fs*0.5
+                            color: apps.fontColor
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Comps.ButtonIcon{
+                            text: '\uf06e'
+                            width: app.fs*0.6
+                            height: width
+                            anchors.verticalCenter: parent.verticalCenter
+                            onClicked: {
+                                panelLog.clear()
+                                panelLog.l('¿Cómo podría ser su destino?\n')
+                                panelLog.l(getItemJson('dest'+r.currentNumDestino))
+                                panelLog.visible=true
+                                panelLog.flk.contentY=0
+                            }
+                        }
+                    }
                 }
             }
+
+            //            Text{
+            //                id: txtPersonalidad
+            //                text: opacity<1.0?'Esperando...':'<b>Destino:</b> '+r.currentNumDestino
+            //                color: apps.fontColor
+            //                font.pixelSize: app.fs*0.5
+            //                width: parent.width-app.fs
+            //                textFormat: Text.RichText
+            //                anchors.horizontalCenter: parent.horizontalCenter
+            //                opacity: r.currentNumPersonalidad!==-1&&r.currentNumNombre!==-1&&r.currentNumNombreInt!==-1&&r.currentNumNombreExt!==-1&&r.currentNumFirma!==-1&&r.currentNumDestino!==-1?1.0:0.5
+            //            }
+            //            Button{
+            //                text:  'Calcular'
+            //                anchors.horizontalCenter: parent.horizontalCenter
+            //                visible: txtPersonalidad.opacity<1.0
+            //                onClicked: {
+            //                    calc()
+            //                }
+            //            }
+
             Rectangle{
                 id: xAP
                 width: r.width//-app.fs*0.5
@@ -470,12 +670,22 @@ Rectangle {
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        Text{
-                            id: labelAP
-                            text: '<b>N° Año Personal</b>'
-                            color: apps.fontColor
-                            font.pixelSize: app.fs*0.5
+                        Column{
                             anchors.verticalCenter: parent.verticalCenter
+                            Text{
+                                id: labelAP
+                                text: '<b>N° Año</b>'
+                                color: apps.fontColor
+                                font.pixelSize: app.fs*0.5
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
+                            Text{
+                                id: labelAP2
+                                text: '<b>Personal</b>'
+                                color: apps.fontColor
+                                font.pixelSize: app.fs*0.5
+                                anchors.horizontalCenter: parent.horizontalCenter
+                            }
                         }
                         Rectangle{
                             id: xTiFechaAP
@@ -604,68 +814,21 @@ Rectangle {
                             onCheckedChanged: apps.numShowFormula=checked
                         }
                     }
-                    Row{
-                        spacing: app.fs*0.25
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        Button{
-                            text:  'Natalicio'
-                            anchors.verticalCenter: parent.verticalCenter
-                            onClicked: {
-                                if(txtDataSearchNom.text==='')return
-                                panelLog.clear()
-                                panelLog.l(getDataJsonNumDia())
-                                panelLog.visible=true
-                                panelLog.flk.contentY=0
-                            }
-                        }
-                        Button{
-                            text:  'Nombre'
-                            anchors.verticalCenter: parent.verticalCenter
-                            onClicked: {
-                                if(txtDataSearchNom.text==='')return
-                                panelLog.clear()
-                                panelLog.l(getNumNomText(txtDataSearchNom.text))
-                                panelLog.visible=true
-                                panelLog.flk.contentY=0
-                            }
-                        }
-                        Button{
-                            text:  'Personalidad'
-                            anchors.verticalCenter: parent.verticalCenter
-                            onClicked: {
-                                panelLog.clear()
-                                if(checkBoxFormula.checked){
-                                    panelLog.l('Personalidad '+r.currentNumPersonalidad+'\n')
-                                    panelLog.l('Fórmula: '+f0.text+'\n')
-                                    panelLog.l(getItemJson('per'+r.currentNumPersonalidad))
-                                }else{
-                                    panelLog.l('¿Cómo es su personalidad?\n')
-                                    panelLog.l(getItemJson('per'+r.currentNumPersonalidad))
-                                }
-                                panelLog.visible=true
-                                panelLog.flk.contentY=0
-                            }
-                        }
-                        Button{
-                            text:  'Nacimiento/Karma'
-                            anchors.verticalCenter: parent.verticalCenter
-                            onClicked: {
-                                let genero='m'
-                                if(rbF.checked)genero='f'
-                                panelLog.clear()
-                                if(checkBoxFormula.checked){
-                                    panelLog.l('N° de Nacimiento/Karma '+r.currentNumNacimiento+'\n')
-                                    panelLog.l('Fórmula: '+f0.text+'\n')
-                                    panelLog.l(getItemJson('per'+r.currentNumNacimiento))
-                                }else{
-                                    panelLog.l('¿Cómo es su vibración de nacimiento o karma '+r.currentNumNacimiento+'?\n')
-                                    panelLog.l(getItemJson('per'+r.currentNumNacimiento+genero))
-                                }
-                                panelLog.visible=true
-                                panelLog.flk.contentY=0
-                            }
-                        }
-                    }
+//                    Row{
+//                        spacing: app.fs*0.25
+//                        anchors.horizontalCenter: parent.horizontalCenter
+//                        Button{
+//                            text:  'Natalicio'
+//                            anchors.verticalCenter: parent.verticalCenter
+//                            onClicked: {
+//                                if(txtDataSearchNom.text==='')return
+//                                panelLog.clear()
+//                                panelLog.l(getDataJsonNumDia())
+//                                panelLog.visible=true
+//                                panelLog.flk.contentY=0
+//                            }
+//                        }
+//                    }
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -1215,21 +1378,39 @@ Rectangle {
 
     }
     function calcularPersonalidad(){
+        r.sFormulaNumPer='Se reduce a un dígito la suma de los números de su fecha de nacimiento ('+r.currentNumNacimiento+') más la suma de todas las letras de su nombre ('+r.currentNumNombre+')\n'
         let ret=r.currentNumNacimiento + r.currentNumNombre
+        r.sFormulaNumPer+=''+r.currentNumNacimiento +'+'+ r.currentNumNombre
         let m0
         if(ret>9){
             m0=(''+ret).split('')
             ret=parseInt(m0[0]) + parseInt(m0[1])
+            r.sFormulaNumPer+='='+parseInt(m0[0]) +'+'+ parseInt(m0[1])
         }
         if(ret>9){
             m0=(''+ret).split('')
             ret=parseInt(m0[0]) + parseInt(m0[1])
+            r.sFormulaNumPer+='='+parseInt(m0[0]) +'+'+ parseInt(m0[1])
         }
         if(ret>9){
             m0=(''+ret).split('')
             ret=parseInt(m0[0]) + parseInt(m0[1])
+            r.sFormulaNumPer+='='+parseInt(m0[0]) +'+'+ parseInt(m0[1])
         }
+        r.sFormulaNumPer+='='+ret
         r.currentNumPersonalidad=ret
+    }
+    function setCurrentDate(date){
+        let d = date.getDate()
+        let m = date.getMonth() + 1
+        let a = date.getFullYear()
+        txtDataSearchFecha.text=d + '.' + m + '.' + a
+    }
+    function setCurrentNombre(nom){
+        txtDataSearchNom.text=nom
+    }
+    function setCurrentFirma(firma){
+        txtDataSearchFirma.text=firma
     }
     function setNumNac(){
         let mfecha=txtDataSearchFecha.text.split('.')
@@ -1311,7 +1492,7 @@ Rectangle {
         ret+='\n\nCuadro Numerológico de '+txtDataSearchNom.text+'\n\n'
         if(checkBoxFormula.checked){
             ret+='Personalidad '+r.currentNumPersonalidad+'\n'
-            ret+='Fórmula: '+f0.text+'\n'
+            ret+='Fórmula: '+r.sFormulaNumPer+'\n'
 
             ret+=getItemJson('per'+r.currentNumPersonalidad+genero)
         }else{

@@ -59,7 +59,8 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             TextInput {
                 id: txtDataSearch
-                text: 'Archivos svIndex: '+r.svIndex+' itemIndex: '+r.itemIndex+' focus:'+focus
+                //text: 'Archivos svIndex: '+r.svIndex+' itemIndex: '+r.itemIndex+' focus:'+focus
+                text: 'Archivos'
                 font.pixelSize: app.fs*0.5
                 width: parent.width-app.fs
                 wrapMode: Text.WordWrap

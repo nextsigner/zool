@@ -49,6 +49,8 @@ Item {
                 anchors.fill: parent
                 onClicked: {
                     ncv.currentDate=app.currentDate
+                    ncv.setCurrentDate(app.currentDate)
+                    ncv.setCurrentNombre(app.currentNom)
                     sv.currentIndex=6
                     //ncv.printData(app.currentNom, app.currentDate)
                     //ncv.visible=true

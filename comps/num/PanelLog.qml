@@ -30,7 +30,7 @@ Rectangle{
             //wrapMode: r.ww?Text.WordWrap:Text.WrapAnywhere
             wrapMode: Text.WordWrap
             anchors.horizontalCenter: parent.horizontalCenter
-            font.pixelSize: app.fs*0.5
+            font.pixelSize: apps.numPanelLogFs
             color: apps.fontColor
             //background: Rectangle{color: 'transparent'}
             //enabled: false

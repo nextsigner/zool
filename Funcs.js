@@ -291,6 +291,7 @@ function loadJson(file){
     app.currentLat= 0.0
     app.uSon=''
     panelControlsSign.state='hide'
+    app.ev=false
 
     apps.url=file
     let fn=apps.url

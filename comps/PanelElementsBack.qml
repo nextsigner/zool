@@ -50,7 +50,11 @@ Item {
                 anchors.fill: parent
                 onClicked: {
                     ncv.currentDate=app.currentDateBack
-                    ncv.visible=true
+                    ncv.setCurrentDate(app.currentDateBack)
+                    ncv.setCurrentNombre(app.currentNomBack)
+                    sv.currentIndex=6
+                    //ncv.currentDate=app.currentDateBack
+                    //ncv.visible=true
                 }
             }
             Row{

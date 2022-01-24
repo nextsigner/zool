@@ -288,6 +288,7 @@ AppWin {
         property string numUNom
         property string numUFirma
         property bool numShowFormula: true
+        property int numPanelLogFs: app.fs*0.5
 
         onShowLupaChanged: sweg.centerZoomAndPos()
         onEnableBackgroundColorChanged: {

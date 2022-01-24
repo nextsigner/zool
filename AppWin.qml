@@ -203,8 +203,8 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Esc'
         onActivated: {
-            if(ncv.visible){
-                ncv.visible=false
+            if(panelLog.visible){
+                panelLog.visible=false
                 return
             }
             if(xEditor.visible&&xEditor.e.textEdit.focus){
@@ -616,12 +616,20 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Ctrl++'
         onActivated: {
+            if(panelLog.visible&&apps.numPanelLogFs<app.fs*2){
+                apps.numPanelLogFs+=app.fs*0.1
+                return
+            }
             sweg.width+=app.fs
         }
     }
     Shortcut{
         sequence: 'Ctrl+-'
         onActivated: {
+            if(panelLog.visible&&apps.numPanelLogFs>app.fs*0.5){
+                apps.numPanelLogFs-=app.fs*0.1
+                return
+            }
             sweg.width-=app.fs
         }
     }
