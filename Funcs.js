@@ -364,6 +364,30 @@ function loadJson(file){
     app.currentLat=vlat
 
     setTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
+
+    if(jsonData.params.tipo==='sin'){
+        nom=jsonData.paramsBack.n.replace(/_/g, ' ')
+        vd=jsonData.paramsBack.d
+        vm=jsonData.paramsBack.m
+        va=jsonData.paramsBack.a
+        vh=jsonData.paramsBack.h
+        vmin=jsonData.paramsBack.min
+        vgmt=jsonData.paramsBack.gmt
+        vlon=jsonData.paramsBack.lon
+        vlat=jsonData.paramsBack.lat
+        let valt=0
+        if(jsonData.paramsBack.alt){
+            valt=jsonData.paramsBack.alt
+        }
+        vCiudad=jsonData.paramsBack.ciudad.replace(/_/g, ' ')
+        //let edad=''
+        //numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
+        //let stringEdad=edad.indexOf('NaN')<0?edad:''
+
+        loadFromArgsBack(vd, vm, va, vh, vmin, vgmt, vlat, vlon, valt, nom, vCiudad, 'sin', false)
+        //log.l('Cargando sinastría...')
+        //log.visible=true
+    }
     //xDataBar.titleData=textData
     xDataBar.state='show'
     app.setFromFile=false

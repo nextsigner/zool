@@ -379,8 +379,22 @@ Rectangle{
                     Button{
                         text: 'Ver Información Astromedicina'
                         height: app.fs*0.6
+                        anchors.horizontalCenter: parent.horizontalCenter
                         onClicked: {
                             xInfoData.loadData('./resources/astromedicina.html')
+                        }
+                    }
+                    Button{
+                        text: 'Mostrar Información de Archivo'
+                        width: implicitContentWidth+app.fs*0.5
+                        height: app.fs*0.6
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        onClicked: {
+                            let s=''
+                            s+='Nombre del archivo actual: '+apps.url+'\n\n'
+                            s+='Json Data: '+app.fileData
+                            log.l(s)
+                            log.visible=true
                         }
                     }
                 }

@@ -28,6 +28,16 @@ Rectangle {
         //            }
         //        }
         Row{
+            ButtonIcon{
+                text:  '<b>E</b>'
+                width: apps.botSize
+                height: width
+                onClicked: {
+                    app.ev=!app.ev
+                }
+            }
+        }
+        Row{
             spacing: app.fs*0.25
             anchors.right: parent.right
             Button{

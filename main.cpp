@@ -9,7 +9,7 @@
 #include "unikqprocess.h"
 #include "unik.h"
 
-#define VERSION "0.71"
+#define VERSION "0.73"
 
 
 int main(int argc, char *argv[])
