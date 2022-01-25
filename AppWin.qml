@@ -228,6 +228,8 @@ ApplicationWindow {
             }
             if(app.currentPlanetIndexBack>=0){
                 app.currentPlanetIndexBack=-1
+                app.currentPlanetIndexBack=-1
+                sweg.objHousesCircleBack.currentHouse=-1
                 return
             }
             if(xSabianos.visible){
@@ -378,6 +380,10 @@ ApplicationWindow {
                 app.currentXAs.rot(false)
                 return
             }
+            if(app.currentPlanetIndexBack>=0 && app.currentXAsBack){
+                app.currentXAsBack.rot(false)
+                return
+            }
             if(menuBar.expanded&&!xSabianos.visible){
                 menuBar.left()
                 return
@@ -397,6 +403,10 @@ ApplicationWindow {
             }
             if(app.currentPlanetIndex>=0 && app.currentXAs){
                 app.currentXAs.rot(true)
+                return
+            }
+            if(app.currentPlanetIndexBack>=0 && app.currentXAsBack){
+                app.currentXAsBack.rot(true)
                 return
             }
             if(menuBar.expanded&&!xSabianos.visible){
@@ -446,6 +456,19 @@ ApplicationWindow {
                     }
                 }else{
                     app.currentXAs.saveZoomAndPos()
+                }
+                return
+            }
+            if(app.currentPlanetIndexBack>=0&&app.currentXAsBack){
+                if(app.currentPlanetIndexBack===16||app.currentPlanetIndexBack===15){
+                    if(app.currentPlanetIndexBack===16){
+                        app.currentXAs.saveZoomAndPos('mcBack')
+                    }
+                    if(app.currentPlanetIndexBack===15){
+                        app.currentXAsBack.saveZoomAndPos('ascBack')
+                    }
+                }else{
+                        app.currentXAsBack.saveZoomAndPos()
                 }
                 return
             }

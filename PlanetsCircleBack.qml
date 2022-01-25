@@ -48,8 +48,8 @@ Item{
             app.currentPlanetIndexBack=o.numAstro
         }else{
             app.currentPlanetIndexBack=-1
+            sweg.objHousesCircleBack.currentHouse=-1
         }
-        //unik.speak(''+app.planetas[o.numAstro]+' en '+app.signos[o.objData.ns]+' en el grado '+o.objData.g+' en la casa '+o.objData.h)
     }
     function doublePressed(o){
 

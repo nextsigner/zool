@@ -124,10 +124,13 @@ AppWin {
     //XAs
     property var currentXAs
     property bool showPointerXAs: true
+    property var currentXAsBack
+    property bool showPointerXAsBack: true
 
     property bool sspEnabled: false
 
     onCurrentPlanetIndexChanged: {
+        if(currentPlanetIndex>=0)app.currentPlanetIndexBack=-1
         if(sspEnabled){
             if(currentPlanetIndex>=-1&&currentPlanetIndex<10){
                 app.ip.opacity=1.0
@@ -147,6 +150,9 @@ AppWin {
                 swegz.sweg.objHousesCircle.currentHouse=10
             }*/
         }
+    }
+    onCurrentPlanetIndexBackChanged: {
+        if(currentPlanetIndexBack>=0)app.currentPlanetIndex=-1
     }
     onCurrentGmtChanged: {
         if(app.currentData===''||app.setFromFile)return
