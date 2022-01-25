@@ -237,7 +237,7 @@ Item{
         }else{
                 pointerPlanet.pointerRot-=5
         }
-        saveRot(pointerPlanet.pointerRot)
+        saveRot(parseInt(pointerPlanet.pointerRot))
     }
     function saveRot(rot){
         let json=JSON.parse(app.fileData)

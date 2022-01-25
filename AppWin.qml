@@ -207,6 +207,10 @@ ApplicationWindow {
                 panelLog.visible=false
                 return
             }
+            if(log.visible){
+                log.visible=false
+                return
+            }
             if(xEditor.visible&&xEditor.e.textEdit.focus){
                 xEditor.e.textEdit.focus=false
                 xEditor.focus=true
