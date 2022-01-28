@@ -568,6 +568,24 @@ AppWin {
         Num.PanelLog{id: panelLog}
         //Num.NumCiclosVida{id: ncv; anchors.fill: parent}
     }
+    Timer{
+        id: tAutoMaticPlanets
+        running: false
+        repeat: true
+        interval: 10000
+        property string currentJsonData: ''
+        onTriggered: {
+            if(tAutoMaticPlanets.currentJsonData!==app.currentData){
+                tAutoMaticPlanets.stop()
+                return
+            }
+            if(app.currentPlanetIndex<16){
+                app.currentPlanetIndex++
+            }else{
+                app.currentPlanetIndex=-1
+            }
+        }
+    }
     Init{longAppName: 'Zool'; folderName: 'zool'}
     Comps.XSelectColor{
         id: xSelectColor

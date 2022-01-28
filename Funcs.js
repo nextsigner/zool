@@ -178,17 +178,35 @@ function getJSON(fileLocation, comp, s, c, nomCuerpo) {
                     //console.log('Abriendo dato signo:'+s+' casa:'+c+'...')
                     let dataJson0=''
                     let data=''//+result['h'+c]
+
+                    //Dato Global
+                    if(result['sg']){
+                        let dataJsonG=result['sg'].split('|')
+                        data+='<h2>Significado de '+nomCuerpo+'</h2>'
+                        for(i=0;i<dataJsonG.length;i++){
+                            data+='<p>'+dataJsonG[i]+'</p>'
+                        }
+                    }else{
+                        //log.l('Dato sg no existe! '+jsonFileUrl)
+                        //log.visible=true
+                    }
+
                     if(result['h'+c]){
                         console.log('Abriendo dato de casa... ')
                         dataJson0=result['h'+c].split('|')
-                        data='<h2>'+nomCuerpo+' en casa '+c+'</h2>'
+                        data+='<h2>'+nomCuerpo+' en casa '+c+'</h2>'
                         for(var i=0;i<dataJson0.length;i++){
                             data+='<p>'+dataJson0[i]+'</p>'
                         }
-                    }
+                    }                    
+
                     //console.log('Signo para mostar: '+s)
                     if(result['s'+s]){
                         console.log('Abriendo dato de signo... ')
+
+
+
+
                         dataJson0=result['s'+s].split('|')
                         data+='<h2>'+nomCuerpo+' en '+app.signos[s - 1]+'</h2>'
                         for(i=0;i<dataJson0.length;i++){
@@ -299,6 +317,13 @@ function loadJson(file){
     let jsonFileData=unik.getFile(jsonFileName).replace(/\n/g, '')
     app.fileData=jsonFileData
     app.currentData=app.fileData
+    if(jsonFileData.length<10){
+        log.l('Error al cargar el archivo '+file)
+        log.l('Datos: '+jsonFileData)
+        log.visible=true
+
+        return
+    }
     let jsonData=JSON.parse(jsonFileData)
     if(jsonData.params.tipo){
         app.mod=jsonData.params.tipo

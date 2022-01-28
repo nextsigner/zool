@@ -354,24 +354,26 @@ Rectangle{
                                 tAutoMaticPlanets.running=checked
                                 if(checked)app.currentPlanetIndex=0
                             }
-                            Timer{
-                                id: tAutoMaticPlanets
-                                running: false
-                                repeat: true
-                                interval: 10000
-                                property string currentJsonData: ''
-                                onTriggered: {
-                                    if(tAutoMaticPlanets.currentJsonData!==app.currentData){
-                                        tAutoMaticPlanets.stop()
-                                        return
-                                    }
-                                    if(app.currentPlanetIndex<16){
-                                        app.currentPlanetIndex++
-                                    }else{
-                                        app.currentPlanetIndex=-1
-                                    }
-                                }
-                            }
+
+//                            Timer{
+//                                id: tAutoMaticPlanets
+//                                running: false
+//                                repeat: true
+//                                interval: 10000
+//                                property string currentJsonData: ''
+//                                onTriggered: {
+//                                    if(tAutoMaticPlanets.currentJsonData!==app.currentData){
+//                                        tAutoMaticPlanets.stop()
+//                                        return
+//                                    }
+//                                    if(app.currentPlanetIndex<16){
+//                                        app.currentPlanetIndex++
+//                                    }else{
+//                                        app.currentPlanetIndex=-1
+//                                    }
+//                                }
+//                            }
+
                         }
                     }
 

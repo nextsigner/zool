@@ -27,7 +27,11 @@ Rectangle {
         //                JS.showIW()
         //            }
         //        }
+
+        //Botones de prueba.  Chequear la propiedad visible de este Row{}
         Row{
+            //visible: false
+            anchors.right: parent.right
             ButtonIcon{
                 text:  '<b>E</b>'
                 width: apps.botSize

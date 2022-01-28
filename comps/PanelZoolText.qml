@@ -62,31 +62,26 @@ Rectangle{
                     repeat: true
                     interval: 12000
                     property int v: 1
+                    property var aTimes: [3000, 10000]
                     onTriggered: {
                         //txtAboutZool.text=txtAboutZool.aData[v]
                         if(v<txtAboutZool.aData.length-1){
                             v++
                         }else{
+                            loadZoolText()
                             v=0
+                        }
+                        if(aTimes.length>0){
+                            interval=aTimes[v]
+                        }else{
+                            interval=12000
                         }
                         txtAboutZool.opacity=0.0
                         running=false
                     }
                 }
                 Component.onCompleted: {
-                    let appArgs=Qt.application.arguments
-                    let fp
-                    let data
-                    fp='./resources/zooltext.txt'
-                    if(appArgs.indexOf('tempzooltext')>=0){
-                        fp=unik.getPath(7)+'/tempzooltext'
-                        if(unik.fileExist(fp)){
-                            data=unik.getFile(fp)
-                        }
-                    }else{
-                        data=unik.getFile(fp)
-                    }
-                    aData=data.split('---')
+                    loadZoolText()
                 }
             }
         }
@@ -99,5 +94,61 @@ Rectangle{
             border.width: 1
             border.color: apps.fontColor
         }
+    }
+    function loadZoolText(){
+        let appArgs=Qt.application.arguments
+        let fp
+        let data
+        fp='./resources/zooltext.txt'
+        let arg=''
+        for(var i=0;i<appArgs.length;i++){
+            let a=appArgs[i]
+            if(a.indexOf('tempzooltext')>=0){
+                let ma=a.split('=')
+                if(ma.length>1){
+                    arg=ma[1]
+                }
+            }
+        }
+        if(arg!==''){
+            fp=arg
+            if(unik.fileExist(fp)){
+                data=unik.getFile(fp)
+            }
+        }else{
+            data=unik.getFile(fp)
+        }
+        var aD=[]
+        var aT=[]
+        var aS=data.split('---')
+        for(i=0;i<aS.length;i++){
+            let dato=aS[i]
+            if(dato.indexOf('time=')<0&&dato.indexOf('qml=')<0){
+                aD.push(aS[i])
+            }else if(dato.indexOf('qml=')>=0){
+                let code=''
+                let mAC=aS[i].split('qml=')
+                if(mAC.length>1){
+                    code=mAC[1]
+                    let comp=Qt.createQmlObject(code, app, 'qmlcodearg')
+                }else{
+                    log.l('Error en carga de código qml en archivo '+arg)
+                    log.visible=true
+                }
+            }else{
+                let mAT=aS[i].split('=')
+                if(mAT.length>1){
+                    aT.push(parseInt(mAT[1]))
+                }else{
+                    aT.push(12000)
+                }
+            }
+        }
+        //txtAboutZool.aData=data.split('---')
+        //log.l('aD: '+aD.toString())
+        //log.l('aT: '+aT.toString())
+        //log.visible=true
+        txtAboutZool.aData=aD
+        tTxtAboutZool.aTimes=aT
     }
 }
