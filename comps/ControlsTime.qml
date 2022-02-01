@@ -28,11 +28,18 @@ Rectangle {
         r.hora=r.currentDate.getHours()
         r.minuto=r.currentDate.getMinutes()
         if(r.setAppTime){
+            //log.l('222 Reload CD1...')
+            //log.visible=true
+            //log.l('-1 Reload CD1... '+r.setAppTime)
+            //log.visible=true
             if(!r.isBack){
                 app.currentDate=r.currentDate
             }else{
                 app.currentDateBack=r.currentDate
             }
+        }else{
+            //log.l('333 Reload CD1...')
+            //log.visible=true
         }
         //r.setAppTime=true
     }
@@ -343,8 +350,10 @@ Rectangle {
         if(!r.currentDate)r.currentDate=new Date(Date.now())
     }
     function setTime(datetime){
+        let sap=r.setAppTime
         r.setAppTime=false
         r.currentDate=datetime
+        r.setAppTime=sap
     }
     function toRight(){
         if(r.cFocus<5){

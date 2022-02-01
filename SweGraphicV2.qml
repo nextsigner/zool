@@ -512,6 +512,7 @@ Item {
             //panelSabianos.state='show'
             sv.currentIndex=1
         }
+        centerZoomAndPos()
         panelAspTransList.state='hide'
         //        } catch(e) {
         //            //alert(e); // error in the above string (in this case, yes)!
@@ -541,8 +542,8 @@ Item {
         housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
         panelDataBodies.loadJsonBack(j)
-        //planetsCircleBack.visible=true
         app.ev=true
+        centerZoomAndPos()
     }
     function nextState(){
         let currentIndexState=r.aStates.indexOf(r.state)
@@ -577,14 +578,14 @@ Item {
     }
     function getZoomAndPos(){
         let a = []
-        a.push(pinchArea.m_x1)
-        a.push(pinchArea.m_y1)
-        a.push(pinchArea.m_x2)
-        a.push(pinchArea.m_y2)
-        a.push(pinchArea.m_zoom1)
-        a.push(pinchArea.m_zoom2)
-        a.push(rect.x)
-        a.push(rect.y)
+        a.push(parseFloat(pinchArea.m_x1).toFixed(2))
+        a.push(parseFloat(pinchArea.m_y1).toFixed(2))
+        a.push(parseFloat(pinchArea.m_x2).toFixed(2))
+        a.push(parseFloat(pinchArea.m_y2).toFixed(2))
+        a.push(parseFloat(pinchArea.m_zoom1).toFixed(2))
+        a.push(parseFloat(pinchArea.m_zoom2).toFixed(2))
+        a.push(parseInt(rect.x))
+        a.push(parseInt(rect.y))
         return a
     }
 }

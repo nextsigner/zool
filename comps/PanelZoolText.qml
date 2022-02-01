@@ -9,6 +9,7 @@ Rectangle{
     border.color: apps.fontColor
     property int svIndex: sv.currentIndex
     property int itemIndex: -1
+    property bool noFoundFileExistNofify: false
     Column{
         id: col0
         anchors.centerIn: parent
@@ -98,7 +99,7 @@ Rectangle{
     function loadZoolText(){
         let appArgs=Qt.application.arguments
         let fp
-        let data
+        let data=''
         fp='./resources/zooltext.txt'
         let arg=''
         for(var i=0;i<appArgs.length;i++){
@@ -111,6 +112,14 @@ Rectangle{
             }
         }
         if(arg!==''){
+            if(!unik.fileExist(arg)&&!r.noFoundFileExistNofify){
+                r.noFoundFileExistNofify=true
+                log.l('El archivo ingresado mediante el parámetro tempzooltext no existe.')
+                log.l('Archivo tempzooltex: '+arg)
+                log.l('Cargando archivo por defecto tempzooltex: '+fp)
+                log.visible=true
+                data=unik.getFile(fp)
+            }
             fp=arg
             if(unik.fileExist(fp)){
                 data=unik.getFile(fp)

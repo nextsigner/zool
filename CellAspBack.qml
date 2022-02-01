@@ -62,6 +62,7 @@ Rectangle {
                 //swegz.sweg.objAspsCircle.currentAspSelectedBack=r.indexPosAsp
                 ma.uCurrentPlanetIndex=app.currentPlanetIndexBack
                 app.currentPlanetIndexBack=-1
+                apps.showAspCircleBack=true
             }else{
                 sweg.objAspsCircle.currentAspSelectedBack=-1
                 //swegz.sweg.objAspsCircle.currentAspSelectedBack=-1

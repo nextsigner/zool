@@ -10,6 +10,7 @@ Rectangle {
     property int cellWidth: app.fs*0.5
     Row{
         id: row
+        visible: apps.showAspPanelBack
         Repeater{
             model: r.visible?15:0
             CellColumnAspBack{planet: index;cellWidth: r.cellWidth; objectName: 'cellRowAsp_'+index}
@@ -24,24 +25,40 @@ Rectangle {
         }
         //Rectangle{anchors.fill: parent; color: 'red';opacity:0.5}
     }
-    Button{
-        id: bot
+    Rectangle{
         width: r.cellWidth
         height: width
-        text:  ''
-        //checkable: true
-        //checked: apps.showAspCircle
-        anchors.bottom: parent.top
+        color: apps.fontColor
+        anchors.bottom: apps.showAspPanelBack?parent.top:parent.bottom
+        border.width: 1
+        border.color: apps.backgroundColor
         rotation: 180
-        onClicked: {
-            apps.showAspCircleBack=!apps.showAspCircleBack
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                if (mouse.modifiers & Qt.ControlModifier) {
+                    apps.showAspCircleBack=!apps.showAspCircleBack
+                    return
+                }
+                apps.showAspPanelBack=!apps.showAspPanel
+            }
         }
         Text{
-            text:  apps.showAspCircleBack?'\uf06e':'\uf070'
+            text:  apps.showAspCircle?'\uf06e':'\uf070'
             font.family: "FontAwesome"
             font.pixelSize: r.cellWidth*0.8
-            opacity: apps.showAspCircleBack?1.0:0.65
+            color: apps.backgroundColor
+            opacity: apps.showAspCircle?1.0:0.65
             anchors.centerIn: parent
+        }
+        Text{
+            text:  'Aspextos'
+            font.pixelSize: app.fs*0.25
+            color: apps.fontColor
+            opacity: apps.showAspPanelBack?0.0:1.0
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.right
+            anchors.leftMargin: app.fs*0.1
         }
     }
     function clear(){

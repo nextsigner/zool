@@ -175,7 +175,7 @@ AppWin {
         let min=currentDate.getMinutes()
         //xDataBar.currentDateText=d+'/'+parseInt(m + 1)+'/'+a+' '+h+':'+min
         //xDataBar.currentGmtText=''+currentGmt
-        tReload.restart()
+        tReload.restart()        
     }
     onCurrentDateBackChanged: {
         controlsTimeBack.setTime(currentDateBack)
@@ -242,6 +242,8 @@ AppWin {
         property int sweFs: Screen.width*0.02
         property bool showAspCircle: true
         property bool showAspCircleBack: true
+        property bool showAspPanel: true
+        property bool showAspPanelBack: true
         property bool enableWheelAspCircle: false
 
         //GUI
@@ -489,6 +491,7 @@ AppWin {
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: h
                         property int h: parent.showCT?0:0-height
+                        setAppTime: true
                         onGmtChanged: app.currentGmt=gmt
                         Behavior on h{NumberAnimation{duration: 250; easing.type: Easing.InOutQuad}}
                     }
@@ -537,6 +540,7 @@ AppWin {
                         anchors.bottom: parent.bottom
                         anchors.bottomMargin: h
                         property int h: parent.showCT?0:0-height
+                        setAppTime: true
                         onGmtChanged: app.currentGmtBack=gmt
                         Behavior on h{NumberAnimation{duration: 250; easing.type: Easing.InOutQuad}}
                     }

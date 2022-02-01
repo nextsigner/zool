@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.14.0, 2022-01-28T11:13:27. -->
+<!-- Written by QtCreator 4.14.0, 2022-01-31T21:21:46. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -294,7 +294,7 @@
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/media/ns/ZONA-A1/zool/zool.pro</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/media/ns/ZONA-A1/zool/zool.pro</value>
-    <value type="QString" key="RunConfiguration.Arguments">-folder=/media/ns/ZONA-A1/zool tempzooltext=/home/ns/estoysincam.txt</value>
+    <value type="QString" key="RunConfiguration.Arguments">-folder=/media/ns/ZONA-A1/zool tempzooltext=/home/ns/estoypresentecam.txt</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>

@@ -10,28 +10,45 @@ Rectangle {
     property int cellWidth: app.fs*0.5
     Row{
         id: row
+        visible: apps.showAspPanel
         Repeater{
             model: r.visible?15:0
             CellColumnAsp{planet: index;cellWidth: r.cellWidth; objectName: 'cellRowAsp_'+index}
         }
     }
-    Button{
-        id: bot
+    Rectangle{
         width: r.cellWidth
         height: width
-        text:  ''
-        //checkable: true
-        //checked: apps.showAspCircle
-        anchors.bottom: parent.top
-        onClicked: {
-            apps.showAspCircle=!apps.showAspCircle
+        color: apps.fontColor
+        anchors.bottom: apps.showAspPanel?parent.top:parent.bottom
+        border.width: 1
+        border.color: apps.backgroundColor
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                if (mouse.modifiers & Qt.ControlModifier) {
+                    apps.showAspCircle=!apps.showAspCircle
+                    return
+                }
+                apps.showAspPanel=!apps.showAspPanel
+            }
         }
         Text{
             text:  apps.showAspCircle?'\uf06e':'\uf070'
             font.family: "FontAwesome"
             font.pixelSize: r.cellWidth*0.8
+            color: apps.backgroundColor
             opacity: apps.showAspCircle?1.0:0.65
             anchors.centerIn: parent
+        }
+        Text{
+            text:  'Aspextos'
+            font.pixelSize: app.fs*0.25
+            color: apps.fontColor
+            opacity: apps.showAspPanel?0.0:1.0
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.left: parent.right
+            anchors.leftMargin: app.fs*0.1
         }
     }
     function clear(){
