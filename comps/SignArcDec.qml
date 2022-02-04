@@ -2,6 +2,8 @@ import QtQuick 2.0
 
 Item {
     id: r
+    width: app.fs*3
+    height: 100
     property int gr: parent.rotation
     property int n: -1
     property int w: sweg.w*0.5
@@ -17,6 +19,14 @@ Item {
         border.color: 'red'
         radius: width*0.5
         visible: r.showBorder
+    }
+    Rectangle{
+        anchors.fill: r
+        color: 'red'
+        border.width: 1
+        border.color: 'red'
+        //radius: width*0.5
+        //visible: r.showBorder
     }
     Canvas {
         id:canvas

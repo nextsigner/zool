@@ -294,6 +294,61 @@ Rectangle{
             }
         }
 
+
+        //Configuración
+        Item{
+            width: r.width
+            height: r.height
+            Flickable{
+                width: r.width
+                height: r.height
+                contentHeight: colConfiguracion.height+app.fs*3
+                Column{
+                    id: colConfiguracion
+                    spacing: app.fs*0.5
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: app.fs*0.5
+                    Item{width: 1;height: app.fs}
+                    Text{
+                        text: '<b>Configuración</b>'
+                        font.pixelSize: app.fs*0.5
+                        color: apps.fontColor
+                        //width: parent.width-app.fs*0.5
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        textFormat: Text.RichText
+                        wrapMode: Text.WordWrap
+                    }
+                    Column{
+                        spacing: app.fs*0.25
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Text{text: 'Carpeta de Archivos:'; font.pixelSize: app.fs*0.5; color:apps.fontColor; }
+                        TextField{
+                            id: tfJsonsFolder
+                            text: apps.jsonsFolder
+                            width: r.width-app.fs*0.25
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            onTextChanged: {
+                                if(text!==apps.jsonsFolder&&unik.folderExist(text)){
+                                    botSetJsonsFolder.enabled=true
+                                }else{
+                                    botSetJsonsFolder.enabled=false
+                                }
+                            }
+                        }
+                        Button{
+                            id: botSetJsonsFolder
+                            text: 'Definir como carpeta de Archivos'
+                            enabled: false
+                            onClicked: {
+                                apps.jsonsFolder=tfJsonsFolder.text
+                                enabled=false
+                            }
+                        }
+                    }
+                }
+            }
+        }
         //Controles Adicionales
         Item{
             width: r.width
@@ -355,24 +410,24 @@ Rectangle{
                                 if(checked)app.currentPlanetIndex=0
                             }
 
-//                            Timer{
-//                                id: tAutoMaticPlanets
-//                                running: false
-//                                repeat: true
-//                                interval: 10000
-//                                property string currentJsonData: ''
-//                                onTriggered: {
-//                                    if(tAutoMaticPlanets.currentJsonData!==app.currentData){
-//                                        tAutoMaticPlanets.stop()
-//                                        return
-//                                    }
-//                                    if(app.currentPlanetIndex<16){
-//                                        app.currentPlanetIndex++
-//                                    }else{
-//                                        app.currentPlanetIndex=-1
-//                                    }
-//                                }
-//                            }
+                            //                            Timer{
+                            //                                id: tAutoMaticPlanets
+                            //                                running: false
+                            //                                repeat: true
+                            //                                interval: 10000
+                            //                                property string currentJsonData: ''
+                            //                                onTriggered: {
+                            //                                    if(tAutoMaticPlanets.currentJsonData!==app.currentData){
+                            //                                        tAutoMaticPlanets.stop()
+                            //                                        return
+                            //                                    }
+                            //                                    if(app.currentPlanetIndex<16){
+                            //                                        app.currentPlanetIndex++
+                            //                                    }else{
+                            //                                        app.currentPlanetIndex=-1
+                            //                                    }
+                            //                                }
+                            //                            }
 
                         }
                     }
