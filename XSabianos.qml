@@ -331,6 +331,12 @@ Rectangle {
         let jsonString=''
         if(existe){
             jsonString=unik.getFile(jsonFile)
+//            log.l('El archivo Sabianos Json Zoom exite en '+unik.getPath(1))
+//            log.l('Datos: '+jsonString)
+//            log.visible=true
+        }else{
+            //log.l('El archivo Sabianos Json Zoom no exite!')
+            //log.visible=true
         }
         let arrayLines=jsonString.split('\n')
         let nomItem='pos_'+numSign+'_'+numDegree+'_'+numItem

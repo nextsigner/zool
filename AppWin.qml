@@ -512,9 +512,16 @@ ApplicationWindow {
     }
     //Mostrar/Ocultar Panel Numerología
     Shortcut{
-        sequence: 'Ctrl+d'
+        sequence: 'Ctrl+n'
         onActivated: {
-            ncv.visible=!ncv.visible
+            //ncv.visible=!ncv.visible
+        }
+    }
+    //Mostrar/Ocultar lineas de número de grados
+    Shortcut{
+        sequence: 'Ctrl+Shift+l'
+        onActivated: {
+            apps.showNumberLines=!apps.showNumberLines
         }
     }
     //Mostrar / Ocultar Decanatos

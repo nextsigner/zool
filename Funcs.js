@@ -687,6 +687,7 @@ function setNewTimeJsonFileData(date){
     let vlon=jsonData.params.lon
     let vlat=jsonData.params.lat
     let vCiudad=jsonData.params.ciudad.replace(/_/g, ' ')
+    let vZoomAndPos={}
     let j='{'
     j+='"params":{'
     j+='"tipo":"'+app.mod+'",'
@@ -703,7 +704,15 @@ function setNewTimeJsonFileData(date){
     j+='"ciudad":"'+vCiudad+'"'
     j+='}'
     j+='}'
-    app.currentData=j
+    let json=JSON.parse(j)
+    if(jsonData.zoompos){
+        json.zoompos=jsonData.zoompos
+    }
+    if(jsonData.rots){
+        json.rots=jsonData.rots
+    }
+
+    app.currentData=JSON.stringify(json)
     //console.log('j: '+j)
     //console.log('fd: '+app.fileData)
 }
