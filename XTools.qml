@@ -30,14 +30,60 @@ Rectangle {
 
         //Botones de prueba.  Chequear la propiedad visible de este Row{}
         Row{
-            //visible: false
+            spacing: app.fs*0.25
             anchors.right: parent.right
+            ButtonIcon{
+                text:  '<b>A</b>'
+                width: apps.botSize
+                height: width
+                onClicked: {
+                    if(!tAutoMaticPlanets.running){
+                        tAutoMaticPlanets.currentJsonData=app.currentData
+                        tAutoMaticPlanets.running=true
+                    }else{
+                        tAutoMaticPlanets.running=false
+                        sweg.centerZoomAndPos()
+                    }
+
+                }
+                Text{
+                    text:'\uf06e'
+                    font.pixelSize: parent.width*0.35
+                    anchors.right:parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: tAutoMaticPlanets.running
+                }
+            }
+            ButtonIcon{
+                text:  '<b>C</b>'
+                width: apps.botSize
+                height: width
+                enabled: !apps.showDec
+                onClicked: {
+                    apps.showXAsLineCenter=!apps.showXAsLineCenter
+                }
+                Text{
+                    text:'\uf06e'
+                    font.pixelSize: parent.width*0.35
+                    anchors.right:parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: apps.showXAsLineCenter
+                }
+            }
             ButtonIcon{
                 text:  '<b>E</b>'
                 width: apps.botSize
                 height: width
+                visible: app.mod==='sin'
                 onClicked: {
                     app.ev=!app.ev
+                }
+                Text{
+                    text:'\uf06e'
+                    font.pixelSize: parent.width*0.35
+                    anchors.right:parent.right
+                    anchors.verticalCenter: parent.verticalCenter
+                    visible: app.ev
                 }
             }
         }

@@ -204,7 +204,7 @@ AppWin {
         property bool showTimes: false
         property bool showLupa: false
         property bool showSWEZ: true
-        property bool showDec: false
+
 
         //Paneles
         property string panelRemotoState: 'show'
@@ -239,6 +239,9 @@ AppWin {
         //Swe
         property string swegMod: 'ps'
         property bool showNumberLines: true
+        property bool showDec: false
+        property bool showXAsLineCenter: false
+        property color xAsLineCenterColor: 'red'
         property int sweFs: Screen.width*0.02
         property bool showAspCircle: true
         property bool showAspCircleBack: true

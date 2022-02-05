@@ -5,10 +5,12 @@ Item{
     id: r
     //width: !selected?(planetsCircle.expand?parent.width-(r.fs*2*objData.p)-r.fs:parent.width-(r.fs*1.5*objData.p))-r.fs:parent.width//-sweg.fs*2-(r.fs*1.5*(planetsCircle.totalPosX-1))
     //width: !selected?parent.width-(r.fs*1.5*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs):parent.width-(!apps.showNumberLines?0:r.fs)//-sweg.fs*2-(r.fs*1.5*(planetsCircle.totalPosX-1))
-    width: parent.width-(r.fs*1.5*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)
+    //width: parent.width-(r.fs*1.5*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)
+    width: parent.width-(r.fs*1.5*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)-widthRestDec
     height: 1
     anchors.centerIn: parent
     z: !selected?numAstro:15
+    property int widthRestDec:apps.showDec?sweg.objSignsCircle.w*2:0
     property bool selected: numAstro === app.currentPlanetIndex//panelDataBodies.currentIndex
     property string astro
     property int is
@@ -72,9 +74,14 @@ Item{
             app.showPointerXAs=true
         }
     }
-
-
-
+    Rectangle{
+        width: r.width*4
+        height: 4
+        x:0-r.width*2
+        anchors.verticalCenter: parent.verticalCenter
+        color: apps.xAsLineCenterColor
+        visible: r.selected && (apps.showXAsLineCenter || apps.showDec)
+    }
     Rectangle{
         id: xIcon
         //width: !selected?r.fs*0.85:r.fs*1.4
