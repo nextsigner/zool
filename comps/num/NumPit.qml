@@ -142,7 +142,7 @@ Rectangle {
                                         width: parent.width-app.fs*0.2
                                         wrapMode: Text.WordWrap
                                         color: apps.fontColor
-                                        focus: true
+                                        //focus: true
                                         //inputMask: '00.00.0000'
                                         anchors.centerIn: parent
                                         Keys.onReturnPressed: {
@@ -709,7 +709,7 @@ Rectangle {
                                 width: parent.width-app.fs*0.2
                                 wrapMode: Text.WordWrap
                                 color: apps.fontColor
-                                focus: true
+                                //focus: true
                                 //inputMask: '00.00.0000'
                                 anchors.centerIn: parent
                                 Keys.onReturnPressed: {

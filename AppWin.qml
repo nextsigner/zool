@@ -29,6 +29,12 @@ ApplicationWindow {
         }
     }
 
+//    Keys.onDownPressed: {
+//        log.l('event: '+event.text)
+//        log.visible=true
+//    }
+
+
     Shortcut{
         sequence: 'Ctrl+Down'
         onActivated: {
@@ -209,6 +215,21 @@ ApplicationWindow {
             }
             if(log.visible){
                 log.visible=false
+                return
+            }
+
+            //Efecto sobre los paneles
+            if(panelFileLoader.visible&&panelFileLoader.ti.focus){
+                panelFileLoader.ti.focus=false
+                return
+            }
+            if(panelNewVNA.visible&&(panelNewVNA.tiN.focus||panelNewVNA.tiC.focus)){
+                if(panelNewVNA.tiN.focus){
+                    panelNewVNA.tiN.focus=false
+                }
+                if(panelNewVNA.tiC.focus){
+                    panelNewVNA.tiC.focus=false
+                }
                 return
             }
             if(xEditor.visible&&xEditor.e.textEdit.focus){

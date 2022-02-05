@@ -10,6 +10,10 @@ Rectangle {
     color: 'black'
     border.width: 2
     border.color: 'white'
+
+    property alias tiN: tiNombre.t
+    property alias tiC: tiCiudad.t
+
     property real lat:-100.00
     property real lon:-100.00
 
@@ -21,6 +25,17 @@ Rectangle {
     property int itemIndex: -1
     onSvIndexChanged: {
         if(svIndex===itemIndex){
+            tF.restart()
+        }else{
+            tF.stop()
+        }
+    }
+    Timer{
+        id: tF
+        running: svIndex===itemIndex
+        repeat: false
+        interval: 1500
+        onTriggered: {
             tiNombre.t.selectAll()
             tiNombre.t.focus=true
         }

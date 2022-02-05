@@ -175,7 +175,7 @@ AppWin {
         let min=currentDate.getMinutes()
         //xDataBar.currentDateText=d+'/'+parseInt(m + 1)+'/'+a+' '+h+':'+min
         //xDataBar.currentGmtText=''+currentGmt
-        tReload.restart()        
+        tReload.restart()
     }
     onCurrentDateBackChanged: {
         controlsTimeBack.setTime(currentDateBack)
@@ -384,6 +384,7 @@ AppWin {
                 onClicked: parent.visible=false
             }
         }
+        //Keys.onDownPressed: Qt.quit()
     }
     Item{
         id: capa101
@@ -404,6 +405,7 @@ AppWin {
                         width: xLatIzq.width
                         height: app.fs*1.2
                         color: apps.fontColor
+                        anchors.horizontalCenter: parent.horizontalCenter
                         property var aPanelesTits: ['Información','Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Aspecto en Tránsito', 'Numerología', 'Opciones']
                         Text{
                             text: parseInt(sv.currentIndex + 1)+': '+xPanelesTits.aPanelesTits[sv.currentIndex]
@@ -412,28 +414,30 @@ AppWin {
                             anchors.centerIn: parent
                         }
                     }
-                    SwipeView{
+                    Item{
                         id: sv
-                        currentIndex: apps.currentSwipeViewIndex
+                        property int currentIndex: apps.currentSwipeViewIndex
+                        property int count: indicatorSV.count
                         onCurrentIndexChanged: apps.currentSwipeViewIndex=currentIndex
-                        width: xLatIzq.width
+                        width: xApp.width*0.5
                         height: xLatIzq.height-indicatorSV.height-xPanelesTits.height
                         clip: true
-                        XPaneles{Comps.PanelZoolText{id: panelZoolText;itemIndex: 0}}
-                        XPaneles{PanelSabianos{id: panelSabianos;itemIndex: 1}}
-                        XPaneles{PanelFileLoader{id: panelFileLoader;itemIndex: 2}}
-                        XPaneles{PanelNewVNA{id: panelNewVNA;itemIndex: 3}}
-                        XPaneles{PanelRsList{id: panelRsList;itemIndex: 4}}
-                        XPaneles{PanelAspTransList{id: panelAspTransList;itemIndex: 5}}
-                        //XPaneles{PanelZonaMes{id: panelZonaMes;;itemIndex: 6}}
-                        XPaneles{Num.NumPit{id: ncv;itemIndex: 6}}
-                        XPaneles{PanelRemotoV2{id: panelRemoto;itemIndex: 7}}
 
+                        XPaneles{Comps.PanelZoolText{id: panelZoolText;itemIndex: 0; visible: itemIndex===sv.currentIndex}}
+                        XPaneles{PanelSabianos{id: panelSabianos;itemIndex: 1; visible: itemIndex===sv.currentIndex}}
+                        XPaneles{PanelFileLoader{id: panelFileLoader;itemIndex: 2; visible: itemIndex===sv.currentIndex}}
+                        XPaneles{PanelNewVNA{id: panelNewVNA;itemIndex: 3; visible: itemIndex===sv.currentIndex}}
+                        XPaneles{PanelRsList{id: panelRsList;itemIndex: 4; visible: itemIndex===sv.currentIndex}}
+                        XPaneles{PanelAspTransList{id: panelAspTransList;itemIndex: 5; visible: itemIndex===sv.currentIndex}}
+                        //XPaneles{PanelZonaMes{id: panelZonaMes;;itemIndex: 6}}
+                        XPaneles{Num.NumPit{id: ncv;itemIndex: 7; visible: itemIndex===sv.currentIndex}}
+                        XPaneles{PanelRemotoV2{id: panelRemoto;itemIndex: 8; visible: itemIndex===sv.currentIndex}}
                     }
+
                     PageIndicator {
                         id: indicatorSV
                         interactive: true
-                        count: sv.count
+                        count: sv.children.length
                         currentIndex: sv.currentIndex
                         anchors.horizontalCenter: parent.horizontalCenter
                         onCurrentIndexChanged: sv.currentIndex=currentIndex

@@ -18,6 +18,18 @@ Rectangle {
     onSvIndexChanged: {
         if(svIndex===itemIndex){
             if(edadMaxima<=0)xTit.showTi=true
+            tF.restart()
+        }else{
+            tF.stop()
+        }
+    }
+    Timer{
+        id: tF
+        running: svIndex===itemIndex
+        repeat: false
+        interval: 1500
+        onTriggered: {
+            tiEdad.focus=true
         }
     }
     Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
@@ -94,7 +106,7 @@ Rectangle {
                 width: parent.width-app.fs
                 wrapMode: Text.WordWrap
                 color: apps.backgroundColor
-                focus: true
+                //focus: true
                 anchors.centerIn: parent
                 visible: !xTit.showTi
             }

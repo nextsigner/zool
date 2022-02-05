@@ -59,7 +59,7 @@ Rectangle {
                 width: parent.width-app.fs
                 wrapMode: Text.WordWrap
                 color: 'white'
-                focus: true
+                //focus: true
                 anchors.centerIn: parent
             }
             MouseArea{

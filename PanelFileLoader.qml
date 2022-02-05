@@ -10,6 +10,7 @@ Rectangle {
     color: apps.backgroundColor
     border.width: 2
     border.color: apps.fontColor
+    property alias ti: txtDataSearch
     property alias currentIndex: lv.currentIndex
     property alias listModel: lm
     property string currentFile: ''
@@ -17,22 +18,21 @@ Rectangle {
     property int itemIndex: -1
     onSvIndexChanged: {
         if(svIndex===itemIndex){
-            txtDataSearch.selectAll()
-            txtDataSearch.focus=true
-            //tF.restart()
+            tF.restart()
+        }else{
+            tF.stop()
         }
     }
-//    Timer{
-//        id: tF
-//        running: svIndex===itemIndex
-//        repeat: true
-//        interval: 500
-//        onTriggered: {
-//            //r.focus=true
-//            txtDataSearch.focus=true
-//            txtDataSearch.selectAll()
-//        }
-//    }
+    Timer{
+        id: tF
+        running: svIndex===itemIndex
+        repeat: false
+        interval: 1500
+        onTriggered: {
+            txtDataSearch.focus=true
+            txtDataSearch.selectAll()
+        }
+    }
     FolderListModel{
         id: flm
         //folder: 'file:./'+app.mainLocation+'/jsons'
@@ -72,8 +72,8 @@ Rectangle {
                     r.state='hide'
                 }
                 Keys.onRightPressed: {
-                    JS.loadJsonNow(lm.get(lv.currentIndex).fileName)
-                    r.state='hide'
+                    //JS.loadJsonNow(lm.get(lv.currentIndex).fileName)
+                    //r.state='hide'
                 }
                 Keys.onDownPressed: {
                     //Qt.quit()

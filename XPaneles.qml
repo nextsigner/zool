@@ -1,6 +1,8 @@
 import QtQuick 2.0
 
 Item{
+    id: r
     width: xLatIzq.width
-    height: xLatIzq.height
+    height: parent.height
+    anchors.centerIn: parent
 }
