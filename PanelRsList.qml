@@ -15,6 +15,7 @@ Rectangle {
     property string jsonFull: ''
     property int svIndex: sv.currentIndex
     property int itemIndex: -1
+    visible: itemIndex===sv.currentIndex
     onSvIndexChanged: {
         if(svIndex===itemIndex){
             if(edadMaxima<=0)xTit.showTi=true

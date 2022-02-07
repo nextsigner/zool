@@ -20,6 +20,7 @@ Rectangle {
     property var aAspNamesRes: ['Opp','Con', 'Tri', 'Squ', 'Sex']
     property int svIndex: sv.currentIndex
     property int itemIndex: -1
+    visible: itemIndex===sv.currentIndex
     onSvIndexChanged: {
         if(svIndex===itemIndex){
                 sbDesde.from =app.currentDate.getFullYear()

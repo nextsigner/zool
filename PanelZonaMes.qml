@@ -22,6 +22,7 @@ Rectangle {
     property string currentIdZona: ''
     property int svIndex: sv.currentIndex
     property int itemIndex: -1
+    visible: itemIndex===sv.currentIndex
     onSvIndexChanged: {
         if(svIndex!==itemIndex){
             detener()

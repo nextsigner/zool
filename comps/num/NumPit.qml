@@ -10,7 +10,7 @@ Rectangle {
     height: parent.height
     clip: true
     color: apps.backgroundColor
-    //visible: false
+
     property string jsonNum: ''
     property var aDes: ['dato1', 'dato2', 'dato3', 'dato4', 'dato5', 'dato6', 'dato7', 'dato8', 'dato9']
 
@@ -64,7 +64,7 @@ Rectangle {
     property string sFormulaNatalicio : ''
 
     property int itemIndex: -1
-
+    visible: itemIndex===sv.currentIndex
     onCurrentNumNacimientoChanged: {
         calcularPersonalidad()
     }

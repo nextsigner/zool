@@ -423,15 +423,15 @@ AppWin {
                         height: xLatIzq.height-indicatorSV.height-xPanelesTits.height
                         clip: true
 
-                        XPaneles{Comps.PanelZoolText{id: panelZoolText;itemIndex: 0; visible: itemIndex===sv.currentIndex}}
-                        XPaneles{PanelSabianos{id: panelSabianos;itemIndex: 1; visible: itemIndex===sv.currentIndex}}
-                        XPaneles{PanelFileLoader{id: panelFileLoader;itemIndex: 2; visible: itemIndex===sv.currentIndex}}
-                        XPaneles{PanelNewVNA{id: panelNewVNA;itemIndex: 3; visible: itemIndex===sv.currentIndex}}
-                        XPaneles{PanelRsList{id: panelRsList;itemIndex: 4; visible: itemIndex===sv.currentIndex}}
-                        XPaneles{PanelAspTransList{id: panelAspTransList;itemIndex: 5; visible: itemIndex===sv.currentIndex}}
+                        XPaneles{Comps.PanelZoolText{id: panelZoolText;itemIndex: 0}}
+                        XPaneles{PanelSabianos{id: panelSabianos;itemIndex: 1}}
+                        XPaneles{PanelFileLoader{id: panelFileLoader;itemIndex: 2}}
+                        XPaneles{PanelNewVNA{id: panelNewVNA;itemIndex: 3}}
+                        XPaneles{PanelRsList{id: panelRsList;itemIndex: 4}}
+                        XPaneles{PanelAspTransList{id: panelAspTransList;itemIndex: 5}}
                         //XPaneles{PanelZonaMes{id: panelZonaMes;;itemIndex: 6}}
-                        XPaneles{Num.NumPit{id: ncv;itemIndex: 7; visible: itemIndex===sv.currentIndex}}
-                        XPaneles{PanelRemotoV2{id: panelRemoto;itemIndex: 8; visible: itemIndex===sv.currentIndex}}
+                        XPaneles{Num.NumPit{id: ncv;itemIndex: 6}}
+                        XPaneles{PanelRemotoV2{id: panelRemoto;itemIndex: 7}}
                     }
 
                     PageIndicator {

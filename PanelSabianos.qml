@@ -18,6 +18,7 @@ Rectangle {
     property int currentInterpreter: 0
 
     property int itemIndex: -1
+    visible: itemIndex===sv.currentIndex
 
     Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
     Flickable{
