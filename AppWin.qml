@@ -630,7 +630,13 @@ ApplicationWindow {
                 xEditor.save()
                 return
             }
-            JS.saveJson()
+            if(app.fileData!==app.currentData){
+                JS.saveJson()
+                let s ='Se ha grabado el archivo '+apps.url+' correctamente.'
+                log.ls(s, xApp.width*0.2, xApp.width*0.2)
+                return
+            }
+
             //panelSabianos.z=panelRemoto.z+1
             //if(panelSabianos.z<panelSa)
             //log.ls('z1:'+panelSabianos.z, xApp.width*0.2, xApp.width*0.2)

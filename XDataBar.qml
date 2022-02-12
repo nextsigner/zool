@@ -98,13 +98,13 @@ Rectangle {
             Repeater{
                 id: rep
                 Rectangle{
-                    width: modelData==='@'?1:txtRow.contentWidth+app.fs*0.3
+                    visible: txtRow.text.indexOf(':</b>-1')<0||txtRow.text.indexOf(':</b>0')<0
+                    width: modelData==='@'?1:(txtRow.text.indexOf(':</b>-1')>=0||txtRow.text.indexOf(':</b>0')>=0?1:txtRow.contentWidth+app.fs*0.3)
                     height: txtRow.contentHeight+app.fs*0.3
                     color: apps.backgroundColor
                     border.width: modelData==='@'?0:1
                     border.color: apps.fontColor
                     radius: app.fs*0.1
-                    //visible:  !app.ev&&(index!==6&&index!==7)//!(modelData.indexOf('lat:')>0||modelData.indexOf('lon:')>0)
                     MouseArea{
                         anchors.fill: parent
                         //enabled: app.titleData!==app.currentData
@@ -119,8 +119,16 @@ Rectangle {
                         text: modelData//.replace(/_/g, ' ')
                         font.pixelSize: r.fs
                         color: apps.fontColor
-                        visible: modelData!=='@'
+                        visible: modelData!=='@' && parent.width>2
                         anchors.centerIn: parent
+//                        Timer{
+//                            running: true
+//                            repeat: true
+//                            interval: 3000
+//                            onTriggered: {
+//                                log.ls('['+txtRow.text+']', 0, xApp.width*0.2)
+//                            }
+//                        }
                     }
                     //Component.onCompleted: r.height=height+height*0.2
                     Rectangle{
@@ -178,7 +186,7 @@ Rectangle {
                 t.font.pixelSize: app.fs*0.65
                 t.text: 'Nombre'
                 width: app.fs*10
-                //height: r.height//-app.fs*0.25
+                onPressed: saveNom()
                 anchors.verticalCenter: parent.verticalCenter
             }
             Button{
@@ -190,19 +198,7 @@ Rectangle {
                 text:'Cambiar Nombre'
                 anchors.verticalCenter: parent.verticalCenter
                 onClicked: {
-                     let fn=apps.url
-                     let nfn=apps.jsonsFolder+'/'+tiNom.t.text.replace(/ /g, '_')+'.json'
-                    let json = app.currentData
-                    let jsonData=JSON.parse(app.currentData)
-                    jsonData.params.n=tiNom.t.text
-                    app.currentData=JSON.stringify(jsonData)
-                    //log.l('Actual url: '+apps.url)
-                    //log.l('Nueva url: '+nfn)
-                    //log.l('documentsPath: '+documentsPath)
-                    //log.l('apps.jsonsFolder: '+apps.jsonsFolder)
-                    //log.visible=true
-                    JS.saveJsonAs(nfn)
-                    nomEditor.visible=false
+                    saveNom()
                 }
                 Timer{
                     running: nomEditor.visible
@@ -218,5 +214,20 @@ Rectangle {
                 }
             }
         }
+    }
+    function saveNom(){
+        let fn=apps.url
+        let nfn=apps.jsonsFolder+'/'+tiNom.t.text.replace(/ /g, '_')+'.json'
+        let json = app.currentData
+        let jsonData=JSON.parse(app.currentData)
+        jsonData.params.n=tiNom.t.text
+        app.currentData=JSON.stringify(jsonData)
+        //log.l('Actual url: '+apps.url)
+        //log.l('Nueva url: '+nfn)
+        //log.l('documentsPath: '+documentsPath)
+        //log.l('apps.jsonsFolder: '+apps.jsonsFolder)
+        //log.visible=true
+        JS.saveJsonAs(nfn)
+        nomEditor.visible=false
     }
 }
