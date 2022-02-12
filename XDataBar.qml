@@ -112,6 +112,9 @@ Rectangle {
                             if(index===0){
                                 nomEditor.visible=true
                             }
+                            if(index===6||index===7){
+                                latLonEditor.visible=true
+                            }
                         }
                     }
                     Text{
@@ -160,6 +163,8 @@ Rectangle {
         anchors.verticalCenterOffset: yPos
         visible:  !app.ev
     }
+
+    //Editor Nombre
     Rectangle{
         id: nomEditor
         anchors.fill: r
@@ -215,6 +220,79 @@ Rectangle {
             }
         }
     }
+
+    //Editor Nombre
+    Rectangle{
+        id: latLonEditor
+        anchors.fill: r
+        color: apps.backgroundColor
+        visible: false
+        onVisibleChanged: {
+            if(visible){
+                tiLat.t.text=app.currentLat
+                tiLon.t.text=app.currentLon
+                tiLat.t.focus=true
+                tiLat.t.selectAll()
+            }
+        }
+        Row{
+            spacing: app.fs*0.25
+            anchors.centerIn: parent
+            Text{
+                text: '<b>Latitud: </b>'
+                font.pixelSize: app.fs*0.5
+                color: apps.fontColor
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Comps.XTextInput{
+                id: tiLat
+                t.font.pixelSize: app.fs*0.65
+                t.text: 'lat...?'
+                width: app.fs*5
+                onPressed: saveLatLon()
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Text{
+                text: '<b>Longitud: </b>'
+                font.pixelSize: app.fs*0.5
+                color: apps.fontColor
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Comps.XTextInput{
+                id: tiLon
+                t.font.pixelSize: app.fs*0.65
+                t.text: 'lon...?'
+                width: app.fs*5
+                onPressed: saveLatLon()
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Button{
+                text:'Cancelar'
+                anchors.verticalCenter: parent.verticalCenter
+                onClicked: latLonEditor.visible=false
+            }
+            Button{
+                text:'Cambiar Coordenadas'
+                anchors.verticalCenter: parent.verticalCenter
+                onClicked: {
+                    saveLatLon()
+                }
+                Timer{
+                    running: nomEditor.visible
+                    repeat: true
+                    interval: 250
+                    onTriggered: {
+//                        if(apps.jsonsFolder+'/'+tiNom.t.text.replace(/ /g, '_')+'.json' !== apps.url){
+//                            parent.visible=true
+//                        }else{
+//                            parent.visible=false
+//                        }
+                    }
+                }
+            }
+        }
+    }
+
     function saveNom(){
         let fn=apps.url
         let nfn=apps.jsonsFolder+'/'+tiNom.t.text.replace(/ /g, '_')+'.json'
@@ -229,5 +307,21 @@ Rectangle {
         //log.visible=true
         JS.saveJsonAs(nfn)
         nomEditor.visible=false
+    }
+    function saveLatLon(){
+        //let fn=apps.url
+        //let nfn=apps.jsonsFolder+'/'+tiNom.t.text.replace(/ /g, '_')+'.json'
+        //let json = app.currentData
+        let jsonData=JSON.parse(app.currentData)
+        jsonData.params.lat=tiLat.t.text
+        jsonData.params.lon=tiLon.t.text
+        app.currentData=JSON.stringify(jsonData)
+        //log.l('Actual url: '+apps.url)
+        //log.l('Nueva url: '+nfn)
+        //log.l('documentsPath: '+documentsPath)
+        //log.l('apps.jsonsFolder: '+apps.jsonsFolder)
+        //log.visible=true
+        JS.saveJson()
+        latLonEditor.visible=false
     }
 }

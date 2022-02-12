@@ -17,6 +17,8 @@ Rectangle {
     property real factorZoomByRes: 1.5
     property int currentInterpreter: 0
 
+    property string uSAM: ''
+
     property int itemIndex: -1
     visible: itemIndex===sv.currentIndex
 

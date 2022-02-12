@@ -110,6 +110,8 @@ Rectangle {
                 }
             }
         }
+
+        //Botones SAM
         Row{
             spacing: app.fs*0.25
             anchors.right: parent.right
@@ -127,15 +129,19 @@ Rectangle {
                         width: apps.botSize
                         height: width
                         onClicked: {
-                            if(panelSabianos.state==='hide'){
+                            if(sv.currentIndex!==1||panelSabianos.uSAM!=='S'){
                                 let h1=app.currentJson.pc.c0
                                 let gf=h1.rsgdeg//app.currentGradoSolar-gr
                                 app.uSon='sun_'+app.objSignsNames[h1.is]+'_'+h1.ih
                                 JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), gf-1)
-                                panelSabianos.state='show'
+                                sv.currentIndex=1
                             }else{
-                                panelSabianos.state='hide'
+                                xSabianos.numSign=panelSabianos.numSign
+                                xSabianos.numDegree=panelSabianos.numDegree
+                                xSabianos.loadData()
+                                xSabianos.visible=!xSabianos.visible
                             }
+                            panelSabianos.uSAM='S'
                         }
                     }
                     ButtonIcon{
@@ -143,14 +149,18 @@ Rectangle {
                         width: apps.botSize
                         height: width
                         onClicked: {
-                            if(panelSabianos.state==='hide'){
+                            if(sv.currentIndex!==1||panelSabianos.uSAM!=='A'){
                                 let h1=app.currentJson.ph.h1
                                 app.uSon='asc_'+app.objSignsNames[h1.is]+'_1'
                                 JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uAscDegree-1)
-                                panelSabianos.state='show'
+                                sv.currentIndex=1
                             }else{
-                                panelSabianos.state='hide'
+                                xSabianos.numSign=panelSabianos.numSign
+                                xSabianos.numDegree=panelSabianos.numDegree
+                                xSabianos.loadData()
+                                xSabianos.visible=!xSabianos.visible
                             }
+                            panelSabianos.uSAM='A'
                         }
                     }
                     ButtonIcon{
@@ -158,14 +168,18 @@ Rectangle {
                         width: apps.botSize
                         height: width
                         onClicked: {
-                            if(panelSabianos.state==='hide'){
+                            if(sv.currentIndex!==1||panelSabianos.uSAM!=='M'){
                                 let h1=app.currentJson.ph.h10
                                 app.uSon='mc_'+app.objSignsNames[h1.is]+'_10'
                                 JS.showSABIANOS(app.objSignsNames.indexOf(app.uSon.split('_')[1]), app.uMcDegree-1)
-                                panelSabianos.state='show'
+                                sv.currentIndex=1
                             }else{
-                                panelSabianos.state='hide'
+                                xSabianos.numSign=panelSabianos.numSign
+                                xSabianos.numDegree=panelSabianos.numDegree
+                                xSabianos.loadData()
+                                xSabianos.visible=!xSabianos.visible
                             }
+                            panelSabianos.uSAM='M'
                         }
                     }
                 }
