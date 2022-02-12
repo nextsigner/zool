@@ -10,6 +10,7 @@ Rectangle{
     property int svIndex: sv.currentIndex
     property int itemIndex: -1
     property bool noFoundFileExistNofify: false
+    property bool fileInitLoaded: false
     Column{
         id: col0
         anchors.centerIn: parent

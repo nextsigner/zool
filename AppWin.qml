@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-
+import "./Funcs.js" as JS
 
 ApplicationWindow {
     id: r
@@ -630,10 +630,11 @@ ApplicationWindow {
                 xEditor.save()
                 return
             }
+            JS.saveJson()
             //panelSabianos.z=panelRemoto.z+1
             //if(panelSabianos.z<panelSa)
-            log.ls('z1:'+panelSabianos.z, xApp.width*0.2, xApp.width*0.2)
-            log.ls('z2:'+panelRemoto.z, xApp.width*0.2, xApp.width*0.2)
+            //log.ls('z1:'+panelSabianos.z, xApp.width*0.2, xApp.width*0.2)
+            //log.ls('z2:'+panelRemoto.z, xApp.width*0.2, xApp.width*0.2)
             panelSabianos.state=panelSabianos.state==='hide'?'show':'hide'
         }
     }

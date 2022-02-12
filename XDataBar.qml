@@ -1,4 +1,5 @@
 import QtQuick 2.7
+import QtQuick.Controls 2.12
 import "Funcs.js" as JS
 import "./comps" as Comps
 
@@ -41,7 +42,7 @@ Rectangle {
         rep.model=at
         r.fs=app.fs*0.5
         tResizeText.restart()
-    }    
+    }
     onHeightChanged: uH=height
     Timer{
         id: tResizeText
@@ -93,7 +94,7 @@ Rectangle {
         Row{
             id: rowData
             spacing: app.fs*0.15
-            anchors.verticalCenter: parent.verticalCenter            
+            anchors.verticalCenter: parent.verticalCenter
             Repeater{
                 id: rep
                 Rectangle{
@@ -104,7 +105,16 @@ Rectangle {
                     border.color: apps.fontColor
                     radius: app.fs*0.1
                     //visible:  !app.ev&&(index!==6&&index!==7)//!(modelData.indexOf('lat:')>0||modelData.indexOf('lon:')>0)
-                   Text{
+                    MouseArea{
+                        anchors.fill: parent
+                        //enabled: app.titleData!==app.currentData
+                        onClicked: {
+                            if(index===0){
+                                nomEditor.visible=true
+                            }
+                        }
+                    }
+                    Text{
                         id: txtRow
                         text: modelData//.replace(/_/g, ' ')
                         font.pixelSize: r.fs
@@ -142,70 +152,71 @@ Rectangle {
         anchors.verticalCenterOffset: yPos
         visible:  !app.ev
     }
-//    Row{
-//        spacing: app.fs*0.5
-//        height: txtCurrentDate.contentHeight+app.fs*0.5
-//        y:parent.height
-//        anchors.left: parent.left
-//        anchors.leftMargin: xLatIzq.width
-//        visible: app.fileData!==app.currentData
-//        Rectangle{
-//            width: txtCurrentDate.contentWidth+app.fs*0.5
-//            height: txtCurrentDate.contentHeight+app.fs*0.5
-//            color: apps.backgroundColor
-//            border.width: 1
-//            border.color: apps.fontColor
-//            XText {
-//                id: txtCurrentDate
-//                text: '0/0/000 00:00'
-//                font.pixelSize: app.fs*0.5
-//                height: app.fs*0.5
-//                color: 'white'
-//                textFormat: Text.RichText
-//                anchors.centerIn: parent
-//            }
-//        }
-//        Rectangle{
-//            width: txtCurrentGmt.contentWidth+app.fs//*0.5
-//            height: txtCurrentGmt.contentHeight+app.fs*0.5
-//            color: apps.backgroundColor
-//            border.width: 1
-//            border.color: apps.fontColor
-//            XText {
-//                id: txtCurrentGmt
-//                text: '?'
-//                font.pixelSize: app.fs*0.5
-//                height: app.fs*0.5
-//                color: 'white'
-//                textFormat: Text.RichText
-//                anchors.centerIn: parent
-//            }
-//            MouseArea {
-//                id: maw
-//                anchors.fill: parent
-//                onClicked: r.v=!r.v
-//                property int m:0
-//                property date uDate//: app.currentDate
-//                property int f: 0
-//                property int uY: 0
-//                onWheel: {
-//                    let cgmt=app.currentGmt
-//                    if(wheel.angleDelta.y===120){
-//                        if(cgmt<12.00){
-//                            cgmt+=0.1
-//                        }else{
-//                            cgmt=-12.00
-//                        }
-//                    }else{
-//                        if(cgmt>-12.00){
-//                            cgmt-=0.1
-//                        }else{
-//                            cgmt=12.00
-//                        }
-//                    }
-//                    app.currentGmt=parseFloat(cgmt).toFixed(1)
-//                }
-//            }
-//        }
-//    }
+    Rectangle{
+        id: nomEditor
+        anchors.fill: r
+        color: apps.backgroundColor
+        visible: false
+        onVisibleChanged: {
+            if(visible){
+                tiNom.t.text=app.currentNom
+                tiNom.t.focus=true
+                tiNom.t.selectAll()
+            }
+        }
+        Row{
+            spacing: app.fs*0.25
+            anchors.centerIn: parent
+            Text{
+                text: '<b>Nombre de Archivo: </b>'
+                font.pixelSize: app.fs*0.5
+                color: apps.fontColor
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Comps.XTextInput{
+                id: tiNom
+                t.font.pixelSize: app.fs*0.65
+                t.text: 'Nombre'
+                width: app.fs*10
+                //height: r.height//-app.fs*0.25
+                anchors.verticalCenter: parent.verticalCenter
+            }
+            Button{
+                text:'Cancelar'
+                anchors.verticalCenter: parent.verticalCenter
+                onClicked: nomEditor.visible=false
+            }
+            Button{
+                text:'Cambiar Nombre'
+                anchors.verticalCenter: parent.verticalCenter
+                onClicked: {
+                     let fn=apps.url
+                     let nfn=apps.jsonsFolder+'/'+tiNom.t.text.replace(/ /g, '_')+'.json'
+                    let json = app.currentData
+                    let jsonData=JSON.parse(app.currentData)
+                    jsonData.params.n=tiNom.t.text
+                    app.currentData=JSON.stringify(jsonData)
+                    //log.l('Actual url: '+apps.url)
+                    //log.l('Nueva url: '+nfn)
+                    //log.l('documentsPath: '+documentsPath)
+                    //log.l('apps.jsonsFolder: '+apps.jsonsFolder)
+                    //log.visible=true
+                    JS.saveJsonAs(nfn)
+                    nomEditor.visible=false
+                }
+                Timer{
+                    running: nomEditor.visible
+                    repeat: true
+                    interval: 250
+                    onTriggered: {
+                        if(apps.jsonsFolder+'/'+tiNom.t.text.replace(/ /g, '_')+'.json' !== apps.url){
+                            parent.visible=true
+                        }else{
+                            parent.visible=false
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

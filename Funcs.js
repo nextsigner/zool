@@ -767,6 +767,16 @@ function saveJson(){
     unik.setFile(jsonFileName, app.currentData)
     loadJson(apps.url)
 }
+function saveJsonAs(newUrl){
+    app.fileData=app.currentData
+    let jsonFileName=newUrl
+    unik.setFile(jsonFileName, app.currentData)
+    if(unik.fileExist(jsonFileName)){
+        unik.deleteFile(apps.url)
+        apps.url=newUrl
+        loadJson(apps.url)
+    }
+}
 function loadJsonNow(file){
     let fn=file
     let jsonFileName=fn
