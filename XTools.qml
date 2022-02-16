@@ -103,10 +103,15 @@ Rectangle {
                 width: apps.botSize
                 height: width
                 onClicked: {
-                    ncv.visible=true
-                    //                    let comp=Qt.createComponent("./comps/num/NumCiclosVida.qml")
-                    //                    let d = new Date(Date.now())
-                    //                    let obj=comp.createObject(capa101, {currentDate: d, width: xApp.width, height: xApp.height})
+                    ncv.visible=true                    
+                }
+            }
+            ButtonIcon{
+                text:  'I'
+                width: apps.botSize
+                height: width
+                onClicked: {
+                    apps.xAsShowIcon=!apps.xAsShowIcon
                 }
             }
         }
