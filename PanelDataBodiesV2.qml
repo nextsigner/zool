@@ -13,30 +13,20 @@ Rectangle {
     border.width: 1
     border.color: apps.fontColor
     state: 'show'
-    //property alias listModel: lm
-    //property alias currentIndex: lv.currentIndex
-    //property int currentIndexSign: -1
     property var uJson
-    //property bool showBack: false
-    //Behavior on height{NumberAnimation{duration:app.msDesDuration;easing.type: Easing.InOutQuad}}
-//    onCurrentIndexChanged: {
-//        if(!r.enabled)return
-//        sweg.objHousesCircle.currentHouse=currentIndex
-//        //swegz.sweg.objHousesCircle.currentHouse=currentIndex
-//    }
     states: [
         State {
             name: "show"
             PropertyChanges {
                 target: r
-                //x:r.parent.width-r.width
+                x:r.parent.width-r.width
             }
         },
         State {
             name: "hide"
             PropertyChanges {
                 target: r
-                //x:r.parent.width
+                x:r.parent.width
             }
         }
     ]
@@ -46,6 +36,23 @@ Rectangle {
         anchors.horizontalCenter: parent.horizontalCenter
         Comps.XBodies{id: xBodiesInt; isBack: false}
         Comps.XBodies{id: xBodiesExt; isBack: true}
+    }
+    Rectangle{
+        width: labelCargando.contentWidth+app.fs*0.25
+        height: labelCargando.contentHeight+app.fs*0.25
+        radius: app.fs*0.25
+        border.width: 2
+        border.color: apps.fontColor
+        color: apps.backgroundColor
+        opacity: !app.ev?(xBodiesInt.opacity===1.0?0.0:1.0):(xBodiesInt.opacity===1.0&&xBodiesExt.opacity===1.0?0.0:1.0)
+        anchors.centerIn: parent
+        Text{
+            id: labelCargando
+            text: 'Cargando'
+            font.pixelSize: app.fs
+            color: apps.fontColor
+            anchors.centerIn: parent
+        }
     }
     function loadJson(json){
         xBodiesInt.loadJson(json)

@@ -561,9 +561,9 @@ AppWin {
 
                 //Chat{id: chat; z: onTop?panelPronEdit.z+1:panelControlsSign.z-1}
                 PanelControlsSign{id: panelControlsSign}
-                PanelDataBodies{id: panelDataBodies}
+                PanelDataBodiesV2{id: panelDataBodies}
                 PanelPronEdit{id: panelPronEdit;}
-                PanelDataBodiesV2{id: panelDataBodiesV2; state: 'show'}
+
             }
         }
         XTools{

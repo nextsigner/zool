@@ -5,7 +5,9 @@ import "../Funcs.js" as JS
 Column{
     id: r
     width: !app.ev?parent.width:parent.width*0.5
+    opacity: 0.0
     property bool isBack: false
+    Behavior on opacity{NumberAnimation{id:numAn1;duration:10}}
     Rectangle{
         id: headerLv
         width: r.width
@@ -31,11 +33,14 @@ Column{
     }
     ListView{
         id: lv
-        spacing: !app.ev?app.fs*0.1:app.fs*0.25
+        spacing: app.fs*0.25
         width: r.width-app.fs*0.25//r.parent.width-r.border.width*2
         height: xLatDer.height-headerLv.height
         delegate: compItemList
         model: lm
+        cacheBuffer: 60
+        displayMarginBeginning: lv.height*2
+        displayMarginEnd: lv.height*2
         clip: true
         ScrollBar.vertical: ScrollBar {}
         anchors.horizontalCenter: parent.horizontalCenter
@@ -60,22 +65,18 @@ Column{
             width: lv.width
             height: !app.ev?txtData.contentHeight+app.fs*0.1:colTxtEV.height+app.fs*0.1//app.fs*0.6//txtData.contentHeight+app.fs*0.1
             color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.fontColor:apps.backgroundColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.fontColor:apps.backgroundColor)
-            //border.width: index===app.currentPlanetIndex?2:0
             border.width: 1
-            border.color: apps.fontColor
+            border.color: !r.isBack?apps.houseColor:apps.houseColorBack
             visible: !app.ev?txtData.width<xItem.width:true
-            opacity: 0.0//!app.ev?(txtData.width>xItem.width-app.fs*0.1?0.0:1.0):1.0
             anchors.horizontalCenter: parent.horizontalCenter
             Behavior on opacity{NumberAnimation{duration: 250}}
             property bool textSized: false
             onTextSizedChanged: {}
-            //            Rectangle{
-            //                width: 1
-            //                height: parent.height
-            //                color: apps.fontColor
-            //                anchors.right: parent.right
-            //                visible: app.ev
-            //            }
+            Rectangle{
+                anchors.fill: parent
+                color: !r.isBack?apps.houseColor:apps.houseColorBack
+                opacity: 0.5
+            }
             Text {
                 id: txtData
                 //text: sd
@@ -94,7 +95,10 @@ Column{
                     running: parent.width>xItem.width-app.fs*0.1 && !app.ev
                     repeat: true
                     interval: 50
-                    onTriggered: parent.font.pixelSize-=1//parent.font.pixelSize*0.1
+                    onTriggered: {
+                        tShow.restart()
+                        parent.font.pixelSize-=1
+                    }
                 }
             }
             Column{
@@ -114,7 +118,10 @@ Column{
                         running: parent.contentWidth>xItem.width-app.fs*0.1 && app.ev
                         repeat: true
                         interval: 50
-                        onTriggered: parent.font.pixelSize-=1//parent.font.pixelSize*0.1
+                        onTriggered: {
+                            tShow.restart()
+                            parent.font.pixelSize-=1
+                        }
                     }
                 }
                 Text {
@@ -130,7 +137,10 @@ Column{
                         running: parent.contentWidth>xItem.width-app.fs*0.1 && app.ev
                         repeat: true
                         interval: 50
-                        onTriggered: parent.font.pixelSize-=1//parent.font.pixelSize*0.1
+                        onTriggered: {
+                            tShow.restart()
+                            parent.font.pixelSize-=1
+                        }
                     }
                 }
             }
@@ -172,6 +182,8 @@ Column{
                 let m0=sd.split(' @ ')
                 txtDataEV.text=m0[0]//sd.replace(/ @ /g, '<br />')
                 txtDataEV2.text=m0[1]
+                //cantTextSized++
+                //log.ls('cantTextSized: '+index, 0, 500)
                 //                log.l('sd: '+sd)
                 //                log.l('xItem.width: '+xItem.width)
                 //                log.l('xItem.height: '+xItem.height)
@@ -179,7 +191,19 @@ Column{
             }
         }
     }
+    Timer{
+        id: tShow
+        running: false
+        repeat: false
+        interval: 500
+        onTriggered: {
+            numAn1.duration=250
+            r.opacity=1.0
+        }
+    }
     function loadJson(json){
+        numAn1.duration=1
+        r.opacity=0.0
         lm.clear()
         let jo
         let o

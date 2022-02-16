@@ -386,7 +386,6 @@ Item {
         housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
         panelDataBodies.loadJsonBack(j)
-        panelDataBodiesV2.loadJsonBack(j)
         //planetsCircleBack.visible=true
         app.ev=true
     }
