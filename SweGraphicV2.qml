@@ -493,6 +493,7 @@ Item {
         //planetsCircleBack.loadJson(j)
         panelAspects.load(j)
         panelDataBodies.loadJson(j)
+        panelDataBodiesV2.loadJson(j)
         aspsCircle.load(j)
         panelElements.load(j)
         eclipseCircle.arrayWg=housesCircle.arrayWg
@@ -542,6 +543,8 @@ Item {
         housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
         panelDataBodies.loadJsonBack(j)
+        panelDataBodiesV2.loadJson(j)
+        panelDataBodiesV2.loadJsonBack(j)
         app.ev=true
         centerZoomAndPos()
     }

@@ -563,7 +563,7 @@ AppWin {
                 PanelControlsSign{id: panelControlsSign}
                 PanelDataBodies{id: panelDataBodies}
                 PanelPronEdit{id: panelPronEdit;}
-
+                PanelDataBodiesV2{id: panelDataBodiesV2; state: 'show'}
             }
         }
         XTools{
@@ -657,13 +657,30 @@ AppWin {
         console.log('app.mainLocation: '+app.mainLocation)
         console.log('documentsPath: '+documentsPath)
         console.log('Init app.url: '+app.url)
-        if(apps.url!==''){
-            console.log('Cargando al iniciar: '+apps.url)
-            JS.loadJson(apps.url)
-        }else{
-            console.log('Loading United Kingston now...')
-            let d=new Date(Date.now())
-            JS.loadFromArgs(d.getDate(), parseInt(d.getMonth() +1),d.getFullYear(), d.getHours(), d.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston", "United Kingston England", "pron", true)
+        let fileLoaded=false
+        let appArgs=Qt.application.arguments
+        let arg=''
+        for(var i=0;i<appArgs.length;i++){
+            let a=appArgs[i]
+            if(a.indexOf('file=')>=0){
+                let ma=a.split('=')
+                if(ma.length>1){
+                    arg=ma[1]
+                    //log.ls('File: '+arg, 0, xApp.width*0.5)
+                    JS.loadJson(arg)
+                    fileLoaded=true
+                }
+            }
+        }
+        if(!fileLoaded){
+            if(apps.url!==''){
+                console.log('Cargando al iniciar: '+apps.url)
+                JS.loadJson(apps.url)
+            }else{
+                console.log('Loading United Kingston now...')
+                let d=new Date(Date.now())
+                JS.loadFromArgs(d.getDate(), parseInt(d.getMonth() +1),d.getFullYear(), d.getHours(), d.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston", "United Kingston England", "pron", true)
+            }
         }
         //JS.getRD('https://github.com/nextsigner/nextsigner.github.io/raw/master/zool/zool', setHost)
     }

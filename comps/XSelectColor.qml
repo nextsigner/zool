@@ -10,52 +10,17 @@ ColorDialog {
     property color uColor
     onVisibilityChanged: {
         if(visible){
-            if(c==='fontColor'){
-                currentColor=apps.fontColor
-            }
-            if(c==='backgroundColor'){
-                currentColor=apps.backgroundColor
-            }
-            if(c==='xAsColor'){
-                currentColor=apps.xAsColor
-            }
+            currentColor=apps[c]
             uColor=currentColor
         }
     }
     onCurrentColorChanged: {
-        if(c==='fontColor'){
-            apps.fontColor=currentColor
-        }
-        if(c==='backgroundColor'){
-            apps.backgroundColor=currentColor
-        }
+        apps[c]=currentColor
     }
     onAccepted: {
-        if(c==='fontColor'){
-            apps.fontColor=colorDialog.color
-            colorDialog.visible=false
-            return
-        }
-        if(c==='backgroundColor'){
-            apps.backgroundColor=colorDialog.color
-            colorDialog.visible=false
-            return
-        }
-        if(c==='xAsColor'){
-            apps.xAsColor=colorDialog.color
-            colorDialog.visible=false
-            return
-        }
-        console.log("You chose: " + colorDialog.color)
+        apps[c]=colorDialog.color
     }
     onRejected: {
-        console.log("Canceled")
-        colorDialog.visible=false
-        if(c==='fontColor'){
-            apps.fontColor=uColor
-        }
-        if(c==='backgroundColor'){
-            apps.backgroundColor=uColor
-        }
+        apps[c]=uColor
     }
 }

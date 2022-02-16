@@ -172,10 +172,9 @@ MenuBar{
                 }
             }
             checkable: true; checked: xEditor.visible}
-        Action { text: qsTr("&Definir Color de Cuerpos"); onTriggered: defColor('xAsColor')}
         MenuSeparator { }
         Action { text: qsTr("&Panel Zoom"); onTriggered: apps.showSWEZ=!apps.showSWEZ; checkable: true; checked: apps.showSWEZ}
-        Action { text: qsTr("&Fondo Color de Rueda Zoodiacal"); onTriggered: apps.enableBackgroundColor=!apps.enableBackgroundColor; checkable: true; checked: apps.enableBackgroundColor}
+        Action { text: qsTr("&Fondo Color de Rueda Zodiacal"); onTriggered: apps.enableBackgroundColor=!apps.enableBackgroundColor; checkable: true; checked: apps.enableBackgroundColor}
         Action { text: qsTr("&Definir Color de Fondo"); onTriggered: defColor('backgroundColor')}
         Action { text: qsTr("&Definir Color de Texto"); onTriggered: defColor('fontColor')}
         Action { text: qsTr("&Decanatos"); onTriggered: apps.showDec=!apps.showDec; checkable: true; checked: apps.showDec}
@@ -187,6 +186,11 @@ MenuBar{
         Action { text: qsTr("Ver Rueda con Aspectos"); onTriggered: sweg.state=sweg.aStates[2]; checkable: true; checked: sweg.state===sweg.aStates[2]}
         MenuSeparator { }
         Action { text: qsTr("Ver PanelRemoto"); onTriggered: panelRemoto.state=panelRemoto.state==='show'?'hide':'show'; checkable: true; checked: panelRemoto.state==='show'}
+    }
+    XMenu {
+        title: qsTr("&Colores")
+        Action { text: qsTr("Color de Cuerpos Interior"); onTriggered: defColor('xAsColor')}
+        Action { text: qsTr("Color de Cuerpos Exterior"); onTriggered: defColor('xAsColorBack')}
     }
     XMenu {
         title: qsTr("&Paneles")
