@@ -250,6 +250,7 @@ AppWin {
         property bool enableWheelAspCircle: false
 
         //GUI
+        property string zFocus: 'xLatIzq'
         property bool showLog: false
         property bool showMenuBar: true
         property bool enableBackgroundColor: false
@@ -450,6 +451,13 @@ AppWin {
                         }
                     }
                 }
+                Rectangle{
+                    width: parent.width
+                    height: 3
+                    color: 'red'
+                    anchors.bottom: parent.bottom
+                    visible: apps.zFocus==='xLatIzq'
+                }
             }
             Item{
                 id: xMed
@@ -502,6 +510,7 @@ AppWin {
                         onGmtChanged: app.currentGmt=gmt
                         Behavior on h{NumberAnimation{duration: 250; easing.type: Easing.InOutQuad}}
                     }
+
                 }
                 Item{
                     id: xControlsTimeBack
@@ -552,7 +561,13 @@ AppWin {
                         Behavior on h{NumberAnimation{duration: 250; easing.type: Easing.InOutQuad}}
                     }
                 }
-
+                Rectangle{
+                    width: parent.width
+                    height: 3
+                    color: 'red'
+                    anchors.bottom: parent.bottom
+                    visible: apps.zFocus==='xMed'
+                }
             }
             Item{
                 id: xLatDer
@@ -563,7 +578,13 @@ AppWin {
                 PanelControlsSign{id: panelControlsSign}
                 PanelDataBodiesV2{id: panelDataBodies}
                 PanelPronEdit{id: panelPronEdit;}
-
+                Rectangle{
+                    width: parent.width
+                    height: 3
+                    color: 'red'
+                    anchors.bottom: parent.bottom
+                    visible: apps.zFocus==='xLatDer'
+                }
             }
         }
         XTools{

@@ -29,10 +29,10 @@ ApplicationWindow {
         }
     }
 
-//    Keys.onDownPressed: {
-//        log.l('event: '+event.text)
-//        log.visible=true
-//    }
+    //    Keys.onDownPressed: {
+    //        log.l('event: '+event.text)
+    //        log.visible=true
+    //    }
 
 
     Shortcut{
@@ -207,6 +207,15 @@ ApplicationWindow {
         }
     }
     Shortcut{
+        sequence: 'Tab'
+        onActivated: {
+            if(apps.zFocus==='xLatIzq'){apps.zFocus='xMed';return;}
+            if(apps.zFocus==='xMed'){apps.zFocus='xLatDer';return;}
+            if(apps.zFocus==='xLatDer'){apps.zFocus='xLatIzq';return;}
+            apps.zFocus='xLatIzq'
+        }
+    }
+    Shortcut{
         sequence: 'Esc'
         onActivated: {
             if(panelLog.visible){
@@ -293,6 +302,12 @@ ApplicationWindow {
         }
     }
     Shortcut{
+        sequence: 'Ctrl+Esc'
+        onActivated: {
+            app.focus=true
+        }
+    }
+    Shortcut{
         sequence: 'Up'
         onActivated: {
             if(menuBar.expanded){
@@ -303,39 +318,43 @@ ApplicationWindow {
                 xSabianos.toup()
                 return
             }
-            //if(panelFileLoader.state==='show'){
-            if(apps.currentSwipeViewIndex===2){
-                if(panelFileLoader.currentIndex>0){
-                    panelFileLoader.currentIndex--
-                }else{
-                    panelFileLoader.currentIndex=panelFileLoader.listModel.count-1
+
+            if(apps.zFocus==='xLatIzq'){
+                if(apps.currentSwipeViewIndex===2){
+                    if(panelFileLoader.currentIndex>0){
+                        panelFileLoader.currentIndex--
+                    }else{
+                        panelFileLoader.currentIndex=panelFileLoader.listModel.count-1
+                    }
+                    return
                 }
-                return
-            }
-            if(apps.currentSwipeViewIndex===3){
-                panelNewVNA.toUp()
-                return
-            }
-            if(panelControlsSign.state==='show'&&panelDataBodies.state==='hide'){
-                if(currentSignIndex>0){
-                    currentSignIndex--
-                }else{
-                    currentSignIndex=12
+                if(apps.currentSwipeViewIndex===3){
+                    panelNewVNA.toUp()
+                    return
                 }
-                return
-            }
-            if(panelRsList.state==='show'){
-                if(panelRsList.currentIndex>0){
-                    panelRsList.currentIndex--
-                }else{
-                    panelRsList.currentIndex=panelRsList.listModel.count-1
+                if(panelControlsSign.state==='show'&&panelDataBodies.state==='hide'){
+                    if(currentSignIndex>0){
+                        currentSignIndex--
+                    }else{
+                        currentSignIndex=12
+                    }
+                    return
                 }
-                return
+                if(panelRsList.state==='show'){
+                    if(panelRsList.currentIndex>0){
+                        panelRsList.currentIndex--
+                    }else{
+                        panelRsList.currentIndex=panelRsList.listModel.count-1
+                    }
+                    return
+                }
             }
-            if(currentPlanetIndex>-1){
-                currentPlanetIndex--
-            }else{
-                currentPlanetIndex=16
+            if(apps.zFocus==='xLatDer'){
+                if(currentPlanetIndex>-1){
+                    currentPlanetIndex--
+                }else{
+                    currentPlanetIndex=16
+                }
             }
             //xAreaInteractiva.back()
         }
@@ -353,39 +372,45 @@ ApplicationWindow {
                 return
             }
             //if(panelFileLoader.state==='show'){
-            if(apps.currentSwipeViewIndex===2){
-                if(panelFileLoader.currentIndex<panelFileLoader.listModel.count){
-                    panelFileLoader.currentIndex++
-                }else{
-                    panelFileLoader.currentIndex=0
+            if(apps.zFocus==='xLatIzq'){
+                if(apps.currentSwipeViewIndex===2){
+                    if(panelFileLoader.currentIndex<panelFileLoader.listModel.count){
+                        panelFileLoader.currentIndex++
+                    }else{
+                        panelFileLoader.currentIndex=0
+                    }
+                    return
                 }
-                return
-            }
-            if(apps.currentSwipeViewIndex===3){
-                panelNewVNA.toDown()
-                return
-            }
-            if(panelControlsSign.state==='show'&&panelDataBodies.state==='hide'){
-                if(currentSignIndex<12){
-                    currentSignIndex++
-                }else{
-                    currentSignIndex=0
+                if(apps.currentSwipeViewIndex===3){
+                    panelNewVNA.toDown()
+                    return
                 }
-                return
-            }
-            if(panelRsList.state==='show'){
-                if(panelRsList.currentIndex<panelRsList.listModel.count-1){
-                    panelRsList.currentIndex++
-                }else{
-                    panelRsList.currentIndex=0
+                if(panelControlsSign.state==='show'&&panelDataBodies.state==='hide'){
+                    if(currentSignIndex<12){
+                        currentSignIndex++
+                    }else{
+                        currentSignIndex=0
+                    }
+                    return
                 }
-                return
+                if(panelRsList.state==='show'){
+                    if(panelRsList.currentIndex<panelRsList.listModel.count-1){
+                        panelRsList.currentIndex++
+                    }else{
+                        panelRsList.currentIndex=0
+                    }
+                    return
+                }
+
             }
-            if(currentPlanetIndex<16){
-                currentPlanetIndex++
-            }else{
-                currentPlanetIndex=-1
+            if(apps.zFocus==='xLatDer'){
+                if(currentPlanetIndex<16){
+                    currentPlanetIndex++
+                }else{
+                    currentPlanetIndex=-1
+                }
             }
+
             //log.visible=true
             //log.width=xApp.width*0.2
             //log.l('currentPlanetIndex: '+currentPlanetIndex)
@@ -493,7 +518,7 @@ ApplicationWindow {
                         app.currentXAsBack.saveZoomAndPos('ascBack')
                     }
                 }else{
-                        app.currentXAsBack.saveZoomAndPos()
+                    app.currentXAsBack.saveZoomAndPos()
                 }
                 return
             }
