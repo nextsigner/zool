@@ -14,6 +14,7 @@ Rectangle {
     border.color: apps.fontColor
     state: 'show'
     property var uJson
+    property int latFocus: 0
     states: [
         State {
             name: "show"
@@ -34,8 +35,8 @@ Rectangle {
     Row{
         width: parent.width-r.border.width*2
         anchors.horizontalCenter: parent.horizontalCenter
-        Comps.XBodies{id: xBodiesInt; isBack: false}
-        Comps.XBodies{id: xBodiesExt; isBack: true}
+        Comps.XBodies{id: xBodiesInt; isBack: false; isLatFocus: r.latFocus===0}
+        Comps.XBodies{id: xBodiesExt; isBack: true; isLatFocus: r.latFocus===1}
     }
     Rectangle{
         width: labelCargando.contentWidth+app.fs*0.25
@@ -55,6 +56,7 @@ Rectangle {
         }
     }
     function loadJson(json){
+        r.latFocus=0
         xBodiesInt.loadJson(json)
     }
     function loadJsonBack(json){

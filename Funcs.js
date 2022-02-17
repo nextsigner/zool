@@ -433,6 +433,7 @@ function loadJsonBack(file){
     app.currentLatBack= 0.0
     app.uSonBack=''
     panelControlsSign.state='hide'
+    app.ev=true
 
     apps.urlBack=file
     let fn=apps.urlBack
@@ -585,7 +586,7 @@ function mkSinFile(file){
     let sf=JSON.stringify(nJson)
     //log.l(sf)
 
-    let nFileName=documentsPath+'/Sinastría_'+jsonInt.params.n+'_-_'+jsonExt.params.n+'.json'
+    let nFileName=(apps.jsonsFolder+'/Sinastría_'+jsonInt.params.n+'_-_'+jsonExt.params.n+'.json').replace(/ /g,'_')
     //log.l(nFileName)
     let e=unik.fileExist(nFileName)
     if(e){

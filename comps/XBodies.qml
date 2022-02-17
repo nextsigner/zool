@@ -7,6 +7,7 @@ Column{
     width: !app.ev?parent.width:parent.width*0.5
     opacity: 0.0
     property bool isBack: false
+    property bool isLatFocus: false
     Behavior on opacity{NumberAnimation{id:numAn1;duration:10}}
     Rectangle{
         id: headerLv
@@ -114,6 +115,7 @@ Column{
                     horizontalAlignment: Text.AlignHCenter
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: app.ev
+                    opacity: r.isLatFocus?1.0:0.65
                     Timer{
                         running: parent.contentWidth>xItem.width-app.fs*0.1 && app.ev
                         repeat: true
@@ -132,6 +134,7 @@ Column{
                     horizontalAlignment: Text.AlignHCenter
                     //anchors.centerIn: parent
                     visible: app.ev
+                    opacity: r.isLatFocus?1.0:0.65
                     anchors.horizontalCenter: parent.horizontalCenter
                     Timer{
                         running: parent.contentWidth>xItem.width-app.fs*0.1 && app.ev

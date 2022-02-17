@@ -96,7 +96,8 @@ Item{
             o.rsg=jo.rsgdeg
             o.g=jo.gdeg
             o.m=jo.mdeg
-            o.h=jo.h
+            //o.h=jo.h
+            o.ih=sweg.objHousesCircle.getHousePos(jo.gdec, json.ph.h1.gdec, i, jo.ih)
             if(i!==10&&i!==11)o.retro=jo.retro
             objAs.is=jo.is
             objAs.objData=o

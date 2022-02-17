@@ -350,10 +350,19 @@ ApplicationWindow {
                 }
             }
             if(apps.zFocus==='xLatDer'){
-                if(currentPlanetIndex>-1){
-                    currentPlanetIndex--
-                }else{
-                    currentPlanetIndex=16
+                if(panelDataBodies.latFocus===0){
+                    if(currentPlanetIndex>-1){
+                        currentPlanetIndex--
+                    }else{
+                        currentPlanetIndex=16
+                    }
+                }
+                if(panelDataBodies.latFocus===1){
+                    if(currentPlanetIndexBack>-1){
+                        currentPlanetIndexBack--
+                    }else{
+                        currentPlanetIndexBack=16
+                    }
                 }
             }
             //xAreaInteractiva.back()
@@ -371,7 +380,6 @@ ApplicationWindow {
                 xSabianos.todown()
                 return
             }
-            //if(panelFileLoader.state==='show'){
             if(apps.zFocus==='xLatIzq'){
                 if(apps.currentSwipeViewIndex===2){
                     if(panelFileLoader.currentIndex<panelFileLoader.listModel.count){
@@ -404,10 +412,19 @@ ApplicationWindow {
 
             }
             if(apps.zFocus==='xLatDer'){
-                if(currentPlanetIndex<16){
-                    currentPlanetIndex++
-                }else{
-                    currentPlanetIndex=-1
+                if(panelDataBodies.latFocus===0){
+                    if(currentPlanetIndex<16){
+                        currentPlanetIndex++
+                    }else{
+                        currentPlanetIndex=-1
+                    }
+                }
+                if(panelDataBodies.latFocus===1){
+                    if(currentPlanetIndexBack<16){
+                        currentPlanetIndexBack++
+                    }else{
+                        currentPlanetIndexBack=-1
+                    }
                 }
             }
 
@@ -426,6 +443,11 @@ ApplicationWindow {
                 panelNewVNA.toLeft()
                 return
             }
+            if(apps.zFocus==='xLatDer'){
+                panelDataBodies.latFocus=panelDataBodies.latFocus===0?1:0
+                return
+            }
+
             if(app.currentPlanetIndex>=0 && app.currentXAs){
                 app.currentXAs.rot(false)
                 return
@@ -449,6 +471,14 @@ ApplicationWindow {
         onActivated: {
             if(sv.currentIndex===2){
                 panelNewVNA.toRight()
+                return
+            }
+            if(apps.zFocus==='xLatDer'){
+                panelDataBodies.latFocus=panelDataBodies.latFocus===0?1:0
+                return
+            }
+            if(apps.zFocus==='xLatDer'){
+                panelDataBodies.latFocus=panelDataBodies.latFocus===0?1:0
                 return
             }
             if(app.currentPlanetIndex>=0 && app.currentXAs){
