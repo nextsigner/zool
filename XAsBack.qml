@@ -194,7 +194,7 @@ Item{
             source: app.planetasRes[r.numAstro]?"./resources/imgs/planetas/"+app.planetasRes[r.numAstro]+(apps.xAsShowIcon&&r.aIcons.indexOf(r.numAstro)>=0?"_i.png":".svg"):""
             width: parent.width*0.9
             height: width
-            x:!r.selected?0:r.parent.width*0.5-img.width*0.5//+sweg.fs*2
+            x:!r.selected?0:r.parent.width*0.5-img0.width*0.5//+sweg.fs*2
             y: (parent.width-width)/2
             rotation: 0-parent.parent.rotation
             antialiasing: true
