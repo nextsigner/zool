@@ -69,7 +69,7 @@ Column{
             border.width: 1
             border.color: !r.isBack?apps.houseColor:apps.houseColorBack
             visible: !app.ev?txtData.width<xItem.width:true
-            anchors.horizontalCenter: parent.horizontalCenter
+            //anchors.horizontalCenter: parent.horizontalCenter
             Behavior on opacity{NumberAnimation{duration: 250}}
             property bool textSized: false
             onTextSizedChanged: {}
@@ -184,7 +184,12 @@ Column{
                 txtData.text=sd.replace(/ @ /g, ' ')
                 let m0=sd.split(' @ ')
                 txtDataEV.text=m0[0]//sd.replace(/ @ /g, '<br />')
-                txtDataEV2.text=m0[1]
+                if(m0[1]){
+                    txtDataEV2.text=m0[1]
+                }else{
+                    log.ls('sd: '+sd, 0, 500)
+                }
+
                 //cantTextSized++
                 //log.ls('cantTextSized: '+index, 0, 500)
                 //                log.l('sd: '+sd)
@@ -235,7 +240,8 @@ Column{
         //Load Houses
         for(i=1;i<13;i++){
             jo=json.ph['h'+i]
-            s = 'Casa '+i+' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ ' ' +app.signos[jo.is]
+            //s = 'Casa '+i+' °' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ ' ' +app.signos[jo.is]
+            s = '<b>Casa</b> '+i+' en <b>'+app.signos[jo.is]+'</b> @ <b>Grado:</b>°' +jo.rsgdeg+ '\'' +jo.mdeg+ '\'\'' +jo.sdeg+ ''
             lm.append(lm.addItem(jo.is, jo.ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s))
             //lm2.append(lm2.addItem(jo.is, jo.ih, jo.rsgdeg, jo.mdeg, jo.sdeg, s))
         }

@@ -165,7 +165,7 @@ Rectangle{
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        Text{text: 'Destello de planetas';font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
+                        Text{text: 'Destello de planetas';color: apps.fontColor;font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: apps.anColorXAs
                             anchors.verticalCenter: parent.verticalCenter
@@ -176,7 +176,7 @@ Rectangle{
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        Text{text: 'Ver Lineas de Grados';font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
+                        Text{text: 'Ver Lineas de Grados';color: apps.fontColor;font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: apps.showNumberLines
                             anchors.verticalCenter: parent.verticalCenter
@@ -186,7 +186,7 @@ Rectangle{
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        Text{text: 'Ver Ejes de Casas';font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
+                        Text{text: 'Ver Ejes de Casas';color: apps.fontColor;font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
                         CheckBox{
                             checked: apps.showHousesAxis
                             anchors.verticalCenter: parent.verticalCenter
@@ -196,7 +196,7 @@ Rectangle{
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        Text{text: 'Ancho del Ejes de Casas';font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
+                        Text{text: 'Ancho del Ejes de Casas';color: apps.fontColor;font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: 2.0
                             value: apps.widthHousesAxis
@@ -212,7 +212,7 @@ Rectangle{
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        Text{text: 'Ancho del Circulo signos';font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
+                        Text{text: 'Ancho del Circulo signos';color: apps.fontColor;font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: app.fs*0.1
                             value: apps.sweFs
@@ -248,7 +248,7 @@ Rectangle{
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        Text{text: 'Tamaño de Lista de Elementos';font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
+                        Text{text: 'Tamaño de Lista de Elementos';color: apps.fontColor;font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: 1.0
                             value: 50
@@ -279,7 +279,7 @@ Rectangle{
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        Text{text: 'Tamaño de Botones';font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
+                        Text{text: 'Tamaño de Botones';color: apps.fontColor;font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: 1.0
                             value: apps.botSizeSpinBoxValue
@@ -311,10 +311,9 @@ Rectangle{
                     anchors.topMargin: app.fs*0.5
                     Item{width: 1;height: app.fs}
                     Text{
-                        text: '<b>Configuración</b>'
+                        text: '<b>Configuración de Archivos, Carpetas y otros</b>'
                         font.pixelSize: app.fs*0.5
                         color: apps.fontColor
-                        //width: parent.width-app.fs*0.5
                         anchors.horizontalCenter: parent.horizontalCenter
                         textFormat: Text.RichText
                         wrapMode: Text.WordWrap
@@ -345,113 +344,18 @@ Rectangle{
                                 enabled=false
                             }
                         }
-                    }
-                }
-            }
-        }
-        //Controles Adicionales
-        Item{
-            width: r.width
-            height: r.height
-            Flickable{
-                width: r.width
-                height: r.height
-                contentHeight: colControlesAd.height+app.fs*3
-                Column{
-                    id: colControlesAd
-                    spacing: app.fs*0.5
-                    anchors.horizontalCenter: parent.horizontalCenter
-                    anchors.top: parent.top
-                    anchors.topMargin: app.fs*0.5
-                    Item{width: 1;height: app.fs}
-                    Text{
-                        text: '<b>Controles Adicionales</b>'
-                        font.pixelSize: app.fs*0.5
-                        color: apps.fontColor
-                        width: parent.width-app.fs*0.5
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        textFormat: Text.RichText
-                        wrapMode: Text.WordWrap
-                        onLinkActivated: Qt.openUrlExternally(link)
-                    }
-
-                    //Crear Carta Mundial de Ahora
-                    Button{
-                        text: 'Crear Mapa Mundial de Ahora'
-                        height: app.fs*0.6
-                        onClicked: {
-                            var offset = new Date().getTimezoneOffset();
-                            //console.log('Zool GMT Client: '+offset);
-                            let date0=new Date(Date.now())
-                            date0=date0.setMinutes(date0.getMinutes()+offset)
-                            //let d1=new Date.UTC(2021,7,20,11,34,0)
-                            var date = new Date(date0);
-                            var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-                                                    date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-
-                            let d1=new Date(now_utc);
-                            //console.log('Zool United KIngston Hour: '+d1.toString());
-                            JS.loadFromArgs(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), "United Kingston England", "vn", true)
-                        }
-                    }
-
-
-                    //Mostrar plenetas automáticamente.
-                    Row{
-                        spacing: app.fs*0.25
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        Text{text: 'Mostrar Automático'; font.pixelSize: app.fs*0.5; color:apps.fontColor; anchors.verticalCenter: parent.verticalCenter}
-                        CheckBox{
-                            checked: tAutoMaticPlanets.running
-                            anchors.verticalCenter: parent.verticalCenter
-                            onCheckStateChanged: {
-                                tAutoMaticPlanets.currentJsonData=app.currentData
-                                tAutoMaticPlanets.running=checked
-                                if(checked)app.currentPlanetIndex=0
+                        Button{
+                            text: 'Mostrar Información de Archivo'
+                            width: implicitContentWidth+app.fs*0.5
+                            height: app.fs*0.6
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            onClicked: {
+                                let s=''
+                                s+='Nombre del archivo actual: '+apps.url+'\n\n'
+                                s+='Json Data: '+app.fileData
+                                log.l(s)
+                                log.visible=true
                             }
-
-                            //                            Timer{
-                            //                                id: tAutoMaticPlanets
-                            //                                running: false
-                            //                                repeat: true
-                            //                                interval: 10000
-                            //                                property string currentJsonData: ''
-                            //                                onTriggered: {
-                            //                                    if(tAutoMaticPlanets.currentJsonData!==app.currentData){
-                            //                                        tAutoMaticPlanets.stop()
-                            //                                        return
-                            //                                    }
-                            //                                    if(app.currentPlanetIndex<16){
-                            //                                        app.currentPlanetIndex++
-                            //                                    }else{
-                            //                                        app.currentPlanetIndex=-1
-                            //                                    }
-                            //                                }
-                            //                            }
-
-                        }
-                    }
-
-                    //Información General de Astromedicina.
-                    Button{
-                        text: 'Ver Información Astromedicina'
-                        height: app.fs*0.6
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        onClicked: {
-                            xInfoData.loadData('./resources/astromedicina.html')
-                        }
-                    }
-                    Button{
-                        text: 'Mostrar Información de Archivo'
-                        width: implicitContentWidth+app.fs*0.5
-                        height: app.fs*0.6
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        onClicked: {
-                            let s=''
-                            s+='Nombre del archivo actual: '+apps.url+'\n\n'
-                            s+='Json Data: '+app.fileData
-                            log.l(s)
-                            log.visible=true
                         }
                     }
                 }

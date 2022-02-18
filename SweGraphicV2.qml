@@ -542,7 +542,6 @@ Item {
         housesCircleBack.loadHouses(j)
         planetsCircleBack.loadJson(j)
         panelDataBodies.loadJsonBack(j)
-        panelDataBodiesV2.loadJson(j)
         app.ev=true
         centerZoomAndPos()
     }
