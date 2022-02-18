@@ -69,26 +69,46 @@ Rectangle {
                         wrapMode: Text.WordWrap
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
-                    Button{
-                        text: 'Crear'
-                        font.pixelSize: app.fs*0.5
-                        anchors.right: parent.right
-                        onClicked: {
-                            var offset = new Date().getTimezoneOffset();
-                            //console.log('Zool GMT Client: '+offset);
-                            let date0=new Date(Date.now())
-                            date0=date0.setMinutes(date0.getMinutes()+offset)
-                            //let d1=new Date.UTC(2021,7,20,11,34,0)
-                            var date = new Date(date0);
-                            var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-                                                    date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+                    Row{
+                        spacing: app.fs*0.25
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Button{
+                            text: 'Crear'
+                            font.pixelSize: app.fs*0.5
+                            onClicked: {
+                                var offset = new Date().getTimezoneOffset();
+                                //console.log('Zool GMT Client: '+offset);
+                                let date0=new Date(Date.now())
+                                date0=date0.setMinutes(date0.getMinutes()+offset)
+                                //let d1=new Date.UTC(2021,7,20,11,34,0)
+                                var date = new Date(date0);
+                                var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+                                                        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
 
-                            let d1=new Date(now_utc);
-                            //console.log('Zool United KIngston Hour: '+d1.toString());
-                            JS.loadFromArgs(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), "United Kingston England", "vn", true)
+                                let d1=new Date(now_utc);
+                                //console.log('Zool United KIngston Hour: '+d1.toString());
+                                JS.loadFromArgs(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), "United Kingston England", "vn", true)
+                            }
+                        }
+                        Button{
+                            text: 'Crear en Exterior'
+                            font.pixelSize: app.fs*0.5
+                            onClicked: {
+                                var offset = new Date().getTimezoneOffset();
+                                //console.log('Zool GMT Client: '+offset);
+                                let date0=new Date(Date.now())
+                                date0=date0.setMinutes(date0.getMinutes()+offset)
+                                //let d1=new Date.UTC(2021,7,20,11,34,0)
+                                var date = new Date(date0);
+                                var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+                                                        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+
+                                let d1=new Date(now_utc);
+                                //console.log('Zool United KIngston Hour: '+d1.toString());
+                                JS.loadFromArgsBack(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), "United Kingston England", "vn", true)
+                            }
                         }
                     }
-
                 }
             }
 
@@ -112,26 +132,46 @@ Rectangle {
                         wrapMode: Text.WordWrap
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
-                    Button{
-                        text: 'Cargar'
-                        font.pixelSize: app.fs*0.5
-                        anchors.right: parent.right
-                        onClicked: {
-                            var offset = new Date().getTimezoneOffset();
-                            //console.log('Zool GMT Client: '+offset);
-                            let date0=new Date(Date.now())
-                            date0=date0.setMinutes(date0.getMinutes()+offset)
-                            //let d1=new Date.UTC(2021,7,20,11,34,0)
-                            var date = new Date(date0);
-                            var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-                                                    date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+                    Row{
+                        spacing: app.fs*0.25
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Button{
+                            text: 'Cargar'
+                            font.pixelSize: app.fs*0.5
+                            onClicked: {
+                                var offset = new Date().getTimezoneOffset();
+                                //console.log('Zool GMT Client: '+offset);
+                                let date0=new Date(Date.now())
+                                date0=date0.setMinutes(date0.getMinutes()+offset)
+                                //let d1=new Date.UTC(2021,7,20,11,34,0)
+                                var date = new Date(date0);
+                                var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+                                                        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
 
-                            let d1=new Date(now_utc);
-                            //console.log('Zool United KIngston Hour: '+d1.toString());
-                            JS.loadFromArgs(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), "United Kingston England", "vn", false)
+                                let d1=new Date(now_utc);
+                                //console.log('Zool United KIngston Hour: '+d1.toString());
+                                JS.loadFromArgs(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), "United Kingston England", "vn", false)
+                            }
+                        }
+                        Button{
+                            text: 'Cargar en el Exterior'
+                            font.pixelSize: app.fs*0.5
+                            onClicked: {
+                                var offset = new Date().getTimezoneOffset();
+                                //console.log('Zool GMT Client: '+offset);
+                                let date0=new Date(Date.now())
+                                date0=date0.setMinutes(date0.getMinutes()+offset)
+                                //let d1=new Date.UTC(2021,7,20,11,34,0)
+                                var date = new Date(date0);
+                                var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
+                                                        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
+
+                                let d1=new Date(now_utc);
+                                //console.log('Zool United KIngston Hour: '+d1.toString());
+                                JS.loadFromArgsBack()(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), "United Kingston England", "vn", false)
+                            }
                         }
                     }
-
                 }
             }
 

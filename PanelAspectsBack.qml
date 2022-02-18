@@ -32,7 +32,7 @@ Rectangle {
         anchors.bottom: apps.showAspPanelBack?parent.top:parent.bottom
         border.width: 1
         border.color: apps.backgroundColor
-        rotation: 180
+        //rotation: 180
         MouseArea{
             anchors.fill: parent
             onClicked: {
@@ -40,7 +40,7 @@ Rectangle {
                     apps.showAspCircleBack=!apps.showAspCircleBack
                     return
                 }
-                apps.showAspPanelBack=!apps.showAspPanel
+                apps.showAspPanelBack=!apps.showAspPanelBack
             }
         }
         Text{
@@ -50,6 +50,7 @@ Rectangle {
             color: apps.backgroundColor
             opacity: apps.showAspCircle?1.0:0.65
             anchors.centerIn: parent
+            rotation: 180
         }
         Text{
             text:  'Aspextos'
@@ -57,7 +58,9 @@ Rectangle {
             color: apps.fontColor
             opacity: apps.showAspPanelBack?0.0:1.0
             anchors.verticalCenter: parent.verticalCenter
+            anchors.verticalCenterOffset: contentHeight
             anchors.left: parent.right
+            transform: Scale{ yScale: -1 }
             anchors.leftMargin: app.fs*0.1
         }
     }

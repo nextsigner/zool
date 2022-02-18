@@ -309,6 +309,7 @@ function loadJson(file){
     app.currentLat= 0.0
     app.uSon=''
     panelControlsSign.state='hide'
+    apps.showAspPanelBack=false
     app.ev=false
 
     apps.url=file

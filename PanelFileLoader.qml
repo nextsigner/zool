@@ -85,7 +85,11 @@ Rectangle {
                     updateList()
                 }
                 onFocusChanged: {
-                    if(focus)selectAll()
+                    if(focus){
+                        apps.zFocus='xLatIzq'
+                        selectAll()
+                    }
+
                 }
                 Rectangle{
                     width: parent.width+app.fs

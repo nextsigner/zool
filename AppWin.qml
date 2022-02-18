@@ -350,6 +350,7 @@ ApplicationWindow {
                 }
             }
             if(apps.zFocus==='xLatDer'){
+                tAutoMaticPlanets.stop()
                 if(panelDataBodies.latFocus===0){
                     if(currentPlanetIndex>-1){
                         currentPlanetIndex--
@@ -412,6 +413,7 @@ ApplicationWindow {
 
             }
             if(apps.zFocus==='xLatDer'){
+                tAutoMaticPlanets.stop()
                 if(panelDataBodies.latFocus===0){
                     if(currentPlanetIndex<16){
                         currentPlanetIndex++
@@ -439,15 +441,14 @@ ApplicationWindow {
         sequence: 'Left'
         onActivated: {
             //if(panelNewVNA.state==='show'){
-            if(sv.currentIndex===2){
-                panelNewVNA.toLeft()
-                return
-            }
             if(apps.zFocus==='xLatDer'){
                 panelDataBodies.latFocus=panelDataBodies.latFocus===0?1:0
                 return
             }
-
+            if(sv.currentIndex===2){
+                panelNewVNA.toLeft()
+                return
+            }
             if(app.currentPlanetIndex>=0 && app.currentXAs){
                 app.currentXAs.rot(false)
                 return
@@ -469,16 +470,16 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Right'
         onActivated: {
+            if(apps.zFocus==='xLatDer'){
+                panelDataBodies.latFocus=panelDataBodies.latFocus===0?1:0
+                return
+            }
+            if(apps.zFocus==='xLatDer'){
+                panelDataBodies.latFocus=panelDataBodies.latFocus===0?1:0
+                return
+            }
             if(sv.currentIndex===2){
                 panelNewVNA.toRight()
-                return
-            }
-            if(apps.zFocus==='xLatDer'){
-                panelDataBodies.latFocus=panelDataBodies.latFocus===0?1:0
-                return
-            }
-            if(apps.zFocus==='xLatDer'){
-                panelDataBodies.latFocus=panelDataBodies.latFocus===0?1:0
                 return
             }
             if(app.currentPlanetIndex>=0 && app.currentXAs){
@@ -678,6 +679,15 @@ ApplicationWindow {
             panelZonaMes.state=panelZonaMes.state==='hide'?'show':'hide'
         }
     }
+
+    //AutoMatic Planets
+    Shortcut{
+        sequence: 'Ctrl+a'
+        onActivated: {
+            tAutoMaticPlanets.running=!tAutoMaticPlanets.running
+        }
+    }
+
     Shortcut{
         sequence: 'Ctrl+s'
         onActivated: {
