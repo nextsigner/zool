@@ -261,6 +261,7 @@ AppWin {
         property int botSize: app.fs*0.5
         property int botSizeSpinBoxValue: 50
         property real elementsFs: Screen.width*0.02
+        property bool xToolEnableHide: true
 
         property int lupaMod: 2
         property int lupaBorderWidth: 3

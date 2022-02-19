@@ -5,18 +5,63 @@ import "Funcs.js" as JS
 
 Rectangle {
     id: r
-    width: app.fs*6
-    height: app.fs*3
-    border.width: 0
-    border.color: 'red'
+    width: col.width//app.fs*6
+    height: col.height//app.fs*3
+    //border.width: 2
+    //border.color: 'red'
+    //color: 'red'
     color: 'transparent'
     Column{
+        anchors.bottom: parent.bottom
+        anchors.right: parent.right
+        Repeater{
+            model:col.state==='hide'?1:5
+            Rectangle{
+                width: index!==0&&col.state==='show'?(col.state==='hide'?app.fs*2:r.width-app.fs*1.3-((app.fs)*(2-index))):app.fs*2
+                height: col.state==='hide'?width:app.fs*1.1//*2
+                color: 'transparent'
+                border.width: 0
+                border.color: 'yellow'
+                //anchors.bottom: parent.bottom
+                anchors.right: parent.right
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onEntered: col.state='show'
+                    onPositionChanged: {
+                        if(apps.xToolEnableHide){
+                            tHideCol.restart()
+                        }
+                    }
+                }
+            }
+        }
+    }
+    Column{
+        id: col
         spacing: app.fs*0.25
         //anchors.centerIn: r
         anchors.right: parent.right
         anchors.rightMargin: app.fs*0.1
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: app.fs*0.1
+        state: 'hide'
+        states: [
+            State {
+                name: "show"
+                PropertyChanges {
+                    target: col
+                    anchors.bottomMargin: 0
+                }
+            },
+            State {
+                name: "hide"
+                PropertyChanges {
+                    target: col
+                    anchors.bottomMargin: 0-col.height
+                }
+            }
+        ]
+        Behavior on y{NumberAnimation{duration: 250}}
         //        Button{
         //            text: app.uSon
         //            width: app.fs*3
@@ -27,6 +72,34 @@ Rectangle {
         //                JS.showIW()
         //            }
         //        }
+
+        //Alfiler xTool
+        ButtonIcon{
+            text: ''
+            width: apps.botSize
+            height: width
+            anchors.right: parent.right
+            onClicked: {
+                apps.xToolEnableHide=!apps.xToolEnableHide
+                if(apps.xToolEnableHide){
+                    col.state='hide'
+                }
+            }
+            Text{
+                text:'\uf08d'
+                font.pixelSize: parent.width*0.9
+                rotation: apps.xToolEnableHide?45:0
+                anchors.centerIn: parent
+            }
+            Timer{
+                id: tHideCol
+                running: apps.xToolEnableHide
+                repeat: true
+                interval: 5000
+                onTriggered: col.state='hide'
+
+            }
+        }
 
         //Botones de prueba.  Chequear la propiedad visible de este Row{}
         Row{
@@ -103,7 +176,7 @@ Rectangle {
                 width: apps.botSize
                 height: width
                 onClicked: {
-                    ncv.visible=true                    
+                    ncv.visible=true
                 }
             }
             ButtonIcon{
