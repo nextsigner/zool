@@ -161,16 +161,20 @@ Column{
                             if(app.currentPlanetIndex!==index){
                                 app.currentPlanetIndex=index
                             }else{
-                                JS.showIW()
+                                app.currentPlanetIndex=-1
                             }
                         }else{
                             if(app.currentPlanetIndexBack!==index){
                                 app.currentPlanetIndexBack=index
                             }else{
-                                JS.showIW()
+                                app.currentPlanetIndexBack=-1
                             }
                         }
-
+                    }
+                }
+                onDoubleClicked: {
+                    if(index<=16){
+                        JS.showIW()
                     }
                 }
             }

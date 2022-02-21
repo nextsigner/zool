@@ -311,6 +311,8 @@ function loadJson(file){
     panelControlsSign.state='hide'
     apps.showAspPanelBack=false
     app.ev=false
+    apps.showAspPanelBack=false
+    apps.showAspCircleBack=false
 
     apps.url=file
     let fn=apps.url

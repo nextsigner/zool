@@ -18,7 +18,7 @@ Item {
             name: sweg.aStates[0]
             PropertyChanges {
                 target: r
-                w: sweg.fs*0.5
+                //w: sweg.fs*0.5
             }
             PropertyChanges {
                 target: xImg
@@ -29,7 +29,7 @@ Item {
             name: sweg.aStates[1]
             PropertyChanges {
                 target: r
-                w: sweg.fs*0.5
+                //w: sweg.fs*0.5
             }
             PropertyChanges {
                 target: xImg
@@ -40,7 +40,7 @@ Item {
             name: sweg.aStates[2]
             PropertyChanges {
                 target: r
-                w: sweg.fs*0.5
+                //w: sweg.fs*0.5
             }
             PropertyChanges {
                 target: xImg
@@ -94,7 +94,10 @@ Item {
             //border.color: 'red'
             color: 'transparent'
             anchors.verticalCenter: parent.verticalCenter
-            x:(r.w-xImg.width)/4
+            x:(0-xImg.width*0.5)+apps.signCircleWidth*0.5
+            //x:((r.w-xImg.width)/4)
+            //x:(apps.signCircleWidth-xImg.width)/4
+            //x:100
             rotation: 0-r.rotation-15-r.gr//-90
             antialiasing: true
             property bool resaltado: false//panelDataBodies.currentIndexSign === r.n - 1

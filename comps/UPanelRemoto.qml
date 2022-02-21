@@ -248,6 +248,46 @@ Rectangle{
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
+                        Text{text: 'Ancho de Signos';color: apps.fontColor;font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
+                        SpinBox{
+                            id: spinbox
+                            from: 0
+                            value: 110
+                            to: 100 * 100
+                            //opacity: 0.5
+                            stepSize: 100
+                            property int decimals: 0
+                            property real realValue: value / 100
+
+                            onValueChanged:{
+                                let porc=parseInt(value/100)
+                                let nw=app.fs+(app.fs/100*porc)
+                                apps.signCircleWidth=nw
+//                                log.l('Value: '+nw)
+//                                log.x=500
+//                                log.visible=true
+                            }
+
+                            //validator: DoubleValidator {
+                            validator: IntValidator {
+                                bottom: Math.min(spinbox.from, spinbox.to)
+                                top:  Math.max(spinbox.from, spinbox.to)
+                            }
+
+                            textFromValue: function(value, locale) {
+                                return '%'+Number(value / 100).toLocaleString(locale, 'f', spinbox.decimals)
+                                //return parseInt(Number(value / 100).toLocaleString(locale, 'f', spinbox.decimals))
+                            }
+
+                            valueFromText: function(text, locale) {
+                                return Number.fromLocaleString(locale, text) * 100
+                            }
+                        }
+                    }
+                    //Tamaño de PanelElementos
+                    Column{
+                        spacing: app.fs*0.25
+                        anchors.horizontalCenter: parent.horizontalCenter
                         Text{text: 'Tamaño de Lista de Elementos';color: apps.fontColor;font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             stepSize: 1.0
@@ -387,7 +427,8 @@ Rectangle{
                         wrapMode: Text.WordWrap
                         onLinkActivated: Qt.openUrlExternally(link)
                     }
-                    Row{
+                    Flow{
+                        width: parent.width
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
                         Button{

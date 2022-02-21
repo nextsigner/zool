@@ -17,7 +17,7 @@ Item {
 
     property int  verticalOffSet: 0//xDataBar.state==='show'?sweg.fs*1.25:0
     property int fs: r.objectName==='sweg'?apps.sweFs*1.5:apps.sweFs*3
-    property int w: fs
+    property int w: apps.signCircleWidth//fs
     property bool v: false
     property alias expand: planetsCircle.expand
     property alias objAspsCircle: aspsCircle
