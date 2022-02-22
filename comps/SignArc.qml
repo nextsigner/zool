@@ -22,7 +22,7 @@ Item {
             }
             PropertyChanges {
                 target: xImg
-                width: sweg.fs*0.5
+                //width: sweg.fs*0.5
             }
         },
         State {
@@ -33,7 +33,7 @@ Item {
             }
             PropertyChanges {
                 target: xImg
-                width: sweg.fs*0.5
+                //width: sweg.fs*0.5
             }
         },
         State {
@@ -44,10 +44,17 @@ Item {
             }
             PropertyChanges {
                 target: xImg
-                width: sweg.fs*0.5
+                //width: sweg.fs*0.5
             }
         }
     ]
+    onWChanged: {
+//        log.l('W:'+w)
+//        log.x=500
+//        log.visible=true
+        canvas.requestPaint()
+        xImg.x=(0-xImg.width*0.5)+apps.signCircleWidth*0.5
+    }
     Rectangle{
         anchors.fill: r
         color: 'transparent'
@@ -88,7 +95,7 @@ Item {
         antialiasing: true
         Rectangle{
             id: xImg
-            //width: signCircle.w*0.5
+            width: apps.signCircleWidth*0.8//signCircle.w*0.5
             height: width
             //border.width: 2
             //border.color: 'red'

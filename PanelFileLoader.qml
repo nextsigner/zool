@@ -36,7 +36,6 @@ Rectangle {
     }
     FolderListModel{
         id: flm
-        //folder: 'file:./'+app.mainLocation+'/jsons'
         folder: 'file:'+apps.jsonsFolder
         showDirs: false
         showFiles: true

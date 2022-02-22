@@ -195,7 +195,7 @@ AppWin {
     FontLoader {name: "TypeWriter";source: "qrc:/resources/typewriter.ttf";}
     Settings{
         id: apps
-        fileName:documentsPath+'/zool_'+Qt.platform.os+'.cfg'
+        fileName:unik.getPath(4)+'/zool_'+Qt.platform.os+'.cfg'
         property string host: 'http://localhost'
         property bool newClosed: false
 
@@ -211,8 +211,8 @@ AppWin {
         property int currentSwipeViewIndex: 0
 
         //Houses
-        property string defaultHsys: 'T'
-        property string currentHsys: 'T'
+        property string defaultHsys: 'P'
+        property string currentHsys: 'P'
         property string houseColor: "#2CB5F9"
         property string houseColorBack: 'red'
         property bool showHousesAxis: false
@@ -243,6 +243,7 @@ AppWin {
         property bool showXAsLineCenter: false
         property color xAsLineCenterColor: 'red'
         property int signCircleWidth: Screen.width*0.02
+        property int signCircleWidthSbValue: 500
         property int sweFs: Screen.width*0.02
         property bool showAspCircle: true
         property bool showAspCircleBack: true
@@ -697,13 +698,15 @@ AppWin {
             }
         }
         if(!fileLoaded){
-            if(apps.url!==''){
+            //let fp=
+            if(apps.url!==''&&unik.fileExist(apps.url)){
                 console.log('Cargando al iniciar: '+apps.url)
                 JS.loadJson(apps.url)
             }else{
                 console.log('Loading United Kingston now...')
+                console.log('JsonFolder: '+apps.jsonsFolder)
                 let d=new Date(Date.now())
-                JS.loadFromArgs(d.getDate(), parseInt(d.getMonth() +1),d.getFullYear(), d.getHours(), d.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston", "United Kingston England", "pron", true)
+                JS.loadFromArgs(d.getDate(), parseInt(d.getMonth() +1),d.getFullYear(), d.getHours(), d.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston", "United Kingston England", "pron", false)
             }
         }
         //JS.getRD('https://github.com/nextsigner/nextsigner.github.io/raw/master/zool/zool', setHost)

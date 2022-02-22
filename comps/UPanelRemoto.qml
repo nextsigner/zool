@@ -251,9 +251,9 @@ Rectangle{
                         Text{text: 'Ancho de Signos';color: apps.fontColor;font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
                         SpinBox{
                             id: spinbox
-                            from: 0
-                            value: 110
-                            to: 100 * 100
+                            from: 1000
+                            value: apps.signCircleWidthSbValue
+                            to: 200 * 100
                             //opacity: 0.5
                             stepSize: 100
                             property int decimals: 0
@@ -263,6 +263,7 @@ Rectangle{
                                 let porc=parseInt(value/100)
                                 let nw=app.fs+(app.fs/100*porc)
                                 apps.signCircleWidth=nw
+                                apps.signCircleWidthSbValue=value
 //                                log.l('Value: '+nw)
 //                                log.x=500
 //                                log.visible=true
@@ -397,6 +398,13 @@ Rectangle{
                                 log.visible=true
                             }
                         }
+                    }
+                    Text{
+                        width: r.width-app.fs*0.5
+                        text: 'Archivo de Configuración: '//+apps.fileName;
+                        font.pixelSize: app.fs*0.5;
+                        color:apps.fontColor;
+                        wrapMode: Text.WrapAnywhere
                     }
                 }
             }
