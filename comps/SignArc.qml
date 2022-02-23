@@ -97,11 +97,13 @@ Item {
             id: xImg
             width: apps.signCircleWidth*0.8//signCircle.w*0.5
             height: width
-            //border.width: 2
+            //border.width: 10
             //border.color: 'red'
             color: 'transparent'
             anchors.verticalCenter: parent.verticalCenter
-            x:(0-xImg.width*0.5)+apps.signCircleWidth*0.5
+            anchors.left: parent.left
+            anchors.leftMargin: 0-(xImg.width-apps.signCircleWidth)*0.5
+            //x:(0-xImg.width*0.5)+apps.signCircleWidth*0.5
             //x:((r.w-xImg.width)/4)
             //x:(apps.signCircleWidth-xImg.width)/4
             //x:100

@@ -242,9 +242,10 @@ AppWin {
         property bool showDec: false
         property bool showXAsLineCenter: false
         property color xAsLineCenterColor: 'red'
-        property int signCircleWidth: Screen.width*0.02
-        property int signCircleWidthSbValue: 500
-        property int sweFs: Screen.width*0.02
+        property real sweMargin: 1.75
+        property real signCircleWidth: Screen.width*0.02
+        property real signCircleWidthSbValue: 8000
+        property int sweFs: Screen.width*0.035
         property bool showAspCircle: true
         property bool showAspCircleBack: true
         property bool showAspPanel: true
