@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Item{
     id: r
-    width: !apps.showDec?signCircle.width-apps.signCircleWidth:signCircle.width-apps.signCircleWidth*2
+    width: !apps.showDec?signCircle.width-apps.signCircleWidth:signCircle.width-apps.signCircleWidth*3
     height: width
     anchors.centerIn: parent
     rotation: signCircle.rot

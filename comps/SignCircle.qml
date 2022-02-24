@@ -132,7 +132,7 @@ Item {
         Repeater{
             model: apps.showDec?[0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11]:0
             SignArcDec{
-                width: r.width-sweg.w*0.5
+                width: r.width-apps.signCircleWidth*2
                 height: width
                 //w: r.w*0.5
                 wparent: r.w
@@ -150,7 +150,7 @@ Item {
         Repeater{
             model:apps.showDec?[0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11]:0
             SignArcDec2{
-                width: r.width-sweg.w*1.5
+                width: r.width-apps.signCircleWidth*3
                 height: width
                 w: r.w*0.5
                 n: modelData

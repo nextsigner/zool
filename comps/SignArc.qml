@@ -11,7 +11,6 @@ Item {
     //property var colors: ['red', '#FBE103', '#09F4E2', '#0D9FD6']
     property bool showBorder: false
     //Behavior on w{NumberAnimation{duration: sweg.speedRotation}}
-    onWidthChanged: canvas.requestPaint()
     state: sweg.state
     states: [
         State {
@@ -48,10 +47,8 @@ Item {
             }
         }
     ]
+    onWidthChanged: canvas.requestPaint()
     onWChanged: {
-//        log.l('W:'+w)
-//        log.x=500
-//        log.visible=true
         canvas.requestPaint()
         xImg.x=(0-xImg.width*0.5)+apps.signCircleWidth*0.5
     }
@@ -64,7 +61,7 @@ Item {
         visible: r.showBorder
     }
     Canvas {
-        id:canvas
+        id: canvas
         width: r.width//-sweg.fs
         height: width
         onPaint:{

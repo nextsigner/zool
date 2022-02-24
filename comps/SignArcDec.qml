@@ -2,14 +2,17 @@ import QtQuick 2.0
 
 Item {
     id: r
-    property int gr: parent.rotation
+    property real gr: parent.rotation
     property int n: -1
     property int w: sweg.w*0.5
     property int wparent: 0
     property color c
     property bool showBorder: false
     //Behavior on w{NumberAnimation{duration: sweg.speedRotation}}
-    //onWidthChanged: canvas.requestPaint()
+    onWidthChanged: canvas.requestPaint()
+    onWChanged: {
+        canvas.requestPaint()
+    }
     Rectangle{
         anchors.fill: r
         color: 'transparent'
@@ -20,14 +23,15 @@ Item {
     }
     Canvas {
         id:canvas
-        width: r.width-r.w*2
+        width: r.width//-r.w*2
         height: width
         //rotation: 0.5
         onPaint:{
             var ctx = canvas.getContext('2d');
             var x = r.width*0.5;
             var y = r.height*0.5;
-            var radius=canvas.width*0.5//-r.w*0.5//*2
+            //var radius=canvas.width*0.5//-r.w*0.5//*2
+            var radius=parseInt(canvas.width*0.5-r.w*0.5)
             //ejeIcon.width=radius*2
             var startAngle = 1.0 * Math.PI;
             var endAngle = 1.056 * Math.PI;
@@ -52,10 +56,13 @@ Item {
         //border.color: 'red'
         Item{
             id: xImg
-            width: r.w*0.75
+            width: apps.signCircleWidth*0.4
             height: width
+            //anchors.verticalCenter: parent.verticalCenter
+            //anchors.horizontalCenter: parent.left
             anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.left
+            anchors.left: parent.left
+            anchors.leftMargin: 0-(xImg.width-apps.signCircleWidth)*0.125
             rotation: 0-r.rotation-5-r.gr//-90
             antialiasing: true
             property bool resaltado: false//panelDataBodies.currentIndexSign === r.n - 1
@@ -63,7 +70,7 @@ Item {
                 id: iconoSigno
                 source: "../resources/imgs/signos/"+r.n+".svg"
                 property int w: xImg.width*0.75
-                width: xImg.width//!xImg.resaltado?r.w:r.w*2
+                width: xImg.width*0.8//!xImg.resaltado?r.w:r.w*2
                 height: width
                 anchors.centerIn: parent
                 antialiasing: true

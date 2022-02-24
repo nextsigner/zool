@@ -3,23 +3,28 @@ import QtGraphicalEffects 1.0
 
 Item {
     id: r
-    property int gr: parent.rotation
+    property real gr: parent.rotation
     property int n: -1
     property int w: sweg.w*0.5
     property color c
     property bool showBorder: false
     //Behavior on w{NumberAnimation{duration: sweg.speedRotation}}
     onWidthChanged: canvas.requestPaint()
+    onWChanged: {
+        canvas.requestPaint()
+    }
     Canvas {
         id:canvas
-        width: r.width-r.w*2
+        width: r.width//-r.w*2
         height: width
         //rotation: 0.5
+        //opacity: 0.75
         onPaint:{
             var ctx = canvas.getContext('2d');
             var x = r.width*0.5;
             var y = r.height*0.5;
-            var radius=canvas.width*0.5//-r.w*0.5//*2
+            //var radius=canvas.width*0.5//-r.w*0.5//*2
+            var radius=parseInt(canvas.width*0.5-r.w*0.5)
 
             ejeIcon.width=radius*2
             var startAngle = 1.0 * Math.PI;
