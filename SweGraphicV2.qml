@@ -247,7 +247,7 @@ Item {
                 }
                 AspCircleV2{
                     id: aspsCircle
-                    rotation: signCircle.rot - 90 + 1
+                    rotation: signCircle.rot - 90// + 1
                 }
                 PlanetsCircle{
                     id:planetsCircle
