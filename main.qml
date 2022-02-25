@@ -139,7 +139,7 @@ AppWin {
                 app.ip.opacity=0.0
             }
         }
-        panelDataBodies.currentIndex=currentPlanetIndex
+        //panelDataBodies.currentIndex=currentPlanetIndex
         if(currentPlanetIndex>14){
             /*if(currentPlanetIndex===15){
                 sweg.objHousesCircle.currentHouse=1
@@ -265,6 +265,12 @@ AppWin {
         property int botSizeSpinBoxValue: 50
         property real elementsFs: Screen.width*0.02
         property bool xToolEnableHide: true
+
+        //Reproductor de Lectura
+        property int repLectX: 0
+        property int repLectY: Screen.height*0.7
+        property int repLectW: Screen.width*0.2
+        property int repLectH: Screen.width*0.15
 
         property int lupaMod: 2
         property int lupaBorderWidth: 3
@@ -438,8 +444,8 @@ AppWin {
                         XPaneles{Num.NumPit{id: ncv;itemIndex: 6}}
                         XPaneles{PanelBotsFuncs{id: panelBotsFuncs;itemIndex: 7}}
                         XPaneles{PanelRemotoV2{id: panelRemoto;itemIndex: 8}}
+                        //XPaneles{PanelVideoLectura{id: panelVideLectura;itemIndex: 9}}
                     }
-
                     PageIndicator {
                         id: indicatorSV
                         interactive: true
@@ -456,6 +462,7 @@ AppWin {
                         }
                     }
                 }
+                PanelVideoLectura{id: panelVideLectura;}
                 Rectangle{
                     width: parent.width
                     height: 3

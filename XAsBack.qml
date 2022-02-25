@@ -70,7 +70,7 @@ Item{
             antialiasing: true
             onPaint:{
                 var ctx = canvasSen.getContext('2d');
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.clearRect(0, 0, canvasSen.width, canvasSen.height);
                 ctx.beginPath();
                 ctx.moveTo(0, canvasSen.width*0.5);
                 ctx.lineTo(canvasSen.width, 0);
