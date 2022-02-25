@@ -10,13 +10,6 @@ Item {
     property bool showDec: apps.showDec
     property int rot: 0
     Behavior on w{enabled: apps.enableFullAnimation; NumberAnimation{duration: sweg.speedRotation}}
-    //    Behavior on width {
-    //        enabled: apps.enableFullAnimation;
-    //        NumberAnimation{
-    //            duration: 350
-    //            easing.type: Easing.InOutQuad
-    //        }
-    //    }
     Repeater{
         model: apps.enableWheelAspCircle?36:0
         Item{
@@ -52,11 +45,11 @@ Item {
                     }
                     uY=wheel.angleDelta.y
                 }
-//                Rectangle{
-//                    anchors.fill: parent
-//                    border.width: 1
-//                    border.color: 'red'
-//                }
+                //                Rectangle{
+                //                    anchors.fill: parent
+                //                    border.width: 1
+                //                    border.color: 'red'
+                //                }
             }
         }
     }
@@ -64,28 +57,14 @@ Item {
         id: xSignArcs
         anchors.fill: r
         rotation: r.rot
-        //        Behavior on rotation {
-        //            NumberAnimation{
-        //                duration: sweg.speedRotation
-        //                easing.type: Easing.InOutQuad
-        //            }
-        //        }
-        Rectangle{
-            anchors.fill: xSignArcs
-            color: 'transparent'
-            border.width: 2
-            border.color: 'red'
-            radius: width*0.5
-            visible: r.showBorder
-        }
-
         //12 Signos
         Repeater{
             model: 3
             SignArc{
+                objectName: 'signArc'+n
                 width: r.width
                 height: width
-                w: r.w
+                w: !app.ev?r.w:r.w*0.5
                 n: index===0?1:(index===1?9:5)
                 c:0
                 gr: xSignArcs.rotation
@@ -95,9 +74,10 @@ Item {
         Repeater{
             model: 3
             SignArc{
+                objectName: 'signArc'+n
                 width: r.width
                 height: width
-                w: r.w
+                w: !app.ev?r.w:r.w*0.5
                 n: index===0?2:(index===1?10:6)
                 c:1
                 gr: xSignArcs.rotation
@@ -107,9 +87,10 @@ Item {
         Repeater{
             model: 3
             SignArc{
+                objectName: 'signArc'+n
                 width: r.width
                 height: width
-                w: r.w
+                w: !app.ev?r.w:r.w*0.5
                 n: index===0?3:(index===1?11:7)
                 c:2
                 gr: xSignArcs.rotation
@@ -119,9 +100,10 @@ Item {
         Repeater{
             model: 3
             SignArc{
+                objectName: 'signArc'+n
                 width: r.width
                 height: width
-                w: r.w
+                w: !app.ev?r.w:r.w*0.5
                 n: index===0?4:(index===1?12:8)
                 c:3
                 gr: xSignArcs.rotation
@@ -132,7 +114,7 @@ Item {
         Repeater{
             model: apps.showDec?[0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11]:0
             SignArcDec{
-                width: r.width-apps.signCircleWidth*2
+                width: (!app.ev?r.width-apps.signCircleWidth*2:r.width-apps.signCircleWidth)+1
                 height: width
                 //w: r.w*0.5
                 wparent: r.w
@@ -150,7 +132,7 @@ Item {
         Repeater{
             model:apps.showDec?[0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11,0,1,2,3,4,5,6,7,8,9,10,11]:0
             SignArcDec2{
-                width: r.width-apps.signCircleWidth*3
+                width: (!app.ev?r.width-apps.signCircleWidth*3:r.width-apps.signCircleWidth*2)+1
                 height: width
                 w: r.w*0.5
                 n: modelData
@@ -164,13 +146,13 @@ Item {
 
     }
 
-//Probando/Visualizando rotación
-//    Rectangle{
-//        width: r.width
-//        height: 2
-//        anchors.centerIn: parent
-//        color: '#ff8833'
-//    }
+    //Probando/Visualizando rotación
+    //    Rectangle{
+    //        width: r.width
+    //        height: 2
+    //        anchors.centerIn: parent
+    //        color: '#ff8833'
+    //    }
 
 
     function subir(){

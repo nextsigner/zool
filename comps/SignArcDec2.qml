@@ -21,6 +21,7 @@ Item {
         //opacity: 0.75
         onPaint:{
             var ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             var x = r.width*0.5;
             var y = r.height*0.5;
             //var radius=canvas.width*0.5//-r.w*0.5//*2

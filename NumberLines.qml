@@ -2,7 +2,7 @@ import QtQuick 2.0
 
 Item{
     id: r
-    width: !apps.showDec?signCircle.width-apps.signCircleWidth:signCircle.width-apps.signCircleWidth*3
+    width: !apps.showDec?signCircle.width-(!app.ev?apps.signCircleWidth:0):signCircle.width-(!app.ev?apps.signCircleWidth*3:apps.signCircleWidth*2)
     height: width
     anchors.centerIn: parent
     rotation: signCircle.rot
@@ -53,19 +53,19 @@ Item{
                 x:sweg.fs*0.25
                 y:0-width*0.5
                 radius: width*0.5
-                color: apps.fontColor
-                //border.width: 1
-                //border.color: apps.backgroundColor
+                color: apps.backgroundColor
+                border.width: 1
+                border.color: apps.fontColor
                 rotation: 360-parent.rotation-signCircle.rot
                 MouseArea{
                     anchors.fill: parent
                     onClicked: r.fnd=!r.fnd
                 }
-                Text{visible: r.fnd;text: 360-(index*10)===360?0:360-(index*10);font.pixelSize: parent.width*0.4;color: apps.backgroundColor;anchors.centerIn: parent;}
+                Text{visible: r.fnd;text: 360-(index*10)===360?0:360-(index*10);font.pixelSize: parent.width*0.4;color: apps.fontColor;anchors.centerIn: parent;}
                 Text{
                     visible: !r.fnd;
                     font.pixelSize: parent.width*0.4;
-                    color: apps.backgroundColor;
+                    color: apps.fontColor;
                     anchors.centerIn: parent;
                     Component.onCompleted: {
                         if(index===1||index===4||index===7||index===10||index===13||index===16||index===19||index===22||index===25||index===28||index===31||index===34){

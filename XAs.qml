@@ -30,7 +30,7 @@ Item{
             }
             PropertyChanges {
                 target: xIcon
-                width: r.fs*0.85
+                width: !app.ev?r.fs*0.85:r.fs*0.5
             }
         },
         State {
@@ -41,7 +41,7 @@ Item{
             }
             PropertyChanges {
                 target: xIcon
-                width: r.fs*0.5
+                width: !app.ev?r.fs*0.5:r.fs*0.25
             }
         },
         State {
@@ -52,7 +52,7 @@ Item{
             }
             PropertyChanges {
                 target: xIcon
-                width: r.fcs*0.5
+                width: !app.ev?r.fcs*0.5:r.fcs*0.25
             }
         }
     ]

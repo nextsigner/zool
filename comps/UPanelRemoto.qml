@@ -263,7 +263,7 @@ Rectangle{
                                 let porc=parseInt(value/100)
                                 let nw=app.fs+(app.fs/100*porc)
                                 apps.signCircleWidth=nw
-                                apps.signCircleWidthSbValue=value
+                                apps.signCircleWidthSbValue=value                                
 //                                log.l('Value: '+nw)
 //                                log.x=500
 //                                log.visible=true

@@ -49,8 +49,9 @@ Item {
     ]
     onWidthChanged: canvas.requestPaint()
     onWChanged: {
+        //canvas.ctx
         canvas.requestPaint()
-        xImg.x=(0-xImg.width*0.5)+apps.signCircleWidth*0.5
+        //xImg.x=(0-xImg.width*0.5)+apps.signCircleWidth*0.5
     }
     Rectangle{
         anchors.fill: r
@@ -66,6 +67,7 @@ Item {
         height: width
         onPaint:{
             var ctx = canvas.getContext('2d');
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
             var x = canvas.width*0.5;
             var y = canvas.height*0.5;
             var rad=parseInt(canvas.width*0.5-r.w*0.5)
@@ -92,14 +94,15 @@ Item {
         antialiasing: true
         Rectangle{
             id: xImg
-            width: apps.signCircleWidth*0.8//signCircle.w*0.5
+            //width: apps.signCircleWidth*0.8//signCircle.w*0.5
+            width: r.w*0.8
             height: width
             //border.width: 10
             //border.color: 'red'
             color: 'transparent'
             anchors.verticalCenter: parent.verticalCenter
             anchors.left: parent.left
-            anchors.leftMargin: 0-(xImg.width-apps.signCircleWidth)*0.5
+            anchors.leftMargin: !app.ev?0-(xImg.width-apps.signCircleWidth)*0.5:0-(xImg.width-apps.signCircleWidth*0.5)*0.5
             //x:(0-xImg.width*0.5)+apps.signCircleWidth*0.5
             //x:((r.w-xImg.width)/4)
             //x:(apps.signCircleWidth-xImg.width)/4
@@ -149,6 +152,7 @@ Item {
                     property int w: xImg.width*0.75
                     width: xImg.width//!xImg.resaltado?r.w:r.w*2
                     height: width
+                    //anchors.centerIn: parent
                     anchors.horizontalCenter: parent.horizontalCenter
                     //x:100
                     antialiasing: true
