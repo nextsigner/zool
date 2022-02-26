@@ -2442,6 +2442,22 @@ bool Unik::folderExist(const QByteArray folder)
     return  QDir(folder.constData()).exists();
 }
 
+QList<QString> Unik::getFileList(QByteArray folder)
+{
+    QList<QString> list;
+
+    //QDir directory("/media/ns/WD/vnRicardo");
+    QDir directory(folder);
+    QStringList images = directory.entryList(QStringList() << "*.mp4" << "*.mkv",QDir::Files);
+    foreach(QString filename, images) {
+    //do whatever you need to do
+        list.append(filename);
+    }
+    return list;
+}
+
+
+
 bool Unik::mkdir(const QString path)
 {
     QDir dir0(path);

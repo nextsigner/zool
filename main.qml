@@ -267,10 +267,14 @@ AppWin {
         property bool xToolEnableHide: true
 
         //Reproductor de Lectura
+        property url repLectCurrentFolder: documentsPath
         property int repLectX: 0
         property int repLectY: Screen.height*0.7
         property int repLectW: Screen.width*0.2
         property int repLectH: Screen.width*0.15
+
+        property string repLectCurrentVidIntro: ''
+        property string repLectCurrentVidClose: ''
 
         property int lupaMod: 2
         property int lupaBorderWidth: 3
@@ -462,7 +466,6 @@ AppWin {
                         }
                     }
                 }
-                PanelVideoLectura{id: panelVideLectura;}
                 Rectangle{
                     width: parent.width
                     height: 3
@@ -611,6 +614,8 @@ AppWin {
         Editor{id: xEditor}
         Num.PanelLog{id: panelLog}
         //Num.NumCiclosVida{id: ncv; anchors.fill: parent}
+        PanelVideoLectura{id: panelVideLectura;}
+
     }
     Timer{
         id: tAutoMaticPlanets
