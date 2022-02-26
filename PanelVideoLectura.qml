@@ -5,6 +5,9 @@ import QtMultimedia 5.12
 import Qt.labs.folderlistmodel 2.12
 import QtQuick.Dialogs 1.2
 import "./comps"
+import unik.UnikQProcess 1.0
+
+
 
 Rectangle {
     id: r
@@ -20,6 +23,14 @@ Rectangle {
     onYChanged: apps.repLectY=y
     property bool playMaximized: !(''+playList.currentItemSource===''+apps.repLectCurrentVidIntro || ''+playList.currentItemSource===''+apps.repLectCurrentVidClose)
 
+    UnikQProcess{
+                id: uqp
+                onLogDataChanged: {
+                    //log.ls('LogData: '+logData, 300, 500)
+                }
+                onFinished: botRec.isRec=false
+                onStarted: botRec.isRec=true
+    }
     Rectangle {
         id: bg
         color: 'black'
@@ -42,7 +53,7 @@ Rectangle {
         playlist: Playlist{
             id: playList
             onCurrentIndexChanged: {
-                app.currentPlanetIndex=currentIndex
+                app.currentPlanetIndex=currentIndex-1
                 //videoPlayer.stop()
                 //tPlayTrans.start()
             }
@@ -200,12 +211,33 @@ Rectangle {
                     }
                 }
                 ButtonIcon{
+                    id: botRec
+                    text: ''
+                    width: apps.botSize*0.8
+                    height: width
+                    property bool isRec: false
+                    onClicked: {
+                        if(!uqp.upIsOpen()){
+                            uqp.run('ffmpeg -y -f x11grab -framerate 25 -video_size '+1280+'x'+920+' -i +0,0 /home/ns/prueba.mkv')
+                        }else{
+                            uqp.kill()
+                        }
+                    }
+                    Rectangle{
+                        width: parent.width*0.65
+                        height: width
+                        color: parent.isRec?'red':'black'
+                        radius: width*0.5
+                        anchors.centerIn: parent
+                    }
+                }
+                ButtonIcon{
                     text: videoPlayer.playbackState!==MediaPlayer.PlayingState?'\uf04b':'\uf04c'
                     width: apps.botSize*0.6
                     height: width
                     onClicked: {
                         if(videoPlayer.playbackState!==MediaPlayer.PlayingState){
-                            videoPlayer.play()
+                            videoPlayer.play()                            
                         }else{
                             videoPlayer.pause()
                         }
