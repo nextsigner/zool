@@ -125,6 +125,7 @@ function showIW(){
     //}
 }
 function showIWFromCtxMenuBar(){
+    //log.ls('app.uSonFCMB: '+app.uSonFCMB, 500, 500)
     let m0=app.uSonFCMB.split('_')
     let fileLocation='./iw/main.qml'
     let comp=Qt.createComponent(fileLocation)
@@ -178,13 +179,15 @@ function getJSON(fileLocation, comp, s, c, nomCuerpo) {
                     //console.log('Abriendo dato signo:'+s+' casa:'+c+'...')
                     let dataJson0=''
                     let data=''//+result['h'+c]
-
+                    let dataList=[]
                     //Dato Global
                     if(result['sg']){
                         let dataJsonG=result['sg'].split('|')
                         data+='<h2>Significado de '+nomCuerpo+'</h2>'
+                        dataList.push('<h2>Significado de '+nomCuerpo+'</h2>')
                         for(i=0;i<dataJsonG.length;i++){
                             data+='<p>'+dataJsonG[i]+'</p>'
+                            dataList.push('<p>'+dataJsonG[i]+'</p>')
                         }
                     }else{
                         //log.l('Dato sg no existe! '+jsonFileUrl)
@@ -195,8 +198,10 @@ function getJSON(fileLocation, comp, s, c, nomCuerpo) {
                         console.log('Abriendo dato de casa... ')
                         dataJson0=result['h'+c].split('|')
                         data+='<h2>'+nomCuerpo+' en casa '+c+'</h2>'
+                        dataList.push('<h2>'+nomCuerpo+' en casa '+c+'</h2>')
                         for(var i=0;i<dataJson0.length;i++){
                             data+='<p>'+dataJson0[i]+'</p>'
+                            dataList.push('<p>'+dataJson0[i]+'</p>')
                         }
                     }                    
 
@@ -209,11 +214,13 @@ function getJSON(fileLocation, comp, s, c, nomCuerpo) {
 
                         dataJson0=result['s'+s].split('|')
                         data+='<h2>'+nomCuerpo+' en '+app.signos[s - 1]+'</h2>'
+                        dataList.push('<h2>'+nomCuerpo+' en '+app.signos[s - 1]+'</h2>')
                         for(i=0;i<dataJson0.length;i++){
                             data+='<p>'+dataJson0[i]+'</p>'
+                            dataList.push('<p>'+dataJson0[i]+'</p>')
                         }
                     }
-                    let obj=comp.createObject(app, {textData:data, width: app.width*0.6, x:app.width*0.2, fs: app.fs*0.5, title: nomCuerpo+' en '+app.signos[s - 1]+' en casa '+c, xOffSet: app.fs*6})
+                    let obj=comp.createObject(app, {dataList: dataList, textData:data, width: app.width*0.6, x:app.width*0.2, fs: app.fs*0.5, title: nomCuerpo+' en '+app.signos[s - 1]+' en casa '+c, xOffSet: app.fs*6})
                 }
                 //console.log('Data-->'+JSON.stringify(result))
             } else {
