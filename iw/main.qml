@@ -17,6 +17,86 @@ ApplicationWindow {
     Item{
         id: xApp
         anchors.fill: parent
+        ListView{
+            id: lv
+            spacing: app.fs*0.5
+            width: app.width-app.fs*0.5
+            height: app.height*0.5
+            delegate: comp
+            model: lm
+            clip: false
+            displayMarginEnd: height*3
+            anchors.horizontalCenter: parent.horizontalCenter
+            ListModel{
+                id: lm
+                function addItem(data){
+                    return {
+                        d: data
+                    }
+                }
+            }
+            Component{
+                id: comp
+                Rectangle{
+                    id: xItemData
+                    width: lv.width
+                    height: !isSubTit?txtData.contentHeight+app.fs*0.5:txtData.contentHeight+app.fs*2
+                    color: !isTit?'black':'white'
+                    border.width: selected?2:0
+                    border.color: 'white'
+                    property bool selected: index===lv.currentIndex
+                    property bool isTit: false//d.indexOf('GENERALI')>=0
+                    property bool isSubTit: false
+                    onSelectedChanged: {
+                        //if(selected&&isTit)lv.currentIndex++
+                        //if(selected)lv.contentY=xItemData.y
+                    }
+                    MouseArea{
+                        anchors.fill: parent
+                        onClicked: lv.currentIndex=index
+                    }
+                    Text{
+                        id: txtData
+                        text: d
+                        color: !isTit?'white':'black'
+                        font.pixelSize: !parent.isTit?(selected?apps.iwFs*1.5:apps.iwFs):apps.iwFs
+                        width: parent.width-app.fs*0.5
+                        wrapMode: Text.WordWrap
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        anchors.verticalCenter: parent.verticalCenter
+                        anchors.verticalCenterOffset: !xItemData.isSubTit?0:app.fs
+                        //anchors.centerIn: parent
+                        Rectangle{
+                            width: parent.width
+                            height: 3
+                            color: 'red'
+                            anchors.bottom: parent.bottom
+                            visible: xItemData.isSubTit
+                        }
+                    }
+                    Component.onCompleted: {
+                        if(d.indexOf('<h2>')>=0){
+                            isTit=true
+                        }
+                        if(d.indexOf('POSITIVO:')>=0){
+                            isSubTit=true
+                        }
+                        if(d.indexOf('NEGATIVO:')>=0){
+                            isSubTit=true
+                        }
+                        if(d.indexOf('GENERALIDADES:')>=0){
+                            isSubTit=true
+                        }
+                        if(d.indexOf('MEJORAR:')>=0){
+                            isSubTit=true
+                        }
+                        if(d.indexOf('PALABRAS CLAVES:')>=0){
+                            isSubTit=true
+                        }
+                    }
+                }
+            }
+        }
         Rectangle{
             anchors.fill: parent
             color: 'transparent'
@@ -30,72 +110,11 @@ ApplicationWindow {
                 onTriggered: parent.b=!parent.b
             }
         }
-        Flickable{
-            anchors.fill: parent
-            contentWidth: parent.width
-            contentHeight: data.contentHeight+app.fs*2
-            Text{
-                id: data
-                font.pixelSize: apps.iwFs
-                color: 'white'
-                width: xApp.width-app.fs
-                anchors.top: parent.top
-                anchors.topMargin: app.fs
-                anchors.horizontalCenter: parent.horizontalCenter
-                wrapMode: Text.WordWrap
-                textFormat: Text.RichText
-            }
-            ListView{
-                id: lv
-                width: app.width
-                height: app.height
-                delegate: comp
-                model: lm
-                ListModel{
-                    id: lm
-                    function addItem(data){
-                        return {
-                            d: data
-                        }
-                    }
-                }
-                Component{
-                    id: comp
-                    Rectangle{
-                        width: lv.width
-                        height: txtData.contentHeight+app.fs*0.5
-                        color: !isTit?(selected?'white':'black'):'red'
-                        property bool selected: index===lv.currentIndex
-                        property bool isTit: false//d.indexOf('GENERALI')>=0
-                        onSelectedChanged: {
-                            //if(selected&&isTit)lv.currentIndex++
-                        }
-                        MouseArea{
-                            anchors.fill: parent
-                            onClicked: lv.currentIndex=index
-                        }
-                        Text{
-                            id: txtData
-                            text: d
-                            color: !selected?'white':'black'
-                            font.pixelSize: !parent.isTit?(selected?apps.iwFs*1.5:apps.iwFs):apps.iwFs
-                            width: parent.width-app.fs*0.5
-                            wrapMode: Text.WordWrap
-                            anchors.centerIn: parent
-                        }
-                        Component.onCompleted: {
-                            if(d.indexOf('<h2>')>=0){
-                                isTit=true
-                            }
-                        }
-                    }
-                }
-            }
-        }
-//        MouseArea{
-//            anchors.fill: parent
-//            onDoubleClicked: app.close()
-//        }
+
+        //        MouseArea{
+        //            anchors.fill: parent
+        //            onDoubleClicked: app.close()
+        //        }
 
     }
     Shortcut{
@@ -136,9 +155,6 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        //let txt='Este es un texto de ejemplo Este es un texto de ejemplo Este es un texto de ejemplo Este es un texto de ejemplo Este es un texto de ejemplo Este es un texto de ejemplo Este es un texto de ejemplo Este es un texto de ejemplo Este es un texto de ejemplo '
-        data.text=app.textData
-
         for(var i=0;i<dataList.length;i++){
             lm.append(lm.addItem(dataList[i]))
         }
