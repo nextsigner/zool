@@ -286,7 +286,9 @@ AppWin {
         property int lupaAxisWidth: 1
         property int lupaCenterWidth: 20
 
+        //IW
         property int iwFs: Screen.width*0.02
+        property int iwWidth: Screen.width*0.5
 
         property int editorFs: Screen.width*0.01
         property bool editorShowNumberLines: false
@@ -617,6 +619,7 @@ AppWin {
         Num.PanelLog{id: panelLog}
         //Num.NumCiclosVida{id: ncv; anchors.fill: parent}
         PanelVideoLectura{id: panelVideLectura;}
+        Comps.VideoListEditor{id: videoListEditor}
 
     }
     Timer{

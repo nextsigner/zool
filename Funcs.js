@@ -213,7 +213,7 @@ function getJSON(fileLocation, comp, s, c, nomCuerpo) {
                             dataList.push(dataJson0[i])
                         }
                     }
-                    let obj=comp.createObject(app, {dataList: dataList, width: app.width*0.6, x:app.width*0.2, fs: app.fs*0.5, title: nomCuerpo+' en '+app.signos[s - 1]+' en casa '+c, xOffSet: app.fs*6})
+                    let obj=comp.createObject(app, {dataList: dataList, width: apps.iwWidth, x:app.width*0.2, fs: app.fs*0.5, title: nomCuerpo+' en '+app.signos[s - 1]+' en casa '+c, xOffSet: app.fs*6})
                 }
                 //console.log('Data-->'+JSON.stringify(result))
             } else {

@@ -2,7 +2,6 @@ import QtQuick 2.7
 import QtQuick.Window 2.0
 import QtQuick.Controls 2.0
 import QtMultimedia 5.12
-import Qt.labs.folderlistmodel 2.12
 import QtQuick.Dialogs 1.2
 import "./comps"
 import unik.UnikQProcess 1.0
@@ -309,7 +308,7 @@ Rectangle {
         updateVideoList()
     }
     function updateVideoList(){
-        let fl=unik.getFileList("/media/ns/WD/vnRicardo")
+        let fl=unik.getFileList((''+apps.repLectCurrentFolder).replace('file://', ''))
         playList.clear()
 
         //Formato esperado. Ejemplo: file:///home/ns/Documentos/gd/zool_videos/intro_vn.mkv

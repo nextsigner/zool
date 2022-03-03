@@ -5,7 +5,7 @@ import QtQuick.Controls 2.0
 ApplicationWindow {
     id: app
     visible: true
-    width: app.fs*10
+    width: apps.iwWidth
     height: Screen.desktopAvailableHeight-app.fs*3
     x: (Screen.width-app.width)/2+xOffSet
     y: app.fs*2.5
@@ -93,6 +93,12 @@ ApplicationWindow {
                         if(d.indexOf('PALABRAS CLAVES:')>=0){
                             isSubTit=true
                         }
+                        if(d.indexOf(':')>=0){
+                            isSubTit=true
+                        }
+                        if(isSubTit){
+                            d='<b>'+d+'</b>'
+                        }
                     }
                 }
             }
@@ -153,6 +159,26 @@ ApplicationWindow {
             }
         }
     }
+    Shortcut{
+        sequence: 'Ctrl+Left'
+        onActivated: {
+            if(apps.iwWidth>Screen.width*0.3){
+                apps.iwWidth-=app.fs*2
+                app.width=apps.iwWidth
+            }
+        }
+    }
+    Shortcut{
+        sequence: 'Ctrl+Right'
+        onActivated: {
+            if(apps.iwWidth<Screen.width-app.fs*2){
+                apps.iwWidth+=app.fs*2
+                app.width=apps.iwWidth
+            }
+        }
+    }
+
+
 
     Component.onCompleted: {
         for(var i=0;i<dataList.length;i++){
