@@ -209,6 +209,44 @@ Rectangle{
                             }
                         }
                     }
+
+                    //Tamaño de APP FS
+                    Column{
+                        spacing: app.fs*0.25
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        Text{text: 'Tamaño de Letra';color: apps.fontColor;font.pixelSize: app.fs*0.5;anchors.horizontalCenter: parent.horizontalCenter}
+                        SpinBox{
+                            id: spinboxFs
+                            from: 0
+                            value: apps.fsSbValue
+                            to: 100
+                            stepSize: 5
+                            property int decimals: 0
+                            property real realValue: value// / 100
+
+                            onValueChanged:{
+                                apps.fs=Screen.width*0.02+(Screen.width*0.02*(value / 100))
+                                apps.fsSbValue=value
+                            }
+
+                            //validator: DoubleValidator {
+                            validator: IntValidator {
+                                bottom: Math.min(spinbox.from, spinbox.to)
+                                top:  Math.max(spinbox.from, spinbox.to)
+                            }
+
+                            textFromValue: function(value, locale) {
+                                return '%'+Number(value).toLocaleString(locale, 'f', spinbox.decimals)
+                                //return parseInt(Number(value / 100).toLocaleString(locale, 'f', spinbox.decimals))
+                            }
+
+                            valueFromText: function(text, locale) {
+                                return Number.fromLocaleString(locale, text) * 100
+                            }
+                        }
+                    }
+
+
                     Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -263,7 +301,7 @@ Rectangle{
                                 let porc=parseInt(value/100)
                                 let nw=app.fs+(app.fs/100*porc)
                                 apps.signCircleWidth=nw
-                                apps.signCircleWidthSbValue=value                                
+                                apps.signCircleWidthSbValue=value
 //                                log.l('Value: '+nw)
 //                                log.x=500
 //                                log.visible=true
@@ -285,6 +323,7 @@ Rectangle{
                             }
                         }
                     }
+
                     //Tamaño de PanelElementos
                     Column{
                         spacing: app.fs*0.25

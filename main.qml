@@ -25,7 +25,7 @@ AppWin {
     property bool dev: false
     property string mainLocation: ''
     property string pythonLocation: Qt.platform.os==='windows'?'./Python/python.exe':'python3'
-    property int fs: Qt.platform.os==='linux'?width*0.02:width*0.02
+    property int fs: apps.fs//Qt.platform.os==='linux'?width*0.02:width*0.02
     property string url
     property string mod: 'mi'
 
@@ -196,6 +196,8 @@ AppWin {
     Settings{
         id: apps
         fileName:unik.getPath(4)+'/zool_'+Qt.platform.os+'.cfg'
+        property int fs: app.width*0.02
+        property int fsSbValue: 50
         property string host: 'http://localhost'
         property bool newClosed: false
 
@@ -267,10 +269,11 @@ AppWin {
         property bool xToolEnableHide: true
 
         //Reproductor de Lectura
+        property bool repLectVisible: false
         property url repLectCurrentFolder: documentsPath
         property int repLectX: 0
         property int repLectY: Screen.height*0.7
-        property int repLectW: Screen.width*0.2
+        property int repLectW: Screen.width*0.21
         property int repLectH: Screen.width*0.15
 
         property string repLectCurrentVidIntro: ''
@@ -317,8 +320,8 @@ AppWin {
         property string numUFecha
         property string numUNom
         property string numUFirma
-        property bool numShowFormula: true
-        property int numPanelLogFs: app.fs*0.5
+        property bool numShowFormula: false
+        property int numPanelLogFs: app.width*0.02
 
         onShowLupaChanged: sweg.centerZoomAndPos()
         onEnableBackgroundColorChanged: {
@@ -467,6 +470,23 @@ AppWin {
                             radius: width / 2
                             color: apps.fontColor
                             opacity: index === indicatorSV.currentIndex?0.95: pressed ? 0.7: 0.45
+                            Text{
+                                text:'\uf26c'
+                                font.family: "FontAwesome"
+                                font.pixelSize: parent.width*0.6
+                                color: apps.backgroundColor
+                                anchors.centerIn: parent
+                                visible: index===0&&apps.repLectVisible
+                            }
+                            MouseArea{
+                                anchors.fill: parent
+                                onClicked: {
+                                    sv.currentIndex=index
+                                    if (mouse.modifiers) {
+                                        apps.repLectVisible=!apps.repLectVisible
+                                    }
+                                }
+                            }
                         }
                     }
                 }
@@ -620,7 +640,6 @@ AppWin {
         //Num.NumCiclosVida{id: ncv; anchors.fill: parent}
         PanelVideoLectura{id: panelVideLectura;}
         Comps.VideoListEditor{id: videoListEditor}
-
     }
     Timer{
         id: tAutoMaticPlanets

@@ -7,10 +7,9 @@ import "./comps"
 import unik.UnikQProcess 1.0
 
 
-
 Rectangle {
     id: r
-    color: apps.backgroundColor
+    color: '#333'
     x: apps.repLectX
     y: apps.repLectY
     width: apps.repLectW
@@ -20,7 +19,7 @@ Rectangle {
     clip: r.playMaximized
     onXChanged: apps.repLectX=x
     onYChanged: apps.repLectY=y
-    visible: sv.currentIndex===0
+    visible: sv.currentIndex===0&&apps.repLectVisible
     property var uJson: {}
     property bool playMaximized: !(''+playList.currentItemSource===''+apps.repLectCurrentVidIntro || ''+playList.currentItemSource===''+apps.repLectCurrentVidClose)
 
@@ -35,10 +34,12 @@ Rectangle {
     Rectangle {
         id: bg
         color: 'black'
+        //color: 'red'
         x:r.playMaximized?0:0-r.x
         y:r.playMaximized?0:0-r.y
         width: r.playMaximized?parent.width:xApp.width
         height:r.playMaximized?parent.width:xApp.height
+        visible: videoPlayer.playbackState===MediaPlayer.PlayingState
     }
 
     MediaPlayer{
@@ -123,7 +124,7 @@ Rectangle {
         y:r.playMaximized?0:0-r.y
         width: r.playMaximized?parent.width:xApp.width
         height:r.playMaximized?parent.width:xApp.height
-        color: apps.backgroundColor
+        color: 'red'//apps.backgroundColor
         opacity: 0.0
         onOpacityChanged:{
             if(opacity===1.0 && (playList.currentIndex!==playList.itemCount-1)){
@@ -235,7 +236,8 @@ Rectangle {
                     Rectangle{
                         width: parent.width*0.65
                         height: width
-                        color: parent.isRec?'red':'black'
+                        //color: parent.isRec?'red':'black'
+                        color: 'red'
                         radius: width*0.5
                         anchors.centerIn: parent
                     }

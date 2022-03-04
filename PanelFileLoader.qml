@@ -109,7 +109,7 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
             Text {
                 id: txtTitInfo
-                text: '<b>Cantidad Total:</b> '+flm.count+' <b>Encontrados:</b> '+lm.count+'<br><b>Carpeta: </b>'+(''+flm.folder).replace('file://', '')
+                //text: '<b>Cantidad Total:</b> '+flm.count+' <b>Encontrados:</b> '+lm.count+'<br><b>Carpeta: </b>'+(''+flm.folder).replace('file://', '')
                 font.pixelSize: app.fs*0.35
                 width: parent.width-app.fs
                 wrapMode: Text.WordWrap

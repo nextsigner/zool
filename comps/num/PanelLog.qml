@@ -13,10 +13,7 @@ Rectangle{
     property alias flk: flLog
     property alias text: taLog.text
     property bool ww: true
-    MouseArea{
-        anchors.fill: parent
-        onClicked: r.visible=false
-    }
+
     Flickable{
         id: flLog
         width: parent.width
@@ -24,6 +21,7 @@ Rectangle{
         contentWidth: parent.width
         contentHeight: taLog.contentHeight
         clip: true
+        Behavior on contentY{NumberAnimation{duration: 250}}
         TextEdit{
             id: taLog
             width: r.width-app.fs//*0.5
@@ -32,8 +30,38 @@ Rectangle{
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: apps.numPanelLogFs
             color: apps.fontColor
+
             //background: Rectangle{color: 'transparent'}
             //enabled: false
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked: r.visible=false
+            onWheel: {
+                if (wheel.modifiers & Qt.ControlModifier) {
+                    if(wheel.angleDelta.y>=0){
+                        if(apps.numPanelLogFs<app.fs*2){
+                            apps.numPanelLogFs+=1
+                        }else{
+                            apps.numPanelLogFs=app.fs*2
+                        }
+                    }else{
+                        if(apps.numPanelLogFs>app.fs*0.5){
+                            apps.numPanelLogFs-=1
+                        }else{
+                            apps.numPanelLogFs=app.fs*0.5
+                        }
+                    }
+                }else{
+                    if(wheel.angleDelta.y>=0){
+                        if(flLog.contentY>0){
+                            flLog.contentY-=apps.numPanelLogFs*2
+                        }
+                    }else{
+                        flLog.contentY+=apps.numPanelLogFs*2
+                    }
+                }
+            }
         }
     }
     Rectangle{
