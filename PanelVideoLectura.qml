@@ -20,6 +20,7 @@ Rectangle {
     clip: r.playMaximized
     onXChanged: apps.repLectX=x
     onYChanged: apps.repLectY=y
+    visible: sv.currentIndex===0
     property bool playMaximized: !(''+playList.currentItemSource===''+apps.repLectCurrentVidIntro || ''+playList.currentItemSource===''+apps.repLectCurrentVidClose)
 
     UnikQProcess{
@@ -105,7 +106,12 @@ Rectangle {
         source: videoPlayer
         width: r.playMaximized?parent.width:xApp.width
         height: r.playMaximized?parent.height:xApp.height
+        //anchors.horizontalCenter: parent.horizontalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: videoPlayerOutPut.isMirror?width:0
+        transform: Scale{ xScale: videoPlayerOutPut.isMirror?-1:1}
         anchors.bottom: parent.bottom
+        property bool isMirror: false
     }
     Rectangle{
         id: trans
@@ -272,6 +278,17 @@ Rectangle {
                         fileDialog.visible=true
                     }
                 }
+                ButtonIcon{
+                    text: '\uf0ca'
+                    width: apps.botSize*0.6
+                    height: width
+                    onClicked: {
+                        videoListEditor.visible=!videoListEditor.visible
+                        if(videoListEditor.visible){
+                            videoListEditor.updateList()
+                        }
+                    }
+                }
             }
         }
     }
@@ -304,26 +321,35 @@ Rectangle {
         //Component.onCompleted: visible = true
     }
     Component.onCompleted: {
-        ////log.ls('Folder X: '+unik.getFileList("/media/ns/WD/vnRicardo"), 0, 500)
         updateVideoList()
     }
     function updateVideoList(){
-        let fl=unik.getFileList((''+apps.repLectCurrentFolder).replace('file://', ''))
         playList.clear()
-
-        //Formato esperado. Ejemplo: file:///home/ns/Documentos/gd/zool_videos/intro_vn.mkv
-        if(apps.repLectCurrentVidIntro!==''){
-            playList.addItem(apps.repLectCurrentVidIntro)
-        }
-
-        for(var i=0;i<fl.length;i++){
-            //let s='file:///media/ns/WD/vnRicardo/'+fl[i]
-            let s=apps.repLectCurrentFolder+'/'+fl[i]
-            //log.ls('Pl add: '+s, 0, 500)
-            playList.addItem(s)
-        }
-        if(apps.repLectCurrentVidClose!==''){
-            playList.addItem(apps.repLectCurrentVidClose)
+        let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
+        if(!unik.fileExist(jsonFile)){
+            let fl=unik.getFileList((''+apps.repLectCurrentFolder).replace('file://', ''))
+            //Formato esperado. Ejemplo: file:///home/ns/Documentos/gd/zool_videos/intro_vn.mkv
+            if(apps.repLectCurrentVidIntro!==''){
+                playList.addItem(apps.repLectCurrentVidIntro)
+            }
+            for(var i=0;i<fl.length;i++){
+                let s=apps.repLectCurrentFolder+'/'+fl[i]
+                //log.ls('Pl add: '+s, 0, 500)
+                playList.addItem(s)
+            }
+            if(apps.repLectCurrentVidClose!==''){
+                playList.addItem(apps.repLectCurrentVidClose)
+            }
+        }else{
+            let jsonData=unik.getFile(jsonFile)
+            let json=JSON.parse(jsonData)
+            for(var i=0;i<Object.keys(json).length;i++){
+                let s=json['item'+i].fileName
+                if(s.indexOf('file://')!==0){
+                    s='file://'+s
+                }
+                playList.addItem(s)
+            }
         }
     }
 }

@@ -43,6 +43,7 @@ Rectangle {
             }
             Row{
                 anchors.verticalCenter: parent.verticalCenter
+                anchors.horizontalCenter: parent.horizontalCenter
                 spacing: app.fs*0.5
                 Rectangle{
                     width: app.fs*6
@@ -71,25 +72,96 @@ Rectangle {
                             }
                         }
                     }
-                    ButtonIcon{
-                        text:'\uf0ec'
-                        width: apps.botSize
-                        height: width
-                        onClicked: {
-                            setMirror(index, isMirror)
-                            isMirror=!isMirror
+                }
+                Column{
+                    spacing: app.fs*0.5
+                    anchors.verticalCenter: parent.verticalCenter
+                    Row{
+                        spacing: app.fs*0.25
+                        Text{
+                            text: '<b>Mostrar Cuerpo: </b>'+indexPlanet
+                            font.pixelSize: app.fs*0.5
+                            color: 'white'
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Item{width: app.fs*2;height: 1}
+                        Text{
+                            text: '<b>Volteado: </b>'+(isMirror?'SI':'NO')
+                            font.pixelSize: app.fs*0.5
+                            color: 'white'
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        ButtonIcon{
+                            text:'\uf0ec'
+                            width: apps.botSize
+                            height: width
+                            anchors.verticalCenter: parent.verticalCenter
+                            onClicked: {
+                                setMirror(index, isMirror)
+                                isMirror=!isMirror
+                            }
+                        }
+                        Item{width: app.fs*2;height: 1}
+                        Text{
+                            text: '<b>Eliminar</b>'
+                            font.pixelSize: app.fs*0.5
+                            color: 'white'
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        ButtonIcon{
+                            text:'\uf00d'
+                            width: apps.botSize
+                            height: width
+                            onClicked: {
+                                deleteItem(index)
+                            }
+                        }
+                        Item{width: app.fs*2;height: 1}
+                        Text{
+                            text: '<b>Bajar</b>'
+                            font.pixelSize: app.fs*0.5
+                            color: 'white'
+                            anchors.verticalCenter: parent.verticalCenter
+                            visible: index!==lm.count-1
+                        }
+                        ButtonIcon{
+                            text:'\uf0ab'
+                            width: apps.botSize
+                            height: width
+                            visible: index!==lm.count-1
+                            onClicked: {
+                                lm.move(index, index+1, 1)
+                                saveFileList()
+                            }
+                        }
+                        Text{
+                            text: '<b>Subir</b>'
+                            font.pixelSize: app.fs*0.5
+                            color: 'white'
+                            anchors.verticalCenter: parent.verticalCenter
+                            visible: index!==0
+                        }
+                        ButtonIcon{
+                            text:'\uf0aa'
+                            width: apps.botSize
+                            height: width
+                            visible: index!==0
+                            onClicked: {
+                                lm.move(index, index-1, 1)
+                                saveFileList()
+                            }
                         }
                     }
+                    Text{
+                        id: txtData
+                        text: fileName
+                        font.pixelSize: app.fs*0.5
+                        color: 'white'
+                        width: xItem.width-videoPlayerOutPut.width-app.fs*3
+                        wrapMode: Text.WrapAnywhere
+                    }
                 }
-                Text{
-                    id: txtData
-                    text: fileName+ ' ip: '+indexPlanet+ ' im: '+isMirror
-                    font.pixelSize: app.fs*0.5
-                    color: 'white'
-                    width: xItem.width-videoPlayerOutPut.width-app.fs*3
-                    wrapMode: Text.WrapAnywhere
-                    anchors.verticalCenter: parent.verticalCenter
-                }
+
             }
         }
     }
@@ -169,7 +241,23 @@ Rectangle {
             unik.setFile(jsonFile,JSON.stringify(json))
         }
     }
-
+    function deleteItem(index){
+        let jsonData=''
+        let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
+        if(!unik.fileExist(jsonFile)){
+            return
+        }
+        jsonData=unik.getFile(jsonFile)
+        let json=JSON.parse(jsonData)
+        delete json['item'+index]
+        let nJson={}
+        for(var i=0;i<Object.keys(json).length;i++){
+            let obj=json[Object.keys(json)[i]]
+            nJson["item"+i]=obj
+        }
+        unik.setFile(jsonFile,JSON.stringify(nJson))
+        updateList()
+    }
     function updateList(){
         r.visible=true
         lm.clear()
@@ -189,5 +277,14 @@ Rectangle {
             //log.ls('jsonItem: '+json['item'+i].isMirror, 300, 500)
             lm.append(lm.addItem(json['item'+i].fileName, json['item'+i].indexPlanet, json['item'+i].isMirror))
         }
+    }
+    function saveFileList(){
+        let json={}
+        for(var i=0;i<lm.count;i++){
+            let obj=lm.get(i)
+            json['item'+i]=obj
+        }
+        let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
+        unik.setFile(jsonFile,JSON.stringify(json))
     }
 }

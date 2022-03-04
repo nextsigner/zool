@@ -226,7 +226,10 @@ ApplicationWindow {
                 log.visible=false
                 return
             }
-
+            if(videoListEditor.visible){
+                videoListEditor.visible=false
+                return
+            }
             //Efecto sobre los paneles
             if(panelFileLoader.visible&&panelFileLoader.ti.focus){
                 panelFileLoader.ti.focus=false
