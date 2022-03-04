@@ -21,6 +21,7 @@ Rectangle {
     onXChanged: apps.repLectX=x
     onYChanged: apps.repLectY=y
     visible: sv.currentIndex===0
+    property var uJson: {}
     property bool playMaximized: !(''+playList.currentItemSource===''+apps.repLectCurrentVidIntro || ''+playList.currentItemSource===''+apps.repLectCurrentVidClose)
 
     UnikQProcess{
@@ -53,7 +54,10 @@ Rectangle {
         playlist: Playlist{
             id: playList
             onCurrentIndexChanged: {
-                app.currentPlanetIndex=currentIndex-1
+                let ip=r.uJson['item'+currentIndex].indexPlanet
+                app.currentPlanetIndex=ip
+                //log.ls('IP: '+ip, 300, 500)
+                //app.currentPlanetIndex=currentIndex-1
                 //videoPlayer.stop()
                 //tPlayTrans.start()
             }
@@ -325,24 +329,44 @@ Rectangle {
     }
     function updateVideoList(){
         playList.clear()
+        let json={}
+        let obj={}
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
         if(!unik.fileExist(jsonFile)){
             let fl=unik.getFileList((''+apps.repLectCurrentFolder).replace('file://', ''))
             //Formato esperado. Ejemplo: file:///home/ns/Documentos/gd/zool_videos/intro_vn.mkv
             if(apps.repLectCurrentVidIntro!==''){
                 playList.addItem(apps.repLectCurrentVidIntro)
+                obj={}
+                obj.fileName=apps.repLectCurrentVidIntro
+                obj.indexPlanet=-1
+                obj.isMirror=false
+                json['item0']=obj
             }
+
             for(var i=0;i<fl.length;i++){
                 let s=apps.repLectCurrentFolder+'/'+fl[i]
                 //log.ls('Pl add: '+s, 0, 500)
                 playList.addItem(s)
+                obj={}
+                obj.fileName=s
+                obj.indexPlanet=i+1
+                obj.isMirror=false
+                json['item'+parseInt(i + 1)]=obj
             }
             if(apps.repLectCurrentVidClose!==''){
                 playList.addItem(apps.repLectCurrentVidClose)
+                obj={}
+                obj.fileName=apps.repLectCurrentVidClose
+                obj.indexPlanet=-1
+                obj.isMirror=false
+                json['item'+parseInt(fl.length)]=obj
             }
+            r.uJson=json
         }else{
             let jsonData=unik.getFile(jsonFile)
-            let json=JSON.parse(jsonData)
+            json=JSON.parse(jsonData)
+            r.uJson=json
             for(var i=0;i<Object.keys(json).length;i++){
                 let s=json['item'+i].fileName
                 if(s.indexOf('file://')!==0){

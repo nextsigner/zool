@@ -84,6 +84,28 @@ Rectangle {
                             color: 'white'
                             anchors.verticalCenter: parent.verticalCenter
                         }
+                        Row{
+                            ButtonIcon{
+                                text:'\uf0ab'
+                                width: apps.botSize
+                                height: width
+                                visible: index!==lm.count-1
+                                onClicked: {
+                                    setIndexPlanet(index, indexPlanet, false)
+                                    indexPlanet-=1
+                                }
+                            }
+                            ButtonIcon{
+                                text:'\uf0aa'
+                                width: apps.botSize
+                                height: width
+                                visible: index!==0
+                                onClicked: {
+                                    setIndexPlanet(index, indexPlanet, true)
+                                    indexPlanet+=1
+                                }
+                            }
+                        }
                         Item{width: app.fs*2;height: 1}
                         Text{
                             text: '<b>Volteado: </b>'+(isMirror?'SI':'NO')
@@ -203,6 +225,18 @@ Rectangle {
     Component.onCompleted: {
         //updateList()
     }
+    function setIndexPlanet(index, indexPlanet, sube){
+        let jsonData=''
+        let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
+        if(!unik.fileExist(jsonFile)){
+            return
+        }
+        jsonData=unik.getFile(jsonFile)
+        let json=JSON.parse(jsonData)
+        json['item'+index].indexPlanet=sube?indexPlanet+1:indexPlanet-1
+        panelVideLectura.uJson=json
+        unik.setFile(jsonFile,JSON.stringify(json))
+    }
     function setMirror(index, isMirror){
         let jsonData=''
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
@@ -212,6 +246,7 @@ Rectangle {
         jsonData=unik.getFile(jsonFile)
         let json=JSON.parse(jsonData)
         json['item'+index].isMirror=!isMirror
+        panelVideLectura.uJson=json
         unik.setFile(jsonFile,JSON.stringify(json))
     }
     function addFileList(file){
@@ -255,6 +290,7 @@ Rectangle {
             let obj=json[Object.keys(json)[i]]
             nJson["item"+i]=obj
         }
+        panelVideLectura.uJson=nJson
         unik.setFile(jsonFile,JSON.stringify(nJson))
         updateList()
     }
@@ -271,6 +307,7 @@ Rectangle {
         }
         jsonData=unik.getFile(jsonFile)
         let json=JSON.parse(jsonData)
+        panelVideLectura.uJson=json
         for(var i=0;i<Object.keys(json).length;i++){
             //log.ls('jsonItem: '+json['item'+i].fileName, 300, 500)
             //log.ls('jsonItem: '+json['item'+i].indexPlanet, 300, 500)
@@ -284,6 +321,7 @@ Rectangle {
             let obj=lm.get(i)
             json['item'+i]=obj
         }
+        panelVideLectura.uJson=json
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
         unik.setFile(jsonFile,JSON.stringify(json))
     }
