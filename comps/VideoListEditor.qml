@@ -19,11 +19,12 @@ Rectangle {
     }
     ListModel{
         id: lm
-        function addItem(fn, ip, im){
+        function addItem(fn, ip, im, isMax){
             return{
                 fileName: fn,
                 indexPlanet: ip,
-                isMirror: im
+                isMirror: im,
+                isMaximized: isMax
             }
         }
     }
@@ -89,7 +90,6 @@ Rectangle {
                                 text:'\uf0ab'
                                 width: apps.botSize
                                 height: width
-                                visible: index!==lm.count-1
                                 onClicked: {
                                     setIndexPlanet(index, indexPlanet, false)
                                     indexPlanet-=1
@@ -99,14 +99,13 @@ Rectangle {
                                 text:'\uf0aa'
                                 width: apps.botSize
                                 height: width
-                                visible: index!==0
                                 onClicked: {
                                     setIndexPlanet(index, indexPlanet, true)
                                     indexPlanet+=1
                                 }
                             }
                         }
-                        Item{width: app.fs*2;height: 1}
+                        Item{width: app.fs*0.5;height: 1}
                         Text{
                             text: '<b>Volteado: </b>'+(isMirror?'SI':'NO')
                             font.pixelSize: app.fs*0.5
@@ -123,7 +122,7 @@ Rectangle {
                                 isMirror=!isMirror
                             }
                         }
-                        Item{width: app.fs*2;height: 1}
+                        Item{width: app.fs*0.5;height: 1}
                         Text{
                             text: '<b>Eliminar</b>'
                             font.pixelSize: app.fs*0.5
@@ -138,39 +137,52 @@ Rectangle {
                                 deleteItem(index)
                             }
                         }
-                        Item{width: app.fs*2;height: 1}
+                        Item{width: app.fs*0.5;height: 1}
+                    }
+                    Row{
+                        spacing: app.fs*0.5
                         Text{
-                            text: '<b>Bajar</b>'
+                            text: '<b>Maximizar: </b>'+(!isMaximized?'SI':'NO')
                             font.pixelSize: app.fs*0.5
                             color: 'white'
                             anchors.verticalCenter: parent.verticalCenter
-                            visible: index!==lm.count-1
                         }
                         ButtonIcon{
-                            text:'\uf0ab'
+                            text:isMaximized?'\uf066':'\uf08e'
                             width: apps.botSize
                             height: width
-                            visible: index!==lm.count-1
+                            anchors.verticalCenter: parent.verticalCenter
                             onClicked: {
-                                lm.move(index, index+1, 1)
-                                saveFileList()
+                                setMaximized(index, isMaximized)
+                                isMaximized=!isMaximized
                             }
                         }
                         Text{
-                            text: '<b>Subir</b>'
+                            text: '<b>Subir/Bajar</b>'
                             font.pixelSize: app.fs*0.5
                             color: 'white'
                             anchors.verticalCenter: parent.verticalCenter
-                            visible: index!==0
                         }
-                        ButtonIcon{
-                            text:'\uf0aa'
-                            width: apps.botSize
-                            height: width
-                            visible: index!==0
-                            onClicked: {
-                                lm.move(index, index-1, 1)
-                                saveFileList()
+                        Row{
+                            ButtonIcon{
+                                text:'\uf0ab'
+                                width: apps.botSize
+                                height: width
+                                visible: index!==lm.count-1
+                                onClicked: {
+                                    lm.move(index, index+1, 1)
+                                    saveFileList()
+                                }
+                            }
+                            ButtonIcon{
+                                text:'\uf0aa'
+                                width: apps.botSize
+                                height: width
+                                visible: index!==0
+                                onClicked: {
+                                    lm.move(index, index-1, 1)
+                                    saveFileList()
+                                }
                             }
                         }
                     }
@@ -249,6 +261,18 @@ Rectangle {
         panelVideLectura.uJson=json
         unik.setFile(jsonFile,JSON.stringify(json))
     }
+    function setMaximized(index, isMaximized){
+        let jsonData=''
+        let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
+        if(!unik.fileExist(jsonFile)){
+            return
+        }
+        jsonData=unik.getFile(jsonFile)
+        let json=JSON.parse(jsonData)
+        json['item'+index].isMaximized=!isMaximized
+        panelVideLectura.uJson=json
+        unik.setFile(jsonFile,JSON.stringify(json))
+    }
     function addFileList(file){
         let jsonData=''
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
@@ -301,7 +325,7 @@ Rectangle {
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
         //log.ls('jsonFile: '+jsonFile, 300, 500)
         if(!unik.fileExist(jsonFile)){
-            jsonData='{"item0":{"fileName":"/home/ns/Documentos/gd/zool_videos/intro_vn.mkv", "indexPlanet": -1, "isMirror": false},"item1":{"fileName":"/home/ns/Documentos/gd/zool_videos/close_vn.mkv", "indexPlanet": -1, "isMirror": false}}'
+            jsonData='{"item0":{"fileName":"/home/ns/Documentos/gd/zool_videos/intro_vn.mkv", "indexPlanet": -1, "isMirror": false, "isMaximized": true},"item1":{"fileName":"/home/ns/Documentos/gd/zool_videos/close_vn.mkv", "indexPlanet": -1, "isMirror": false, "isMaximized": true}}'
             unik.setFile(jsonFile,jsonData)
 
         }
@@ -312,7 +336,7 @@ Rectangle {
             //log.ls('jsonItem: '+json['item'+i].fileName, 300, 500)
             //log.ls('jsonItem: '+json['item'+i].indexPlanet, 300, 500)
             //log.ls('jsonItem: '+json['item'+i].isMirror, 300, 500)
-            lm.append(lm.addItem(json['item'+i].fileName, json['item'+i].indexPlanet, json['item'+i].isMirror))
+            lm.append(lm.addItem(json['item'+i].fileName, json['item'+i].indexPlanet, json['item'+i].isMirror, json['item'+i].isMaximized))
         }
     }
     function saveFileList(){

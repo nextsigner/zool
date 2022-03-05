@@ -57,6 +57,10 @@ Rectangle {
             onCurrentIndexChanged: {
                 let ip=r.uJson['item'+currentIndex].indexPlanet
                 app.currentPlanetIndex=ip
+                let im=r.uJson['item'+currentIndex].isMirror
+                videoPlayerOutPut.isMirror=im
+                let isMax=r.uJson['item'+currentIndex].isMaximized
+                r.playMaximized=isMax
                 //log.ls('IP: '+ip, 300, 500)
                 //app.currentPlanetIndex=currentIndex-1
                 //videoPlayer.stop()
@@ -343,6 +347,7 @@ Rectangle {
                 obj.fileName=apps.repLectCurrentVidIntro
                 obj.indexPlanet=-1
                 obj.isMirror=false
+                obj.isMaximized=true
                 json['item0']=obj
             }
 
@@ -354,6 +359,7 @@ Rectangle {
                 obj.fileName=s
                 obj.indexPlanet=i+1
                 obj.isMirror=false
+                obj.isMaximized=false
                 json['item'+parseInt(i + 1)]=obj
             }
             if(apps.repLectCurrentVidClose!==''){
@@ -362,6 +368,7 @@ Rectangle {
                 obj.fileName=apps.repLectCurrentVidClose
                 obj.indexPlanet=-1
                 obj.isMirror=false
+                obj.isMaximized=true
                 json['item'+parseInt(fl.length)]=obj
             }
             r.uJson=json

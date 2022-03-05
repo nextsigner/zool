@@ -7,7 +7,7 @@ Rectangle {
     height: cellWidth*15
     color: 'transparent'
     antialiasing: true
-    property int cellWidth: app.fs*0.5
+    property int cellWidth: app.fs*0.45
     Row{
         id: row
         visible: apps.showAspPanel
