@@ -10,12 +10,71 @@ Rectangle {
     color: 'black'
     anchors.right: parent.right
     visible: false
-    ListView{
-        id: lv
-        width: r.width
-        height: r.height
-        model: lm
-        delegate: comp
+    Column{
+        Rectangle{
+            id: xFilesData
+            width: r.width
+            height: col.height+app.fs
+            color: 'black'
+            border.width: 2
+            border.color: 'white'
+            Column{
+                id: col
+                spacing: app.fs*0.5
+                anchors.centerIn: parent
+                Row{
+                    spacing: app.fs*0.5
+                    Text{
+                        id: label1
+                        text:'<b>Archivo:</b>'
+                        color: 'white'
+                        font.pixelSize: app.fs*0.5
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    TextField{
+                        id: tfArchivo
+                        text: panelVideLectura.currentUrl
+                        width: xFilesData.width-label1.width-botExaminar.width-app.fs*1.5
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    Button{
+                        id: botExaminar
+                        text: 'Examinar'
+                        anchors.verticalCenter: parent.verticalCenter
+                        onClicked: fileDialogJson.open()
+                    }
+                }
+                Row{
+                    spacing: app.fs*0.5
+                    Text{
+                        id: label2
+                        text:'<b>Carpeta:</b>'
+                        color: 'white'
+                        font.pixelSize: app.fs*0.5
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    TextField{
+                        id: tfCarpeta
+                        text: apps.repLectCurrentFolder
+                        width: xFilesData.width-label2.width-botExaminarFolder.width-app.fs*1.5
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    Button{
+                        id: botExaminarFolder
+                        text: 'Examinar'
+                        anchors.verticalCenter: parent.verticalCenter
+                        onClicked: fileDialogFolder.open()
+                    }
+                }
+            }
+        }
+        ListView{
+            id: lv
+            width: r.width
+            height: r.height-xFilesData.height
+            model: lm
+            delegate: comp
+        }
     }
     ListModel{
         id: lm
@@ -234,6 +293,41 @@ Rectangle {
         }
         //Component.onCompleted: visible = true
     }
+    FileDialog {
+        id: fileDialogJson
+        title: "Seleccionar Archivo"
+        folder: apps.jsonsFolder
+        selectFolder: false
+        nameFilters: ["*.json"]
+        selectMultiple: false
+        onAccepted: {
+            //console.log("You chose: " + fileDialog.fileUrls)
+            let u=fileDialogJson.fileUrls
+            panelVideLectura.currentUrl=u[0].replace('file://', '')
+            saveFileList()
+        }
+        onRejected: {
+            console.log("Canceled")
+        }
+        //Component.onCompleted: visible = true
+    }
+    FileDialog {
+        id: fileDialogFolder
+        title: "Seleccionar Carpeta"
+        folder: apps.repLectCurrentFolder
+        selectFolder: true
+        selectMultiple: false
+        onAccepted: {
+            let u=fileDialogFolder.fileUrls[0]
+            apps.repLectCurrentFolder=""+u
+            panelVideLectura.updateVideoList()
+            updateList()
+        }
+        onRejected: {
+            console.log("Canceled")
+        }
+        //Component.onCompleted: visible = true
+    }
     Component.onCompleted: {
         //updateList()
     }
@@ -325,7 +419,7 @@ Rectangle {
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
         //log.ls('jsonFile: '+jsonFile, 300, 500)
         if(!unik.fileExist(jsonFile)){
-            jsonData='{"item0":{"fileName":"/home/ns/Documentos/gd/zool_videos/intro_vn.mkv", "indexPlanet": -1, "isMirror": false, "isMaximized": true},"item1":{"fileName":"/home/ns/Documentos/gd/zool_videos/close_vn.mkv", "indexPlanet": -1, "isMirror": false, "isMaximized": true}}'
+            jsonData='{"item0":{"fileName":"/home/ns/Documentos/gd/zool_videos/intro_vn.mkv", "indexPlanet": -1, "isMirror": false, "isMaximized": true},"item1":{"fileName":"/home/ns/Documentos/gd/zool_videos/close_vn.mkv", "indexPlanet": -1, "isMirror": false, "isMaximized": true}, "itemData":{"file":""}}'
             unik.setFile(jsonFile,jsonData)
 
         }
@@ -338,12 +432,20 @@ Rectangle {
             //log.ls('jsonItem: '+json['item'+i].isMirror, 300, 500)
             lm.append(lm.addItem(json['item'+i].fileName, json['item'+i].indexPlanet, json['item'+i].isMirror, json['item'+i].isMaximized))
         }
+        if(json['itemData']){
+            panelVideLectura.currentUrl=json['itemData'].file
+        }
     }
     function saveFileList(){
         let json={}
         for(var i=0;i<lm.count;i++){
             let obj=lm.get(i)
             json['item'+i]=obj
+        }
+        if(panelVideLectura.currentUrl!==''){
+            let obj={}
+            obj.file=panelVideLectura.currentUrl
+            json['itemData']=obj
         }
         panelVideLectura.uJson=json
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'

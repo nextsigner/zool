@@ -3,6 +3,7 @@ import QtQuick.Window 2.0
 import QtQuick.Controls 2.0
 import QtMultimedia 5.12
 import QtQuick.Dialogs 1.2
+import "./Funcs.js" as JS
 import "./comps"
 import unik.UnikQProcess 1.0
 
@@ -21,15 +22,16 @@ Rectangle {
     onYChanged: apps.repLectY=y
     visible: sv.currentIndex===0&&apps.repLectVisible
     property var uJson: {}
+    property string currentUrl: ''
     property bool playMaximized: !(''+playList.currentItemSource===''+apps.repLectCurrentVidIntro || ''+playList.currentItemSource===''+apps.repLectCurrentVidClose)
 
     UnikQProcess{
-                id: uqp
-                onLogDataChanged: {
-                    //log.ls('LogData: '+logData, 300, 500)
-                }
-                onFinished: botRec.isRec=false
-                onStarted: botRec.isRec=true
+        id: uqp
+        onLogDataChanged: {
+            //log.ls('LogData: '+logData, 300, 500)
+        }
+        onFinished: botRec.isRec=false
+        onStarted: botRec.isRec=true
     }
     Rectangle {
         id: bg
@@ -48,8 +50,8 @@ Rectangle {
         onPositionChanged:{
             if(position>duration-3000&&duration>=1000){
                 trans.opacity=1.0
-//                videoPlayer.stop()
-//                tPlayTrans.start()
+                //                videoPlayer.stop()
+                //                tPlayTrans.start()
             }
         }
         playlist: Playlist{
@@ -61,6 +63,7 @@ Rectangle {
                 videoPlayerOutPut.isMirror=im
                 let isMax=r.uJson['item'+currentIndex].isMaximized
                 r.playMaximized=isMax
+
                 //log.ls('IP: '+ip, 300, 500)
                 //app.currentPlanetIndex=currentIndex-1
                 //videoPlayer.stop()
@@ -71,7 +74,12 @@ Rectangle {
             if(videoPlayer.playbackState===MediaPlayer.PlayingState){
                 trans.opacity=0.0
                 tAutoMaticPlanets.stop()
-                //app.currentPlanetIndex=0
+                if(playList.currentIndex===-1||playList.currentIndex===0){
+                    if(r.uJson['itemData']){
+                        let file=r.uJson['itemData'].file
+                        JS.loadJson(file)
+                    }
+                }
             }
             if(videoPlayer.playbackState===MediaPlayer.StoppedState){
                 //app.currentPlanetIndex++
@@ -252,7 +260,7 @@ Rectangle {
                     height: width
                     onClicked: {
                         if(videoPlayer.playbackState!==MediaPlayer.PlayingState){
-                            videoPlayer.play()                            
+                            videoPlayer.play()
                         }else{
                             videoPlayer.pause()
                         }
@@ -310,26 +318,6 @@ Rectangle {
         onTriggered: col.opacity=0.0
 
     }
-    FileDialog {
-        id: fileDialog
-        title: "Please choose a file"
-        folder: apps.repLectCurrentFolder
-        selectFolder: true
-        selectMultiple: false
-        onAccepted: {
-            //console.log("You chose: " + fileDialog.fileUrls)
-            let u=fileDialog.fileUrls[0]
-            ////log.ls('Folder 2: '+fileDialog.folder, 0, 500)
-            //log.ls('Folder 3: '+u, 0, 500)
-            apps.repLectCurrentFolder=""+u
-            //log.ls('Folder 4: '+u, 0, 500)
-            updateVideoList()
-        }
-        onRejected: {
-            console.log("Canceled")
-        }
-        //Component.onCompleted: visible = true
-    }
     Component.onCompleted: {
         updateVideoList()
     }
@@ -371,17 +359,30 @@ Rectangle {
                 obj.isMaximized=true
                 json['item'+parseInt(fl.length)]=obj
             }
+            obj={}
+            obj.file=''
+            json['itemData']=obj
             r.uJson=json
+
         }else{
+
             let jsonData=unik.getFile(jsonFile)
             json=JSON.parse(jsonData)
             r.uJson=json
             for(var i=0;i<Object.keys(json).length;i++){
-                let s=json['item'+i].fileName
-                if(s.indexOf('file://')!==0){
-                    s='file://'+s
+                if(json['item'+i]){
+                    let s=json['item'+i].fileName
+                    if(s.indexOf('file://')!==0){
+                        s='file://'+s
+                    }
+                    playList.addItem(s)
                 }
-                playList.addItem(s)
+            }
+            //Qt.quit()
+            //log.ls('0 Set file: '+r.currentUrl, 0, 500)
+            if(json['itemData']){
+                r.currentUrl=json['itemData'].file
+                //log.ls('Set file: '+r.currentUrl, 0, 500)
             }
         }
     }
