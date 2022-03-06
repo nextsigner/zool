@@ -172,7 +172,7 @@ function getJSON(fileLocation, comp, s, c, nomCuerpo) {
         if (request.readyState === XMLHttpRequest.DONE) {
             if (request.status && request.status === 200) {
                 //console.log(":::", request.responseText)
-                var result = JSON.parse(parseRetRed(request.responseText))
+                var result = JSON.parse(parseRetRed(request.responseText.replace(/\n/g, '')))
                 if(result){
                     console.log('getJSON result: '+result)
                     //console.log('Abriendo casa de json: '+c)
