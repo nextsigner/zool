@@ -6,7 +6,13 @@ Item{
     //width: !selected?(planetsCircle.expand?parent.width-(r.fs*2*objData.p)-r.fs:parent.width-(r.fs*1.5*objData.p))-r.fs:parent.width//-sweg.fs*2-(r.fs*1.5*(planetsCircle.totalPosX-1))
     //width: !selected?parent.width-(r.fs*1.5*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs):parent.width-(!apps.showNumberLines?0:r.fs)//-sweg.fs*2-(r.fs*1.5*(planetsCircle.totalPosX-1))
     //width: parent.width-(r.fs*1.5*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)
-    width: parent.width-(r.fs*1.5*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)-widthRestDec
+    //width: parent.width-(r.fs*1.5*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)-widthRestDec
+    //width: apps.xAsShowIcon?(parent.width-xIcon.width*0.5-(sweg.w*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)-widthRestDec):(parent.width-xIcon.width-(sweg.w*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)-widthRestDec)
+    width: apps.xAsShowIcon?
+               /*Mostrando Imagen*/
+               (parent.width-(r.fs*objData.p)-sweg.objSignsCircle.w-(!apps.showNumberLines?0:r.fs*2)-widthRestDec):
+               /*Mostrando Símbolo de Planeta*/
+               (parent.width-(r.fs*objData.p)-sweg.objSignsCircle.w-(!apps.showNumberLines?0:r.fs*2)-widthRestDec)
     height: 1
     anchors.centerIn: parent
     z: !selected?numAstro:15

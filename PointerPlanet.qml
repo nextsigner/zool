@@ -21,6 +21,7 @@ Item {
     property alias pointerRot: eje.rotation
     property int pointerFs: app.fs*5.5
     property real xs: sweg.xs
+    property var aMargins: [0.5, 0.3, 0.4, 0.4, 0.4, 0.5, 0.5, 0.5, 0.4, 0.3, 0.5, 0.5, 0.3, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.5]
     onOpacityChanged: {
         if(opacity===1.0)setPointerFs()
     }
@@ -46,6 +47,7 @@ Item {
         width: r.width
         height: width
         color: 'transparent'
+        //color: 'red'
         anchors.centerIn: parent
         Rectangle{
             width: r.pointerFs*3
@@ -53,7 +55,7 @@ Item {
             color: apps.pointerLineColor
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.horizontalCenter
-            anchors.rightMargin: apps.xAsShowIcon?r.width*0.5:r.width*0.5+sweg.fs*0.25
+            anchors.rightMargin: apps.xAsShowIcon?r.width*(r.aMargins[r.p]):r.width*0.5+sweg.fs*0.25
             Rectangle{
                 id: rectData
                 width: col.width+r.pointerFs*0.5
