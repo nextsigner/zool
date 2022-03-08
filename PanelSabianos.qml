@@ -9,6 +9,7 @@ Rectangle {
     width: parent.width
     height: parent.height//panelRemoto.state==='hide'?parent.height:parent.height-panelRemoto.height
     clip: true
+    property bool showSource: false
     property string htmlFolder: ''
     property var signos: ['Aries', 'Tauro', 'Géminis', 'Cáncer', 'Leo', 'Virgo', 'Libra', 'Escorpio', 'Sagitario', 'Capricornio', 'Acuario', 'Piscis']
     property int numSign: 0
@@ -35,16 +36,34 @@ Rectangle {
             spacing: app.fs*0.5
             anchors.horizontalCenter: parent.horizontalCenter
             Text {
+                id: sourceData
+                text: getSource()
+                width: r.width-app.fs
+                wrapMode: Text.WordWrap
+                font.pixelSize: app.fs*0.5
+                anchors.horizontalCenter: parent.horizontalCenter
+                visible: r.showSource
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: r.showSource=false
+                }
+            }
+            Text {
                 id: currentSign
-                text: '<b>Simbología de los Sabianos</b>'
+                text: '<b>LOS 360 GRADOS DEL ZODIACO SIMBOLIZADOS</b>'
                 width: r.width-app.fs
                 wrapMode: Text.WordWrap
                 font.pixelSize: app.fs*0.75*apps.panelSabianosFz
                 anchors.horizontalCenter: parent.horizontalCenter
-                //anchors.verticalCenter: parent.verticalCenter
+                visible: !r.showSource
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: r.showSource=true
+                }
             }
             Row{
                 spacing: app.fs*0.5
+                visible: !r.showSource
                 Text {
                     text:'<b>'+r.signos[r.numSign]+'</b>'
                     font.pixelSize: app.fs*0.75*apps.panelSabianosFz
@@ -81,6 +100,26 @@ Rectangle {
                 font.pixelSize: app.fs*0.5*apps.panelSabianosFz
                 wrapMode: Text.WordWrap
                 textFormat: Text.RichText
+                visible: !r.showSource
+                MouseArea{
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onMouseXChanged: {
+                        rowBtns.opacity=1.0
+                        tHideRowBtns.restart()
+                    }
+                    onMouseYChanged: {
+                        rowBtns.opacity=1.0
+                        tHideRowBtns.restart()
+                    }
+                    onEntered: rowBtns.opacity=1.0
+                    onDoubleClicked: {
+                        xSabianos.numSign=r.numSign
+                        xSabianos.numDegree=r.numDegree
+                        xSabianos.visible=true
+                        xSabianos.loadData()
+                    }
+                }
             }
         }
     }
@@ -92,25 +131,6 @@ Rectangle {
         //color: 'white'
         anchors.bottom: parent.bottom
         visible: false
-    }
-    MouseArea{
-        anchors.fill: parent
-        hoverEnabled: true
-        onMouseXChanged: {
-            rowBtns.opacity=1.0
-            tHideRowBtns.restart()
-        }
-        onMouseYChanged: {
-            rowBtns.opacity=1.0
-            tHideRowBtns.restart()
-        }
-        onEntered: rowBtns.opacity=1.0
-        onDoubleClicked: {
-            xSabianos.numSign=r.numSign
-            xSabianos.numDegree=r.numDegree
-            xSabianos.visible=true
-            xSabianos.loadData()
-        }
     }
     Rectangle{
         width: app.fs*0.5
@@ -480,6 +500,24 @@ Rectangle {
         console.log('SETZOOM:'+zoom)
         setJsonZoom(r.numSign, r.numDegree, r.currentInterpreter, zoom)
         r.loadData()
+    }
+    function getSource(){
+        let d='<b>LOS 360 GRADOS DEL ZODIACO SIMBOLIZADOS</b><br>'
+        d+='<p>Aplicacion de los simbolismos de los 360° del zodiaco, segun Charubel, La Volasfera, Sepharial y los Sabianos.</p>
+
+<h3>CHARUBEL</h3>
+<p>Charubel, seudonimo de John Thomas</p>
+<h3>LA VOLASFERA</h3>
+<p>La Volasfera, seudonimo de Antonio Borelli, Interpretados por</p>
+<h3>SEPHARIAL</h3>
+<p>Sepharial, Seudonimo de Walter E. Gorn Old</p>
+<h3>LOS SABIANOS</h3>
+<p>Sabianos (nombre de una antigua raza de alquimistas de Mesopotamia ), es un trabajo de Elsie May Wheeler y Marc Edmund Jones. (Las alegorias de los Sabianos las hallamos, tambien, en Astroloqia de la Personalidad de Dane Rudhyar, publicacion realizada con permiso de los autores).</p>
+<p>Desde 1898, fecha en que apareciera por vez primera la edicion de los Grados Simbolizados de Charubel, cientos de copias son utilizadas diariamente por estudiantes acuciosos en todo el mundo.</p>
+<p>Traduccion de la Version Inglesa por R. Lidid</p>
+<p><b>Nota de Ricardo Martín Pizarro: </b>Debido posiblemente a un error de traducción del ingles al español por R. Lidid, los antiguos alquimistas de la mesopotamia se llamaban SABEANOS, no los Sabianos.</p>
+'
+        return d
     }
 }
 

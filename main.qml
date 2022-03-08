@@ -323,6 +323,15 @@ AppWin {
         property bool numShowFormula: false
         property int numPanelLogFs: app.width*0.02
 
+        onZFocusChanged: {
+            if(zFocus==='xMed'||zFocus==='xLatDer'){
+                panelFileLoader.ti.focus=false
+            }else{
+                if(sv.currentIndex===2){
+                    panelFileLoader.ti.focus=true
+                }
+            }
+        }
         onShowLupaChanged: sweg.centerZoomAndPos()
         onEnableBackgroundColorChanged: {
             if(enableBackgroundColor){
@@ -457,39 +466,52 @@ AppWin {
                         XPaneles{PanelRemotoV2{id: panelRemoto;itemIndex: 8}}
                         //XPaneles{PanelVideoLectura{id: panelVideLectura;itemIndex: 9}}
                     }
-                    PageIndicator {
-                        id: indicatorSV
-                        interactive: true
-                        count: sv.children.length
-                        currentIndex: sv.currentIndex
+                    Rectangle{
+                        width: xLatIzq.width
+                        height: indicatorSV.height
+                        color: 'transparent'
                         anchors.horizontalCenter: parent.horizontalCenter
-                        onCurrentIndexChanged: sv.currentIndex=currentIndex
-                        delegate: Rectangle{
-                            width: app.fs*0.5
-                            height: width
-                            radius: width / 2
-                            color: apps.fontColor
-                            opacity: index === indicatorSV.currentIndex?0.95: pressed ? 0.7: 0.45
-                            Text{
-                                text:'\uf26c'
-                                font.family: "FontAwesome"
-                                font.pixelSize: parent.width*0.6
-                                color: apps.backgroundColor
-                                anchors.centerIn: parent
-                                visible: index===0&&apps.repLectVisible
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+                                apps.zFocus='xLatIzq'
                             }
-                            MouseArea{
-                                anchors.fill: parent
-                                onClicked: {
-                                    sv.currentIndex=index
-                                    if (mouse.modifiers) {
-                                        apps.repLectVisible=!apps.repLectVisible
+                        }
+                        PageIndicator {
+                            id: indicatorSV
+                            interactive: true
+                            count: sv.children.length
+                            currentIndex: sv.currentIndex
+                            anchors.centerIn: parent
+                            onCurrentIndexChanged: sv.currentIndex=currentIndex
+                            delegate: Rectangle{
+                                width: app.fs*0.5
+                                height: width
+                                radius: width / 2
+                                color: apps.fontColor
+                                opacity: index === indicatorSV.currentIndex?0.95: pressed ? 0.7: 0.45
+                                Text{
+                                    text:'\uf26c'
+                                    font.family: "FontAwesome"
+                                    font.pixelSize: parent.width*0.6
+                                    color: apps.backgroundColor
+                                    anchors.centerIn: parent
+                                    visible: index===0&&apps.repLectVisible
+                                }
+                                MouseArea{
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        sv.currentIndex=index
+                                        if (mouse.modifiers) {
+                                            apps.repLectVisible=!apps.repLectVisible
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
+
                 Rectangle{
                     width: parent.width
                     height: 3

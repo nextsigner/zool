@@ -101,7 +101,7 @@ Item {
         anchors.fill: parent
         Rectangle {
             id: rect
-            border.width: 20
+            border.width: 0
             width: Math.max(xSweg.width, flick.width)*2
             height: Math.max(xSweg.height, flick.height)*2
             border.color: '#ff8833'
@@ -196,6 +196,9 @@ Item {
                     }
                     MouseArea {
                         anchors.fill: parent
+                        onClicked: {
+                            apps.zFocus='xMed'
+                        }
                         onDoubleClicked: {
                             centerZoomAndPos()
                         }

@@ -162,12 +162,14 @@ Column{
                                 app.currentPlanetIndex=index
                             }else{
                                 app.currentPlanetIndex=-1
+                                sweg.objHousesCircle.currentHouse=-1
                             }
                         }else{
                             if(app.currentPlanetIndexBack!==index){
                                 app.currentPlanetIndexBack=index
                             }else{
                                 app.currentPlanetIndexBack=-1
+                                sweg.objHousesCircleBack.currentHouse=-1
                             }
                         }
                     }
