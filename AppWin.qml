@@ -167,6 +167,10 @@ ApplicationWindow {
                 xBottomBar.enter()
                 return
             }
+            if(apps.zFocus==='xLatDer'){
+                panelDataBodies.toEnter()
+                return
+            }
             if(apps.currentSwipeViewIndex===2&&panelFileLoader.currentIndex>=0){
                 panelFileLoader.enter()
                 return
@@ -186,6 +190,10 @@ ApplicationWindow {
         onActivated: {
             if(menuBar.expanded){
                 menuBar.e()
+                return
+            }
+            if(apps.zFocus==='xLatDer'){
+                panelDataBodies.toEnter()
                 return
             }
             if(xEditor.visible){
@@ -354,20 +362,22 @@ ApplicationWindow {
             }
             if(apps.zFocus==='xLatDer'){
                 tAutoMaticPlanets.stop()
-                if(panelDataBodies.latFocus===0){
-                    if(currentPlanetIndex>-1){
-                        currentPlanetIndex--
-                    }else{
-                        currentPlanetIndex=16
-                    }
-                }
-                if(panelDataBodies.latFocus===1){
-                    if(currentPlanetIndexBack>-1){
-                        currentPlanetIndexBack--
-                    }else{
-                        currentPlanetIndexBack=16
-                    }
-                }
+                panelDataBodies.toUp()
+//                if(panelDataBodies.latFocus===0){
+//                    if(currentPlanetIndex>-1){
+//                        currentPlanetIndex--
+//                    }else{
+//                        currentPlanetIndex=16
+//                    }
+//                }
+//                if(panelDataBodies.latFocus===1){
+//                    if(currentPlanetIndexBack>-1){
+//                        currentPlanetIndexBack--
+//                    }else{
+//                        currentPlanetIndexBack=16
+//                    }
+//                }
+
             }
             //xAreaInteractiva.back()
         }
@@ -417,20 +427,23 @@ ApplicationWindow {
             }
             if(apps.zFocus==='xLatDer'){
                 tAutoMaticPlanets.stop()
-                if(panelDataBodies.latFocus===0){
-                    if(currentPlanetIndex<16){
-                        currentPlanetIndex++
-                    }else{
-                        currentPlanetIndex=-1
-                    }
-                }
-                if(panelDataBodies.latFocus===1){
-                    if(currentPlanetIndexBack<16){
-                        currentPlanetIndexBack++
-                    }else{
-                        currentPlanetIndexBack=-1
-                    }
-                }
+                panelDataBodies.toDown()
+
+//                if(panelDataBodies.latFocus===0){
+//                    if(currentPlanetIndex<16){
+//                        currentPlanetIndex++
+//                    }else{
+//                        currentPlanetIndex=-1
+//                    }
+//                }
+//                if(panelDataBodies.latFocus===1){
+//                    if(currentPlanetIndexBack<16){
+//                        currentPlanetIndexBack++
+//                    }else{
+//                        currentPlanetIndexBack=-1
+//                    }
+//                }
+
             }
 
             //log.visible=true

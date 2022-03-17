@@ -220,7 +220,7 @@ Item{
     Image {
         id: imgEarth
         source: "./resources/imgs/planetas/earth.png"
-        width: app.fs*3
+        width: sweg.width*0.05
         height: width
         rotation: -45
         antialiasing: true

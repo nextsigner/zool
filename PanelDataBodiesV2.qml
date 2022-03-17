@@ -15,6 +15,8 @@ Rectangle {
     state: 'show'
     property var uJson
     property int latFocus: 0
+    property int currentIndex: -1
+    property int currentIndexBack: -1
     states: [
         State {
             name: "show"
@@ -61,5 +63,64 @@ Rectangle {
     }
     function loadJsonBack(json){
         xBodiesExt.loadJson(json)
+    }
+    function toUp(){
+        if(panelDataBodies.latFocus===0){
+            if(currentIndex>-1){
+                currentIndex--
+            }else{
+                currentIndex=16
+            }
+        }
+        if(panelDataBodies.latFocus===1){
+            if(currentIndexBack>-1){
+                currentIndexBack--
+            }else{
+                currentIndexBack=16
+            }
+        }
+    }
+    function toDown(){
+        if(panelDataBodies.latFocus===0){
+            if(currentIndex<16){
+                currentIndex++
+            }else{
+                currentIndex=-1
+            }
+        }
+        if(panelDataBodies.latFocus===1){
+            if(currentIndexBack<16){
+                currentIndexBack++
+            }else{
+                currentIndexBack=-1
+            }
+        }
+    }
+    function toEnter(){
+        if(latFocus===0){
+            if(xBodiesInt.currentIndex>16){
+                sweg.objHousesCircle.currentHouse=xBodiesInt.currentIndex-16
+            }else{
+                if(app.currentPlanetIndex!==xBodiesInt.currentIndex){
+                    app.currentPlanetIndex=xBodiesInt.currentIndex
+                }else{
+                    app.currentPlanetIndex=-1
+                    sweg.objHousesCircle.currentHouse=-1
+                }
+            }
+        }else{
+            if(xBodiesExt.currentIndex>16){
+                sweg.objHousesCircle.currentHouse=xBodiesExt.currentIndex-16
+            }else{
+                if(app.currentPlanetIndex!==xBodiesExt.currentIndex){
+                    app.currentPlanetIndex=xBodiesExt.currentIndex
+                }else{
+                    app.currentPlanetIndex=-1
+                    sweg.objHousesCircle.currentHouse=-1
+                }
+            }
+        }
+
+
     }
 }

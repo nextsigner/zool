@@ -8,6 +8,7 @@ Column{
     opacity: 0.0
     property bool isBack: false
     property bool isLatFocus: false
+    property int currentIndex: !isBack?panelDataBodies.currentIndex:panelDataBodies.currentIndexBack
     Behavior on opacity{NumberAnimation{id:numAn1;duration:10}}
     Rectangle{
         id: headerLv
@@ -65,7 +66,8 @@ Column{
             id: xItem
             width: lv.width
             height: !app.ev?txtData.contentHeight+app.fs*0.1:colTxtEV.height+app.fs*0.1//app.fs*0.6//txtData.contentHeight+app.fs*0.1
-            color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.fontColor:apps.backgroundColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.fontColor:apps.backgroundColor)
+            //color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.fontColor:apps.backgroundColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.fontColor:apps.backgroundColor)
+            color: !r.isBack?(index===panelDataBodies.currentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.fontColor:apps.backgroundColor):(index===panelDataBodies.currentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.fontColor:apps.backgroundColor)
             border.width: 1
             border.color: !r.isBack?apps.houseColor:apps.houseColorBack
             visible: !app.ev?txtData.width<xItem.width:true
@@ -83,7 +85,8 @@ Column{
                 //text: sd
                 font.pixelSize: app.fs
                 textFormat: Text.RichText
-                color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
+                //color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
+                color: !r.isBack?(index===panelDataBodies.currentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===panelDataBodies.currentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
                 horizontalAlignment: Text.AlignHCenter
                 anchors.centerIn: parent
                 visible: !app.ev
@@ -111,7 +114,8 @@ Column{
                     //width: lv.width-app.fs*0.1
                     //wrapMode: Text.WordWrap
                     textFormat: Text.RichText
-                    color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
+                    //color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
+                    color: !r.isBack?(index===panelDataBodies.currentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===panelDataBodies.currentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
                     horizontalAlignment: Text.AlignHCenter
                     anchors.horizontalCenter: parent.horizontalCenter
                     visible: app.ev
@@ -130,7 +134,8 @@ Column{
                     id: txtDataEV2
                     font.pixelSize: app.fs//*0.4
                     textFormat: Text.RichText
-                    color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
+                    //color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
+                    color: !r.isBack?(index===panelDataBodies.curentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===panelDataBodies.curentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
                     horizontalAlignment: Text.AlignHCenter
                     //anchors.centerIn: parent
                     visible: app.ev

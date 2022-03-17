@@ -11,6 +11,8 @@ Rectangle{
     property int itemIndex: -1
     property bool noFoundFileExistNofify: false
     property bool fileInitLoaded: false
+    property int fs: app.fs*0.75
+    property bool showAreaVideo: true
     Column{
         id: col0
         anchors.centerIn: parent
@@ -42,7 +44,7 @@ Rectangle{
             Text{
                 id: txtAboutZool
                 text: aData[0]
-                font.pixelSize: app.fs*0.75
+                font.pixelSize: r.fs
                 color: 'white'
                 width: r.width-app.fs
                 anchors.centerIn: parent
@@ -91,7 +93,7 @@ Rectangle{
         Rectangle{
             id: cameraArea
             width: r.width
-            height: app.fs*6
+            height: r.showAreaVideo?app.fs*6:0
             color: apps.backgroundColor
             border.width: 1
             border.color: apps.fontColor
