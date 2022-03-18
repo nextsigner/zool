@@ -35,7 +35,7 @@ Column{
     }
     ListView{
         id: lv
-        spacing: app.fs*0.25
+        spacing: app.fs*0.1
         width: r.width-app.fs*0.25//r.parent.width-r.border.width*2
         height: xLatDer.height-headerLv.height
         delegate: compItemList
@@ -65,8 +65,14 @@ Column{
         Rectangle{
             id: xItem
             width: lv.width
-            height: !app.ev?txtData.contentHeight+app.fs*0.1:colTxtEV.height+app.fs*0.1//app.fs*0.6//txtData.contentHeight+app.fs*0.1
-            //color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.fontColor:apps.backgroundColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.fontColor:apps.backgroundColor)
+            height: !app.ev?
+                        //Mostrando 1 columna de datos.
+                        (index===panelDataBodies.currentIndex?(colTxtSelected.height+app.fs*0.1):
+                        (txtData.contentHeight+app.fs*0.1)):
+
+                        //Mostrando 2 columas de Datos
+                        (colTxtEV.height+app.fs*0.1)
+
             color: !r.isBack?(index===panelDataBodies.currentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.fontColor:apps.backgroundColor):(index===panelDataBodies.currentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.fontColor:apps.backgroundColor)
             border.width: 1
             border.color: !r.isBack?apps.houseColor:apps.houseColorBack
@@ -85,11 +91,10 @@ Column{
                 //text: sd
                 font.pixelSize: app.fs
                 textFormat: Text.RichText
-                //color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
                 color: !r.isBack?(index===panelDataBodies.currentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===panelDataBodies.currentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
                 horizontalAlignment: Text.AlignHCenter
                 anchors.centerIn: parent
-                visible: !app.ev
+                visible: !app.ev && index!==panelDataBodies.currentIndex
                 onVisibleChanged: {
                     if(!visible){
                         //font.pixelSize=app.fs
@@ -106,15 +111,53 @@ Column{
                 }
             }
             Column{
+                id: colTxtSelected
+                anchors.centerIn: parent
+                visible: !app.ev && index===panelDataBodies.currentIndex
+                Text {
+                    id: txtDataSelected1
+                    font.pixelSize: app.fs
+                    textFormat: Text.RichText
+                    color: !r.isBack?(index===panelDataBodies.currentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===panelDataBodies.currentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
+                    horizontalAlignment: Text.AlignHCenter
+                    //anchors.centerIn: parent
+                    visible: !app.ev
+                    Timer{
+                        running: parent.width>xItem.width-app.fs*0.1 && !app.ev
+                        repeat: true
+                        interval: 50
+                        onTriggered: {
+                            tShow.restart()
+                            parent.font.pixelSize-=1
+                        }
+                    }
+                }
+                Text {
+                    id: txtDataSelected2
+                    font.pixelSize: app.fs
+                    textFormat: Text.RichText
+                    color: !r.isBack?(index===panelDataBodies.currentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===panelDataBodies.currentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
+                    horizontalAlignment: Text.AlignHCenter
+                    //anchors.centerIn: parent
+                    visible: !app.ev
+                    Timer{
+                        running: parent.width>xItem.width-app.fs*0.1 && !app.ev
+                        repeat: true
+                        interval: 50
+                        onTriggered: {
+                            tShow.restart()
+                            parent.font.pixelSize-=1
+                        }
+                    }
+                }
+            }
+            Column{
                 id: colTxtEV
                 anchors.centerIn: parent
                 Text {
                     id: txtDataEV
                     font.pixelSize: app.fs//*0.4
-                    //width: lv.width-app.fs*0.1
-                    //wrapMode: Text.WordWrap
                     textFormat: Text.RichText
-                    //color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
                     color: !r.isBack?(index===panelDataBodies.currentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===panelDataBodies.currentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
                     horizontalAlignment: Text.AlignHCenter
                     anchors.horizontalCenter: parent.horizontalCenter
@@ -134,7 +177,6 @@ Column{
                     id: txtDataEV2
                     font.pixelSize: app.fs//*0.4
                     textFormat: Text.RichText
-                    //color: !r.isBack?(index===app.currentPlanetIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===app.currentPlanetIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
                     color: !r.isBack?(index===panelDataBodies.curentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===panelDataBodies.curentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
                     horizontalAlignment: Text.AlignHCenter
                     //anchors.centerIn: parent
@@ -155,50 +197,52 @@ Column{
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    if(index>16){
-                        if(!r.isBack){
-                            sweg.objHousesCircle.currentHouse=index-16
-                        }else{
-                            sweg.objHousesCircleBack.currentHouse=index-16
+                    if (mouse.modifiers & Qt.ControlModifier) {
+                        if(index<=16){
+                            JS.showIW()
                         }
                     }else{
-                        if(!r.isBack){
-                            if(app.currentPlanetIndex!==index){
-                                app.currentPlanetIndex=index
+                        if(index>16){
+                            if(!r.isBack){
+                                sweg.objHousesCircle.currentHouse=index-16
                             }else{
-                                app.currentPlanetIndex=-1
-                                sweg.objHousesCircle.currentHouse=-1
+                                sweg.objHousesCircleBack.currentHouse=index-16
                             }
                         }else{
-                            if(app.currentPlanetIndexBack!==index){
-                                app.currentPlanetIndexBack=index
+                            if(!r.isBack){
+                                if(app.currentPlanetIndex!==index){
+                                    app.currentPlanetIndex=index
+                                    panelDataBodies.currentIndex=index
+                                }else{
+                                    app.currentPlanetIndex=-1
+                                    panelDataBodies.currentIndex=-1
+                                    sweg.objHousesCircle.currentHouse=-1
+                                }
                             }else{
-                                app.currentPlanetIndexBack=-1
-                                sweg.objHousesCircleBack.currentHouse=-1
+                                if(app.currentPlanetIndexBack!==index){
+                                    app.currentPlanetIndexBack=index
+                                    panelDataBodies.currentIndexBack=index
+                                }else{
+                                    app.currentPlanetIndexBack=-1
+                                    panelDataBodies.currentIndexBack=-1
+                                    sweg.objHousesCircleBack.currentHouse=-1
+                                }
                             }
                         }
-                    }
-                }
-                onDoubleClicked: {
-                    if(index<=16){
-                        JS.showIW()
+                        apps.zFocus='xLatDer'
                     }
                 }
             }
-            //            Rectangle{
-            //                width: 50
-            //                height: 50
-            //                color: 'red'
-            //                visible: index>16
-            //            }
             Component.onCompleted: {
                 txtData.text=sd.replace(/ @ /g, ' ')
                 let m0=sd.split(' @ ')
                 txtDataEV.text=m0[0]//sd.replace(/ @ /g, '<br />')
                 if(m0[1]){
                     txtDataEV2.text=m0[1]
+                    txtDataSelected1.text=m0[0]
+                    txtDataSelected2.text=m0[1]
                 }else{
-                    log.ls('sd: '+sd, 0, 500)
+                    //log.ls('sd: '+sd, 0, 500)
                 }
 
                 //cantTextSized++

@@ -252,6 +252,7 @@ Item {
                     id: aspsCircle
                     rotation: signCircle.rot - 90// + 1
                 }
+                AscMcCircle{id: ascMcCircle}
                 PlanetsCircle{
                     id:planetsCircle
                     height: width
@@ -265,7 +266,6 @@ Item {
                     anchors.centerIn: parent
                     visible: app.ev
                 }
-                AscMcCircle{id: ascMcCircle}
                 EclipseCircle{
                     id: eclipseCircle
                     width: housesCircle.width

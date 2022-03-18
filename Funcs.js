@@ -163,7 +163,7 @@ function getJSON(fileLocation, comp, s, c, nomCuerpo) {
 
     //let jsonFileUrl='file:./quiron/data/'+fileLocation
     let msr=new Date(Date.now()).getTime()
-    let jsonFileUrl='https://github.com/nextsigner/quiron/raw/master/data/'+fileLocation+'?r='+msr
+    let jsonFileUrl=apps.hostQuiron+'/'+fileLocation+'?r='+msr
 
     console.log('jsonFileUrl: '+jsonFileUrl)
     request.open('GET', jsonFileUrl, true);

@@ -199,6 +199,7 @@ AppWin {
         property int fs: app.width*0.02
         property int fsSbValue: 50
         property string host: 'http://localhost'
+        property string hostQuiron: 'https://github.com/nextsigner/quiron/raw/master/data'
         property bool newClosed: false
 
         property string url: ''
