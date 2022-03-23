@@ -10,7 +10,8 @@ Item {
     property int wb: apps.widthHousesAxis
     property int gr: 0
     property int n: -1
-    property int w: housesCircle.currentHouse!==n?housesCircle.w*0.5:sweg.fs*6.5
+    //property int w: housesCircle.currentHouse!==n?housesCircle.w*0.5:sweg.fs*6.5
+    property int w: app.fs
     property int c: 0
     //property var colors: ['red', '#FBE103', '#09F4E2', '#0D9FD6','red', '#FBE103', '#09F4E2', '#0D9FD6','red', '#FBE103', '#09F4E2', '#0D9FD6']
     property var colors: [apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor, apps.houseColor]
@@ -312,11 +313,18 @@ Item {
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
-                    sweg.state=sweg.aStates[1]
-                    //swegz.sweg.state=sweg.aStates[1]
-                    let ni=sweg.objHousesCircle.currentHouse!==r.n?r.n:-1
+                    var ni=-1
+                    ni=sweg.objHousesCircle.currentHouse!==r.n?r.n:-1
                     sweg.objHousesCircle.currentHouse=ni
-                    //swegz.sweg.objHousesCircle.currentHouse=ni
+//                    if(sweg.state!==sweg.aStates[1]){
+//                        sweg.state=sweg.aStates[1]
+//                        ni=sweg.objHousesCircle.currentHouse!==r.n?r.n:-1
+//                        sweg.objHousesCircle.currentHouse=ni
+//                        //swegz.sweg.objHousesCircle.currentHouse=ni
+//                    }else{
+//                        sweg.state=sweg.aStates[0]
+//                        sweg.objHousesCircle.currentHouse=-1
+//                    }
                 }
             }
             XText{
@@ -362,7 +370,7 @@ Item {
     }
     Timer{
         id: tc
-        running: r.selected && !apps.xAsShowIcon
+        running: r.selected //&& !apps.xAsShowIcon
         repeat: true
         interval: 350
         onTriggered: {
@@ -371,7 +379,7 @@ Item {
     }
     Timer{
         id: tc2
-        running: apps.xAsShowIcon
+        //running: apps.xAsShowIcon
         repeat: true
         interval: 350
         onRunningChanged: {

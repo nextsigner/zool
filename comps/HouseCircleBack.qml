@@ -2,7 +2,7 @@ import QtQuick 2.0
 //import "./comps" as Comps
 Item {
     id: r
-    width: sweg.parent.height*apps.sweMargin-app.fs*16
+    width: sweg.parent.height*apps.sweMargin//-apps.*16
     visible: false
 //    Rectangle{
 //        anchors.fill: r

@@ -39,6 +39,9 @@ Rectangle {
         width: r.width
         height: width
         color: apps.backgroundColor
+        border.width: 1
+        border.color: 'yellow'
+
         radius: width*0.5
         anchors.centerIn: r
         //visible: !app.ev?apps.showAspCircle:(apps.showAspCircle && apps.showAspCircleBack)
@@ -49,6 +52,8 @@ Rectangle {
         height: width
         //color: app.ev?'red':'blue'//apps.backgroundColor//'black'
         color: apps.backgroundColor
+        //border.width: 10
+        //border.color: 'yellow'
         radius: width*0.5
         anchors.centerIn: r
         property var json

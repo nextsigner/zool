@@ -5,13 +5,16 @@ import "./comps" as Comps
 
 Item {
     id: r
-    width: !app.ev?parent.height*apps.sweMargin-app.fs*6:housesCircleBack.width-housesCircleBack.extraWidth-fs
+    width: !app.ev?
+               parent.height*apps.sweMargin-app.fs*6:
+               //app.fs*30
+               housesCircleBack.width-housesCircleBack.extraWidth-fs
     height: width
     //anchors.centerIn: parent
     anchors.verticalCenter: parent.verticalCenter
     anchors.horizontalCenter: parent.horizontalCenter
     anchors.horizontalCenterOffset: sweg.fs
-    clip: true
+    //clip: true
     property bool zoomAndPosCentered: pinchArea.m_x1===0 && pinchArea.m_y1===0 && pinchArea.m_y2===0 && pinchArea.m_x2===0 && pinchArea.m_zoom1===0.5 && pinchArea.m_zoom2===0.5 && pinchArea.m_max===6 && pinchArea.m_min===0.5
     property real xs: scaler.xScale
     property real z1: pinchArea.m_zoom1
@@ -223,7 +226,7 @@ Item {
                     id:housesCircleBack
                     height: width
                     anchors.centerIn: signCircle
-                    w: r.fs*6
+                    w: r.fs
                     widthAspCircle: aspsCircle.width
                     visible: app.ev
                     //visible: planetsCircleBack.visible
@@ -232,9 +235,9 @@ Item {
                     id:housesCircle
                     height: width
                     anchors.centerIn: signCircle
-                    w: r.fs*6
+                    //w: r.fs*6
                     widthAspCircle: aspsCircle.width
-                    visible: r.v
+                    //visible: r.v
                 }
                 AxisCircle{id: axisCircle}
                 NumberLines{}
