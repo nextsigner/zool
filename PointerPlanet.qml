@@ -52,7 +52,9 @@ Item {
         Rectangle{
             width: r.pointerFs*3
             height: apps.pointerLineWidth
-            color: apps.pointerLineColor
+            //color: apps.pointerLineColor
+            //color: borde.border.color
+            color: rectData.border.color
             anchors.verticalCenter: parent.verticalCenter
             anchors.right: parent.horizontalCenter
             anchors.rightMargin: apps.xAsShowIcon?r.width*(r.aMargins[r.p]):r.width*0.5+sweg.fs*0.25
@@ -67,6 +69,13 @@ Item {
                 rotation: r.iconoSignRot-eje.rotation
                 anchors.horizontalCenter: parent.left
                 anchors.verticalCenter: parent.top
+                SequentialAnimation on border.color {
+                    loops: Animation.Infinite
+                    ColorAnimation { from: apps.pointerLineColor; to: apps.fontColor; duration: 200 }
+                    ColorAnimation { from: apps.fontColor; to: apps.pointerLineColor; duration: 200 }
+                    ColorAnimation { from: apps.pointerLineColor; to: apps.backgroundColor; duration: 200 }
+                    ColorAnimation { from: apps.backgroundColor; to: apps.pointerLineColor; duration: 200 }
+                }
                 Column{
                     id: col
                     spacing: r.pointerFs*0.25
@@ -183,27 +192,27 @@ Item {
                     }
                 }
             }
-            Canvas {
-                id:canvasSen
+            Item{
                 width: apps.pointerLineWidth*4
                 height: width
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.right: parent.right
-                anchors.rightMargin: 0-width*0.5
-                rotation: 180
-                antialiasing: true
-                onPaint:{
-                    var ctx = canvasSen.getContext('2d');
-                    ctx.beginPath();
-                    ctx.moveTo(0, canvasSen.width*0.5);
-                    ctx.lineTo(canvasSen.width, 0);
-                    ctx.lineTo(canvasSen.width, canvasSen.width);
-                    ctx.lineTo(0, canvasSen.width*0.5);
-                    ctx.strokeStyle = apps.pointerLineColor
-                    ctx.lineWidth = 1//canvasSen.parent.height;
-                    ctx.fillStyle = apps.pointerLineColor
-                    ctx.fill();
-                    ctx.stroke();
+                anchors.rightMargin: 0-width*0.3
+                rotation: 90
+                Image{
+                    id: imgFlecha
+                    source: './resources/imgs/flecha.svg'
+                    width: parent.width
+                    height: width
+                    anchors.centerIn: parent
+                    visible: false
+                }
+                ColorOverlay {
+                    id: co3
+                    anchors.fill: imgFlecha
+                    source: imgFlecha
+                    color: rectData.border.color
+                    antialiasing: true
                 }
             }
         }

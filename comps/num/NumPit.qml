@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Dialogs 1.2
 import "../"
 import "../../comps" as Comps
 import "../../Funcs.js" as JS
@@ -867,7 +868,7 @@ Rectangle {
                             anchors.verticalCenter: parent.verticalCenter
                             onClicked: {
                                 calc()
-                                let fn=unik.getPath(3)+'/'+(txtDataSearchNom.text).replace(/ /g,'_')+'.txt'
+                                let fn=apps.numCurrentFolder+'/'+(txtDataSearchNom.text).replace(/ /g,'_')+'.txt'
 
                                 unik.setFile(fn, getTodo())
                                 panelLog.clear()
@@ -879,6 +880,13 @@ Rectangle {
                                 }else{
                                     panelLog.cp()
                                 }
+                            }
+                        }
+                        Button{
+                            text:  'Seleccionar Carpeta'
+                            anchors.verticalCenter: parent.verticalCenter
+                            onClicked: {
+
                             }
                         }
                     }
@@ -914,6 +922,22 @@ Rectangle {
         onTriggered: {
             //calc()
         }
+    }
+    FileDialog {
+        id: fileDialogFolder
+        title: "Seleccionar Carpeta"
+        folder: apps.repLectCurrentFolder
+        selectFolder: true
+        selectMultiple: false
+        onAccepted: {
+            let u=fileDialogFolder.fileUrls[0]
+            //apps.numCurrentFolder=""+u
+
+        }
+        onRejected: {
+            console.log("Canceled")
+        }
+        //Component.onCompleted: visible = true
     }
     Component.onCompleted: {
         let date = new Date(Date.now())

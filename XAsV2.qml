@@ -8,6 +8,7 @@ Item{
     //width: parent.width-(r.fs*1.5*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)
     //width: parent.width-(r.fs*1.5*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)-widthRestDec
     //width: apps.xAsShowIcon?(parent.width-xIcon.width*0.5-(sweg.w*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)-widthRestDec):(parent.width-xIcon.width-(sweg.w*objData.p)-r.fs-(!apps.showNumberLines?0:r.fs)-widthRestDec)
+
     width: apps.xAsShowIcon?
                /*Mostrando Imagen*/
                (parent.width-(r.fs*objData.p)-sweg.objSignsCircle.w-(!apps.showNumberLines?0:r.fs*2)-widthRestDec):
@@ -32,6 +33,8 @@ Item{
     property color colorCuerpo: '#ff3300'
 
     property int uRot: 0
+
+    property bool isZoomAndPosSeted: false
 
     state: sweg.state
     states: [
@@ -244,6 +247,19 @@ Item{
             visible: r.selected
         }
     }
+    Comps.XCircleSignal{
+        id: xCircleSignal
+        width: app.fs*16
+        height: width
+        anchors.centerIn: xIcon
+        visible: r.selected && !r.isZoomAndPosSeted
+    }
+    Timer{
+        running: !r.isZoomAndPosSeted && r.selected
+        repeat: true
+        interval: 1000
+        onTriggered: setZoomAndPos()
+    }
     function rot(d){
         if(d){
                 pointerPlanet.pointerRot+=5
@@ -292,6 +308,9 @@ Item{
         let json=JSON.parse(app.fileData)
         if(json.zoompos&&json.zoompos['zpc'+r.numAstro]){
             sweg.setZoomAndPos(json.zoompos['zpc'+r.numAstro])
+            r.isZoomAndPosSeted=true
+        }else{
+            r.isZoomAndPosSeted=false
         }
     }
 }

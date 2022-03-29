@@ -130,6 +130,7 @@ AppWin {
     property bool sspEnabled: false
 
     onCurrentPlanetIndexChanged: {
+        panelDataBodies.currentIndex=currentPlanetIndex
         if(currentPlanetIndex>=0)app.currentPlanetIndexBack=-1
         if(sspEnabled){
             if(currentPlanetIndex>=-1&&currentPlanetIndex<10){
@@ -152,6 +153,7 @@ AppWin {
         }
     }
     onCurrentPlanetIndexBackChanged: {
+        panelDataBodies.currentIndexBack=currentPlanetIndexBack
         if(currentPlanetIndexBack>=0)app.currentPlanetIndex=-1
     }
     onCurrentGmtChanged: {
@@ -318,6 +320,7 @@ AppWin {
         property string jsonsFolder: documentsPath
 
         //Num
+        property string numCurrentFolder: unik.getPath(3)
         property string numUFecha
         property string numUNom
         property string numUFirma

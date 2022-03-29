@@ -176,8 +176,8 @@ Column{
                 Text {
                     id: txtDataEV2
                     font.pixelSize: app.fs//*0.4
-                    textFormat: Text.RichText
-                    color: !r.isBack?(index===panelDataBodies.curentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===panelDataBodies.curentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
+                    textFormat: Text.RichText                    
+                    color: !r.isBack?(index===panelDataBodies.currentIndex||(index>16&&sweg.objHousesCircle.currentHouse===index-16)?apps.backgroundColor:apps.fontColor):(index===panelDataBodies.currentIndexBack||(index>16&&sweg.objHousesCircleBack.currentHouse===index-16)?apps.backgroundColor:apps.fontColor)
                     horizontalAlignment: Text.AlignHCenter
                     //anchors.centerIn: parent
                     visible: app.ev

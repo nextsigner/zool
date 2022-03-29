@@ -112,11 +112,11 @@ Rectangle {
             if(xBodiesExt.currentIndex>16){
                 sweg.objHousesCircle.currentHouse=xBodiesExt.currentIndex-16
             }else{
-                if(app.currentPlanetIndex!==xBodiesExt.currentIndex){
-                    app.currentPlanetIndex=xBodiesExt.currentIndex
+                if(app.currentPlanetIndexBack!==xBodiesExt.currentIndex){
+                    app.currentPlanetIndexBack=xBodiesExt.currentIndex
                 }else{
-                    app.currentPlanetIndex=-1
-                    sweg.objHousesCircle.currentHouse=-1
+                    app.currentPlanetIndexBack=-1
+                    sweg.objHousesCircleBack.currentHouse=-1
                 }
             }
         }
