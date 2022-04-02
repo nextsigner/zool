@@ -285,10 +285,10 @@ ApplicationWindow {
                 xBottomBar.objPanelCmd.state='hide'
                 return
             }
-            if(panelRsList.state==='show'){
-                panelRsList.state='hide'
-                return
-            }
+//            if(panelRsList.state==='show'){
+//                panelRsList.state='hide'
+//                return
+//            }
             if(panelFileLoader.state==='show'){
                 panelFileLoader.state='hide'
                 return
@@ -351,7 +351,7 @@ ApplicationWindow {
                     }
                     return
                 }
-                if(panelRsList.state==='show'){
+                if(apps.currentSwipeViewIndex===4){
                     if(panelRsList.currentIndex>0){
                         panelRsList.currentIndex--
                     }else{
@@ -415,7 +415,7 @@ ApplicationWindow {
                     }
                     return
                 }
-                if(panelRsList.state==='show'){
+                if(apps.currentSwipeViewIndex===4){
                     if(panelRsList.currentIndex<panelRsList.listModel.count-1){
                         panelRsList.currentIndex++
                     }else{
@@ -679,7 +679,9 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Ctrl+r'
         onActivated: {
-            panelRsList.state=panelRsList.state==='show'?'hide':'show'
+            //panelRsList.state=panelRsList.state==='show'?'hide':'show'
+            apps.zFocus='xMed'
+            sv.currentIndex=4
         }
     }
     //Mostrar Panel de Aspectos en Transito
