@@ -410,4 +410,7 @@ Rectangle {
             xBottomBar.objPanelCmd.makeRSBack(lv.itemAtIndex(lv.currentIndex).rsDate)
         }
     }
+    function desactivar(){
+        tiEdad.focus=false
+    }
 }

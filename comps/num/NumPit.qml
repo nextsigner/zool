@@ -15,6 +15,7 @@ Rectangle {
     property string jsonNum: ''
     property var aDes: ['dato1', 'dato2', 'dato3', 'dato4', 'dato5', 'dato6', 'dato7', 'dato8', 'dato9']
 
+    //property var currentDate
     property var currentDate
     property int currentNum: 0
 
@@ -86,6 +87,7 @@ Rectangle {
         currentNumNacimiento=aGetNums[0]
         r.currentNumNatalicio=d
         r.sFormulaNatalicio=aGetNums[1]
+        labelFNTS.text=currentDate.toString()
     }
     MouseArea{
         anchors.fill: parent
@@ -119,23 +121,23 @@ Rectangle {
                             id: colFN
                             spacing: app.fs*0.5
                             anchors.centerIn: parent
-                            Row{
+                            Column{
                                 spacing: app.fs*0.25
                                 Text{
                                     id: labelFN
-                                    text: '<b>Fecha de Nacimiento:</b>'
+                                    text: '<b>Fecha de Nacimiento</b>'
                                     color: apps.fontColor
                                     font.pixelSize: app.fs*0.5
-                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
                                 }
                                 Rectangle{
                                     id:xTiFecha
-                                    width: xForm.width-labelFN.width-app.fs
+                                    width: r.width-app.fs
                                     height: app.fs*1.2
                                     color: apps.backgroundColor
                                     border.width: 2
                                     border.color: apps.fontColor
-                                    anchors.verticalCenter: parent.verticalCenter
+                                    anchors.horizontalCenter: parent.horizontalCenter
                                     TextInput {
                                         id: txtDataSearchFecha
                                         text: apps.numUFecha
@@ -153,72 +155,6 @@ Rectangle {
                                         }
                                         onTextChanged: {
                                             calc()
-                                            //setNumNac()
-                                            //                                            let mfecha=text.split('.')
-                                            //                                            if(!mfecha[0]||!mfecha[1]||!mfecha[2]||mfecha[2].length<4){
-                                            //                                                f0.text=''
-                                            //                                                currentNumNacimiento=-1
-                                            //                                                return
-                                            //                                            }
-                                            //                                            let d=mfecha[0]
-                                            //                                            let m=mfecha[1]
-                                            //                                            let a = mfecha[2]
-                                            //                                            let sf=''+d+'/'+m+'/'+a
-                                            //                                            let aGetNums=JS.getNums(sf)
-                                            //                                            currentNumNacimiento=aGetNums[0]
-                                            //                                            let dateP = new Date(parseInt(txtDataSearchFechaAP.text), m - 1, d, 0, 1)
-                                            //                                            //controlTimeYear.currentDate=dateP
-                                            //                                            r.currentDate = dateP
-                                            //                                            let msfd=(''+d).split('')
-                                            //                                            let sfd=''+msfd[0]
-                                            //                                            if(msfd.length>1){
-                                            //                                                sfd +='+'+msfd[1]
-                                            //                                            }
-                                            //                                            let msfm=(''+m).split('')
-                                            //                                            let sfm=''+msfm[0]
-                                            //                                            if(msfm.length>1){
-                                            //                                                sfm +='+'+msfm[1]
-                                            //                                            }
-                                            //                                            //let msform=(''+a).split('')
-                                            //                                            let msfa=(''+a).split('')
-                                            //                                            let sfa=''+msfa[0]
-                                            //                                            if(msfa.length>1){
-                                            //                                                sfa +='+'+msfa[1]
-                                            //                                            }
-                                            //                                            if(msfa.length>2){
-                                            //                                                sfa +='+'+msfa[2]
-                                            //                                            }
-                                            //                                            if(msfa.length>3){
-                                            //                                                sfa +='+'+msfa[3]
-                                            //                                            }
-                                            //                                            let sform= sfd + '+' + sfm + '+' + sfa//msform[0] + '+' + msform[1] + '+'  + msform[2]+ '+'  + msform[3]
-                                            //                                            let sum=0
-                                            //                                            let mSum=sform.split('+')
-                                            //                                            for(var i=0;i<mSum.length;i++){
-                                            //                                                sum+=parseInt(mSum[i])
-                                            //                                            }
-                                            //                                            let mCheckSum=(''+sum).split('')
-                                            //                                            if(mCheckSum.length>1){
-                                            //                                                if(sum===11||sum===22||sum===33){
-                                            //                                                    //r.esMaestro=true
-                                            //                                                }
-                                            //                                                let dobleDigSum=parseInt(mCheckSum[0])+parseInt(mCheckSum[1])
-                                            //                                                sform+='='+sum+'='+dobleDigSum
-                                            //                                                let mCheckSum2=(''+dobleDigSum).split('')
-                                            //                                                if(mCheckSum2.length>1){
-                                            //                                                    let dobleDigSum2=parseInt(mCheckSum2[0])+parseInt(mCheckSum2[1])
-                                            //                                                    sform+='='+dobleDigSum2
-                                            //                                                    currentNumNacimiento=dobleDigSum2
-                                            //                                                }else{
-                                            //                                                    currentNumNacimiento=dobleDigSum
-                                            //                                                }
-
-                                            //                                            }else{
-                                            //                                                currentNumNacimiento=sum
-                                            //                                            }
-                                            //                                            f0.text=sform
-                                            //                                            apps.numUFecha=txtDataSearchFecha.text
-                                            //                                            calcularAP()
                                         }
                                         onFocusChanged: {
                                             if(focus)selectAll()
@@ -235,19 +171,73 @@ Rectangle {
                                     }
                                 }
                             }
-
-                            Text{
-                                id: labelFNTS
-                                text: r.currentDate?r.currentDate.toString():''
-                                color: apps.fontColor
-                                font.pixelSize: app.fs*0.25
+                            Item{
+                                width: app.fs
+                                height: width
                                 anchors.horizontalCenter: parent.horizontalCenter
+                                Text{
+                                    id: labelFNTS
+                                    text: r.currentDate?r.currentDate.toString():''
+                                    color: apps.fontColor
+                                    font.pixelSize: app.fs*0.25
+                                    anchors.centerIn: parent
+                                    onTextChanged: {
+                                        font.pixelSize=app.fs*1.5
+                                        opacity=0.0
+                                    }
+                                    Timer{
+                                        id: tShow
+                                        running: false
+                                        repeat: false
+                                        interval: 500
+                                        onTriggered: {
+                                            parent.opacity=1.0
+                                        }
+                                    }
+                                    Timer{
+                                        running: parent.width>r.width-app.fs
+                                        repeat: true
+                                        interval: 50
+                                        onTriggered: {
+                                            tShow.restart()
+                                            parent.font.pixelSize-=1
+                                        }
+                                    }
+                                }
                             }
-                            Text{
-                                id: f0
-                                color: apps.fontColor
-                                font.pixelSize: app.fs*0.6
+                            Item{
+                                width: app.fs
+                                height: width
                                 anchors.horizontalCenter: parent.horizontalCenter
+                                Text{
+                                    id: f0
+                                    color: apps.fontColor
+                                    font.pixelSize: app.fs*0.6
+                                    anchors.centerIn: parent
+                                    onTextChanged: {
+                                        font.pixelSize=app.fs*1.5
+                                        opacity=0.0
+                                    }
+                                    Timer{
+                                        id: tShowForm
+                                        running: false
+                                        repeat: false
+                                        interval: 500
+                                        onTriggered: {
+                                            parent.opacity=1.0
+                                        }
+                                    }
+                                    Timer{
+                                        running: parent.width>r.width-app.fs
+                                        repeat: true
+                                        interval: 50
+                                        onTriggered: {
+                                            tShowForm.restart()
+                                            parent.font.pixelSize-=1
+                                        }
+                                    }
+
+                                }
                             }
                             Row{
                                 spacing: app.fs*0.5
@@ -815,21 +805,21 @@ Rectangle {
                             onCheckedChanged: apps.numShowFormula=checked
                         }
                     }
-//                    Row{
-//                        spacing: app.fs*0.25
-//                        anchors.horizontalCenter: parent.horizontalCenter
-//                        Button{
-//                            text:  'Natalicio'
-//                            anchors.verticalCenter: parent.verticalCenter
-//                            onClicked: {
-//                                if(txtDataSearchNom.text==='')return
-//                                panelLog.clear()
-//                                panelLog.l(getDataJsonNumDia())
-//                                panelLog.visible=true
-//                                panelLog.flk.contentY=0
-//                            }
-//                        }
-//                    }
+                    //                    Row{
+                    //                        spacing: app.fs*0.25
+                    //                        anchors.horizontalCenter: parent.horizontalCenter
+                    //                        Button{
+                    //                            text:  'Natalicio'
+                    //                            anchors.verticalCenter: parent.verticalCenter
+                    //                            onClicked: {
+                    //                                if(txtDataSearchNom.text==='')return
+                    //                                panelLog.clear()
+                    //                                panelLog.l(getDataJsonNumDia())
+                    //                                panelLog.visible=true
+                    //                                panelLog.flk.contentY=0
+                    //                            }
+                    //                        }
+                    //                    }
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -1508,6 +1498,7 @@ Rectangle {
         setNumNac()
         let dataNombre=getNumNomText(txtDataSearchNom.text)
         setPins()
+        labelFNTS.text=r.currentDate?r.currentDate.toString():''
     }
     function getTodo(){
         let ret=''
@@ -1660,5 +1651,11 @@ Rectangle {
             tPin=parseInt(m0[0])+parseInt(m0[1])
         }
         r.currentTipoPin4=tPin
+    }
+    function enter(){
+        if(txtDataSearchFecha.focus){
+            calc()
+            return
+        }
     }
 }

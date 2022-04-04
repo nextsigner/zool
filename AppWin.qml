@@ -171,6 +171,7 @@ ApplicationWindow {
                 panelDataBodies.toEnter()
                 return
             }
+            if(apps.zFocus==='xLatIzq'){
             if(apps.currentSwipeViewIndex===2&&panelFileLoader.currentIndex>=0){
                 panelFileLoader.enter()
                 return
@@ -182,6 +183,11 @@ ApplicationWindow {
             if(apps.currentSwipeViewIndex===4){
                 panelRsList.enter()
                 return
+            }
+            if(apps.currentSwipeViewIndex===5){
+                ncv.enter()
+                return
+            }
             }
         }
     }

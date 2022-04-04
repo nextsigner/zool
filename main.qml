@@ -214,6 +214,7 @@ AppWin {
         //Paneles
         property string panelRemotoState: 'show'
         property int currentSwipeViewIndex: 0
+        property int currentZoolTextRectCamHeight: app.fs*6
 
         //Houses
         property string defaultHsys: 'P'
@@ -235,7 +236,6 @@ AppWin {
         property color pointerLineColor: 'red'
         property int pointerLineWidth: 4
         property bool xAsShowIcon: false
-
 
         //Asp
         property int aspLineWidth: 6
@@ -330,6 +330,7 @@ AppWin {
         onZFocusChanged: {
             if(zFocus==='xMed'||zFocus==='xLatDer'){
                 panelFileLoader.ti.focus=false
+                panelRsList.desactivar()
             }else{
                 if(sv.currentIndex===2){
                     panelFileLoader.ti.focus=true
@@ -453,11 +454,13 @@ AppWin {
                         id: sv
                         property int currentIndex: apps.currentSwipeViewIndex
                         property int count: indicatorSV.count
-                        onCurrentIndexChanged: apps.currentSwipeViewIndex=currentIndex
+                        onCurrentIndexChanged:{
+                            apps.currentSwipeViewIndex=currentIndex
+                            panelRsList.desactivar()
+                        }
                         width: xApp.width*0.5
                         height: xLatIzq.height-indicatorSV.height-xPanelesTits.height
                         clip: true
-
                         XPaneles{Comps.PanelZoolText{id: panelZoolText;itemIndex: 0}}
                         XPaneles{PanelSabianos{id: panelSabianos;itemIndex: 1}}
                         XPaneles{PanelFileLoader{id: panelFileLoader;itemIndex: 2}}

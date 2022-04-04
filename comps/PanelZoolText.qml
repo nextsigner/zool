@@ -93,10 +93,52 @@ Rectangle{
         Rectangle{
             id: cameraArea
             width: r.width
-            height: r.showAreaVideo?app.fs*6:0
+            height: r.showAreaVideo?apps.currentZoolTextRectCamHeight:1
             color: apps.backgroundColor
-            border.width: 1
+            border.width: cameraArea.height===1?0:1
             border.color: apps.fontColor
+            MouseArea{
+                width: cameraArea.width
+                height: cameraArea.height===1?app.fs:cameraArea.height
+                anchors.bottom: parent.bottom
+                //anchors.topMargin: cameraArea.height===0?0-app.fs:0
+                onWheel: {
+                    if(wheel.angleDelta.y>=0){
+                        if(apps.currentZoolTextRectCamHeight<xApp.height*0.5){
+                            apps.currentZoolTextRectCamHeight++
+                        }
+                    }else{
+                        if(apps.currentZoolTextRectCamHeight>app.fs*3){
+                            apps.currentZoolTextRectCamHeight--
+                        }
+                    }
+                }
+                onClicked: {
+                    if (mouse.modifiers & Qt.ControlModifier) {
+                        apps.repLectW=r.width-r.border.width*2
+                        apps.repLectH=cameraArea.height
+                        apps.repLectX=r.border.width
+                        apps.repLectY=xApp.height-apps.repLectH
+                        return
+                    }
+                    if(cameraArea.height===1){
+                        cameraArea.height=apps.currentZoolTextRectCamHeight
+                    }else{
+                        cameraArea.height=1
+                    }
+                }
+            }
+            Timer{
+                running: apps.repLectX>r.width-app.fs*2 || apps.repLectY>xApp.height-app.fs*2
+                repeat: false
+                interval: 3000
+                onTriggered: {
+                    apps.repLectW=r.width-r.border.width*2
+                    apps.repLectH=cameraArea.height
+                    apps.repLectX=r.border.width
+                    apps.repLectY=xApp.height-apps.repLectH
+                }
+            }
         }
     }
     function loadZoolText(){
