@@ -85,6 +85,7 @@ AppWin {
 
     property var signos: ['Aries', 'Tauro', 'Géminis', 'Cáncer', 'Leo', 'Virgo', 'Libra', 'Escorpio', 'Sagitario', 'Capricornio', 'Acuario', 'Piscis']
     property var planetas: ['Sol', 'Luna', 'Mercurio', 'Venus', 'Marte', 'Júpiter', 'Saturno', 'Urano', 'Neptuno', 'Plutón', 'N.Norte', 'N.Sur', 'Quirón', 'Selena', 'Lilith']
+    property var planetasArchivos: ['sol', 'luna', 'mercurio', 'venus', 'marte', 'jupiter', 'saturno', 'urano', 'neptuno', 'pluton', 'nodo_norte', 'nodo_sur', 'quiron', 'selena', 'lilith', 'asc', 'mc']
     property var planetasRes: ['sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto', 'n', 's', 'hiron', 'selena', 'lilith']
     property var objSignsNames: ['ari', 'tau', 'gem', 'cnc', 'leo', 'vir', 'lib', 'sco', 'sgr', 'cap', 'aqr', 'psc']
     property var signColors: ['red', '#FBE103', '#09F4E2', '#0D9FD6','red', '#FBE103', '#09F4E2', '#0D9FD6','red', '#FBE103', '#09F4E2', '#0D9FD6']
@@ -471,6 +472,7 @@ AppWin {
                         XPaneles{Num.NumPit{id: ncv;itemIndex: 6}}
                         XPaneles{PanelBotsFuncs{id: panelBotsFuncs;itemIndex: 7}}
                         XPaneles{PanelRemotoV2{id: panelRemoto;itemIndex: 8}}
+                        XPaneles{Comps.PanelZoolData{id: panelZoolData;itemIndex: 9}}
                         //XPaneles{PanelVideoLectura{id: panelVideLectura;itemIndex: 9}}
                     }
                     Rectangle{
