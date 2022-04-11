@@ -283,6 +283,10 @@ AppWin {
         property string repLectCurrentVidIntro: ''
         property string repLectCurrentVidClose: ''
 
+        //Reproductor Audio Texto a Voz
+        property url repAudioTAVCurrentFolder: documentsPath+'/audio'
+
+
         property int lupaMod: 2
         property int lupaBorderWidth: 3
         property string lupaColor: "white"
@@ -443,7 +447,7 @@ AppWin {
                         height: app.fs*1.2
                         color: apps.fontColor
                         anchors.horizontalCenter: parent.horizontalCenter
-                        property var aPanelesTits: ['Información','Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Aspecto en Tránsito', 'Numerología', 'Funciones', 'Opciones']
+                        property var aPanelesTits: ['Información','Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Aspecto en Tránsito', 'Numerología', 'Funciones', 'Opciones', 'Texto a voz']
                         Text{
                             text: parseInt(sv.currentIndex + 1)+': '+xPanelesTits.aPanelesTits[sv.currentIndex]
                             color: apps.backgroundColor
