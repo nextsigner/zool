@@ -58,9 +58,28 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Space'
         onActivated: {
+            if(apps.zFocus==='xLatIzq'){
+                if(sv.currentIndex===9){
+                    panelZoolData.tooglePlayPause()
+                }
+            }
             apps.xAsShowIcon=!apps.xAsShowIcon
         }
     }
+
+    Shortcut{
+        sequence: 'Ctrl+w'
+        onActivated: {
+            minymaClient.test()
+        }
+    }
+    Shortcut{
+        sequence: 'Ctrl+Shift+w'
+        onActivated: {
+            wsio.sendData(wsio.userId, 'zool_editor', 'openPlanet|1|3')
+        }
+    }
+
 
     Shortcut{
         sequence: 'Ctrl+Space'
@@ -640,12 +659,12 @@ ApplicationWindow {
         }
     }
     //Mostrar Panel PL Signos
-    Shortcut{
-        sequence: 'Ctrl+w'
-        onActivated: {
-            panelControlsSign.state=panelControlsSign.state==='show'?'hide':'show'
-        }
-    }
+//    Shortcut{
+//        sequence: 'Ctrl+w'
+//        onActivated: {
+//            panelControlsSign.state=panelControlsSign.state==='show'?'hide':'show'
+//        }
+//    }
     //Mostrar Panel Editor de Pronósticos
     Shortcut{
         sequence: 'Ctrl+e'

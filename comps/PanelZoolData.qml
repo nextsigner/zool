@@ -441,8 +441,8 @@ Rectangle{
         }
     }
     Component.onCompleted: {
-        sv.currentIndex=9
-        log.ls('Folder TAV: '+apps.repAudioTAVCurrentFolder, 0, 500)
+        //sv.currentIndex=9
+        //log.ls('Folder TAV: '+apps.repAudioTAVCurrentFolder, 0, 500)
         let f=(''+apps.repAudioTAVCurrentFolder).replace('file://', '')
         if(!unik.folderExist(documentsPath)){
             unik.mkdir(documentsPath)
@@ -512,5 +512,14 @@ Rectangle{
             runCmd()
         }
         //currentCmdCompleted
+    }
+
+    //Funciones del Reproductor
+    function tooglePlayPause(){
+        if(audioPlayer.playbackState===MediaPlayer.PlayingState){
+            audioPlayer.pause()
+        }else{
+            audioPlayer.play()
+        }
     }
 }

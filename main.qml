@@ -737,6 +737,10 @@ AppWin {
     //        color: 'red'
     //    }
     Comps.MenuPlanets{id: menuPlanets}
+    Comps.MinymaClient{
+        id: minymaClient
+        loginUserName: 'zool'
+    }
     Component.onCompleted: {
         //log.visible=true
         //log.l('--------->'+EXTRA.getColor(10))
