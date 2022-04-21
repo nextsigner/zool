@@ -76,7 +76,7 @@ ApplicationWindow {
     Shortcut{
         sequence: 'Ctrl+Shift+w'
         onActivated: {
-            wsio.sendData(wsio.userId, 'zool_editor', 'openPlanet|1|3')
+            //minymaClient.sendData(minymaClient.loginUserName, 'zool_data_editor', 'openPlanet|1|3|a')
         }
     }
 

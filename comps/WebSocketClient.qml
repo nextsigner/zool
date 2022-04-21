@@ -55,7 +55,12 @@ Rectangle {
                     });
                     //connect to the newMessage signal
                     ch.objects.chatserver.newMessage.connect(function(time, user, message) {
-                        r.parent.parent.newMessage(message)
+                        let json=JSON.parse(message)
+                        if(json.to===r.loginUserName){
+                            r.parent.parent.newMessageForMe(json.from, json.data)
+                        }else{
+                            r.parent.parent.newMessage(json.from, json.to, json.data)
+                        }
                         r.arrayDataList.push(message)
                     });
                     //connect to the keep alive signal
@@ -82,6 +87,7 @@ Rectangle {
         }
     }
     function loguin(){
+        if(!r.channel)return
         r.channel.objects.chatserver.login(r.loginUserName, function(arg) {
             //check the return value for success
             if (arg === true) {

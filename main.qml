@@ -740,6 +740,13 @@ AppWin {
     Comps.MinymaClient{
         id: minymaClient
         loginUserName: 'zool'
+        onNewMessage: {
+            let json=JSON.parse(message)
+            log.ls('Minyma: '+JSON.stringify(json), 0, 500)
+        }
+        onNewMessageForMe: {
+            log.ls('Minyma For Me: '+JSON.stringify(json), 0, 500)
+        }
     }
     Component.onCompleted: {
         //log.visible=true

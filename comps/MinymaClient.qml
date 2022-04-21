@@ -13,7 +13,8 @@ Item{
 
     property var currentWsObject
 
-    signal newMessage(string message)
+    signal newMessage(string from, string to, string data)
+    signal newMessageForMe(string from, string data)
     signal errorMessage(string message)
 
     Item{
@@ -40,7 +41,7 @@ Item{
     Component.onCompleted: resetWS()
     function test(){
         let d = new Date(Date.now())
-        sendData('Test from '+r.loginUserName, 'Minyma Server', 'Run from test button of Minyma Client.\n'+d.toString())
+        sendData('Test from '+r.loginUserName, 'Minyma Server', 'Run from test function of Minyma Client.\n'+d.toString())
     }
     function sendData(from, to, data){
         let json={}

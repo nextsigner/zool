@@ -69,13 +69,13 @@ Rectangle{
         }
         onPositionChanged:{
             if(position>duration-3000&&duration>=1000){
-                              tPlayTrans.start()
+                //tPlayTrans.start()
             }
         }
         playlist: Playlist{
             id: playList
             onCurrentIndexChanged: {
-                txtCurrentText.text=''+getDataIndex(r.currentP, r.currentS, r.currentH, currentIndex)
+                txtCurrentText.text=''+getDataIndex(r.currentP, r.currentS, r.currentH, currentIndex, lmCmd.get(currentIndex).tipo)
             }
         }
     }
@@ -94,6 +94,12 @@ Rectangle{
             anchors.topMargin: app.fs*0.5
             color: apps.fontColor
             visible: text!=='undefined'
+        }
+        MouseArea{
+            anchors.fill: parent
+            onClicked: {
+                minymaClient.sendData(minymaClient.loginUserName, 'zool_data_editor', 'openPlanet|'+r.currentP+'|0|'+txtCurrentText.text.substring(0,10))
+            }
         }
     }
 
@@ -118,12 +124,19 @@ Rectangle{
                     id: col100
                     spacing: app.fs*0.5
                     anchors.centerIn: parent
-                    Text{
-                        text: fileName
-                        font.pixelSize: app.fs*0.35
+                    Row{
+                        spacing: app.fs
+                        Text{
+                            text: fileName
+                            font.pixelSize: app.fs*0.35
+                        }
+                        Text{
+                            text: 'Tipo:'+tipo
+                            font.pixelSize: app.fs*0.35
+                        }
                     }
                     Text{
-                        text: url
+                        text: textData
                         font.pixelSize: app.fs*0.35
                         width: lvCmd.width-app.fs
                         wrapMode: Text.WrapAnywhere
@@ -134,14 +147,13 @@ Rectangle{
         }
         ListModel{
             id: lmCmd
-//            ListElement{
-//                fileName: "sdfafasdfsafsdf"
-//                url: "sdfsadfsad3f 2sa3f22"
-//            }
-            function addItem(fn, u){
+            property int countS: 0
+            function addItem(fn, u, t, d){
                 return {
                     fileName: fn,
-                    url: u
+                    url: u,
+                    tipo: t,
+                    textData: d
                 }
             }
         }
@@ -191,6 +203,7 @@ Rectangle{
                 Column{
                     id: colBtnsPSH
                     anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: app.fs*0.25
                     Text{
                         text: r.currentP===-1&&r.currentS===-1&&r.currentH===-1?'Seleccionar':''+app.planetas[r.currentP]+' en '+app.signos[r.currentS]+' en casa '+parseInt(r.currentH + 1)
                         font.pixelSize: app.fs*0.5
@@ -215,7 +228,7 @@ Rectangle{
                             }
                         }
                         Text{
-                            text: app.planetas[xControls.currentP]
+                            text: xControls.currentP<0?'planeta':app.planetas[xControls.currentP]
                             color: apps.fontColor
                             anchors.verticalCenter: parent.verticalCenter
                         }
@@ -246,7 +259,7 @@ Rectangle{
                             }
                         }
                         Text{
-                            text: app.signos[xControls.currentS]
+                            text: xControls.currentS<0?'signo':app.signos[xControls.currentS]
                             color: apps.fontColor
                             anchors.verticalCenter: parent.verticalCenter
                         }
@@ -263,6 +276,10 @@ Rectangle{
                             }
                         }
 
+                                            }
+                    Row{
+                        spacing: app.fs*0.25
+                        anchors.horizontalCenter: parent.horizontalCenter
                         //Cambiar H
                         ButtonIcon{
                             text: '\uf04a'
@@ -277,7 +294,7 @@ Rectangle{
                             }
                         }
                         Text{
-                            text: 'c '+parseInt(xControls.currentH)
+                            text: xControls.currentH<0?'casa':'casa '+parseInt(xControls.currentH + 1)
                             color: apps.fontColor
                             anchors.verticalCenter: parent.verticalCenter
                         }
@@ -294,12 +311,8 @@ Rectangle{
                             }
                         }
 
+                        Item{width: app.fs*0.5;height: 3}
 
-
-                    }
-                    Row{
-                        spacing: app.fs*0.25
-                        anchors.horizontalCenter: parent.horizontalCenter
                         ButtonIcon{
                             text: '\uf093'
                             width: apps.botSize*0.6
@@ -332,6 +345,7 @@ Rectangle{
                 Column{
                     id: colBtnsAP
                     anchors.horizontalCenter: parent.horizontalCenter
+                    spacing: app.fs*0.25
                     Text{
                         text: 'Reproductor de Audio'
                         font.pixelSize: app.fs*0.5
@@ -339,17 +353,11 @@ Rectangle{
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
                     Text{
-                        text: playList.currentIndex<0?'Seleccionar audio':'Audio '+playList.currentIndex+' de '+playList.itemCount
+                        text: playList.itemCount<=0?'Seleccionar audio':'Audio '+(playList.currentIndex<=0?'1':playList.currentIndex)+' de '+parseInt(playList.itemCount - 1)
                         font.pixelSize: app.fs*0.5
                         color: 'white'
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
-//                    Text{
-//                        text:'Cantidad pl: '+playList.itemCount+' Cant lv: '//+lv.count
-//                        font.pixelSize: app.fs*0.5
-//                        color: 'white'
-//                        anchors.horizontalCenter: parent.horizontalCenter
-//                    }
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -358,7 +366,7 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
-                                audioPlayer.stop()
+                                audioPlayer.pause()
                                 playList.currentIndex=0
                             }
                         }
@@ -368,10 +376,10 @@ Rectangle{
                             height: width
                             enabled: playList.currentIndex!==0
                             onClicked: {
-                                audioPlayer.stop()
                                 if(playList.currentIndex>0){
                                     playList.currentIndex--
                                 }
+                                audioPlayer.pause()
                             }
                         }
                         ButtonIcon{
@@ -400,27 +408,23 @@ Rectangle{
                             height: width
                             enabled: playList.currentIndex<playList.itemCount-1
                             onClicked: {
-
+                                if(playList.currentIndex<playList.itemCount){
+                                    playList.currentIndex++
+                                }
+                                audioPlayer.pause()
                             }
                         }
 
-//                        ButtonIcon{
-//                            text: '\uf114'
-//                            width: apps.botSize*0.6
-//                            height: width
-//                            onClicked: {
-
-//                            }
-//                        }
-//                        ButtonIcon{
-//                            text: '\uf0ca'
-//                            width: apps.botSize*0.6
-//                            height: width
-//                            onClicked: {
-
-//                            }
-//                        }
-
+                        ButtonIcon{
+                            text: '\uf049'
+                            rotation: 180
+                            width: apps.botSize*0.6
+                            height: width
+                            onClicked: {
+                                audioPlayer.pause()
+                                playList.currentIndex=playList.itemCount-1
+                            }
+                        }
                     }
                 }
             }
@@ -461,6 +465,9 @@ Rectangle{
     }
     function getData(p, s, h) {
         lmCmd.clear()
+        lmCmd.countS=0
+
+        //Cargando datos de signos
         let fileDataPath=apps.jsonsFolder+'/../zool_docs/zool_data/'+app.planetasArchivos[p]+'_s'+parseInt(s + 1)+'.txt'
         //log.ls('FilePath: '+fileDataPath, 0, 500)
         if(!unik.fileExist(fileDataPath))return
@@ -480,23 +487,58 @@ Rectangle{
             stringUrlEncoded=stringUrlEncoded.replace(/\n/g, '')
             stringUrlEncoded=encodeURI(stringUrlEncoded)
             stringUrlEncoded=stringUrlEncoded.replace(/ /g, '%20')
-            let audioFilePath=(''+apps.repAudioTAVCurrentFolder).replace('file://', '')+'/'+r.currentPSH+'_'+i+'.mp3'
+            let audioFilePath=(''+apps.repAudioTAVCurrentFolder).replace('file://', '')+'/s_'+p+'_'+s+'_'+i+'.mp3'
             //let audioFilePath='/tmp/'+r.currentPSH+'_'+i+'.mp3'
             let url='"https://text-to-speech-demo.ng.bluemix.net/api/v3/synthesize?text='+stringUrlEncoded+'&voice=es-ES_EnriqueVoice&download=true&accept=audio%2Fmp3"'
-            lmCmd.append(lmCmd.addItem(audioFilePath, url))
+            lmCmd.append(lmCmd.addItem(audioFilePath, url, 's', dl))
+            lmCmd.countS++
             //log.ls('SD:['+stringUrlEncoded+']', 0, 500)
         }
+
+        //Cargando datos de casas
+        fileDataPath=apps.jsonsFolder+'/../zool_docs/zool_data/'+app.planetasArchivos[p]+'_h'+parseInt(h + 1)+'.txt'
+        //log.ls('FilePath House: '+fileDataPath, 0, 500)
+        if(!unik.fileExist(fileDataPath))return
+        fileData=unik.getFile(fileDataPath)
+        //log.ls('Data House: '+fileData, 0, 500)
+        fileDataClasific=fileData.split('|INFORMACIÓN DESCLASIFICADA:')[0]
+        dataLines=fileDataClasific.split('|')
+        dataList=[]
+        for(i=0;i<dataLines.length;i++){
+            let dl=(''+dataLines[i]).replace(/\n/g, '')
+            //lmCmd.append(lmCmd.addItem("-->"+i+"sdfs", "a3sd213a12s"))
+
+            //return
+            let stringUrlEncoded=dl.replace(/<[^>]*>/g, '');
+            stringUrlEncoded=stringUrlEncoded.replace(/\n/g, '')
+            stringUrlEncoded=encodeURI(stringUrlEncoded)
+            stringUrlEncoded=stringUrlEncoded.replace(/ /g, '%20')
+            let audioFilePath=(''+apps.repAudioTAVCurrentFolder).replace('file://', '')+'/h_'+p+'_'+h+'_'+i+'.mp3'
+            //let audioFilePath='/tmp/'+r.currentPSH+'_'+i+'.mp3'
+            let url='"https://text-to-speech-demo.ng.bluemix.net/api/v3/synthesize?text='+stringUrlEncoded+'&voice=es-ES_EnriqueVoice&download=true&accept=audio%2Fmp3"'
+            lmCmd.append(lmCmd.addItem(audioFilePath, url, 'h', dl))
+            //log.ls('SD:['+stringUrlEncoded+']', 0, 500)
+        }
+
         r.currentCmdCompleted=0
         runCmd()
-        //return dataList
     }
-    function getDataIndex(p, s, h, i) {
-        let fileDataPath=apps.jsonsFolder+'/../zool_docs/zool_data/'+app.planetasArchivos[p]+'_s'+parseInt(s + 1)+'.txt'
+    function getDataIndex(p, s, h, i, t) {
+        let index=i
+        let fileDataPath=''
+        if(t==='s'){
+            fileDataPath=apps.jsonsFolder+'/../zool_docs/zool_data/'+app.planetasArchivos[p]+'_s'+parseInt(s + 1)+'.txt'
+        }else{
+            fileDataPath=apps.jsonsFolder+'/../zool_docs/zool_data/'+app.planetasArchivos[p]+'_h'+parseInt(h + 1)+'.txt'
+            index=i-lmCmd.countS
+        }
+        //log.ls('Leyendo archivo: '+fileDataPath, 400, 400)
+
         if(!unik.fileExist(fileDataPath))return
         let fileData=unik.getFile(fileDataPath)
         let dataLines=fileData.split('|')
         let dataList=[]
-        return (''+dataLines[i]).replace(/\n/g, '')
+        return (''+dataLines[index]).replace(/\n/g, '')
     }
     function runCmd(){
         let fileName=lmCmd.get(r.currentCmdCompleted).fileName
