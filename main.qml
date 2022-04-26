@@ -439,6 +439,13 @@ AppWin {
                 id: xLatIzq
                 width: xApp.width*0.2
                 height: parent.height
+                z: xMed.z+1
+//                Rectangle{
+//                    width: 8000
+//                    height: 100
+//                    color: 'red'
+//                    anchors.centerIn: parent
+//                }
                 Column{
                     anchors.centerIn: parent
                     Rectangle{
@@ -742,7 +749,7 @@ AppWin {
         loginUserName: 'zool'
         onNewMessage: {
             let json=JSON.parse(message)
-            log.ls('Minyma: '+JSON.stringify(json), 0, 500)
+            log.ls('Minyma Recibe: '+JSON.stringify(json), 0, 500)
         }
         onNewMessageForMe: {
             log.ls('Minyma For Me: '+JSON.stringify(json), 0, 500)

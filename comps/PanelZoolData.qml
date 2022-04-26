@@ -17,6 +17,7 @@ Rectangle{
     property int currentS: -1
     property int currentH: -1
     property int currentCmdCompleted: -1
+    property int uCurrentPlayListIndex: -1
     visible: itemIndex===sv.currentIndex
     onSvIndexChanged: {
         if(svIndex===itemIndex){
@@ -53,15 +54,18 @@ Rectangle{
         onFinished: {
             //log.ls('Finalizado!', 0, 500)
             //audioPlayer.source='file://'+uAudioFile
-            audioPlayer.playlist.addItem('file://'+uAudioFile)
-            r.currentCmdCompleted++
+            if(unik.getFileSize(uAudioFile)>1024){
+                audioPlayer.playlist.addItem('file://'+uAudioFile)
+                r.currentCmdCompleted++
+            }
             runCmd()
             //audioPlayer.play()
         }
         //onStarted: botRec.isRec=true
     }
 
-    MediaPlayer{
+    //MediaPlayer{
+    Audio{
         id: audioPlayer
         autoPlay: true
         onSourceChanged: {
@@ -77,6 +81,12 @@ Rectangle{
             onCurrentIndexChanged: {
                 txtCurrentText.text=''+getDataIndex(r.currentP, r.currentS, r.currentH, currentIndex, lmCmd.get(currentIndex).tipo)
             }
+            onItemCountChanged: {
+                if(itemCount===lmCmd.count){
+                    playList.currentIndex=r.uCurrentPlayListIndex
+                }
+            }
+
         }
     }
     Rectangle{
@@ -98,7 +108,12 @@ Rectangle{
         MouseArea{
             anchors.fill: parent
             onClicked: {
-                minymaClient.sendData(minymaClient.loginUserName, 'zool_data_editor', 'openPlanet|'+r.currentP+'|0|'+txtCurrentText.text.substring(0,10))
+                audioPlayer.pause()
+                if(playList.currentIndex<lmCmd.countS){
+                    minymaClient.sendData(minymaClient.loginUserName, 'zool_data_editor', 'openPlanet|'+r.currentP+'|'+r.currentS+'|'+txtCurrentText.text.substring(0,10)+'|'+playList.currentItemSource)
+                }else{
+                    minymaClient.sendData(minymaClient.loginUserName, 'zool_data_editor', 'openHouse|'+r.currentH+'|0|'+txtCurrentText.text.substring(0,10)+'|'+playList.currentItemSource)
+                }
             }
         }
     }
@@ -176,18 +191,27 @@ Rectangle{
     }
     Rectangle{
         id: xControls
+        parent: xLatIzq
         width: r.width
         height: colBtns.height+app.fs
-        color: 'transparent'
+        color: apps.backgroundColor
         border.width: 1
         border.color: 'white'
         radius: app.fs*0.5
         opacity: 0.0
         anchors.bottom: parent.bottom
+        anchors.left: parent.right
         property int currentP: -1
         property int currentS: -1
         property int currentH: -1
         Behavior on opacity{NumberAnimation{duration: 250}}
+        MouseArea{
+            anchors.fill: parent
+            hoverEnabled: true
+            onPositionChanged: tHideXControls.restart()
+            onEntered: tHideXControls.restart()
+            onExited: tHideXControls.restart()
+        }
         Column{
             id: colBtns
             spacing: app.fs*0.5
@@ -219,6 +243,7 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
                                 if(xControls.currentP>0){
                                     xControls.currentP--
                                 }else{
@@ -237,6 +262,7 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
                                 if(xControls.currentP<11){
                                     xControls.currentP++
                                 }else{
@@ -251,6 +277,7 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
                                 if(xControls.currentS<0){
                                     xControls.currentS--
                                 }else{
@@ -268,6 +295,7 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
                                 if(xControls.currentS<11){
                                     xControls.currentS++
                                 }else{
@@ -276,7 +304,7 @@ Rectangle{
                             }
                         }
 
-                                            }
+                    }
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
@@ -286,6 +314,7 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
                                 if(xControls.currentH<0){
                                     xControls.currentH--
                                 }else{
@@ -303,6 +332,7 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
                                 if(xControls.currentH<11){
                                     xControls.currentH++
                                 }else{
@@ -313,14 +343,31 @@ Rectangle{
 
                         Item{width: app.fs*0.5;height: 3}
 
+                        //Crear y cargar todos los audios
                         ButtonIcon{
                             text: '\uf093'
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
+                                r.uCurrentPlayListIndex=0
                                 r.currentP=xControls.currentP
                                 r.currentS=xControls.currentS
                                 r.currentH=xControls.currentH
+                            }
+                        }
+                        //Recrear y Recargar los audios eliminados.
+                        ButtonIcon{
+                            text: '\uf021'
+                            width: apps.botSize*0.6
+                            height: width
+                            onClicked: {
+                                tHideXControls.restart()
+                                r.uCurrentPlayListIndex=playList.currentIndex
+                                r.currentP=xControls.currentP
+                                r.currentS=xControls.currentS
+                                r.currentH=xControls.currentH
+                                loadData(r.currentP, r.currentS, r.currentH)
                             }
                         }
                         ButtonIcon{
@@ -328,6 +375,7 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
                                 folderDialog.visible=true
                             }
                         }
@@ -366,6 +414,7 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
                                 audioPlayer.pause()
                                 playList.currentIndex=0
                             }
@@ -376,6 +425,7 @@ Rectangle{
                             height: width
                             enabled: playList.currentIndex!==0
                             onClicked: {
+                                tHideXControls.restart()
                                 if(playList.currentIndex>0){
                                     playList.currentIndex--
                                 }
@@ -387,6 +437,7 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
                                 if(audioPlayer.playbackState!==MediaPlayer.PlayingState){
                                     audioPlayer.play()
                                 }else{
@@ -399,6 +450,7 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
                                 audioPlayer.stop()
                             }
                         }
@@ -408,6 +460,7 @@ Rectangle{
                             height: width
                             enabled: playList.currentIndex<playList.itemCount-1
                             onClicked: {
+                                tHideXControls.restart()
                                 if(playList.currentIndex<playList.itemCount){
                                     playList.currentIndex++
                                 }
@@ -421,10 +474,23 @@ Rectangle{
                             width: apps.botSize*0.6
                             height: width
                             onClicked: {
+                                tHideXControls.restart()
                                 audioPlayer.pause()
                                 playList.currentIndex=playList.itemCount-1
                             }
                         }
+                    }
+                    Text{
+                        text: 'Audios de Signo: '+lmCmd.countS
+                        font.pixelSize: app.fs*0.5
+                        color: 'white'
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    Text{
+                        text: 'Audios de Casa: '+parseInt(lmCmd.countS - playList.itemCount)
+                        font.pixelSize: app.fs*0.5
+                        color: 'white'
+                        anchors.horizontalCenter: parent.horizontalCenter
                     }
                 }
             }
@@ -544,7 +610,14 @@ Rectangle{
         let fileName=lmCmd.get(r.currentCmdCompleted).fileName
         let url=lmCmd.get(r.currentCmdCompleted).url
         //log.ls('Check fileName: '+fileName, 0,500)
-        if(!unik.fileExist(fileName)){
+        let fileSize=0
+        if(unik.fileExist(fileName)){
+            fileSize=unik.getFileSize(fileName)
+        }
+        //log.ls('Check fileName: '+fileName+' fileSize: '+fileSize, 0,500)
+        if(!unik.fileExist(fileName) || fileSize===73){
+            //log.ls('Check fileName: '+fileName+' fileSize: '+fileSize, 0,500)
+            unik.deleteFile(fileName)
             let cl='curl --output '+fileName+' "'+url+'"'
             uqp.uAudioFile=fileName
             uqp.run(cl)

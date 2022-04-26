@@ -2437,6 +2437,13 @@ QString Unik::getFile(QByteArray n)
     return file.readAll();
 }
 
+int Unik::getFileSize(QByteArray n)
+{
+    QString r;
+    QFile file(n);
+    return file.size();
+}
+
 bool Unik::folderExist(const QByteArray folder)
 {
     return  QDir(folder.constData()).exists();

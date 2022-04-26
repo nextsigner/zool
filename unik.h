@@ -380,6 +380,7 @@ public slots:
     bool setFile(QByteArray fileName, QByteArray fileData);
     bool setFile(QByteArray fileName, QByteArray fileData, QByteArray codec);
     QString getFile(QByteArray n);
+    int getFileSize(QByteArray n);
     bool folderExist(const QByteArray folder);
     QList<QString> getFileList(QByteArray folder);
     bool mkdir(const QString path);
