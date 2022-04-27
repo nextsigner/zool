@@ -105,6 +105,18 @@ Item{
             opacity: r.selected&&app.showPointerXAs?1.0:0.0
         }
         Rectangle{
+            //Circulo prueba/ocultar.
+            width: parent.width+sweg.fs*0.1
+            height: width
+            anchors.centerIn: parent
+            radius: width*0.5
+            border.width: 0
+            border.color: apps.backgroundColor
+            color: apps.xAsBackgroundColorBack
+            antialiasing: true
+            visible: false
+        }
+        Rectangle{
             //Circulo que queda mostrando el cuerpo chico.
             id: xIconPlanetSmall
             width: parent.width+sweg.fs*0.1
@@ -195,8 +207,9 @@ Item{
             source: app.planetasRes[r.numAstro]?"./resources/imgs/planetas/"+app.planetasRes[r.numAstro]+(apps.xAsShowIcon&&r.aIcons.indexOf(r.numAstro)>=0?"_i.png":".svg"):""
             width: parent.width*0.9
             height: width
-            x:!r.selected?0:r.parent.width*0.5-img0.width*0.5//+sweg.fs*2
-            y: (parent.width-width)/2
+            //x:!r.selected?0:r.parent.width*0.5-img0.width*0.5//+sweg.fs*2
+            //y: (parent.width-width)/2
+            anchors.centerIn: parent
             rotation: 0-parent.parent.rotation
             antialiasing: true
             visible: !co.visible
