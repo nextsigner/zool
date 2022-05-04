@@ -49,7 +49,7 @@ Rectangle {
                 onLinkActivated: Qt.openUrlExternally(link)
             }
 
-            //Crear Archivo Carta Mundial de Ahora
+            //Botones adicionales
             Rectangle{
                 width: r.width-app.fs*0.5
                 height: col1.height+app.fs*0.5
@@ -62,52 +62,31 @@ Rectangle {
                     spacing: app.fs*0.25
                     anchors.centerIn: parent
                     Text{
-                        text: 'Crear archivo de Carta Mundial'
+                        text: 'Funciones'
                         font.pixelSize: app.fs*0.5
                         color: apps.fontColor
                         width: parent.parent.width-app.fs*0.5
                         wrapMode: Text.WordWrap
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
-                    Row{
+                    Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
                         Button{
-                            text: 'Crear'
+                            text: app.ev?'Ocultar Exterior':'Ver Exterior'
                             font.pixelSize: app.fs*0.5
-                            onClicked: {
-                                var offset = new Date().getTimezoneOffset();
-                                //console.log('Zool GMT Client: '+offset);
-                                let date0=new Date(Date.now())
-                                date0=date0.setMinutes(date0.getMinutes()+offset)
-                                //let d1=new Date.UTC(2021,7,20,11,34,0)
-                                var date = new Date(date0);
-                                var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-                                                        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-
-                                let d1=new Date(now_utc);
-                                //console.log('Zool United KIngston Hour: '+d1.toString());
-                                JS.loadFromArgs(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), "United Kingston England", "vn", true)
-                            }
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            onClicked: app.ev=!app.ev
                         }
-                        Button{
-                            text: 'Crear en Exterior'
-                            font.pixelSize: app.fs*0.5
-                            onClicked: {
-                                var offset = new Date().getTimezoneOffset();
-                                //console.log('Zool GMT Client: '+offset);
-                                let date0=new Date(Date.now())
-                                date0=date0.setMinutes(date0.getMinutes()+offset)
-                                //let d1=new Date.UTC(2021,7,20,11,34,0)
-                                var date = new Date(date0);
-                                var now_utc =  Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate(),
-                                                        date.getUTCHours(), date.getUTCMinutes(), date.getUTCSeconds());
-
-                                let d1=new Date(now_utc);
-                                //console.log('Zool United KIngston Hour: '+d1.toString());
-                                JS.loadFromArgsBack(d1.getDate(), parseInt(d1.getMonth() +1),d1.getFullYear(), d1.getHours(), d1.getMinutes(), 0.0,53.4543314,-2.113293483429562,6, "United Kingston "+d1.getDate()+"-"+parseInt(d1.getMonth() +1)+"-"+d1.getFullYear(), "United Kingston England", "vn", true)
-                            }
-                        }
+//                        Button{
+//                            text: 'Eliminar Exterior'
+//                            font.pixelSize: app.fs*0.5
+//                            anchors.horizontalCenter: parent.horizontalCenter
+//                            onClicked: {
+//                                log.ls('apps.url: '+apps.url, 0, 500)
+//                                log.ls('json: '+app.currentData, 0, 500)
+//                            }
+//                        }
                     }
                 }
             }
@@ -132,12 +111,13 @@ Rectangle {
                         wrapMode: Text.WordWrap
                         anchors.horizontalCenter: parent.horizontalCenter
                     }
-                    Row{
+                    Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
                         Button{
                             text: 'Cargar'
                             font.pixelSize: app.fs*0.5
+                            anchors.horizontalCenter: parent.horizontalCenter
                             onClicked: {
                                 var offset = new Date().getTimezoneOffset();
                                 //console.log('Zool GMT Client: '+offset);
@@ -156,6 +136,7 @@ Rectangle {
                         Button{
                             text: 'Cargar en el Exterior'
                             font.pixelSize: app.fs*0.5
+                            anchors.horizontalCenter: parent.horizontalCenter
                             onClicked: {
                                 var offset = new Date().getTimezoneOffset();
                                 //console.log('Zool GMT Client: '+offset);
@@ -175,15 +156,38 @@ Rectangle {
                 }
             }
 
-            //Información General de Astromedicina.
-            Button{
-                text: 'Ver Información Astromedicina'
-                font.pixelSize: app.fs*0.5
-                anchors.horizontalCenter: parent.horizontalCenter
-                onClicked: {
-                    xInfoData.loadData('./resources/astromedicina.html')
+            //Astromedicina
+            Rectangle{
+                width: r.width-app.fs*0.5
+                height: col3.height+app.fs*0.5
+                color: 'transparent'
+                border.width: 1
+                border.color: apps.fontColor
+                radius: app.fs*0.25
+                Column{
+                    id: col3
+                    spacing: app.fs*0.25
+                    anchors.centerIn: parent
+                    Text{
+                        text: 'Astromedicina'
+                        font.pixelSize: app.fs*0.5
+                        color: apps.fontColor
+                        width: parent.parent.width-app.fs*0.5
+                        wrapMode: Text.WordWrap
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
+                    //Información General de Astromedicina.
+                    Button{
+                        text: 'Ver Información'
+                        font.pixelSize: app.fs*0.5
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        onClicked: {
+                            xInfoData.loadData('./resources/astromedicina.html')
+                        }
+                    }
                 }
             }
+
         }
     }
 }

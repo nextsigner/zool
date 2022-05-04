@@ -445,6 +445,13 @@ Rectangle{
                         color:apps.fontColor;
                         wrapMode: Text.WrapAnywhere
                     }
+                    Text{
+                        width: r.width-app.fs*0.5
+                        text: apps.fileName
+                        font.pixelSize: app.fs*0.5;
+                        color:apps.fontColor;
+                        wrapMode: Text.WrapAnywhere
+                    }
                 }
             }
         }

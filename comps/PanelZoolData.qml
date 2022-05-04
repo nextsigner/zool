@@ -192,6 +192,7 @@ Rectangle{
     Rectangle{
         id: xControls
         parent: xLatIzq
+        visible: opacity>0.0
         width: r.width
         height: colBtns.height+app.fs
         color: apps.backgroundColor

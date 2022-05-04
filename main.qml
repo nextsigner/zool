@@ -439,7 +439,7 @@ AppWin {
                 id: xLatIzq
                 width: xApp.width*0.2
                 height: parent.height
-                z: xMed.z+1
+                //z: xMed.z+1
 //                Rectangle{
 //                    width: 8000
 //                    height: 100

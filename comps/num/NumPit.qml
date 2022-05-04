@@ -292,7 +292,7 @@ Rectangle {
                     Rectangle{
                         id:xTiNombre
                         width: xForm.width-app.fs*0.5
-                        height: app.fs*1.2
+                        height: txtDataSearchNom.contentHeight+app.fs*0.25
                         color: apps.backgroundColor
                         border.width: 2
                         border.color: apps.fontColor
@@ -541,7 +541,7 @@ Rectangle {
                                     onClicked: {
                                         if(txtDataSearchNom.text==='')return
                                         panelLog.clear()
-                                        panelLog.l(getNumNomText(txtDataSearchNom.text))
+                                        panelLog.l(getNumNomText(txtDataSearchNom.text, checkBoxFormula.checked))
                                         panelLog.visible=true
                                         panelLog.flk.contentY=0
                                     }
@@ -658,82 +658,69 @@ Rectangle {
                     id: colAP
                     spacing: app.fs*0.5
                     anchors.centerIn: parent
-                    Row{
+                    Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
-                        Column{
-                            anchors.verticalCenter: parent.verticalCenter
-                            Text{
+                        Text{
                                 id: labelAP
-                                text: '<b>N° Año</b>'
+                                text: '<b>N° Año Personal</b>'
                                 color: apps.fontColor
                                 font.pixelSize: app.fs*0.5
                                 anchors.horizontalCenter: parent.horizontalCenter
                             }
-                            Text{
-                                id: labelAP2
-                                text: '<b>Personal</b>'
-                                color: apps.fontColor
-                                font.pixelSize: app.fs*0.5
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
-                        }
-                        Rectangle{
-                            id: xTiFechaAP
-                            width: xForm.width-labelAP.contentWidth-rowAp.width-app.fs
-                            height: app.fs*1.2
-                            color: apps.backgroundColor
-                            border.width: 2
-                            border.color: apps.fontColor
-                            anchors.verticalCenter: parent.verticalCenter
-                            Text{
-                                text: '<b>Año:</b>'
-                                color: apps.fontColor
-                                font.pixelSize: app.fs*0.25
-                                anchors.bottom: parent.top
-                                anchors.bottomMargin: app.fs*0.25
-                            }
-                            TextInput {
-                                id: txtDataSearchFechaAP
-                                text: ''
-                                font.pixelSize: app.fs*0.5
-                                width: parent.width-app.fs*0.2
-                                wrapMode: Text.WordWrap
-                                color: apps.fontColor
-                                //focus: true
-                                //inputMask: '00.00.0000'
-                                anchors.centerIn: parent
-                                Keys.onReturnPressed: {
-                                    if(text==='')return
-                                    //panelLog.l(getNumNomText(text))
-                                }
-                                onTextChanged: {
-                                    calcularAP()
-                                }
-                                onFocusChanged: {
-                                    if(focus)selectAll()
-                                }
-                                Rectangle{
-                                    width: parent.width+app.fs
-                                    height: parent.height+app.fs
-                                    color: 'transparent'
-                                    //border.width: 2
-                                    //border.color: 'white'
-                                    z: parent.z-1
-                                    anchors.centerIn: parent
-                                }
-                            }
-                        }
-
-
-
-
 
                         Row{
                             id: rowAp
                             spacing: app.fs*0.5
-                            anchors.verticalCenter: parent.verticalCenter
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            Rectangle{
+                                id: xTiFechaAP
+                                width: r.width-labelAP2.width-xNumAP.width-parent.spacing*3
+                                height: app.fs*1.2
+                                color: apps.backgroundColor
+                                border.width: 2
+                                border.color: apps.fontColor
+                                anchors.verticalCenter: parent.verticalCenter
+                                Text{
+                                    text: '<b>Año:</b>'
+                                    color: apps.fontColor
+                                    font.pixelSize: app.fs*0.25
+                                    anchors.bottom: parent.top
+                                    anchors.bottomMargin: app.fs*0.25
+                                }
+                                TextInput {
+                                    id: txtDataSearchFechaAP
+                                    text: ''
+                                    font.pixelSize: app.fs*0.5
+                                    width: parent.width-app.fs*0.2
+                                    wrapMode: Text.WordWrap
+                                    color: apps.fontColor
+                                    //focus: true
+                                    //inputMask: '00.00.0000'
+                                    anchors.centerIn: parent
+                                    Keys.onReturnPressed: {
+                                        if(text==='')return
+                                        //panelLog.l(getNumNomText(text))
+                                    }
+                                    onTextChanged: {
+                                        calcularAP()
+                                    }
+                                    onFocusChanged: {
+                                        if(focus)selectAll()
+                                    }
+                                    Rectangle{
+                                        width: parent.width+app.fs
+                                        height: parent.height+app.fs
+                                        color: 'transparent'
+                                        //border.width: 2
+                                        //border.color: 'white'
+                                        z: parent.z-1
+                                        anchors.centerIn: parent
+                                    }
+                                }
+                            }
                             Text{
+                                id: labelAP2
                                 text: '<b>Año:</b> '
                                 color: apps.fontColor
                                 font.pixelSize: app.fs*0.5
@@ -776,26 +763,23 @@ Rectangle {
                 border.color: apps.fontColor
                 radius: app.fs*0.2
                 anchors.horizontalCenter: parent.horizontalCenter
-                Text{
-                    text: '<b>Calcular</b>'
-                    color: apps.fontColor
-                    font.pixelSize: app.fs*0.5
-                    anchors.left: parent.left
-                    anchors.leftMargin: app.fs*0.25
-                    anchors.top: parent.top
-                    anchors.topMargin: app.fs*0.25
-                }
                 Column{
                     id: colBtns
                     spacing: app.fs*0.25
                     anchors.centerIn: parent
+                    Text{
+                        text: '<b>Calcular</b>'
+                        color: apps.fontColor
+                        font.pixelSize: app.fs*0.5
+                        anchors.horizontalCenter: parent.horizontalCenter
+                    }
                     Row{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
                         Text{
                             text: '<b>Mostrar cálculo</b>'
                             color: apps.fontColor
-                            font.pixelSize: app.fs*0.25
+                            font.pixelSize: app.fs*0.5
                             anchors.verticalCenter: parent.verticalCenter
                         }
                         CheckBox{
@@ -839,7 +823,7 @@ Rectangle {
                             onClicked: {
                                 calc()
                                 panelLog.clear()
-                                panelLog.l(getTodo())
+                                panelLog.l(getTodo(checkBoxFormula.checked))
                                 panelLog.visible=true
                                 panelLog.flk.contentY=0
                                 if(Qt.platform.os!=='android'){
@@ -858,11 +842,19 @@ Rectangle {
                             anchors.verticalCenter: parent.verticalCenter
                             onClicked: {
                                 calc()
-                                let fn=apps.numCurrentFolder+'/'+(txtDataSearchNom.text).replace(/ /g,'_')+'.txt'
+                                let folder=apps.numCurrentFolder.replace('file://', '')
+                                if(!unik.folderExist(folder)){
+                                    log.ls('La carpeta para guardar el archivo no existe: '+folder, 0, xApp.width*0.2)
+                                    return
+                                }
+                                let fn=folder+'/'+(txtDataSearchNom.text).replace(/ /g,'_')+'_con_formulas.txt'
+                                let fn2=folder+'/'+(txtDataSearchNom.text).replace(/ /g,'_')+'_sin_formulas.txt'
 
-                                unik.setFile(fn, getTodo())
+                                unik.setFile(fn2, getTodo(false))
+                                unik.setFile(fn, getTodo(true))
                                 panelLog.clear()
                                 panelLog.l('El archivo se ha guardado en '+fn)
+                                panelLog.l('El archivo se ha guardado en '+fn2)
                                 panelLog.visible=true
                                 panelLog.flk.contentY=0
                                 if(Qt.platform.os!=='android'){
@@ -872,12 +864,13 @@ Rectangle {
                                 }
                             }
                         }
-                        Button{
-                            text:  'Seleccionar Carpeta'
-                            anchors.verticalCenter: parent.verticalCenter
-                            onClicked: {
 
-                            }
+                    }
+                    Button{
+                        text:  'Seleccionar Carpeta'
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        onClicked: {
+                            fileDialogFolder.visible=true
                         }
                     }
                     Row{
@@ -916,13 +909,12 @@ Rectangle {
     FileDialog {
         id: fileDialogFolder
         title: "Seleccionar Carpeta"
-        folder: apps.repLectCurrentFolder
+        folder: apps.numCurrentFolder
         selectFolder: true
         selectMultiple: false
         onAccepted: {
             let u=fileDialogFolder.fileUrls[0]
-            //apps.numCurrentFolder=""+u
-
+            apps.numCurrentFolder=(""+u).replace('file://', '')
         }
         onRejected: {
             console.log("Canceled")
@@ -954,7 +946,7 @@ Rectangle {
         r.aDes=a
         calc()
     }
-    function getNumNomText(text){
+    function getNumNomText(text, formula){
         let ret=''
         let t=text.toUpperCase().replace(/ /g, '')
         let av=[]
@@ -1100,7 +1092,7 @@ Rectangle {
         }
         r.currentNumDestino=numDestino
 
-        if(checkBoxFormula.checked){
+        if(formula){
             ret+='Vocales: '+av.toString()+'\n'
             ret+='Fórmula de Vocales: '+sfv+'\n'
             ret+='Vibración '+dataInt+'\n'
@@ -1118,7 +1110,7 @@ Rectangle {
         let t=txtDataSearchFirma.text.toUpperCase().replace(/ /g, '')//.replace(/./g, '')
         let av=[]
         let ml=t.split('')
-        //console.log('vtv firma:'+ml)
+        //console.log('vtv ap:'+ml)
         for(var i=0;i<ml.length;i++){
             let l=ml[i]
             av.push(l)
@@ -1321,7 +1313,7 @@ Rectangle {
         let aGetNums=JS.getNums(f)
         let vcurrentNumNacimiento=aGetNums[0]
         panelLog.l('Número de Karma '+vcurrentNumNacimiento+'\n')
-        panelLog.l(getNumNomText(nom))
+        panelLog.l(getNumNomText(nom, checkBoxFormula.checked))
         panelLog.l('¿Cómo es su personalidad?\n\n\n\n\n\n')
         panelLog.l(getItemJson('per'+vcurrentNumNacimiento+genero))
     }
@@ -1496,16 +1488,16 @@ Rectangle {
     function calc(){
         r.currentNumFirma=setNumFirma()
         setNumNac()
-        let dataNombre=getNumNomText(txtDataSearchNom.text)
+        let dataNombre=getNumNomText(txtDataSearchNom.text, checkBoxFormula.checked)
         setPins()
         labelFNTS.text=r.currentDate?r.currentDate.toString():''
     }
-    function getTodo(){
+    function getTodo(formula){
         let ret=''
         let genero='m'
         if(rbF.checked)genero='f'
         ret+='\n\nCuadro Numerológico de '+txtDataSearchNom.text+'\n\n'
-        if(checkBoxFormula.checked){
+        if(formula){
             ret+='Personalidad '+r.currentNumPersonalidad+'\n'
             ret+='Fórmula: '+r.sFormulaNumPer+'\n'
 
@@ -1517,7 +1509,7 @@ Rectangle {
         ret+='\n\n'
 
         //Número de nacimiento o karma
-        if(checkBoxFormula.checked){
+        if(formula){
             ret+='N° de Nacimiento/Karma '+r.currentNumNacimiento+'\n\n'
             ret+='Fórmula: '+f0.text+'\n'
             ret+=getItemJson('per'+r.currentNumNacimiento+genero)
@@ -1528,7 +1520,7 @@ Rectangle {
         ret+='\n\n'
 
         //Nombre
-        ret+=getNumNomText(txtDataSearchNom.text)
+        ret+=getNumNomText(txtDataSearchNom.text, formula)
         //ret+='\n'
 
         //Natalicio

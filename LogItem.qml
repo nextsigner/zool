@@ -25,11 +25,15 @@ Rectangle{
         TextArea{
             id: taLog
             width: r.width-app.fs//*0.5
+            //height: contentHeight
             wrapMode: r.ww?Text.WordWrap:Text.WrapAnywhere
             anchors.horizontalCenter: parent.horizontalCenter
+            //anchors.top: parent.top
+            //anchors.topMargin: app.fs*0.5
             font.pixelSize: app.fs*0.5
             color: 'white'
             background: Rectangle{color: 'black'}
+            clip: true
         }
     }
     Rectangle{
@@ -48,6 +52,12 @@ Rectangle{
             }
         }
     }
+    Rectangle{
+        anchors.fill: r
+        border.width: r.border.width
+        border.color: r.border.color
+        color: 'transparent'
+    }
     function l(d){
         taLog.text+=d+'\n'
         flLog.contentY=taLog.contentHeight-r.height
@@ -57,6 +67,7 @@ Rectangle{
         flLog.contentY=taLog.contentHeight-r.height
         r.visible=true
         r.width=w
+        r.x=x
     }
     function clear(){
         taLog.clear()
