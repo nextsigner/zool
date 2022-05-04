@@ -16,6 +16,11 @@ Rectangle {
     property int fs: width*0.025
     property real factorZoomByRes: 1.5
     property int currentInterpreter: 0
+    onVisibleChanged: {
+        if(!visible){
+            apps.zFocus=panelSabianos.prevZFocus
+        }
+    }
 
     MouseArea{
         anchors.fill: parent

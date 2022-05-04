@@ -21,6 +21,9 @@ Rectangle {
     property string uSAM: ''
 
     property int itemIndex: -1
+
+    property string prevZFocus: ''
+
     visible: itemIndex===sv.currentIndex
 
     Behavior on x{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
@@ -114,6 +117,8 @@ Rectangle {
                     }
                     onEntered: rowBtns.opacity=1.0
                     onDoubleClicked: {
+                        r.prevZFocus=apps.zFocus
+                        apps.zFocus='xLatIzq'
                         xSabianos.numSign=r.numSign
                         xSabianos.numDegree=r.numDegree
                         xSabianos.visible=true
