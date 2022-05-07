@@ -322,6 +322,7 @@ Item {
         panelRsList.clear()
         //planetsCircleBack.visible=false
         app.ev=false
+        apps.urlBack=''
         panelAspectsBack.visible=false
         sweg.objHousesCircle.currentHouse=-1
         swegz.sweg.objHousesCircle.currentHouse=-1

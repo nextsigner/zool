@@ -33,6 +33,7 @@ function setFs() {
 //Funciones de Cargar Datos Interior
 function loadFromArgs(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo, save){
     app.ev=false
+    apps.urlBack=''
     let dataMs=new Date(Date.now())
     let j='{"params":{"tipo":"'+tipo+'","ms":'+dataMs.getTime()+',"n":"'+nom+'","d":'+d+',"m":'+m+',"a":'+a+',"h":'+h+',"min":'+min+',"gmt":'+gmt+',"lat":'+lat+',"lon":'+lon+',"alt":'+alt+',"ciudad":"'+ciudad+'"}}'
     setTitleData(nom, d, m, a, h, min, gmt, ciudad, lat, lon, 1)
@@ -311,6 +312,7 @@ function loadJson(file){
     panelControlsSign.state='hide'
     apps.showAspPanelBack=false
     app.ev=false
+    apps.urlBack=''
     apps.showAspPanelBack=false
     apps.showAspCircleBack=false
 
