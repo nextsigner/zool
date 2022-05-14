@@ -908,7 +908,23 @@ function addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, mod)
     a.push('<b>lon:</b> '+parseFloat(vlon).toFixed(2))
     xDataBar.at=a
 }
-
+function setTitleDataTo1(){
+    let jsonData=app.currentJson
+    let nom=jsonData.params.n.replace(/_/g, ' ')
+    let vd=jsonData.params.d
+    let vm=jsonData.params.m
+    let va=jsonData.params.a
+    let vh=jsonData.params.h
+    let vmin=jsonData.params.min
+    let vgmt=jsonData.params.gmt
+    let vlon=jsonData.params.lon
+    let vlat=jsonData.params.lat
+    let vCiudad=jsonData.params.ciudad.replace(/_/g, ' ')
+    let edad=''
+    let numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
+    let stringEdad=edad.indexOf('NaN')<0?edad:''
+    setTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
+}
 //Funciones de Internet
 function getRD(url, item){//Remote Data
     var request = new XMLHttpRequest()

@@ -128,6 +128,7 @@ Rectangle {
                             if(videoPlayer.playbackState===MediaPlayer.PlayingState){
                                 videoPlayer.stop()
                             }else{
+                                panelVideLectura.vp.pause()
                                 videoPlayer.play()
                             }
                         }
@@ -179,6 +180,9 @@ Rectangle {
                             onClicked: {
                                 setMirror(index, isMirror)
                                 isMirror=!isMirror
+                                if(panelVideLectura.pl.currentIndex===index){
+                                    panelVideLectura.vo.isMirror=isMirror
+                                }
                             }
                         }
                         Item{width: app.fs*0.5;height: 1}
@@ -214,6 +218,9 @@ Rectangle {
                             onClicked: {
                                 setMaximized(index, isMaximized)
                                 isMaximized=!isMaximized
+                                if(panelVideLectura.pl.currentIndex===index){
+                                    panelVideLectura.playMaximized=isMaximized
+                                }
                             }
                         }
                         Text{
@@ -280,11 +287,11 @@ Rectangle {
         onAccepted: {
             //console.log("You chose: " + fileDialog.fileUrls)
             let u=fileDialog.fileUrls
+            //log.ls('Cargando Video '+u.toString(), 0, 500)
             for(var i=0;i<u.length;i++){
                 addFileList(u[i])
-                //log.ls('Video '+i+': '+u[i], 0, 500)
-                //log.ls('json Video '+i+': '+addFileList(u[i]), 0, 500)
-
+                log.ls('Video '+i+': '+u[i], 0, 500)
+                log.ls('json Video '+i+': '+addFileList(u[i]), 0, 500)
             }
             updateList()
         }
@@ -339,7 +346,7 @@ Rectangle {
         }
         jsonData=unik.getFile(jsonFile)
         let json=JSON.parse(jsonData)
-        json['item'+index].indexPlanet=sube?indexPlanet+1:indexPlanet-1
+        json.items['item'+index].indexPlanet=sube?indexPlanet+1:indexPlanet-1
         panelVideLectura.uJson=json
         unik.setFile(jsonFile,JSON.stringify(json))
     }
@@ -351,7 +358,7 @@ Rectangle {
         }
         jsonData=unik.getFile(jsonFile)
         let json=JSON.parse(jsonData)
-        json['item'+index].isMirror=!isMirror
+        json.items['item'+index].isMirror=!isMirror
         panelVideLectura.uJson=json
         unik.setFile(jsonFile,JSON.stringify(json))
     }
@@ -363,33 +370,40 @@ Rectangle {
         }
         jsonData=unik.getFile(jsonFile)
         let json=JSON.parse(jsonData)
-        json['item'+index].isMaximized=!isMaximized
+        json.items['item'+index].isMaximized=!isMaximized
         panelVideLectura.uJson=json
         unik.setFile(jsonFile,JSON.stringify(json))
     }
     function addFileList(file){
+        log.ls('Cargando archivo de video '+file+'...', 0, 500)
         let jsonData=''
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
         if(!unik.fileExist(jsonFile)){
+            log.ls('Error! El archivo '+jsonFile+' no existe.', 0, 500)
             return
         }
         jsonData=unik.getFile(jsonFile)
         let json=JSON.parse(jsonData)
         let e=false
-        for(var i=0;i<Object.keys(json).length;i++){
-            if(file===json['item'+i].fileName){
+        for(var i=0;i<Object.keys(json.items).length;i++){
+
+            if(json.items['item'+i]&&file===json.items['item'+i].fileName){
                 e=true
+                log.ls('El archivo ya existe en el json!', 0, 500)
                 break
             }
+
         }
         if(!e){
-            //log.ls('Nuevo item: '+'item'+parseInt(Object.keys(json).length), 300, 500)
+            log.ls('El archivo no existe en el json!', 0, 500)
+            log.ls('Nuevo item: '+'item'+parseInt(Object.keys(json).length), 300, 500)
             let obj={}
 
             obj.fileName=file
             obj.indexPlanet=-2
             obj.isMirror=false
-            json['item'+parseInt(Object.keys(json).length)]=obj
+            obj.isMaximized=false
+            json.items['item'+parseInt(Object.keys(json).length)]=obj
             //log.ls('jsonFile add item: '+JSON.stringify(json), 300, 500)
             unik.setFile(jsonFile,JSON.stringify(json))
         }
@@ -402,11 +416,11 @@ Rectangle {
         }
         jsonData=unik.getFile(jsonFile)
         let json=JSON.parse(jsonData)
-        delete json['item'+index]
+        delete json.items['item'+index]
         let nJson={}
         for(var i=0;i<Object.keys(json).length;i++){
-            let obj=json[Object.keys(json)[i]]
-            nJson["item"+i]=obj
+            let obj=json.items[Object.keys(json)[i]]
+            nJson.items["item"+i]=obj
         }
         panelVideLectura.uJson=nJson
         unik.setFile(jsonFile,JSON.stringify(nJson))
@@ -419,18 +433,22 @@ Rectangle {
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
         //log.ls('jsonFile: '+jsonFile, 300, 500)
         if(!unik.fileExist(jsonFile)){
-            jsonData='{"item0":{"fileName":"/home/ns/Documentos/gd/zool_videos/intro_vn.mkv", "indexPlanet": -1, "isMirror": false, "isMaximized": true},"item1":{"fileName":"/home/ns/Documentos/gd/zool_videos/close_vn.mkv", "indexPlanet": -1, "isMirror": false, "isMaximized": true}, "itemData":{"file":""}}'
+            jsonData='{"items": {"item0":{"fileName":"/home/ns/Documentos/gd/zool_videos/intro_vn.mkv", "indexPlanet": -1, "isMirror": false, "isMaximized": true},"item1":{"fileName":"/home/ns/Documentos/gd/zool_videos/close_vn.mkv", "indexPlanet": -1, "isMirror": false, "isMaximized": true}}, "itemData":{"file":""}}'
             unik.setFile(jsonFile,jsonData)
 
+        }else{
+            jsonData=unik.getFile(jsonFile)
         }
-        jsonData=unik.getFile(jsonFile)
+        log.ls('json list: '+jsonData, 0, 500)
         let json=JSON.parse(jsonData)
         panelVideLectura.uJson=json
-        for(var i=0;i<Object.keys(json).length;i++){
+        for(var i=0;i<Object.keys(json.items).length;i++){
             //log.ls('jsonItem: '+json['item'+i].fileName, 300, 500)
             //log.ls('jsonItem: '+json['item'+i].indexPlanet, 300, 500)
             //log.ls('jsonItem: '+json['item'+i].isMirror, 300, 500)
-            lm.append(lm.addItem(json['item'+i].fileName, json['item'+i].indexPlanet, json['item'+i].isMirror, json['item'+i].isMaximized))
+            if(json.items['item'+i]){
+                lm.append(lm.addItem(json.items['item'+i].fileName, json.items['item'+i].indexPlanet, json.items['item'+i].isMirror, json.items['item'+i].isMaximized))
+            }
         }
         if(json['itemData']){
             panelVideLectura.currentUrl=json['itemData'].file
@@ -438,9 +456,10 @@ Rectangle {
     }
     function saveFileList(){
         let json={}
+        json.items={}
         for(var i=0;i<lm.count;i++){
             let obj=lm.get(i)
-            json['item'+i]=obj
+            json.items['item'+i]=obj
         }
         if(panelVideLectura.currentUrl!==''){
             let obj={}
@@ -450,5 +469,7 @@ Rectangle {
         panelVideLectura.uJson=json
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
         unik.setFile(jsonFile,JSON.stringify(json))
+        panelVideLectura.uJson=json
+        panelVideLectura.updateVideoList()
     }
 }

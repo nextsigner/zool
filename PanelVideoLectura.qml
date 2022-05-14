@@ -21,6 +21,9 @@ Rectangle {
     onXChanged: apps.repLectX=x
     onYChanged: apps.repLectY=y
     visible: sv.currentIndex===0&&apps.repLectVisible
+    property alias pl: playList
+    property alias vo: videoPlayerOutPut
+    property alias vp: videoPlayer
     property var uJson: {}
     property string currentUrl: ''
     property bool playMaximized: !(''+playList.currentItemSource===''+apps.repLectCurrentVidIntro || ''+playList.currentItemSource===''+apps.repLectCurrentVidClose)
@@ -57,11 +60,11 @@ Rectangle {
         playlist: Playlist{
             id: playList
             onCurrentIndexChanged: {
-                let ip=r.uJson['item'+currentIndex].indexPlanet
+                let ip=r.uJson.items['item'+currentIndex].indexPlanet
                 app.currentPlanetIndex=ip
-                let im=r.uJson['item'+currentIndex].isMirror
+                let im=r.uJson.items['item'+currentIndex].isMirror
                 videoPlayerOutPut.isMirror=im
-                let isMax=r.uJson['item'+currentIndex].isMaximized
+                let isMax=r.uJson.items['item'+currentIndex].isMaximized
                 r.playMaximized=isMax
 
                 //log.ls('IP: '+ip, 300, 500)
@@ -207,6 +210,15 @@ Rectangle {
         Column{
             id: col
             anchors.horizontalCenter: parent.horizontalCenter
+            Text{
+                id: labelCF
+                text: apps.repLectCurrentFolder
+                font.pixelSize: app.fs*0.5
+                color: apps.fontColor
+                width: r.width-app.fs
+                wrapMode: Text.WrapAnywhere
+                anchors.horizontalCenter: parent.horizontalCenter
+            }
             Row{
                 spacing: app.fs*0.25
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -323,6 +335,7 @@ Rectangle {
     }
     function updateVideoList(){
         playList.clear()
+        playList.currentIndex=-1
         let json={}
         let obj={}
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
@@ -357,7 +370,8 @@ Rectangle {
                 obj.indexPlanet=-1
                 obj.isMirror=false
                 obj.isMaximized=true
-                json['item'+parseInt(fl.length)]=obj
+                json.items={}
+                json.items['item'+parseInt(fl.length)]=obj
             }
             obj={}
             obj.file=''
@@ -369,9 +383,9 @@ Rectangle {
             let jsonData=unik.getFile(jsonFile)
             json=JSON.parse(jsonData)
             r.uJson=json
-            for(var i=0;i<Object.keys(json).length;i++){
-                if(json['item'+i]){
-                    let s=json['item'+i].fileName
+            for(var i=0;i<Object.keys(json.items).length;i++){
+                if(json.items['item'+i]){
+                    let s=json.items['item'+i].fileName
                     if(s.indexOf('file://')!==0){
                         s='file://'+s
                     }
