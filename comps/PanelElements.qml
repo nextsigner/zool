@@ -13,6 +13,7 @@ Item {
     anchors.rightMargin: app.fs*0.1//spacing
     property var aPorcs: [0.0, 0.0,0.0,0.0]
     property int spacing: apps.elementsFs.fs*0.1
+    property string arbolGen: '?'
 
     Column{
         Rectangle{
@@ -45,12 +46,15 @@ Item {
             radius: apps.elementsFs*0.15
             property int nd: 0
             property string ns: '0'
+            property int ag: -1
             MouseArea{
                 anchors.fill: parent
                 onClicked: {
                     ncv.currentDate=app.currentDate
                     ncv.setCurrentDate(app.currentDate)
                     ncv.setCurrentNombre(app.currentNom)
+                    ncv.currentAG=app.arbolGenealogico[xItemNums.ag]
+                    ncv.currentCargaAG=ncv.aCargasAG[xItemNums.ag]
                     sv.currentIndex=6
                     //ncv.printData(app.currentNom, app.currentDate)
                     //ncv.visible=true
@@ -61,6 +65,7 @@ Item {
                 spacing: apps.elementsFs*0.5
                 XText{text: '<b>'+xItemNums.nd+'</b>'; color: apps.backgroundColor; font.pixelSize: apps.elementsFs*0.35}
                 XText{text: '<b>'+xItemNums.ns+'</b>'; color: apps.backgroundColor; font.pixelSize: apps.elementsFs*0.35}
+                XText{text: '<b>'+r.arbolGen+'</b>'; color: apps.backgroundColor; font.pixelSize: apps.elementsFs*0.35}
             }
         }
     }
@@ -198,6 +203,8 @@ Item {
         let d = JS.getNums(app.currentFecha)
         xItemNums.nd=d[0]
         xItemNums.ns=d[1]
+        xItemNums.ag=parseInt(d[2])
+        r.arbolGen=app.arbolGenealogico[parseInt(d[2])][0]
     }
     function updateListModel(af, v1, v2, v3, v4){
         lm.clear()

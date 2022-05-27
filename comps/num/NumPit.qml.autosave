@@ -664,6 +664,8 @@ Rectangle {
                     spacing: app.fs*0.25
                     anchors.centerIn: parent
                     Text{
+
+                        
                         text: '<b>Tipo de Árbol Genealógico</b>'
                         width: r.width-app.fs
                         wrapMode: Text.WordWrap

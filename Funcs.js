@@ -989,6 +989,7 @@ function raiseItem(item){
 function getNums(fecha){
     let d=''
     let nf=0
+    let nf10=false
     let f=fecha
     let m0=f.split('/')
     let m1=m0[0].split('')
@@ -1008,6 +1009,7 @@ function getNums(fecha){
         nf+=parseInt(m3[2])
         nf+=parseInt(m3[3])
     }
+    if(nf===10)nf10=true
     if(nf>9&&nf!==11&&nf!==22&&nf!==33&&nf!==44){
         let m4=(''+nf).split('')
         let nnf=parseInt(m4[0])
@@ -1025,6 +1027,7 @@ function getNums(fecha){
         }
         d+='-'+nfd
     }
+    if(nf===10)nf10=true
     if(nf>9){
         let m6=(''+nf).split('')
         let nnf6=parseInt(m6[0])
@@ -1033,5 +1036,14 @@ function getNums(fecha){
         }
         nf=nnf6
     }
-    return [nf, d]
+    let numArbolGen=-1
+    if(!nf10){
+        if(nf===1||nf===6||nf===8)numArbolGen=0
+        if(nf===2||nf===5||nf===9)numArbolGen=1
+        if(nf===3||nf===4)numArbolGen=2
+        if(nf===7)numArbolGen=3
+    }else{
+        numArbolGen=2
+    }
+    return [nf, d, numArbolGen]
 }
