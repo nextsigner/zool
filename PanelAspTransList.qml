@@ -23,15 +23,16 @@ Rectangle {
     visible: itemIndex===sv.currentIndex
     onSvIndexChanged: {
         if(svIndex===itemIndex){
-                sbDesde.from =app.currentDate.getFullYear()
-                sbDesde.to =sbDesde.from + 150 - 1
-                sbDesde.value = app.currentDate.getFullYear()
-                sbHasta.from=0//sbDesde.from
-                sbHasta.to= sbDesde.from + 150//apps.currentAspCantAniosSearch
-                sbHasta.value = apps.currentAspCantAniosSearch
-                //log.l('apps.currentAspCantAniosSearch:'+apps.currentAspCantAniosSearch)
-                //log.visible=true
-                loadItemsYears()            
+            setSpinBoxs()
+            //            sbDesde.from =app.currentDate.getFullYear()
+//            sbDesde.to =sbDesde.from + 150 - 1
+//            sbDesde.value = app.currentDate.getFullYear()
+//            sbHasta.from=0//sbDesde.from
+//            sbHasta.to= sbDesde.from + 150//apps.currentAspCantAniosSearch
+//            sbHasta.value = apps.currentAspCantAniosSearch
+//            //log.l('apps.currentAspCantAniosSearch:'+apps.currentAspCantAniosSearch)
+//            //log.visible=true
+//            loadItemsYears()
         }
     }
     Behavior on height{enabled: apps.enableFullAnimation;NumberAnimation{duration: app.msDesDuration}}
@@ -88,16 +89,22 @@ Rectangle {
                 }
 
             }
-            Row{
-                spacing: app.fs*0.5
+            Column{
+                spacing: app.fs*0.1
                 anchors.horizontalCenter: parent.horizontalCenter
-                Text{text: 'Desde: '; color: apps.fontColor; font.pixelSize: app.fs*0.5;anchors.verticalCenter: parent.verticalCenter}
+                Text{
+                    text: 'Desde: '
+                    color: apps.fontColor
+                    font.pixelSize: app.fs*0.5
+                }
                 SpinBox{
                     id: sbDesde
                     font.pixelSize: app.fs*0.5
+                    //from: 2000
+                    //value: 2.000//r.uAnioSearch>0?r.uAnioSearch:2020
                 }
             }
-            Row{
+            Column{
                 spacing: app.fs*0.1
                 anchors.horizontalCenter: parent.horizontalCenter
                 Text{
@@ -105,21 +112,24 @@ Rectangle {
                     color: apps.fontColor
                     font.pixelSize: app.fs*0.5
                     textFormat: Text.RichText
-                    anchors.verticalCenter: parent.verticalCenter
                 }
-                SpinBox{
-                    id: sbHasta
-                    font.pixelSize: app.fs*0.5
-                    onValueChanged: {
-                        apps.currentAspCantAniosSearch=value
+                Row{
+                    spacing: app.fs*0.1
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    SpinBox{
+                        id: sbHasta
+                        font.pixelSize: app.fs*0.5
+                        onValueChanged: {
+                            apps.currentAspCantAniosSearch=value
+                        }
                     }
-                }
-                Text{
-                    text: 'años.'
-                    color: apps.fontColor
-                    font.pixelSize: app.fs*0.5
-                    textFormat: Text.RichText
-                    anchors.verticalCenter: parent.verticalCenter
+                    Text{
+                        text: 'años.'
+                        color: apps.fontColor
+                        font.pixelSize: app.fs*0.5
+                        textFormat: Text.RichText
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
                 }
             }
             Row{
@@ -134,10 +144,10 @@ Rectangle {
                         r.currentIndexSearching=0
                         r.currentAnioSearching=parseInt((''+sbDesde.value).replace('.', ''))
                         r.uAnioSearch=parseInt((''+sbDesde.value).replace('.', ''))
-//                        for(var i=0;i<lm.count;i++){
-//                            let item=lv.itemAtIndex(i)
-//                            item.json=JSON.parse('{}')
-//                        }
+                        //                        for(var i=0;i<lm.count;i++){
+                        //                            let item=lv.itemAtIndex(i)
+                        //                            item.json=JSON.parse('{}')
+                        //                        }
                         loadItemsYears()
                         search()
                     }
@@ -193,10 +203,10 @@ Rectangle {
             anchors.horizontalCenter: parent?parent.horizontalCenter:undefined
             onJsonChanged:{
                 if(json && Object.keys(item.json).length-1 >0){
-//                    if(json === {}){
-//                        opacity=0.5
-//                        return
-//                    }
+                    //                    if(json === {}){
+                    //                        opacity=0.5
+                    //                        return
+                    //                    }
                     item.cantAsps=Object.keys(item.json).length-1
                     lv.currentIndex=index
                     opacity=1.0
@@ -361,6 +371,22 @@ Rectangle {
         }
     }
     Item{id: xuqp}
+    Timer{
+        id: tSetSpinBoxs
+        running: sbDesde.value<0
+        repeat: true
+        interval: 500
+        onTriggered: setSpinBoxs()
+    }
+    function setSpinBoxs(){
+        sbDesde.from =app.currentDate.getFullYear()
+        sbDesde.to =sbDesde.from + 150 - 1
+        sbDesde.value = app.currentDate.getFullYear()
+        sbHasta.from=0//sbDesde.from
+        sbHasta.to= sbDesde.from + 150//apps.currentAspCantAniosSearch
+        sbHasta.value = apps.currentAspCantAniosSearch
+        loadItemsYears()
+    }
     function loadItemsYears(){
         lm.clear()
         let ai=parseInt((''+sbDesde.value).replace('.', ''))
@@ -392,9 +418,9 @@ Rectangle {
 
             var nppyl=ml0+'/Python/python.exe'
             np+='ast72cli\\\\astrolog.exe'
-//            log.l('np:'+np)
-//            log.visible=true
-//            log.width=xApp.width*0.2
+            //            log.l('np:'+np)
+            //            log.visible=true
+            //            log.width=xApp.width*0.2
             var m1=nppyl.split('/')
             var nppython=""
             for(i=0;i<m1.length;i++){
@@ -419,19 +445,19 @@ Rectangle {
             astrologPath=app.mainLocation+'/astrolog/astrolog'
         }
         let finalCmd=''
-            //+nppython+' '+app.mainLocation+'/py/astrologica_trans.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "'+astrologPath+'"'
-        +nppython+' '+app.mainLocation+'/py/astrologica_trans.py 1 1 '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "'+astrologPath+'"'
+        //+nppython+' '+app.mainLocation+'/py/astrologica_trans.py '+cd3.getDate()+' '+parseInt(cd3.getMonth() +1)+' '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "'+astrologPath+'"'
+            +nppython+' '+app.mainLocation+'/py/astrologica_trans.py 1 1 '+y+' '+cd3.getHours()+' '+cd3.getMinutes()+' '+app.currentGmt+' '+app.currentLat+' '+app.currentLon+' '+p1+' '+p2+' '+r.aAspNamesRes[cbAsp.currentIndex]+' '+y+' "'+astrologPath+'"'
         console.log('cmd astrolog: '+finalCmd)
-//        log.l('cmd: '+finalCmd)
-//        log.visible=true
-//        log.width=xApp.width*0.8
-//        log.x=xApp.width*0.2
+        //        log.l('cmd: '+finalCmd)
+        //        log.visible=true
+        //        log.width=xApp.width*0.8
+        //        log.x=xApp.width*0.2
         let c=''
             +'  if(logData.length<=3||logData==="")return\n'
             +'  let j\n'
             +'try {\n'
             +'  j=JSON.parse(logData)\n'
-            //+'  let item=lv.itemAtIndex(r.currentIndexSearching)\n'
+        //+'  let item=lv.itemAtIndex(r.currentIndexSearching)\n'
             +'  let item=lv.contentItem.children[r.currentIndexSearching]\n'
             +'  item.json=j\n'
         //+'  log.l(JSON.stringify(j))\n'
@@ -439,7 +465,7 @@ Rectangle {
         //+'  log.visible=true\n'
         //+'  log.width=xApp.width*0.5\n'
             +'  logData=""\n'
-            //+'  r.currentIndexSearching++\n'
+        //+'  r.currentIndexSearching++\n'
             +'  r.currentAnioSearching=parseInt(lm.get(r.currentIndexSearching).anio - 1)\n'
             +'      if(r.currentIndexSearching<lv.count){\n'
             +'          r.search()\n'

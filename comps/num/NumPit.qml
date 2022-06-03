@@ -69,7 +69,7 @@ Rectangle {
     property var arbolGenealogico: !app.arbolGenealogico?['Raíz', 'Portal', 'Ala', 'Integrador']:app.arbolGenealogico
     property string currentAG : '?'
     property string currentCargaAG : 'Daton aún no especificado.'
-    property var aCargasAG : ['Carga del infortunio sentimental', 'Carga de falta de reconocimientosocial', 'Carga de frustración profesional', 'Carga del infortunio material, territorial, corporal, salud o fWEQísico']
+    property var aCargasAG : ['Carga del infortunio sentimental', 'Carga de falta de reconocimientosocial', 'Carga de frustración profesional', 'Carga del infortunio material, territorial, corporal, salud o físico']
 
     property int itemIndex: -1
     visible: itemIndex===sv.currentIndex
@@ -664,6 +664,8 @@ Rectangle {
                     spacing: app.fs*0.25
                     anchors.centerIn: parent
                     Text{
+
+                        
                         text: '<b>Tipo de Árbol Genealógico</b>'
                         width: r.width-app.fs
                         wrapMode: Text.WordWrap

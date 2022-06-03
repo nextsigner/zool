@@ -302,9 +302,9 @@ Rectangle{
                                 let nw=app.fs+(app.fs/100*porc)
                                 apps.signCircleWidth=nw
                                 apps.signCircleWidthSbValue=value
-//                                log.l('Value: '+nw)
-//                                log.x=500
-//                                log.visible=true
+                                //                                log.l('Value: '+nw)
+                                //                                log.x=500
+                                //                                log.visible=true
                             }
 
                             //validator: DoubleValidator {
@@ -392,10 +392,11 @@ Rectangle{
                     Item{width: 1;height: app.fs}
                     Text{
                         text: '<b>Configuración de Archivos, Carpetas y otros</b>'
+                        width: r.width-app.fs
                         font.pixelSize: app.fs*0.5
                         color: apps.fontColor
                         anchors.horizontalCenter: parent.horizontalCenter
-                        textFormat: Text.RichText
+                        //textFormat: Text.RichText
                         wrapMode: Text.WordWrap
                     }
                     Column{
@@ -440,7 +441,7 @@ Rectangle{
                     }
                     Text{
                         width: r.width-app.fs*0.5
-                        text: 'Archivo de Configuración: '//+apps.fileName;
+                        text: '<b>Archivo de Configuración: </b>'
                         font.pixelSize: app.fs*0.5;
                         color:apps.fontColor;
                         wrapMode: Text.WrapAnywhere
@@ -482,7 +483,7 @@ Rectangle{
                         onLinkActivated: Qt.openUrlExternally(link)
                     }
                     Flow{
-                        width: parent.width
+                        width: r.width-app.fs
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
                         Button{
@@ -527,7 +528,7 @@ Rectangle{
                     }
 
                     //Seleccionar colores de Casas
-                    Row{
+                    Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
                         Text{
@@ -535,51 +536,55 @@ Rectangle{
                             font.pixelSize: app.fs*0.5
                             color: apps.fontColor
                         }
-                        Rectangle{
-                            width: app.fs
-                            height: width
-                            border.width: 1
-                            border.color: apps.fontColor
-                            color: apps.houseColor
-                            anchors.verticalCenter: parent.verticalCenter
-                            Text{
-                                text: 'Interior'
-                                font.pixelSize: app.fs*0.25
-                                color: apps.fontColor
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.bottom: parent.top
-                            }
-                            MouseArea{
-                                anchors.fill: parent
-                                onClicked: {
-                                    rep.model=EXTRA.getArrayColors()
-                                    xColorSelector.mod=0
-                                    xColorSelector.parent=colSelectHouses
-                                    xColorSelector.visible=true
+                        Row{
+                            spacing: app.fs*0.25
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            Rectangle{
+                                width: app.fs
+                                height: width
+                                border.width: 1
+                                border.color: apps.fontColor
+                                color: apps.houseColor
+                                anchors.verticalCenter: parent.verticalCenter
+                                Text{
+                                    text: 'Interior'
+                                    font.pixelSize: app.fs*0.25
+                                    color: apps.fontColor
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.bottom: parent.top
+                                }
+                                MouseArea{
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        rep.model=EXTRA.getArrayColors()
+                                        xColorSelector.mod=0
+                                        xColorSelector.parent=colSelectHouses
+                                        xColorSelector.visible=true
+                                    }
                                 }
                             }
-                        }
-                        Rectangle{
-                            width: app.fs
-                            height: width
-                            border.width: 1
-                            border.color: apps.fontColor
-                            color: apps.houseColorBack
-                            anchors.verticalCenter: parent.verticalCenter
-                            Text{
-                                text: 'Exterior'
-                                font.pixelSize: app.fs*0.25
-                                color: apps.fontColor
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.bottom: parent.top
-                            }
-                            MouseArea{
-                                anchors.fill: parent
-                                onClicked: {
-                                    rep.model=EXTRA.getArrayColors()
-                                    xColorSelector.mod=1
-                                    xColorSelector.parent=colSelectHouses
-                                    xColorSelector.visible=true
+                            Rectangle{
+                                width: app.fs
+                                height: width
+                                border.width: 1
+                                border.color: apps.fontColor
+                                color: apps.houseColorBack
+                                anchors.verticalCenter: parent.verticalCenter
+                                Text{
+                                    text: 'Exterior'
+                                    font.pixelSize: app.fs*0.25
+                                    color: apps.fontColor
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.bottom: parent.top
+                                }
+                                MouseArea{
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        rep.model=EXTRA.getArrayColors()
+                                        xColorSelector.mod=1
+                                        xColorSelector.parent=colSelectHouses
+                                        xColorSelector.visible=true
+                                    }
                                 }
                             }
                         }
@@ -587,60 +592,64 @@ Rectangle{
                     Column{id: colSelectHouses}
 
                     //Seleccionar color de linea de casas exterior
-                    Row{
+                    Column{
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
                         Text{
                             text: 'Seleccionar color de\nlinea de casa exterior'
                             font.pixelSize: app.fs*0.5
                             color: apps.fontColor
-                            anchors.verticalCenter: parent.verticalCenter
                         }
-                        Rectangle{
-                            width: app.fs
-                            height: width
-                            border.width: 1
-                            border.color: apps.fontColor
-                            color: apps.houseLineColor
-                            anchors.verticalCenter: parent.verticalCenter
-                            Text{
-                                text: 'Interior'
-                                font.pixelSize: app.fs*0.25
-                                color: apps.fontColor
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.bottom: parent.top
-                            }
-                            MouseArea{
-                                anchors.fill: parent
-                                onClicked: {
-                                    rep.model=EXTRA.getArrayColors()
-                                    xColorSelector.mod=2
-                                    xColorSelector.parent=colSelectLineHouses
-                                    xColorSelector.visible=true
+                        Row{
+                            spacing: app.fs*0.25
+                            anchors.horizontalCenter: parent.horizontalCenter
+
+                            Rectangle{
+                                width: app.fs
+                                height: width
+                                border.width: 1
+                                border.color: apps.fontColor
+                                color: apps.houseLineColor
+                                anchors.verticalCenter: parent.verticalCenter
+                                Text{
+                                    text: 'Interior'
+                                    font.pixelSize: app.fs*0.25
+                                    color: apps.fontColor
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.bottom: parent.top
+                                }
+                                MouseArea{
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        rep.model=EXTRA.getArrayColors()
+                                        xColorSelector.mod=2
+                                        xColorSelector.parent=colSelectLineHouses
+                                        xColorSelector.visible=true
+                                    }
                                 }
                             }
-                        }
-                        Rectangle{
-                            width: app.fs
-                            height: width
-                            border.width: 1
-                            border.color: apps.fontColor
-                            color: apps.houseLineColorBack
-                            anchors.verticalCenter: parent.verticalCenter
-                            Text{
-                                text: 'Exterior'
-                                font.pixelSize: app.fs*0.25
-                                color: apps.fontColor
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                anchors.bottom: parent.top
-                            }
-                            MouseArea{
-                                anchors.fill: parent
-                                onClicked: {
-                                    rep.model=EXTRA.getArrayColors()
-                                    xColorSelector.mod=3
-                                    xColorSelector.parent=colSelectLineHouses
-                                    xColorSelector.visible=true
+                            Rectangle{
+                                width: app.fs
+                                height: width
+                                border.width: 1
+                                border.color: apps.fontColor
+                                color: apps.houseLineColorBack
+                                anchors.verticalCenter: parent.verticalCenter
+                                Text{
+                                    text: 'Exterior'
+                                    font.pixelSize: app.fs*0.25
+                                    color: apps.fontColor
+                                    anchors.horizontalCenter: parent.horizontalCenter
+                                    anchors.bottom: parent.top
+                                }
+                                MouseArea{
+                                    anchors.fill: parent
+                                    onClicked: {
+                                        rep.model=EXTRA.getArrayColors()
+                                        xColorSelector.mod=3
+                                        xColorSelector.parent=colSelectLineHouses
+                                        xColorSelector.visible=true
+                                    }
                                 }
                             }
                         }

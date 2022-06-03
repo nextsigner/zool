@@ -456,7 +456,7 @@ AppWin {
                         height: app.fs*1.2
                         color: apps.fontColor
                         anchors.horizontalCenter: parent.horizontalCenter
-                        property var aPanelesTits: ['Información','Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Aspecto en Tránsito', 'Numerología', 'Funciones', 'Opciones', 'Texto a voz']
+                        property var aPanelesTits: ['Información','Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Asp. Tráns.', 'Numerología', 'Funciones', 'Opciones', 'Texto a voz']
                         Text{
                             text: parseInt(sv.currentIndex + 1)+': '+xPanelesTits.aPanelesTits[sv.currentIndex]
                             color: apps.backgroundColor
@@ -750,11 +750,11 @@ AppWin {
         id: minymaClient
         loginUserName: 'zool'
         onNewMessage: {
-            let json=JSON.parse(message)
-            log.ls('Minyma Recibe: '+JSON.stringify(json), 0, 500)
+            //let json=JSON.parse(data)
+            log.ls('Minyma Recibe: '+data, 0, 500)
         }
         onNewMessageForMe: {
-            log.ls('Minyma For Me: '+JSON.stringify(json), 0, 500)
+            log.ls('Minyma For Me: '+data, 0, 500)
         }
     }
     Component.onCompleted: {

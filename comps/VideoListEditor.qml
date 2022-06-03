@@ -386,7 +386,6 @@ Rectangle {
         let json=JSON.parse(jsonData)
         let e=false
         for(var i=0;i<Object.keys(json.items).length;i++){
-
             if(json.items['item'+i]&&file===json.items['item'+i].fileName){
                 e=true
                 log.ls('El archivo ya existe en el json!', 0, 500)
@@ -418,8 +417,10 @@ Rectangle {
         let json=JSON.parse(jsonData)
         delete json.items['item'+index]
         let nJson={}
-        for(var i=0;i<Object.keys(json).length;i++){
-            let obj=json.items[Object.keys(json)[i]]
+        nJson.items={}
+        nJson.itemData=json.itemData
+        for(var i=0;i<Object.keys(json.items).length;i++){
+            let obj=json.items[Object.keys(json.items)[i]]
             nJson.items["item"+i]=obj
         }
         panelVideLectura.uJson=nJson
