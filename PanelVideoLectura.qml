@@ -139,7 +139,7 @@ Rectangle {
         y:r.playMaximized?0:0-r.y
         width: r.playMaximized?parent.width:xApp.width
         height:r.playMaximized?parent.width:xApp.height
-        color: 'red'//apps.backgroundColor
+        color: apps.backgroundColor
         opacity: 0.0
         onOpacityChanged:{
             if(opacity===1.0 && (playList.currentIndex!==playList.itemCount-1)){
@@ -211,13 +211,17 @@ Rectangle {
             id: col
             anchors.horizontalCenter: parent.horizontalCenter
             Text{
+                //Muestra CARPETA DE JSON LIST
+                //Ocultado
+                visible: false
+
                 id: labelCF
                 text: apps.repLectCurrentFolder
                 font.pixelSize: app.fs*0.5
                 color: apps.fontColor
                 width: r.width-app.fs
                 wrapMode: Text.WrapAnywhere
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.horizontalCenter: parent.horizontalCenter                
             }
             Row{
                 spacing: app.fs*0.25
@@ -241,7 +245,7 @@ Rectangle {
                         if(playList.currentIndex>0){
                             playList.currentIndex--
                         }
-
+                        videoPlayer.play()
                     }
                 }
                 ButtonIcon{
@@ -294,9 +298,11 @@ Rectangle {
                     onClicked: {
 
                         if(playList.currentIndex<playList.itemCount-1){
-                            playList.currentIndex++
                             videoPlayer.stop()
+                            playList.currentIndex++
+                            videoPlayer.play()
                         }
+
 
                     }
                 }

@@ -287,11 +287,11 @@ Rectangle {
         onAccepted: {
             //console.log("You chose: " + fileDialog.fileUrls)
             let u=fileDialog.fileUrls
-            //log.ls('Cargando Video '+u.toString(), 0, 500)
+            //'Cargando Video '+u.toString(), 0, 500)
             for(var i=0;i<u.length;i++){
                 addFileList(u[i])
-                log.ls('Video '+i+': '+u[i], 0, 500)
-                log.ls('json Video '+i+': '+addFileList(u[i]), 0, 500)
+                //log.ls('Video '+i+': '+u[i], 0, 500)
+                //log.ls('json Video '+i+': '+addFileList(u[i]), 0, 500)
             }
             updateList()
         }
@@ -327,7 +327,7 @@ Rectangle {
         onAccepted: {
             let u=fileDialogFolder.fileUrls[0]
             apps.repLectCurrentFolder=""+u
-            panelVideLectura.updateVideoList()
+            //panelVideLectura.updateVideoList()
             updateList()
         }
         onRejected: {
@@ -375,7 +375,7 @@ Rectangle {
         unik.setFile(jsonFile,JSON.stringify(json))
     }
     function addFileList(file){
-        log.ls('Cargando archivo de video '+file+'...', 0, 500)
+        //log.ls('Cargando archivo de video '+file+'...', 0, 500)
         let jsonData=''
         let jsonFile=(''+apps.repLectCurrentFolder).replace('file://', '')+'/list.json'
         if(!unik.fileExist(jsonFile)){
@@ -385,26 +385,27 @@ Rectangle {
         jsonData=unik.getFile(jsonFile)
         let json=JSON.parse(jsonData)
         let e=false
-        for(var i=0;i<Object.keys(json.items).length;i++){
-            if(json.items['item'+i]&&file===json.items['item'+i].fileName){
-                e=true
-                log.ls('El archivo ya existe en el json!', 0, 500)
-                break
-            }
+//        for(var i=0;i<Object.keys(json.items).length;i++){
+//            if(json.items['item'+i]&&file===json.items['item'+i].fileName){
+//                e=true
+//                log.ls('El archivo '+file+' ya existe en el json!', 0, 500)
+//                break
+//            }
 
-        }
+//        }
         if(!e){
-            log.ls('El archivo no existe en el json!', 0, 500)
-            log.ls('Nuevo item: '+'item'+parseInt(Object.keys(json).length), 300, 500)
+            //log.ls('El archivo no existe en el json!', 0, 500)
+            //log.ls('Nuevo item: '+'item'+parseInt(Object.keys(json).length), 300, 500)
             let obj={}
 
             obj.fileName=file
             obj.indexPlanet=-2
             obj.isMirror=false
             obj.isMaximized=false
-            json.items['item'+parseInt(Object.keys(json).length)]=obj
+            json.items['item'+parseInt(Object.keys(json.items).length)]=obj
             //log.ls('jsonFile add item: '+JSON.stringify(json), 300, 500)
             unik.setFile(jsonFile,JSON.stringify(json))
+            panelVideLectura.updateVideoList()
         }
     }
     function deleteItem(index){
@@ -426,6 +427,7 @@ Rectangle {
         panelVideLectura.uJson=nJson
         unik.setFile(jsonFile,JSON.stringify(nJson))
         updateList()
+        //panelVideLectura.updateVideoList()
     }
     function updateList(){
         r.visible=true
@@ -440,7 +442,7 @@ Rectangle {
         }else{
             jsonData=unik.getFile(jsonFile)
         }
-        log.ls('json list: '+jsonData, 0, 500)
+        //log.ls('\n\n\nUpdate json list: '+jsonData.replace(/,"/g, ', "'), 0, 500)
         let json=JSON.parse(jsonData)
         panelVideLectura.uJson=json
         for(var i=0;i<Object.keys(json.items).length;i++){
@@ -454,6 +456,7 @@ Rectangle {
         if(json['itemData']){
             panelVideLectura.currentUrl=json['itemData'].file
         }
+        panelVideLectura.updateVideoList()
     }
     function saveFileList(){
         let json={}
