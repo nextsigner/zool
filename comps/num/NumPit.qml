@@ -11,7 +11,7 @@ Rectangle {
     height: parent.height
     clip: true
     color: apps.backgroundColor
-
+    property string jsonPath: './comps/num/numv3.json'
     property string jsonNum: ''
     property var aDes: ['dato1', 'dato2', 'dato3', 'dato4', 'dato5', 'dato6', 'dato7', 'dato8', 'dato9']
 
@@ -66,10 +66,11 @@ Rectangle {
     property string sFormulaNatalicio : ''
 
     //Strings y Variables de Arbol Genealógico
-    property var arbolGenealogico: !app.arbolGenealogico?['Raíz', 'Portal', 'Ala', 'Integrador']:app.arbolGenealogico
+    property var arbolGenealogico: []
     property string currentAG : '?'
     property string currentCargaAG : 'Daton aún no especificado.'
-    property var aCargasAG : ['Carga del infortunio sentimental', 'Carga de falta de reconocimientosocial', 'Carga de frustración profesional', 'Carga del infortunio material, territorial, corporal, salud o físico']
+    property var aCargasAG :  []
+    property var aDonesAG :  []
 
     property int itemIndex: -1
     visible: itemIndex===sv.currentIndex
@@ -1000,6 +1001,11 @@ Rectangle {
         d = 'AUTOSUFICIENCIA, CONSOLIDACIÓN, CIERRE DE CICLO'
         a.push(d)
         r.aDes=a
+
+        r.arbolGenealogico=getDataJsonArGen()['arboltipo']
+        r.aCargasAG=getDataJsonArGen()['cargas']
+        r.aDonesAG=getDataJsonArGen()['dones']
+
         calc()
     }
     function getNumNomText(text, formula){
@@ -1219,7 +1225,7 @@ Rectangle {
         let ret='?'
         let jsonString
         if(r.jsonNum===''){
-            r.jsonNum=unik.getFile('./comps/num/numv2.json')
+            r.jsonNum=unik.getFile(r.jsonPath)
         }
         jsonString=r.jsonNum.replace(/\n/g, ' ')
         let json=JSON.parse(jsonString)
@@ -1231,7 +1237,7 @@ Rectangle {
         let ret='?'
         let jsonString
         if(r.jsonNum===''){
-            r.jsonNum=unik.getFile('./comps/num/numv2.json')
+            r.jsonNum=unik.getFile(r.jsonPath)
         }
         jsonString=r.jsonNum.replace(/\n/g, ' ')
         let json=JSON.parse(jsonString)
@@ -1243,12 +1249,22 @@ Rectangle {
         let ret='?'
         let jsonString
         if(r.jsonNum===''){
-            r.jsonNum=unik.getFile('./comps/num/numv2.json')
+            r.jsonNum=unik.getFile(r.jsonPath)
         }
         jsonString=r.jsonNum.replace(/\n/g, ' ')
         let json=JSON.parse(jsonString)
 
         ret=json[i]
+        return ret
+    }
+    function getDataJsonArGen(){
+        let ret='?'
+        let jsonString
+        jsonString=unik.getFile(r.jsonPath)
+        jsonString=jsonString.replace(/\n/g, ' ')
+        let json=JSON.parse(jsonString)
+
+        ret=json['argen']
         return ret
     }
     function gvl(l){
