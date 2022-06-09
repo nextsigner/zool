@@ -11,6 +11,7 @@ Rectangle {
     height: parent.height
     clip: true
     color: apps.backgroundColor
+    property bool calcForm: false
     property string jsonPath: './comps/num/numv3.json'
     property string jsonNum: ''
     property var aDes: ['dato1', 'dato2', 'dato3', 'dato4', 'dato5', 'dato6', 'dato7', 'dato8', 'dato9']
@@ -66,11 +67,16 @@ Rectangle {
     property string sFormulaNatalicio : ''
 
     //Strings y Variables de Arbol Genealógico
+    property int currentIndexAG: -1
     property var arbolGenealogico: []
     property string currentAG : '?'
     property string currentCargaAG : 'Daton aún no especificado.'
     property var aCargasAG :  []
+    property var aCargasExpAG :  []
     property var aDonesAG :  []
+    property var aMetasAG :  []
+    property var aPersonasSituacionesAG :  []
+
 
     property int itemIndex: -1
     visible: itemIndex===sv.currentIndex
@@ -95,6 +101,8 @@ Rectangle {
         r.currentNumNatalicio=d
         r.sFormulaNatalicio=aGetNums[1]
         labelFNTS.text=currentDate.toString()
+        r.currentIndexAG=aGetNums[2]
+        log.ls('l103: r.currentIndexAG: '+r.currentIndexAG, 500, 500)
     }
     MouseArea{
         anchors.fill: parent
@@ -719,12 +727,12 @@ Rectangle {
                         spacing: app.fs*0.25
                         anchors.horizontalCenter: parent.horizontalCenter
                         Text{
-                                id: labelAP
-                                text: '<b>N° Año Personal</b>'
-                                color: apps.fontColor
-                                font.pixelSize: app.fs*0.5
-                                anchors.horizontalCenter: parent.horizontalCenter
-                            }
+                            id: labelAP
+                            text: '<b>N° Año Personal</b>'
+                            color: apps.fontColor
+                            font.pixelSize: app.fs*0.5
+                            anchors.horizontalCenter: parent.horizontalCenter
+                        }
 
                         Row{
                             id: rowAp
@@ -874,20 +882,50 @@ Rectangle {
                                 panelLog.flk.contentY=0
                             }
                         }
-                        Button{
-                            text:  'Calcular todo'
-                            anchors.verticalCenter: parent.verticalCenter
-                            onClicked: {
-                                calc()
-                                panelLog.clear()
-                                panelLog.l(getTodo(checkBoxFormula.checked))
-                                panelLog.visible=true
-                                panelLog.flk.contentY=0
-                                if(Qt.platform.os!=='android'){
-                                    clipboard.setText(panelLog.text)
-                                }else{
-                                    panelLog.cp()
-                                }
+                    }
+                    Button{
+                        text:  'Cuadro Num. Carta'
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        onClicked: {
+                            calc()
+                            let aGetNums=JS.getNums(app.currentFecha)
+                            r.currentIndexAG=aGetNums[2]
+                            panelLog.clear()
+                            panelLog.l(getTodo(checkBoxFormula.checked))
+                            panelLog.visible=true
+                            panelLog.flk.contentY=0
+                            if(Qt.platform.os!=='android'){
+                                clipboard.setText(panelLog.text)
+                            }else{
+                                panelLog.cp()
+                            }
+                        }
+                    }
+                    Button{
+                        text:  'Cuadro Num. Formulario'
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        onClicked: {
+                            calc()
+                            //let nf=
+                            let m0=txtDataSearchFecha.text.split('.')
+                            if(m0.length<3){
+                                log.ls('Error! Hay un problema con la fecha.\nFecha: '+txtDataSearchFecha.text, 0, xLatIzq.width)
+                                return
+                            }
+                            let dia=parseInt(m0[0])
+                            let mes=parseInt(m0[1])
+                            let anio=parseInt(m0[2])
+                            let nfecha=''+dia+'/'+mes+'/'+anio
+                            let aGetNums=JS.getNums(nfecha)
+                            r.currentIndexAG=aGetNums[2]
+                            panelLog.clear()
+                            panelLog.l(getTodo(checkBoxFormula.checked))
+                            panelLog.visible=true
+                            panelLog.flk.contentY=0
+                            if(Qt.platform.os!=='android'){
+                                clipboard.setText(panelLog.text)
+                            }else{
+                                panelLog.cp()
                             }
                         }
                     }
@@ -899,6 +937,17 @@ Rectangle {
                             anchors.verticalCenter: parent.verticalCenter
                             onClicked: {
                                 calc()
+                                let m0=txtDataSearchFecha.text.split('.')
+                                if(m0.length<3){
+                                    log.ls('Error! Hay un problema con la fecha.\nFecha: '+txtDataSearchFecha.text, 0, xLatIzq.width)
+                                    return
+                                }
+                                let dia=parseInt(m0[0])
+                                let mes=parseInt(m0[1])
+                                let anio=parseInt(m0[2])
+                                let nfecha=''+dia+'/'+mes+'/'+anio
+                                let aGetNums=JS.getNums(nfecha)
+                                r.currentIndexAG=aGetNums[2]
                                 let folder=apps.numCurrentFolder.replace('file://', '')
                                 if(!unik.folderExist(folder)){
                                     log.ls('La carpeta para guardar el archivo no existe: '+folder, 0, xApp.width*0.2)
@@ -1004,8 +1053,10 @@ Rectangle {
 
         r.arbolGenealogico=getDataJsonArGen()['arboltipo']
         r.aCargasAG=getDataJsonArGen()['cargas']
+        r.aCargasExpAG=getDataJsonArGen()['cargasExp']
         r.aDonesAG=getDataJsonArGen()['dones']
-
+        r.aMetasAG=getDataJsonArGen()['metas']
+        r.aPersonasSituacionesAG=getDataJsonArGen()['personasSituaciones']
         calc()
     }
     function getNumNomText(text, formula){
@@ -1384,6 +1435,8 @@ Rectangle {
         let f = d + '/' + m + '/' + a
         let aGetNums=JS.getNums(f)
         let vcurrentNumNacimiento=aGetNums[0]
+        r.currentIndexAG=aGetNums[2]
+        //log.ls('l1396: r.currentIndexAG: '+r.currentIndexAG, 500, 500)
         panelLog.l('Número de Karma '+vcurrentNumNacimiento+'\n')
         panelLog.l(getNumNomText(nom, checkBoxFormula.checked))
         panelLog.l('¿Cómo es su personalidad?\n\n\n\n\n\n')
@@ -1503,6 +1556,8 @@ Rectangle {
         let sf=''+d+'/'+m+'/'+a
         let aGetNums=JS.getNums(sf)
         currentNumNacimiento=aGetNums[0]
+        r.currentIndexAG=aGetNums[2]
+        //log.ls('l1518: r.currentIndexAG: '+r.currentIndexAG, 500, 500)
         let dateP = new Date(parseInt(txtDataSearchFechaAP.text), m - 1, d, 0, 1)
         //controlTimeYear.currentDate=dateP
         r.currentDate = dateP
@@ -1549,14 +1604,20 @@ Rectangle {
             }else{
                 currentNumNacimiento=dobleDigSum
             }
-
         }else{
             currentNumNacimiento=sum
         }
+        //log.ls('r.currentNumNacimiento: '+r.currentNumNacimiento, 500, 500)
         f0.text=sform
         apps.numUFecha=txtDataSearchFecha.text
         calcularAP()
     }
+    //    function setIndexAG(){
+    //        let fechaConPuntos=txtDataSearchFecha.text.split('.').join('.')
+    //        let d = JS.getNums(fechaConPuntos)
+    //        let ag=parseInt(d[2])
+    //        r.currentIndexAG=ag
+    //    }
     function calc(){
         r.currentNumFirma=setNumFirma()
         setNumNac()
@@ -1608,6 +1669,27 @@ Rectangle {
         ret+='¿Cómo podría ser su destino?\n\n'
         ret+=getItemJson('dest'+r.currentNumDestino)
         ret+='\n\n'
+
+        //Árbol Genealógico Cargas
+        let indexAG=r.currentIndexAG
+        //log.ls('l1633_r.currentIndexAG: '+r.currentIndexAG, 500, 500)
+        if(formula){
+            ret+='Árbol Genealógico del tipo '+r.arbolGenealogico[indexAG]+'\n\n'
+            ret+='Tipo de carga familiar: '+r.aCargasAG[indexAG]+'\n\n'
+            ret+='Don, fuerza o talento para potenciar y/o utilizar en la vida: '+r.aDonesAG[indexAG]+'\n\n'
+            ret+='Misión de vida o Meta que debería perseguir: '+r.aMetasAG[indexAG]+'\n\n'
+            ret+='Tipo de Personas y situaciones: '+r.aPersonasSituacionesAG[indexAG]+'\n\n'
+        }else{
+            ret+='¿Cuál podría ser el infortunio en su vida?'+'\n'
+            ret+='¿Dicho infortunio en que area de su vida le afectaría?'+'\n'
+            ret+='Infortunio: '+r.aCargasAG[indexAG]+'\n\n'
+            ret+='¿Cuál podría ser su don o su principal virtud a conseguir, expresar y manifestar?'+'\n'
+            ret+='Don, fuerza o talento para potenciar y/o utilizar en la vida: '+r.aDonesAG[indexAG]+'\n\n'
+            ret+='¿Cuál podría ser su misión o de qué manera podría brindar algo hacia sí mismo/a o a los demás?'+'\n'
+            ret+='Misión de vida o Meta que debería perseguir: '+r.aMetasAG[indexAG]+'\n\n'
+            ret+='¿Con qué tipo de personas o situaciones se podría encontrar muy seguido en su vida?'+'\n'
+            ret+=''+r.aPersonasSituacionesAG[indexAG]+'\n\n'
+        }
 
         //Pinaculos
         ret+='Pináculos\n\n'
