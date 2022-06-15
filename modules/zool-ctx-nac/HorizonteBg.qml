@@ -5,7 +5,22 @@ Item {
     width: xApp.width
     height: width
     //anchors.centerIn: parent
-    property int posSol: 1
+    property int posSol: -1
+    onPosSolChanged: {
+        bgSol3.visible=false
+        bgSol0y2.visible=false
+        bgSol1.visible=false
+        if(posSol===3){
+            bgSol3.visible=true
+            bgSol0y2.visible=false
+            bgSol1.visible=false
+        }
+        if(posSol===1){
+            bgSol3.visible=false
+            bgSol0y2.visible=false
+            bgSol1.visible=true
+        }
+    }
     Rectangle{
         id: bgSol0y2
         visible: r.posSol===0  || r.posSol===2

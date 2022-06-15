@@ -456,7 +456,7 @@ AppWin {
                         height: app.fs*1.2
                         color: apps.fontColor
                         anchors.horizontalCenter: parent.horizontalCenter
-                        property var aPanelesTits: ['Información','Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Asp. Tráns.', 'Numerología', 'Funciones', 'Opciones', 'Texto a voz']
+                        property var aPanelesTits: ['Información','Sabianos', 'Archivos', 'Crear Carta', 'Revolución Solar', 'Módulos', 'Numerología', 'Funciones', 'Opciones', 'Texto a voz']
                         Text{
                             text: parseInt(sv.currentIndex + 1)+': '+xPanelesTits.aPanelesTits[sv.currentIndex]
                             color: apps.backgroundColor
@@ -480,7 +480,8 @@ AppWin {
                         XPaneles{PanelFileLoader{id: panelFileLoader;itemIndex: 2}}
                         XPaneles{PanelNewVNA{id: panelNewVNA;itemIndex: 3}}
                         XPaneles{PanelRsList{id: panelRsList;itemIndex: 4}}
-                        XPaneles{PanelAspTransList{id: panelAspTransList;itemIndex: 5}}
+                        //XPaneles{PanelAspTransList{id: panelAspTransList;itemIndex: 5}}
+                        XPaneles{Comps.PanelZoolModules{id: panelZoolModules;itemIndex: 5}}
                         //XPaneles{PanelZonaMes{id: panelZonaMes;;itemIndex: 6}}
                         XPaneles{Num.NumPit{id: ncv;itemIndex: 6}}
                         XPaneles{PanelBotsFuncs{id: panelBotsFuncs;itemIndex: 7}}
