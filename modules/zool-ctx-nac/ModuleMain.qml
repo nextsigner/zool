@@ -25,27 +25,27 @@ Item {
             let no=r.o
             if (wheel.modifiers & Qt.ControlModifier) {
                 if(wheel.angleDelta.y>=0){
-                        no+=0.1
+                    no+=0.1
                 }else{
-                        no-=0.1
+                    no-=0.1
                 }
                 r.o=no
             }else{
-//                if(wheel.angleDelta.y>=0){
-////                    if(reSizeAppsFs.fs<app.fs*2){
-////                        reSizeAppsFs.fs+=reSizeAppsFs.fs*0.1
-////                    }else{
-////                        reSizeAppsFs.fs=app.fs
-////                    }
-//                    pointerPlanet.pointerRot+=45
-//                }else{
-////                    if(reSizeAppsFs.fs>app.fs){
-////                        reSizeAppsFs.fs-=reSizeAppsFs.fs*0.1
-////                    }else{
-////                        reSizeAppsFs.fs=app.fs*2
-////                    }
-//                    pointerPlanet.pointerRot-=45
-//                }
+                //                if(wheel.angleDelta.y>=0){
+                ////                    if(reSizeAppsFs.fs<app.fs*2){
+                ////                        reSizeAppsFs.fs+=reSizeAppsFs.fs*0.1
+                ////                    }else{
+                ////                        reSizeAppsFs.fs=app.fs
+                ////                    }
+                //                    pointerPlanet.pointerRot+=45
+                //                }else{
+                ////                    if(reSizeAppsFs.fs>app.fs){
+                ////                        reSizeAppsFs.fs-=reSizeAppsFs.fs*0.1
+                ////                    }else{
+                ////                        reSizeAppsFs.fs=app.fs*2
+                ////                    }
+                //                    pointerPlanet.pointerRot-=45
+                //                }
             }
             //reSizeAppsFs.restart()
         }
@@ -70,10 +70,10 @@ Item {
             id: xHorBg
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: img1.bottom
-//            HorizonteBg{
-//                id: horizonteBg
+            //            HorizonteBg{
+            //                id: horizonteBg
 
-//            }
+            //            }
         }
         SubsueloBg{
             anchors.horizontalCenter: parent.horizontalCenter
@@ -118,6 +118,56 @@ Item {
             anchors.horizontalCenterOffset: 0-app.fs*3
             anchors.verticalCenter: parent.verticalCenter
             anchors.verticalCenterOffset: 0-app.fs*3
+        }
+        Rectangle{
+            id: xInfoNac
+            anchors.horizontalCenter: imgFlecha.horizontalCenter
+            anchors.bottom: imgFlecha.top
+            anchors.bottomMargin: app.fs*0.5
+            width:  app.fs*6
+            height: txt3.contentHeight+app.fs
+            border.width: 3
+            border.color: 'black'
+            radius: app.fs*0.5
+            Text {
+                id: txt3
+                text: 'Lugar de Nacimiento'
+                width: parent.width-app.fs
+                font.pixelSize: app.fs*0.5
+                wrapMode: Text.WordWrap
+                anchors.centerIn: parent
+            }
+        }
+        Image {
+            id: imgFlecha
+            source: "flecha.png"
+            width: app.fs*2
+            height: width*0.7
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.verticalCenter
+            anchors.bottomMargin: app.fs*3
+            visible: false
+        }
+        ColorOverlay{
+            anchors.fill: imgFlecha
+            source: imgFlecha
+            color: 'yellow'
+            rotation: 90
+            SequentialAnimation on color{
+                running: true
+                loops: Animation.Infinite
+
+                ColorAnimation {
+                    from: "red"
+                    to: "yellow"
+                    duration: 300
+                }
+                ColorAnimation {
+                    from: "yellow"
+                    to: "red"
+                    duration: 300
+                }
+            }
         }
         Rectangle{
             anchors.horizontalCenter: parent.horizontalCenter
@@ -215,12 +265,12 @@ Item {
         }
 
     }
-//    Text{
-//        text: '-...'+horizonteBg.posSol
-//        font.pixelSize: 80
-//        color: 'red'
-//        anchors.centerIn: parent
-//    }
+    //    Text{
+    //        text: '-...'+horizonteBg.posSol
+    //        font.pixelSize: 80
+    //        color: 'red'
+    //        anchors.centerIn: parent
+    //    }
     Component{
         id: comp
         Rectangle{
@@ -336,7 +386,7 @@ Item {
             setBg(3)
             //horizonteBg.opacity-=0.05
         }else if(ih===8||ih===9||ih===11){
-            setBg(4)
+            setBg(1)
         }else{
             setBg(1)
         }
@@ -351,5 +401,9 @@ Item {
         fakeSignCircle.rotation=sweg.objSignsCircle.rot
         let gs=app.currentRotationxAsSol-(fakeSignCircle.rotation-360)//r.uGS90
         fakeSolAxis.rotation=gs
+        let cd=new Date(app.currentDate)
+        let hora=cd.getHours()
+        let min=cd.getMinutes()
+        txt3.text='Lugar de nacimiento de <b>'+app.currentNom+'</b> el día <b>'+app.currentFecha+'</b> a las <b>'+hora+':'+min+'hs</b> en '+app.currentLugar
     }
 }

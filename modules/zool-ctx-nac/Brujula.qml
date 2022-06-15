@@ -35,12 +35,14 @@ Item {
             }
         }
     }
-    Row{
+    Column{
+        spacing: app.fs*0.5
         anchors.verticalCenter: parent.verticalCenter
+        anchors.verticalCenterOffset: 0-app.fs*0.5
         anchors.right: parent.left
-        anchors.rightMargin: app.fs*0.5
+        //anchors.rightMargin: app.fs*0.5
         Rectangle{
-            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
             //anchors.right: parent.left
             //anchors.rightMargin: app.fs*0.5
             width:  txt2.contentWidth+app.fs*0.5
@@ -57,9 +59,10 @@ Item {
         }
 
         Item{
-            width: r.width*0.5
-            height: r.height*0.3
+            width: r.width*0.3
+            height: width*0.5
             rotation: 180
+            anchors.right: parent.right
             Image {
                 id: img2
                 source: "flecha.png"
