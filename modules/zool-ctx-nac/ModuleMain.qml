@@ -9,18 +9,53 @@ Item {
     anchors.centerIn: parent
     parent: sweg
     visible: false
+    property real o: 0.25
     property string moduleName: 'Contexto de Nacimiento'
     property bool showAsCircle: true
     onVisibleChanged: {
         if(visible){
-            swe.centerZoomAndPos()
+            sweg.centerZoomAndPos()
         }
     }
     MouseArea{
         anchors.fill: parent
-        onClicked: r.showAsCircle=!r.showAsCircle
+        onWheel: {
+            //apps.enableFullAnimation=false
+            fakeSignCircle.rotation=sweg.objSignsCircle.rot
+            let no=r.o
+            if (wheel.modifiers & Qt.ControlModifier) {
+                if(wheel.angleDelta.y>=0){
+                        no+=0.1
+                }else{
+                        no-=0.1
+                }
+                r.o=no
+            }else{
+//                if(wheel.angleDelta.y>=0){
+////                    if(reSizeAppsFs.fs<app.fs*2){
+////                        reSizeAppsFs.fs+=reSizeAppsFs.fs*0.1
+////                    }else{
+////                        reSizeAppsFs.fs=app.fs
+////                    }
+//                    pointerPlanet.pointerRot+=45
+//                }else{
+////                    if(reSizeAppsFs.fs>app.fs){
+////                        reSizeAppsFs.fs-=reSizeAppsFs.fs*0.1
+////                    }else{
+////                        reSizeAppsFs.fs=app.fs*2
+////                    }
+//                    pointerPlanet.pointerRot-=45
+//                }
+            }
+            //reSizeAppsFs.restart()
+        }
+
+        onClicked: {
+            //horizonteBg.posSol=3
+            r.showAsCircle=!r.showAsCircle
+        }
         onDoubleClicked: {
-                r.visible=false
+            r.visible=false
         }
     }
     Rectangle{
@@ -30,10 +65,15 @@ Item {
         anchors.centerIn: parent
         radius: width*0.5
         visible: !r.showAsCircle
-        HorizonteBg{
-            id: horizonteBg
+        opacity: r.o
+        Item{
+            id: xHorBg
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: img1.bottom
+//            HorizonteBg{
+//                id: horizonteBg
+
+//            }
         }
         SubsueloBg{
             anchors.horizontalCenter: parent.horizontalCenter
@@ -82,6 +122,7 @@ Item {
         Rectangle{
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
+            anchors.bottomMargin: app.fs*3
             width:  txt2.contentWidth+app.fs
             height: txt2.contentHeight+app.fs
             border.width: 3
@@ -102,13 +143,84 @@ Item {
         anchors.centerIn: parent
         radius: width*0.5
         visible: r.showAsCircle
+        opacity: r.o
     }
     OpacityMask {
         anchors.fill: xCircle
         source: xCircle
         maskSource: xCircleMask
         visible: r.showAsCircle
+        opacity: r.o
     }
+    Rectangle{
+        id: fakeSignCircle
+        anchors.fill: parent
+        color: 'transparent'
+        radius: width*0.5
+        border.width: 0
+        border.color: 'blue'
+        Rectangle{
+            id: fakeSignCircleAxis1
+            width: parent.width*2
+            height: 3
+            anchors.centerIn: parent
+            color: 'transparent'
+        }
+        Rectangle{
+            id: fakeSolAxis
+            width: parent.width-app.fs*2
+            height: 3
+            anchors.centerIn: parent
+            color: 'transparent'
+            opacity: r.o
+            Rectangle{
+                id: xFakeSol
+                width: app.fs
+                height: width
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                color: "#f38a27"
+                radius: width*0.5
+                SequentialAnimation on color{
+                    running: true
+                    loops: Animation.Infinite
+                    ColorAnimation {
+                        from: "#f38a27"
+                        to: "yellow"
+                        duration: 200
+                    }
+                    ColorAnimation {
+                        from: "yellow"
+                        to: "#f38a27"
+                        duration: 200
+                    }
+                }
+                Repeater{
+                    model: 12
+                    Rectangle{
+                        width: parent.width+app.fs*0.5
+                        height: 2
+                        color: parent.color
+                        anchors.centerIn: parent
+                        rotation: index*30
+                    }
+                }
+                Text{
+                    text: '<b>SOL</b>'
+                    font.pixelSize: parent.width*0.4
+                    anchors.centerIn: parent
+                    rotation: 360-fakeSignCircle.rotation-fakeSolAxis.rotation
+                }
+            }
+        }
+
+    }
+//    Text{
+//        text: '-...'+horizonteBg.posSol
+//        font.pixelSize: 80
+//        color: 'red'
+//        anchors.centerIn: parent
+//    }
     Component{
         id: comp
         Rectangle{
@@ -136,7 +248,10 @@ Item {
                     anchors.horizontalCenter: parent.horizontalCenter
                     MouseArea{
                         anchors.fill: parent
-                        onClicked: xPanel.showPanel=!xPanel.showPanel
+                        onClicked: {
+                            xPanel.showPanel=!xPanel.showPanel
+
+                        }
                     }
                     Text{
                         text: r.moduleName
@@ -172,52 +287,69 @@ Item {
 
 
             //            Rectangle{
-//                width: parent.width
-//                height: app.fs*1.5
-//                color: apps.fontColor
-//                Text{
-//                    text: r.moduleName
-//                    font.pixelSize: app.fs
-//                    color: apps.backgroundColor
-//                    anchors.centerIn: parent
-//                    Timer{
-//                        id: t1
-//                        running: parent.contentWidth>parent.parent.width-app.fs
-//                        repeat: true
-//                        interval: 100
-//                        onTriggered: parent.font.pixelSize-=1
-//                    }
-//                }
+            //                width: parent.width
+            //                height: app.fs*1.5
+            //                color: apps.fontColor
+            //                Text{
+            //                    text: r.moduleName
+            //                    font.pixelSize: app.fs
+            //                    color: apps.backgroundColor
+            //                    anchors.centerIn: parent
+            //                    Timer{
+            //                        id: t1
+            //                        running: parent.contentWidth>parent.parent.width-app.fs
+            //                        repeat: true
+            //                        interval: 100
+            //                        onTriggered: parent.font.pixelSize-=1
+            //                    }
+            //                }
 
-//            }
+            //            }
 
 
         }
     }
     Timer{
         id: tCheck
-        running: r.visible
+        running: r.visible || r.uIH<0
         repeat: true
         interval: 1000
-        onTriggered: {
-            let json=app.currentJson
-            //log.ls('json: '+JSON.stringify(json.pc.c0), 0, xLatIzq.width)
-            let ih=parseInt(json.pc.c0.ih)
-            if(ih===12||ih===7){
-                horizonteBg.posSol=0
-            }else if(ih===1||ih===2||ih===3||ih===4||ih===5||ih===6){
-                horizonteBg.posSol=3
-                //horizonteBg.opacity-=0.05
-            }else if(ih===8||ih===9||ih===11){
-                horizonteBg.posSol=4
-            }else{
-                //horizonteBg.posSol=1
-            }
-            //log.ls('json: '+ih, 0, xLatIzq.width)
-            //log.ls('horizonteBg.posSol: '+horizonteBg.posSol, 0, xLatIzq.width)
+        onTriggered: setBgPosSol()
+    }
+    property int uIH: -1
+    property int uGS: -1
+    Component.onCompleted: {
+        setBgPosSol()
+        let obj=comp.createObject(panelZoolModules.c, {})
+    }
+    function setBgPosSol(){
+        let json=app.currentJson
+        //log.ls('json: '+JSON.stringify(json.pc.c0), 0, xLatIzq.width)
+        if(!json)return
+        let ih=parseInt(json.pc.c0.ih)
+        r.uIH=ih
+        let gs=parseInt(json.pc.c0.gdec)
+        r.uGS=gs
+        if(ih===12||ih===7){
+            setBg(0)
+        }else if(ih===1||ih===2||ih===3||ih===4||ih===5||ih===6){
+            setBg(3)
+            //horizonteBg.opacity-=0.05
+        }else if(ih===8||ih===9||ih===11){
+            setBg(4)
+        }else{
+            setBg(1)
         }
     }
-    Component.onCompleted: {
-        let obj=comp.createObject(panelZoolModules.c, {})
+    function setBg(posSol){
+        for(var i=0;i<xHorBg.children.length;i++){
+            xHorBg.children[i].destroy(1)
+        }
+        let c='import QtQuick 2.0\nHorizonteBg{\nid: horizonteBg\n}\n'
+        let comp=Qt.createComponent('HorizonteBg.qml')
+        let obj=comp.createObject(xHorBg, {posSol: posSol})
+        fakeSignCircle.rotation=sweg.objSignsCircle.rot
+        let gs=app.currentRotationxAsSol-(fakeSignCircle.rotation-360)//r.uGS90
+        fakeSolAxis.rotation=gs
     }
 }

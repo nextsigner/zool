@@ -4,22 +4,23 @@ Item {
     id: r
     width: xApp.width
     height: width
-    //anchors.centerIn: parent
-    property int posSol: -1
+    anchors.horizontalCenter: parent.horizontalCenter
+    anchors.bottom: parent.bottom
+    property int posSol: 3
     onPosSolChanged: {
-        bgSol3.visible=false
-        bgSol0y2.visible=false
-        bgSol1.visible=false
-        if(posSol===3){
-            bgSol3.visible=true
-            bgSol0y2.visible=false
-            bgSol1.visible=false
-        }
-        if(posSol===1){
-            bgSol3.visible=false
-            bgSol0y2.visible=false
-            bgSol1.visible=true
-        }
+//        bgSol3.visible=false
+//        bgSol0y2.visible=false
+//        bgSol1.visible=false
+//        if(posSol===3){
+//            bgSol3.visible=true
+//            bgSol0y2.visible=false
+//            bgSol1.visible=false
+//        }
+//        if(posSol===1){
+//            bgSol3.visible=false
+//            bgSol0y2.visible=false
+//            bgSol1.visible=true
+//        }
     }
     Rectangle{
         id: bgSol0y2
@@ -40,12 +41,12 @@ Item {
                 color: "#009dff";
             }
         }
-        anchors.centerIn: parent
+        //anchors.centerIn: parent
     }
     Rectangle{
         id: bgSol1
         visible: r.posSol===1
-        anchors.fill: parent
+        anchors.fill: r//parent
         rotation: 180
         gradient: Gradient {
             GradientStop {
@@ -61,12 +62,12 @@ Item {
                 color: "#009dff";
             }
         }
-        anchors.centerIn: parent
+        //anchors.centerIn: parent
     }
     Rectangle{
         id: bgSol3
         visible: r.posSol===3
-        anchors.fill: parent
+        anchors.fill: r//parent
         rotation: 180
         gradient: Gradient {
             GradientStop {
@@ -82,7 +83,7 @@ Item {
                 color: "#000000";
             }
         }
-        anchors.centerIn: parent
+        //anchors.centerIn: parent
     }
 
     //-->Cesped
@@ -112,8 +113,8 @@ Item {
     }
     Row{
         spacing: app.fs*0.25
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: r.bottom
+        anchors.horizontalCenter: r.horizontalCenter
         Repeater{
             model: 30
             Item{
@@ -136,8 +137,8 @@ Item {
 
     Row{
         spacing: app.fs*3
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: r.bottom
+        anchors.horizontalCenter: r.horizontalCenter
         anchors.bottomMargin: app.fs*3
         Repeater{
             model: 4
@@ -158,8 +159,8 @@ Item {
     }
     Row{
         spacing: app.fs*1.5
-        anchors.bottom: parent.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.bottom: r.bottom
+        anchors.horizontalCenter: r.horizontalCenter
         anchors.bottomMargin: app.fs*3
         rotation: 180
         Repeater{
@@ -175,7 +176,6 @@ Item {
                     anchors.bottom: parent.bottom
                 }
             }
-
         }
     }
 
