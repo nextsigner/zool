@@ -740,6 +740,7 @@ AppWin {
         }
     }
     LogItem{id: log}
+
     //    Text{
     //        text: '->'+menuBar.expanded
     //        font.pixelSize: app.fs*3
@@ -757,6 +758,13 @@ AppWin {
             log.ls('Minyma For Me: '+data, 0, 500)
         }
     }
+//    Timer{
+//        id: tLoadModules
+//        running: false
+//        repeat: false
+//        interval: 5000
+//        onTriggered: JS.loadModules()
+//    }
     Component.onCompleted: {
         //log.visible=true
         //log.l('--------->'+EXTRA.getColor(10))
@@ -802,5 +810,8 @@ AppWin {
             }
         }
         //JS.getRD('https://github.com/nextsigner/nextsigner.github.io/raw/master/zool/zool', setHost)
+
+        JS.loadModules()
+        //tLoadModules.start()
     }
 }

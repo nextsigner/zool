@@ -3,6 +3,7 @@
 #include <QDir>
 #include <QDebug>
 #include <QIcon>
+#include <QFile>
 #include "qmlclipboardadapter.h"
 //#include <QtWebView/QtWebView>
 
@@ -126,6 +127,27 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     qmlRegisterType<UnikQProcess>("unik.UnikQProcess", 1, 0, "UnikQProcess");
+
+    QString currentPath=u.getPath(5);
+    if(currentPath.contains(".mount")){
+        QString src="./";
+        QString dst=u.getPath(4);
+        QDir dir(QDir::currentPath());
+        if (! dir.exists()){
+            return -3;
+        }
+        foreach (QString d, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+            QString dst_path = dst + QDir::separator() + d;
+            dir.mkpath(dst_path);
+            QFile::copy(src+ QDir::separator() + d, dst_path);
+        }
+
+        foreach (QString f, dir.entryList(QDir::Files)) {
+            QFile::copy(src + QDir::separator() + f, dst + QDir::separator() + f);
+        }
+        QDir::setCurrent(u.getPath(4));
+    }
+
     QByteArray documentsPath;
     documentsPath.append(u.getPath(3).toUtf8());
     documentsPath.append("/Zool");
@@ -133,6 +155,12 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("unik", &u);
     engine.rootContext()->setContextProperty("version", VERSION);
     engine.rootContext()->setContextProperty("clipboard", &clipboard);
+    engine.rootContext()->setContextProperty("engine", &engine);
+    QByteArray importPath="";
+    importPath.append(u.getPath(4));
+    importPath.append("/modules");
+    engine.addImportPath(importPath);
+    qDebug()<<"engine.addImportPath:"<<importPath;
     engine.load(url);
 
     return app.exec();

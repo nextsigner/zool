@@ -1024,6 +1024,7 @@ bool Unik::loadUpk(QString upkLocation, bool closeAppLauncher, QString user, QSt
 
 bool Unik::downloadGit(QByteArray url, QByteArray localFolder)
 {
+    qDebug()<<"dg1...";
     QString u;
     u.append(url);
     QStringList mUrl0=u.split("/");
@@ -1070,6 +1071,7 @@ bool Unik::downloadGit(QByteArray url, QByteArray localFolder)
 
     qInfo()<<"Downloading from GitHub: "<<url;
     qInfo()<<"Download Folder Location: "<<carpetaDestino;
+
     QDateTime a = QDateTime::currentDateTime();
     QByteArray tempFile;
     tempFile.append(getPath(2).toUtf8());
@@ -1080,12 +1082,17 @@ bool Unik::downloadGit(QByteArray url, QByteArray localFolder)
     tempFile.append(QString::number(a.toMSecsSinceEpoch()).toUtf8());
 #endif
     tempFile.append(".zip");
-    qInfo("temp zip location "+tempFile);
+    QByteArray ld="temp zip location ";
+    ld.append(tempFile);
+    //log(ld);
+    qInfo()<<ld;
     qInfo()<<"Url Zip Git: "<<urlZipGit;
 
 
 
+
     bool d=downloadZipFile(urlZipGit.toUtf8(), tempFile);
+
     if(!d){
         qDebug("Git Zip not downloaded.");
         return false;
@@ -1231,9 +1238,15 @@ bool Unik::downloadGit(QByteArray url, QByteArray localFolder)
     }
     QFile zipFile(tempFile);
     if(zipFile.exists()){
-        qInfo()<<"Zip File "+tempFile+" exist.";
+        QByteArray ld="Zip File ";
+        ld.append(tempFile);
+        ld.append(" exist.");
+        qInfo()<<ld;
     }else{
-        qInfo()<<"Zip File "<<tempFile<<" not exist.";
+        QByteArray ld="Zip File ";
+        ld.append(tempFile);
+        ld.append(" not exist.");
+        qInfo()<<ld;
         return false;
     }
 
@@ -1951,12 +1964,19 @@ void Unik::httpReadyRead()
 
 bool Unik::downloadZipFile(QByteArray url, QByteArray ubicacion)
 {
-    log("downloading zip file from: "+url);
+    //log("downloading zip file from: "+url);
+    QByteArray ld="downloading zip file from: ";
+    ld.append(url);
+    //log(ld);
+    qDebug()<<"dg0...";
     uZipUrl=QString(url);
+    qDebug()<<"dg1...";
     uZipLocalLocation="";
     uZipLocalLocation.append(ubicacion);
     uZipSize=-1;
+
     getZipFileSizeForDownload(url);
+
     int v=0;
     while (uZipSize<=0) {
         //qInfo()<<"uZipSize V: "<<v;
@@ -2031,12 +2051,14 @@ bool Unik::downloadZipFile(QByteArray url, QByteArray ubicacion)
 void Unik::getZipFileSizeForDownload(QByteArray url)
 {
     //uZipSize=-1;
+    //qDebug()<<"dg1..."<<url;
     QNetworkRequest req;
     //QNetworkAccessManager mgr3;
     qnam = new QNetworkAccessManager(this);
     req.setUrl(QUrl(url.constData()));
     reply2 = qnam->head(req);
     connect(reply2,SIGNAL(finished()),this,SLOT(setUZipFileSize()));
+
 }
 
 void Unik::setUZipFileSize()
@@ -2055,7 +2077,7 @@ void Unik::sendFile(QString file, QString phpReceiver)
     if(debugLog){
         lba="";
         lba.append("Starting sending data...");
-        log(lba);
+        //log(lba);
     }
     QNetworkAccessManager *am = new QNetworkAccessManager(this);
     QByteArray origen;
@@ -2074,7 +2096,7 @@ void Unik::sendFile(QString file, QString phpReceiver)
         lba="";
         lba.append("Mime type: ");
         lba.append(type.name().toUtf8());
-        log(lba);
+        //log(lba);
     }
     QByteArray urlReceiver;
     urlReceiver.append(phpReceiver.toUtf8());
@@ -2107,14 +2129,14 @@ void Unik::sendFile(QString file, QString phpReceiver)
         if(debugLog){
             lba="";
             lba.append("Error while opening file.");
-            log(lba);
+            //log(lba);
         }
         return;
     }else{
         if(debugLog){
             lba="";
             lba.append("Opening file...");
-            log(lba);
+            //log(lba);
         }
     }
     data.append(localFile.readAll());
@@ -2161,7 +2183,7 @@ void Unik::uploadProgress(qint64 bytesSend, qint64 bytesTotal)
     nl.append(uZipUrl);
     nl.append(" %");
     nl.append(sd1.at(0));
-    log(nl);
+    //log(nl);
 }
 
 void Unik::downloadProgress(qint64 bytesSend, qint64 bytesTotal)
@@ -2196,7 +2218,7 @@ void Unik::downloadProgress(qint64 bytesSend, qint64 bytesTotal)
     nl.append(uZipUrl);
     nl.append(" %");
     nl.append(sd1.at(0));
-    log(nl);
+    //log(nl);
 }
 void Unik::sendFinished()
 {
@@ -2204,7 +2226,7 @@ void Unik::sendFinished()
         lba="";
         lba.append("Sending data finished!\nResponse: ");
         lba.append(respuentaSendDatos->readAll());
-        log(lba);
+        //log(lba);
     }
     setUploadState(respuentaSendDatos->readAll());
 }
@@ -2251,14 +2273,14 @@ bool Unik::sqliteInit(QString pathName)
         if(debugLog){
             lba="";
             lba.append("Sqlite open error");
-            log(lba);
+            //log(lba);
         }
     }else{
         if(debugLog){
             lba="";
             lba.append("Sqlite open ");
             lba.append(rutaBD);
-            log(lba);
+            //log(lba);
         }
     }
     return ret;
@@ -2273,12 +2295,12 @@ bool Unik::sqlQuery(QString query)
             lba="";
             lba.append("sql query exec: ");
             lba.append(query);
-            log(lba);
+            //log(lba);
 
             QByteArray d;
             d.append("sql query exec: ");
             d.append(query);
-            log(d);
+            //log(d);
         }
         return true;
     }
@@ -2288,7 +2310,7 @@ bool Unik::sqlQuery(QString query)
         lba.append(query);
         lba.append(" \nError SQL! ");
         lba.append(q.lastError().text());
-        log(lba);
+        //log(lba);
     }
     return false;
 }
@@ -2326,14 +2348,14 @@ QList<QObject *> Unik::getSqlData(QString query)
             cc.append(" ");
             cc.append("Column count result: ");
             cc.append(QString::number(cantcols).toUtf8());
-            log(cc);
+            //log(cc);
         }
     }else{
         if(debugLog){
             lba="";
             lba.append("Sql query no exec: ");
             lba.append(consultar.lastError().text().toUtf8());
-            log(lba);
+            //log(lba);
         }
     }
     return ret;
@@ -2417,7 +2439,7 @@ bool Unik::setFile(QByteArray fileName, QByteArray fileData, QByteArray codec)
         lba="";
         lba.append("Cannot open file for writing: ");
         lba.append(file.errorString().toUtf8());
-        log(lba);
+        //log(lba);
         return false;
     }
     QTextStream out(&file);
@@ -3037,7 +3059,7 @@ QString Unik::decPrivateData(QByteArray d0, QString user, QString key)
                     if(debugLog){
                         lba="";
                         lba.append("Error extract! pass data not found.");
-                        log(lba);
+                        //log(lba);
                     }
                     return "";
                 }
@@ -3136,7 +3158,7 @@ void Unik::downloadZipProgress(qint64 bytesSend, qint64 bytesTotal)
     nl.append(sd1.at(0).toUtf8());
     //nl.append(" Size: ");
     //nl.append(QString::number(uZipSize));
-    log(nl);
+    //log(nl);
 }
 
 #ifdef Q_OS_WIN

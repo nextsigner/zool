@@ -10,5 +10,5 @@ cp -r editor ./build_linux/
 cp -r py ./build_linux/
 cp -r resources ./build_linux/
 cp -r swe ./build_linux/
-
+cp -r modules ./build_linux/
 echo "Se han copiando todos los archivos a build_linux."

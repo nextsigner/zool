@@ -1047,3 +1047,51 @@ function getNums(fecha){
     }
     return [nf, d, numArbolGen]
 }
+
+//Modules
+function loadModules(){
+    let d='{"modules":['
+
+    d+='{"enabled": true, "name":"Contexto de Namimiento", "url": "https://github.com/nextsigner/zool-ctx-nac.git"}'
+    d+=',{"enabled": false, "name":"Modulo inexistente", "url": "https://github.com/nextsigner/inexistente.git"}'
+
+    d+=']}'
+    let jsonFileData=d
+    let json=JSON.parse(jsonFileData)
+    for(var i=0;i<json.modules.length;i++){
+        if(json.modules[i].enabled){
+            log.ls('Modules: '+json.modules[i].name, 0, 500)
+            let url=json.modules[i].url
+            let f=(''+url.split('/')[url.split('/').length - 1]).replace('.git', '')
+            //let folder=unik.getPath(5)+'/modules'//+f
+            let folder=unik.getPath(4)+'/modules'//+f
+            log.ls('Modules Folder: '+folder, 0, 500)
+            if(!unik.folderExist(folder)){
+                unik.mkdir(folder)
+                //log.ls('Modules Folder not exist making: '+folder, 0, 500)
+            }else{
+                //log.ls('Modules Folder exist: '+folder, 0, 500)
+            }
+            //loadModule(f)
+            let download=unik.downloadGit(url, folder)
+            if(download){
+                loadModule(f)
+            }
+        }else{
+            //log.ls('Modules disabled: '+json.modules[i].name, 0, 500)
+        }
+    }
+}
+function loadModule(folder){
+    //log.ls('loadModule('+folder+')...', 0, xLatIzq.width)
+    //engine.addImportPath(unik.getPath(4)+'/modules/'+folder);
+    let c='import QtQuick 2.0\n'
+    //c+='import "'+unik.currentFolderPath()+'/zool-modules/'+folder+'" as Module\n'
+    c+='import "./modules/'+folder+'" as Module\n'
+    //c+='import "'++'" as Module\n'
+    c+='Item{\n'
+    c+='    Module.ModuleMain{}\n'
+    c+='}\n'
+    //log.ls('code: '+c, 0, xLatIzq.width)
+    let comp=Qt.createQmlObject(c, xApp, 'loadmodule')
+}

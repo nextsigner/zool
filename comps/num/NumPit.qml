@@ -102,7 +102,7 @@ Rectangle {
         r.sFormulaNatalicio=aGetNums[1]
         labelFNTS.text=currentDate.toString()
         r.currentIndexAG=aGetNums[2]
-        log.ls('l103: r.currentIndexAG: '+r.currentIndexAG, 500, 500)
+        //log.ls('l103: r.currentIndexAG: '+r.currentIndexAG, 500, 500)
     }
     MouseArea{
         anchors.fill: parent

@@ -486,10 +486,17 @@ ApplicationWindow {
                 panelDataBodies.latFocus=panelDataBodies.latFocus===0?1:0
                 return
             }
-            if(sv.currentIndex===2){
-                panelNewVNA.toLeft()
-                return
+            if(apps.zFocus==='xLatIzq'){
+                if(xSabianos.visible){
+                    xSabianos.toleft()
+                    return
+                }
+                if(sv.currentIndex===2){
+                    panelNewVNA.toLeft()
+                    return
+                }
             }
+
             if(app.currentPlanetIndex>=0 && app.currentXAs){
                 app.currentXAs.rot(false)
                 return
@@ -502,10 +509,7 @@ ApplicationWindow {
                 menuBar.left()
                 return
             }
-            if(xSabianos.visible){
-                xSabianos.toleft()
-                return
-            }
+
         }
     }
     Shortcut{
@@ -519,9 +523,15 @@ ApplicationWindow {
                 panelDataBodies.latFocus=panelDataBodies.latFocus===0?1:0
                 return
             }
-            if(sv.currentIndex===2){
-                panelNewVNA.toRight()
-                return
+            if(apps.zFocus==='xLatIzq'){
+                if(sv.currentIndex===2){
+                    panelNewVNA.toRight()
+                    return
+                }
+                if(xSabianos.visible){
+                    xSabianos.toright()
+                    return
+                }
             }
             if(app.currentPlanetIndex>=0 && app.currentXAs){
                 app.currentXAs.rot(true)
@@ -535,12 +545,6 @@ ApplicationWindow {
                 menuBar.right()
                 return
             }
-
-            if(xSabianos.visible){
-                xSabianos.toright()
-                return
-            }
-
         }
     }
     Shortcut{
