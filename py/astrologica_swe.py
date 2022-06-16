@@ -128,6 +128,8 @@ lon = sys.argv[8]
 houseType=sys.argv[9]
 #houseType="P"
 
+swePath=sys.argv[10]
+
 GMSLat=decdeg2dms(float(lat))
 GMSLon=decdeg2dms(float(lon))
 
@@ -178,7 +180,9 @@ min=horaLocal.strftime('%M')
 
 #print('Tiempo: ' + dia + '/' + mes + '/' + anio + ' ' + hora + ':' + min)
 
-swe.set_ephe_path('./swe')
+
+swe.set_ephe_path(swePath+'/swe')
+#swe.set_ephe_path('./swe')
 #swe.set_ephe_path('/usr/share/libswe/ephe')
 
 d = datetime.datetime(int(anio),int(mes),int(dia),int(hora), int(min))

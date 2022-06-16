@@ -1589,7 +1589,7 @@ QString Unik::getPath(int path)
 #endif
 #ifdef Q_OS_LINUX
     if(path==1){//App location
-        r = QDir::currentPath();
+        r = qApp->applicationDirPath();
     }
 #endif
     if(path==2){//Temp location

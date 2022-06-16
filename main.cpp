@@ -130,7 +130,8 @@ int main(int argc, char *argv[])
 
     QString currentPath=u.getPath(5);
     if(currentPath.contains(".mount")){
-        QString src="./";
+    //if(true){
+        QString src=".";
         QString dst=u.getPath(4);
         QDir dir(QDir::currentPath());
         if (! dir.exists()){
@@ -139,11 +140,64 @@ int main(int argc, char *argv[])
         foreach (QString d, dir.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
             QString dst_path = dst + QDir::separator() + d;
             dir.mkpath(dst_path);
-            QFile::copy(src+ QDir::separator() + d, dst_path);
+            QString folder="";
+            folder.append(src);
+            folder.append(QDir::separator());
+            folder.append(d);
+            if(!folder.contains("resources") && !folder.contains("qml") && !folder.contains("py")  && !folder.contains("plugins")  && !folder.contains("qml")  && !folder.contains("lib")  && !folder.contains("libexec")  && !folder.contains("translations")){
+                qDebug()<<"Folder: "<<folder;
+                QFile::copy(src+ QDir::separator() + d, dst_path);
+            }else{
+                qDebug()<<"Folder ominted: "<<folder;
+            }
         }
 
         foreach (QString f, dir.entryList(QDir::Files)) {
-            QFile::copy(src + QDir::separator() + f, dst + QDir::separator() + f);
+            QString file="";
+            file.append(src);
+            file.append(QDir::separator());
+            file.append(f);
+            if(!file.contains(".pro") && !file.contains(".pro.") && !file.contains(".sh") && !file.contains(".cfg") && !file.contains("id_rsa_github")){
+                qDebug()<<"File: "<<file;
+                QFile::copy(src + QDir::separator() + f, dst + QDir::separator() + f);
+            }else{
+                qDebug()<<"File omited: "<<file;
+            }
+
+        }
+        src.append("/resources");
+        dst.append("/resources");
+        QString pathRes="";
+        pathRes.append(QDir::currentPath());
+        pathRes.append(QDir::separator());
+        pathRes.append("resources");
+        QDir dirRes(pathRes);
+        foreach (QString f, dirRes.entryList(QDir::Files)) {
+            QString file="";
+            file.append(src);
+            file.append(QDir::separator());
+            file.append(f);
+            if(!file.contains(".xcf") && !file.contains(".sh") && !file.contains(".dat")  && !file.contains(".pak")  && !file.contains(".txt")){
+                qDebug()<<"File: "<<file;
+                QFile::copy(src + QDir::separator() + f, dst + QDir::separator() + f);
+            }else{
+                qDebug()<<"File omited: "<<file;
+            }
+
+        }
+        foreach (QString d, dirRes.entryList(QDir::Dirs | QDir::NoDotAndDotDot)) {
+            QString dst_path = dst + QDir::separator() + d;
+            dirRes.mkpath(dst_path);
+            QString folder="";
+            folder.append(src);
+            folder.append(QDir::separator());
+            folder.append(d);
+            if(!folder.contains("__pycache__")){
+                qDebug()<<"Folder: "<<folder;
+                QFile::copy(src+ QDir::separator() + d, dst_path);
+            }else{
+                qDebug()<<"Folder ominted: "<<folder;
+            }
         }
         QDir::setCurrent(u.getPath(4));
     }
