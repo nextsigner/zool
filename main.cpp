@@ -128,7 +128,7 @@ int main(int argc, char *argv[])
     }else{
         QDir::setCurrent(qApp->applicationDirPath());
     }
-    QDir::setCurrent("/media/ns/ZONA-A1/zool");
+    //QDir::setCurrent("/media/ns/ZONA-A1/zool");
     mainFolder=mainFolder.replace("\\", "/");
     qDebug()<<"Current folder: "<<QDir::currentPath();
     qDebug()<<"Current mainFolder: "<<mainFolder;
