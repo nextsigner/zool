@@ -4,6 +4,9 @@ CONFIG += c++11
 
 TARGET=zool
 
+include(version.pri)
+
+
 windows{
     include(windows.pri)
 }

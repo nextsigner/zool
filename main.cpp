@@ -10,7 +10,7 @@
 #include "unikqprocess.h"
 #include "unik.h"
 
-#define VERSION "0.75"
+//#define VERSION "0.75"
 
 
 int main(int argc, char *argv[])
@@ -18,14 +18,43 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
     //QtWebView::initialize();
+
+    Unik u;
+    QString numVersion="0.0.0";
+
+    //-->VERSION
+    bool update=false;
+    //Get version file
+    QString fileVersionPath=u.getPath(4);
+    QString currentPath=u.getPath(5);
+    fileVersionPath.append(QDir::separator());
+    fileVersionPath.append("version");
+    qDebug()<<"Buscando archivo de versión :"<<fileVersionPath;
+    if(!u.fileExist(fileVersionPath.toUtf8())){
+        if(currentPath.contains(".mount")){
+            update=false;
+        }else{
+            update=true;
+        }
+    }else{
+        QString version="";
+        version.append(u.getHttpFile("https://raw.githubusercontent.com/nextsigner/zool-release/main/version"));
+        version=version.replace("\n", "");
+        QString currentVersion="";
+        currentVersion.append(u.getFile(fileVersionPath.toUtf8()));
+        currentVersion=currentVersion.replace("\n", "");
+        qDebug()<<"Current Version: "<<currentVersion;
+        qDebug()<<"Remote Version:"<<version;
+    }
+    //<--VERSION
     app.setApplicationDisplayName("Zool");
     app.setApplicationName("Zool");
     app.setOrganizationDomain("zool.ar");
     app.setOrganizationName("Zool.ar");
-    app.setApplicationVersion(VERSION);
+    app.setApplicationVersion(numVersion);
 
     QmlClipboardAdapter clipboard;
-    Unik u;
+
 
 #ifdef Q_OS_LINUX
     if(argc==2 && argv[1]==QByteArray("-install")){
@@ -54,7 +83,7 @@ int main(int argc, char *argv[])
         iconData.append("Categories=Development;Qt;Settings;\n");
         iconData.append("Type=Application\n");
         iconData.append("Name=Zool");
-        iconData.append(VERSION);
+        iconData.append(numVersion);
         iconData.append("\n");
         iconData.append("Exec=");
         //iconData.append(QDir::currentPath()+"/unik_v");
@@ -79,7 +108,7 @@ int main(int argc, char *argv[])
         cmdLN.append("sudo ln ");
         //cmdLN.append(QDir::currentPath().toUtf8()+"/astrologica_v");
         cmdLN.append(QDir::currentPath().toUtf8()+"/Zool_v");
-        cmdLN.append(VERSION);
+        cmdLN.append(numVersion);
         cmdLN.append("-x86_64.AppImage");
         cmdLN.append(" /usr/local/bin/zool");
         u.ejecutarLineaDeComandoAparte(cmdLN);
@@ -99,6 +128,7 @@ int main(int argc, char *argv[])
     }else{
         QDir::setCurrent(qApp->applicationDirPath());
     }
+    QDir::setCurrent("/media/ns/ZONA-A1/zool");
     mainFolder=mainFolder.replace("\\", "/");
     qDebug()<<"Current folder: "<<QDir::currentPath();
     qDebug()<<"Current mainFolder: "<<mainFolder;
@@ -128,9 +158,14 @@ int main(int argc, char *argv[])
     }, Qt::QueuedConnection);
     qmlRegisterType<UnikQProcess>("unik.UnikQProcess", 1, 0, "UnikQProcess");
 
-    QString currentPath=u.getPath(5);
-    if(currentPath.contains(".mount")){
-    //if(true){
+
+
+    //return 0;
+
+
+    if(currentPath.contains(".mount") && !update){
+        //if(true){
+        qDebug()<<"Running without update...";
         QString src=".";
         QString dst=u.getPath(4);
         QDir dir(QDir::currentPath());
@@ -202,12 +237,22 @@ int main(int argc, char *argv[])
         QDir::setCurrent(u.getPath(4));
     }
 
+    if(currentPath.contains(".mount") && update){
+        qDebug()<<"Running updating...";
+        bool download=u.downloadGit("https://github.com/nextsigner/zool-release.git", u.getPath(4).toUtf8());
+        if(download){
+            qDebug()<<"Zool updated!";
+        }else{
+            qDebug()<<"Zool not updated.";
+        }
+    }
+
     QByteArray documentsPath;
     documentsPath.append(u.getPath(3).toUtf8());
     documentsPath.append("/Zool");
     engine.rootContext()->setContextProperty("documentsPath", documentsPath);
     engine.rootContext()->setContextProperty("unik", &u);
-    engine.rootContext()->setContextProperty("version", VERSION);
+    engine.rootContext()->setContextProperty("version", numVersion);
     engine.rootContext()->setContextProperty("clipboard", &clipboard);
     engine.rootContext()->setContextProperty("engine", &engine);
     QByteArray importPath="";

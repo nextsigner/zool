@@ -23,6 +23,8 @@ AppWin {
     color: apps.enableBackgroundColor?apps.backgroundColor:'black'
     title: 'Zool '+version
     property bool dev: false
+
+
     property string mainLocation: ''
     property string pythonLocation: Qt.platform.os==='windows'?'./Python/python.exe':'python3'
     property int fs: apps.fs//Qt.platform.os==='linux'?width*0.02:width*0.02
@@ -202,6 +204,7 @@ AppWin {
     Settings{
         id: apps
         fileName:unik.getPath(4)+'/zool_'+Qt.platform.os+'.cfg'
+        property bool showLog: false
         property int fs: app.width*0.02
         property int fsSbValue: 50
         property string host: 'http://localhost'
@@ -263,7 +266,7 @@ AppWin {
 
         //GUI
         property string zFocus: 'xLatIzq'
-        property bool showLog: false
+        //property bool showLog: false
         property bool showMenuBar: true
         property bool enableBackgroundColor: false
         property string backgroundColor: "black"
