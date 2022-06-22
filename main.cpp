@@ -36,16 +36,54 @@ int main(int argc, char *argv[])
         }else{
             update=true;
         }
-    }else{
-        QString version="";
-        version.append(u.getHttpFile("https://raw.githubusercontent.com/nextsigner/zool-release/main/version"));
-        version=version.replace("\n", "");
-        QString currentVersion="";
-        currentVersion.append(u.getFile(fileVersionPath.toUtf8()));
-        currentVersion=currentVersion.replace("\n", "");
-        qDebug()<<"Current Version: "<<currentVersion;
-        qDebug()<<"Remote Version:"<<version;
+        qDebug()<<"El archivo de versión "<<fileVersionPath<<" no existe.";
+        QByteArray avdPath="";
+        avdPath.append(QDir::currentPath());
+        avdPath.append("/version");
+        qDebug()<<"Buscando archivo de versión de distribuición en "<<avdPath;
+        if(!u.fileExist(avdPath)){
+            qDebug()<<"El archivo de versión de distribución no existe.";
+        }else{
+            qDebug()<<"El archivo de versión de distribuición si existe.";
+            QFile::copy(avdPath, fileVersionPath.toUtf8());
+        }
     }
+
+    QString version="";
+    version.append(u.getHttpFile("https://raw.githubusercontent.com/nextsigner/zool-release/main/version"));
+    version=version.replace("\n", "");
+    QString currentVersion="";
+    currentVersion.append(u.getFile(fileVersionPath.toUtf8()));
+    currentVersion=currentVersion.replace("\n", "");
+    qDebug()<<"Current Version: "<<currentVersion;
+    qDebug()<<"Remote Version:"<<version;
+    if(currentVersion!=version){
+        QStringList m0=version.split(".");
+        QStringList m1=currentVersion.split(".");
+        if(m0.length()==3 && m1.length()==3){
+            int nv1A=m0.at(0).toInt();
+            int nv1B=m0.at(0).toInt();
+            int nv1C=m0.at(0).toInt();
+
+            int nv2A=m1.at(0).toInt();
+            int nv2B=m1.at(0).toInt();
+            int nv2C=m1.at(0).toInt();
+            if(nv1A>nv2A || nv1B > nv2B || nv1C > nv2C){
+                qDebug()<<"Se ha detectado una versión remota superior.";
+                numVersion=version;
+                update=true;
+            }else{
+                qDebug()<<"Se ha detectado una versión remota inferior.";
+                numVersion=currentVersion;
+                update=false;
+            }
+        }else{
+            //return 0;
+        }
+        //qDebug()<<"Hay una versión nueva de Zool para instalar "<<version;
+
+    }
+
     //<--VERSION
     app.setApplicationDisplayName("Zool");
     app.setApplicationName("Zool");

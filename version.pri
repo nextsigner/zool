@@ -114,6 +114,7 @@ win32 {
     message(Zool App Version $$APPVERSION)
     message(Zool version file location $$PWD/../zool-releases/version)
     system(echo "$$APPVERSION" > $$PWD/../zool-release/version)
-    system(echo "$$APPVERSION" > $$PWD/../version)
+    system(echo "$$APPVERSION" > $$PWD/version)
     system(echo "$$APPVERSION" > $$PWD/build_linux/version)
+    system(sh $$PWD/crearZoolDesktopLinuxFile.sh "$$APPVERSION" $$PWD/build_linux/default.desktop)
 }

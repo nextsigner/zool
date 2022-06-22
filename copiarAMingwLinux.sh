@@ -16,8 +16,6 @@ rm -rf $folderZoolcomps
 
 echo "Archivos eliminados."
 
-#exit()
-
 
 echo "Copiando archivos desde "$folderWin
 
@@ -32,8 +30,10 @@ cp -r comps $folderZool
 cp -r modules $folderZool
 cp -r editor $folderZool
 cp -r py $folderZool
-cp -r Python ./build_win/
+#cp -r Python ./build_win/
 cp -r resources $folderZool
 cp -r swe $folderZool
 
 echo "Se han copiando todos los archivos a "$folderZool
+
+exit 0
