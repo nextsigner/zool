@@ -185,15 +185,21 @@ int main(int argc, char *argv[])
     QByteArray mainFolder;
     mainFolder.append(qApp->applicationDirPath().toUtf8());
     qDebug()<<"Argv 1: "<<argv[1];
-    if(QString(argv[1]).contains("-folder=")){
-        QStringList sl1=QString(argv[1]).split("-folder=");
-        QDir::setCurrent(sl1.at(1));
-        qDebug()<<"Set current folder from -folder: "<<sl1.at(1);
-        mainFolder="";
-        mainFolder.append(sl1.at(1).toUtf8());
-    }else{
-        QDir::setCurrent(qApp->applicationDirPath());
+    //QDir::setCurrent(qApp->applicationDirPath());
+    for (int i=0; i<argc; i++) {
+        qDebug()<<"Arg: "<<argv[i];
+        if(QString(argv[i]).contains("-folder=")){
+            QStringList nfolder=QString(argv[i]).split("-folder=");
+            //numVersionInstall=nvi.at(1);
+            //QStringList sl1=QString(argv[1]).split("-folder=");
+            QDir::setCurrent(nfolder.at(1));
+            qDebug()<<"Set current folder from -folder: "<<nfolder.at(1);
+            mainFolder="";
+            mainFolder.append(nfolder.at(1).toUtf8());
+            qDebug()<<"-folder changing current folder: "<<QDir::currentPath();
+        }
     }
+
     //QDir::setCurrent("/media/ns/ZONA-A1/zool");
     mainFolder=mainFolder.replace("\\", "/");
     qDebug()<<"Current folder: "<<QDir::currentPath();
@@ -346,7 +352,9 @@ int main(int argc, char *argv[])
         //<--cp folder swe
 
 
-        QDir::setCurrent(u.getPath(4));
+        if(!isDev){
+            QDir::setCurrent(u.getPath(4));
+        }
         qDebug()<<"Files moved, currentPath: "<<QDir::currentPath();
     }else{
         if(!copyFiles){

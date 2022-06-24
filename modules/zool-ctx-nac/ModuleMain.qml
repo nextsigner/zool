@@ -124,7 +124,7 @@ Item {
             anchors.horizontalCenter: imgFlecha.horizontalCenter
             anchors.bottom: imgFlecha.top
             anchors.bottomMargin: app.fs*0.5
-            width:  app.fs*6
+            width:  r.showAsCircle?app.fs*6:app.fs*10
             height: txt3.contentHeight+app.fs
             border.width: 3
             border.color: 'black'
@@ -133,7 +133,7 @@ Item {
                 id: txt3
                 text: 'Lugar de Nacimiento'
                 width: parent.width-app.fs
-                font.pixelSize: app.fs*0.5
+                font.pixelSize: r.showAsCircle?app.fs*0.5:app.fs*0.75
                 wrapMode: Text.WordWrap
                 anchors.centerIn: parent
             }
@@ -369,6 +369,7 @@ Item {
     property int uIH: -1
     property int uGS: -1
     Component.onCompleted: {
+
         setBgPosSol()
         let obj=comp.createObject(panelZoolModules.c, {})
     }
