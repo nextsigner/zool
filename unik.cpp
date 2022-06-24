@@ -187,7 +187,7 @@ bool Unik::runAppFromZip(QByteArray url, QByteArray localFolder)
             bool modoCodeload=true;
             QString url0;
             if(modoCodeload){
-                url0=u.replace(".git", "/zip/master");
+                url0=u.replace(".git", "/zip/main");
                 urlZipGit=url0.replace("https://github.com/", "https://codeload.github.com/");
 
                 QDateTime rdt = QDateTime::currentDateTime();
@@ -197,7 +197,8 @@ bool Unik::runAppFromZip(QByteArray url, QByteArray localFolder)
                 //url of download zip no codeload
                 //https://github.com/nextsigner/qt_qml_chat_server/archive/master.zip
 
-                url0=u.replace(".git", "/archive/master.zip");
+                //url0=u.replace(".git", "/archive/master.zip");
+                url0=u.replace(".git", "/archive/main.zip");
                 urlZipGit=url0;
             }
             qInfo()<<"Downloading zip file: "<<urlZipGit;
@@ -1052,7 +1053,7 @@ bool Unik::downloadGit(QByteArray url, QByteArray localFolder)
         bool modoCodeload=true;
         QString url0;
         if(modoCodeload){
-            url0=u.replace(".git", "/zip/master");
+            url0=u.replace(".git", "/zip/main");
             urlZipGit=url0.replace("https://github.com/", "https://codeload.github.com/");
 
             QDateTime rdt = QDateTime::currentDateTime();
@@ -2504,6 +2505,35 @@ QList<QString> Unik::getFolderFileList(const QByteArray folder)
         ret.append(d.entryList().at(i));
     }
     return  ret;
+}
+
+void Unik::copyAndReplaceFolderContents(const QString &fromDir, const QString &toDir, bool copyAndRemove) {
+    QDirIterator it(fromDir, QDirIterator::Subdirectories);
+    QDir dir(fromDir);
+    const int absSourcePathLength = dir.absoluteFilePath(fromDir).length();
+
+    while (it.hasNext()){
+        it.next();
+        const auto fileInfo = it.fileInfo();
+        if(!fileInfo.isHidden()) { //filters dot and dotdot
+            const QString subPathStructure = fileInfo.absoluteFilePath().mid(absSourcePathLength);
+            const QString constructedAbsolutePath = toDir + subPathStructure;
+
+            if(fileInfo.isDir()){
+                //Create directory in target folder
+                dir.mkpath(constructedAbsolutePath);
+            } else if(fileInfo.isFile()) {
+                //Copy File to target directory
+
+                //Remove file at target location, if it exists, or QFile::copy will fail
+                QFile::remove(constructedAbsolutePath);
+                QFile::copy(fileInfo.absoluteFilePath(), constructedAbsolutePath);
+            }
+        }
+    }
+
+    if(copyAndRemove)
+        dir.removeRecursively();
 }
 
 QString Unik::getUpkTempPath()

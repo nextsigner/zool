@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE QtCreatorProject>
-<!-- Written by QtCreator 4.14.0, 2022-06-21T19:46:52. -->
+<!-- Written by QtCreator 4.14.0, 2022-06-23T10:43:09. -->
 <qtcreator>
  <data>
   <variable>EnvironmentId</variable>
@@ -148,7 +148,13 @@
       <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
       <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.MakeStep</value>
      </valuemap>
-     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">2</value>
+     <valuemap type="QVariantMap" key="ProjectExplorer.BuildStepList.Step.2">
+      <value type="bool" key="ProjectExplorer.BuildStep.Enabled">true</value>
+      <value type="QString" key="ProjectExplorer.ProcessStep.Command">incrementBuildVersion.sh</value>
+      <value type="QString" key="ProjectExplorer.ProcessStep.WorkingDirectory">/media/ns/ZONA-A1/zool</value>
+      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.ProcessStep</value>
+     </valuemap>
+     <value type="int" key="ProjectExplorer.BuildStepList.StepsCount">3</value>
      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DefaultDisplayName">Build</value>
      <value type="QString" key="ProjectExplorer.ProjectConfiguration.DisplayName">Build</value>
      <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">ProjectExplorer.BuildSteps.Build</value>
@@ -294,7 +300,7 @@
     <valuelist type="QVariantList" key="PE.EnvironmentAspect.Changes"/>
     <value type="QString" key="ProjectExplorer.ProjectConfiguration.Id">Qt4ProjectManager.Qt4RunConfiguration:/media/ns/ZONA-A1/zool/zool.pro</value>
     <value type="QString" key="ProjectExplorer.RunConfiguration.BuildKey">/media/ns/ZONA-A1/zool/zool.pro</value>
-    <value type="QString" key="RunConfiguration.Arguments">-folder=/media/ns/ZONA-A1/zool</value>
+    <value type="QString" key="RunConfiguration.Arguments">-dev -folder=/media/ns/ZONA-A1/zool</value>
     <value type="bool" key="RunConfiguration.UseCppDebugger">false</value>
     <value type="bool" key="RunConfiguration.UseCppDebuggerAuto">true</value>
     <value type="bool" key="RunConfiguration.UseLibrarySearchPath">true</value>

@@ -22,6 +22,22 @@ int main(int argc, char *argv[])
     Unik u;
     QString numVersion="0.0.0";
 
+    //Variables Globales
+    bool isDev=false;
+    QString numVersionInstall="0.0.0";
+    for (int i=0; i<argc; i++) {
+        qDebug()<<"Arg: "<<argv[i];
+        if(QString(argv[i])=="-dev"){
+            isDev=true;
+            qDebug()<<"Running as Developer...";
+        }
+        if(QString(argv[i]).contains("-numVersionInstall=")){
+            QStringList nvi=QString(argv[i]).split("-numVersionInstall=");
+            numVersionInstall=nvi.at(1);
+            qDebug()<<"Number Version Install: "<<numVersionInstall;
+        }
+    }
+
     //-->VERSION
     bool update=false;
     //Get version file
@@ -31,7 +47,7 @@ int main(int argc, char *argv[])
     fileVersionPath.append("version");
     qDebug()<<"Buscando archivo de versión :"<<fileVersionPath;
     if(!u.fileExist(fileVersionPath.toUtf8())){
-        if(currentPath.contains(".mount")){
+        if(!isDev){
             update=false;
         }else{
             update=true;
@@ -62,12 +78,12 @@ int main(int argc, char *argv[])
         QStringList m1=currentVersion.split(".");
         if(m0.length()==3 && m1.length()==3){
             int nv1A=m0.at(0).toInt();
-            int nv1B=m0.at(0).toInt();
-            int nv1C=m0.at(0).toInt();
+            int nv1B=m0.at(1).toInt();
+            int nv1C=m0.at(2).toInt();
 
             int nv2A=m1.at(0).toInt();
-            int nv2B=m1.at(0).toInt();
-            int nv2C=m1.at(0).toInt();
+            int nv2B=m1.at(1).toInt();
+            int nv2C=m1.at(2).toInt();
             if(nv1A>nv2A || nv1B > nv2B || nv1C > nv2C){
                 qDebug()<<"Se ha detectado una versión remota superior.";
                 numVersion=version;
@@ -82,6 +98,8 @@ int main(int argc, char *argv[])
         }
         //qDebug()<<"Hay una versión nueva de Zool para instalar "<<version;
 
+    }else{
+        numVersion=currentVersion;
     }
 
     //<--VERSION
@@ -95,7 +113,7 @@ int main(int argc, char *argv[])
 
 
 #ifdef Q_OS_LINUX
-    if(argc==2 && argv[1]==QByteArray("-install")){
+    if(argc==3 && argv[1]==QByteArray("-install")){
         //Esta operación se realiza en la carpeta donde está el AppImage (antes de ir con CD a la carpeta del executable interno del AppImage)
         qDebug()<<"Installing zool...";
         QByteArray cf;
@@ -146,7 +164,7 @@ int main(int argc, char *argv[])
         cmdLN.append("sudo ln ");
         //cmdLN.append(QDir::currentPath().toUtf8()+"/astrologica_v");
         cmdLN.append(QDir::currentPath().toUtf8()+"/Zool_v");
-        cmdLN.append(numVersion);
+        cmdLN.append(numVersionInstall.toUtf8());
         cmdLN.append("-x86_64.AppImage");
         cmdLN.append(" /usr/local/bin/zool");
         u.ejecutarLineaDeComandoAparte(cmdLN);
@@ -201,9 +219,11 @@ int main(int argc, char *argv[])
     //return 0;
 
 
-    if(currentPath.contains(".mount") && !update){
+    QString execPath=u.getPath(5);
+    qDebug()<<"Exec path: "<<execPath;
+    if(!isDev && !update){
         //if(true){
-        qDebug()<<"Running without update...";
+        qDebug()<<"Running as user without update...";
         QString src=".";
         QString dst=u.getPath(4);
         QDir dir(QDir::currentPath());
@@ -217,7 +237,7 @@ int main(int argc, char *argv[])
             folder.append(src);
             folder.append(QDir::separator());
             folder.append(d);
-            if(!folder.contains("resources") && !folder.contains("qml") && !folder.contains("py")  && !folder.contains("plugins")  && !folder.contains("qml")  && !folder.contains("lib")  && !folder.contains("libexec")  && !folder.contains("translations")){
+            if(!folder.contains("resources") && !folder.contains("qml") && !folder.contains("plugins")  && !folder.contains("qml")  && !folder.contains("lib")  && !folder.contains("libexec")  && !folder.contains("translations")){
                 qDebug()<<"Folder: "<<folder;
                 QFile::copy(src+ QDir::separator() + d, dst_path);
             }else{
@@ -272,14 +292,58 @@ int main(int argc, char *argv[])
                 qDebug()<<"Folder ominted: "<<folder;
             }
         }
+
+        //-->cp folder py
+        src=".";
+        dst=u.getPath(4);
+        src.append("/py");
+        dst.append("/py");
+        QString pathPy="";
+        pathPy.append(QDir::currentPath());
+        pathPy.append(QDir::separator());
+        pathPy.append("py");
+        QDir dirPy(pathPy);
+        foreach (QString f, dirPy.entryList(QDir::Files)) {
+            QString file="";
+            file.append(src);
+            file.append(QDir::separator());
+            file.append(f);
+            QFile::copy(src + QDir::separator() + f, dst + QDir::separator()+ f);
+            qDebug()<<"File: "<<file;
+        }
+        //<--cp folder py
+
+        //-->cp folder swe
+        src=".";
+        dst=u.getPath(4);
+        src.append("/swe");
+        dst.append("/swe");
+        QString pathSWE="";
+        pathSWE.append(QDir::currentPath());
+        pathSWE.append(QDir::separator());
+        pathSWE.append("swe");
+        QDir dirSWE(pathSWE);
+        foreach (QString f, dirSWE.entryList(QDir::Files)) {
+            QString file="";
+            file.append(src);
+            file.append(QDir::separator());
+            file.append(f);
+            QFile::copy(src + QDir::separator() + f, dst + QDir::separator()+ f);
+            qDebug()<<"File: "<<file;
+        }
+        //<--cp folder swe
+
+
         QDir::setCurrent(u.getPath(4));
+        qDebug()<<"Files moved, currentPath: "<<QDir::currentPath();
     }
 
-    if(currentPath.contains(".mount") && update){
+    if(!isDev && update){
         qDebug()<<"Running updating...";
         bool download=u.downloadGit("https://github.com/nextsigner/zool-release.git", u.getPath(4).toUtf8());
         if(download){
             qDebug()<<"Zool updated!";
+            u.setFile(fileVersionPath.toUtf8(), numVersion.toUtf8());
         }else{
             qDebug()<<"Zool not updated.";
         }

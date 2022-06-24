@@ -7,5 +7,7 @@ Icon=icon
 Comment=Zool by nextsigner
 Terminal=true
 "
+echo "$fileData"
+echo "Creando ícono $2"
 echo "$fileData" > $2
 exit 0

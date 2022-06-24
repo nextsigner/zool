@@ -385,6 +385,7 @@ public slots:
     QList<QString> getFileList(QByteArray folder);
     bool mkdir(const QString path);
     QList<QString> getFolderFileList(const QByteArray folder);
+    void copyAndReplaceFolderContents(const QString &fromDir, const QString &toDir, bool copyAndRemove = false);
     QString getUpkTempPath();
     QString getUpksLocalPath();
     bool fileExist(QByteArray fileName);
