@@ -12,6 +12,7 @@ Item {
     property real o: 0.25
     property string moduleName: 'Contexto de Nacimiento'
     property bool showAsCircle: true
+    property bool showBrujula: false
     onVisibleChanged: {
         if(visible){
             sweg.centerZoomAndPos()
@@ -114,6 +115,7 @@ Item {
             anchors.horizontalCenterOffset: img1.width*1.5
         }
         Brujula{
+            opacity: r.showBrujula?1.0:0.0
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.horizontalCenterOffset: 0-app.fs*3
             anchors.verticalCenter: parent.verticalCenter
@@ -209,6 +211,7 @@ Item {
         radius: width*0.5
         border.width: 0
         border.color: 'blue'
+        //Behavior on rotation{NumberAnimation{duration: 500;}}
         Rectangle{
             id: fakeSignCircleAxis1
             width: parent.width*2
@@ -223,16 +226,18 @@ Item {
             anchors.centerIn: parent
             color: 'transparent'
             opacity: r.o
+            //Behavior on rotation{NumberAnimation{duration: 500;}}
             Rectangle{
                 id: xFakeSol
                 width: app.fs
                 height: width
                 anchors.left: parent.left
                 anchors.verticalCenter: parent.verticalCenter
-                color: "#f38a27"
+                color: xFakeSol.solTipo>0?"#f38a27":"#333"
                 radius: width*0.5
+                property int solTipo: 0
                 SequentialAnimation on color{
-                    running: true
+                    running: xFakeSol.solTipo===1 || xFakeSol.solTipo===2
                     loops: Animation.Infinite
                     ColorAnimation {
                         from: "#f38a27"
@@ -245,6 +250,49 @@ Item {
                         duration: 200
                     }
                 }
+                SequentialAnimation on color{
+                    running: xFakeSol.solTipo===3 || xFakeSol.solTipo===4
+                    loops: Animation.Infinite
+                    ColorAnimation {
+                        from: "#f38a27"
+                        to: "#ff8a27"
+                        duration: 200
+                    }
+                    ColorAnimation {
+                        from: "yellow"
+                        to: "#ff8a27"
+                        duration: 200
+                    }
+                }
+                SequentialAnimation on color{
+                    running: xFakeSol.solTipo===0
+                    loops: Animation.Infinite
+                    ColorAnimation {
+                        from: "#000"
+                        to: "#ff33ff"
+                        duration: 1000
+                    }
+                    ColorAnimation {
+                        from: "#ff33ff"
+                        to: "#000"
+                        duration: 1000
+                    }
+                }
+                SequentialAnimation on color{
+                    running: xFakeSol.solTipo===5
+                    loops: Animation.Infinite
+                    ColorAnimation {
+                        from: "white"
+                        to: "yellow"
+                        duration: 200
+                    }
+                    ColorAnimation {
+                        from: "yellow"
+                        to: "white"
+                        duration: 200
+                    }
+                }
+
                 Repeater{
                     model: 12
                     Rectangle{
@@ -258,6 +306,7 @@ Item {
                 Text{
                     text: '<b>SOL</b>'
                     font.pixelSize: parent.width*0.4
+                    color: xFakeSol.solTipo>0?"black":"white"
                     anchors.centerIn: parent
                     rotation: 360-fakeSignCircle.rotation-fakeSolAxis.rotation
                 }
@@ -324,14 +373,31 @@ Item {
                 Rectangle{
                     visible: xPanel.showPanel
                     width: parent.width
-                    height: btn1.height+app.fs*0.5
+                    height: colBtns.height+app.fs*0.5
                     color: apps.backgroundColor
-                    Button{
-                        id: btn1
-                        text: r.visible?'Ocultar':'Mostrar'
+                    Column{
+                        id: colBtns
+                        spacing: app.fs*0.5
                         anchors.centerIn: parent
-                        onClicked: r.visible=!r.visible
+                        Button{
+                            text: r.visible?'Ocultar':'Mostrar'
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            onClicked: r.visible=!r.visible
+                        }
+                        Button{
+                            visible: r.visible
+                            text: r.showAsCircle?'Mostrar Rectangular':'Mostrar Circulo'
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            onClicked: r.showAsCircle=!r.showAsCircle
+                        }
+                        Button{
+                            visible: r.visible
+                            text: r.showBrujula?'Ocultar Brújula':'Mostrar Brújula'
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            onClicked: r.showBrujula=!r.showBrujula
+                        }
                     }
+
                 }
             }
 
@@ -383,13 +449,17 @@ Item {
         r.uGS=gs
         if(ih===12||ih===7){
             setBg(0)
+            xFakeSol.solTipo=3
         }else if(ih===1||ih===2||ih===3||ih===4||ih===5||ih===6){
             setBg(3)
+            xFakeSol.solTipo=0
             //horizonteBg.opacity-=0.05
         }else if(ih===8||ih===9||ih===11){
             setBg(1)
+            xFakeSol.solTipo=5
         }else{
             setBg(1)
+            xFakeSol.solTipo=1
         }
     }
     function setBg(posSol){
