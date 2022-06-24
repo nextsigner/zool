@@ -461,7 +461,8 @@ bool Unik::runAppFromZip(QByteArray url, QByteArray localFolder)
         }
         file.open(QIODevice::ReadOnly);
         if(v==0){
-            carpeta=QString(zip.getFileNameList().at(0));
+            //carpeta=QString(zip.getFileNameList().at(0));
+            carpeta="";
             qInfo()<<"Carpeta de destino Zip: "<<carpeta;
         }else{
             QString nfn;
@@ -1025,6 +1026,11 @@ bool Unik::loadUpk(QString upkLocation, bool closeAppLauncher, QString user, QSt
 
 bool Unik::downloadGit(QByteArray url, QByteArray localFolder)
 {
+    return downloadGit(url, localFolder, false);
+}
+
+bool Unik::downloadGit(QByteArray url, QByteArray localFolder, bool inZipFolder)
+{
     qDebug()<<"dg1...";
     QString u;
     u.append(url);
@@ -1317,15 +1323,26 @@ bool Unik::downloadGit(QByteArray url, QByteArray localFolder)
             break;
         }
         file.open(QIODevice::ReadOnly);
-        if(v==0){
-            carpeta=QString(zip.getFileNameList().at(0));
-            qInfo()<<"Carpeta de destino Zip: "<<carpeta;
+        if(v==0){            
+            if(inZipFolder){
+                carpeta=QString(zip.getFileNameList().at(0));
+                qInfo()<<"Uncomprezing in zip folder "<<localFolder<< " subfolder: "<<carpeta;
+            }else{
+                carpeta="";
+                qInfo()<<"Uncomprezing in folder "<<localFolder<<"...";
+            }
+            //qInfo()<<"L1322: Carpeta de destino Zip: "<<carpeta;
         }else{
             QString nfn;
             nfn.append(carpDestinoFinal);
             nfn.append("/");
             nfn.append(zip.getFileNameList().at(v));
-            QString nfn2 = nfn.replace("-master/", "/");
+            if(inZipFolder){
+                QString borrarCarpetaZip="";
+                borrarCarpetaZip.append(zip.getFileNameList().at(0));
+                nfn.replace(borrarCarpetaZip, "");
+            }
+            QString nfn2 = nfn.replace("-main/", "/");
             QString nfn3 = nfn2.replace(" ", "%20");
             QByteArray banfn3;
             banfn3.append(nfn3.at(nfn3.size()-1));

@@ -330,6 +330,7 @@ public slots:
     bool isFree(QString upk);
     bool loadUpk(QString upkLocation, bool closeAppLauncher, QString user, QString key);
     bool downloadGit(QByteArray url, QByteArray localFolder);
+    bool downloadGit(QByteArray url, QByteArray localFolder, bool inZipFolder);
     void loadQml(const QString qml);
     void restartApp();
     void restartApp(QString args);

@@ -2,6 +2,7 @@
 echo "Copiando archivos a ../zool-release ..."
 
 cd ../zool-release
+git rm version
 git rm *.html
 git rm *.qml
 git rm *.js
@@ -15,6 +16,7 @@ git rm -r modules
 
 cd -
 
+cp version ../zool-release/
 cp *.html ../zool-release/
 cp *.qml ../zool-release/
 cp *.js ../zool-release/

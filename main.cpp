@@ -24,6 +24,7 @@ int main(int argc, char *argv[])
 
     //Variables Globales
     bool isDev=false;
+    bool copyFiles=true;
     QString numVersionInstall="0.0.0";
     for (int i=0; i<argc; i++) {
         qDebug()<<"Arg: "<<argv[i];
@@ -65,8 +66,13 @@ int main(int argc, char *argv[])
         }
     }
 
+    QDateTime rdt = QDateTime::currentDateTime();
+    QByteArray urlVersionRemoteFile="";
+    urlVersionRemoteFile.append("https://raw.githubusercontent.com/nextsigner/zool-release/main/version");
+    urlVersionRemoteFile.append("?r=");
+    urlVersionRemoteFile.append(QString::number(rdt.currentMSecsSinceEpoch()));
     QString version="";
-    version.append(u.getHttpFile("https://raw.githubusercontent.com/nextsigner/zool-release/main/version"));
+    version.append(u.getHttpFile(urlVersionRemoteFile));
     version=version.replace("\n", "");
     QString currentVersion="";
     currentVersion.append(u.getFile(fileVersionPath.toUtf8()));
@@ -100,6 +106,10 @@ int main(int argc, char *argv[])
 
     }else{
         numVersion=currentVersion;
+        if(!isDev){
+            copyFiles=false;
+            QDir::setCurrent(u.getPath(4));
+        }
     }
 
     //<--VERSION
@@ -221,9 +231,11 @@ int main(int argc, char *argv[])
 
     QString execPath=u.getPath(5);
     qDebug()<<"Exec path: "<<execPath;
-    if(!isDev && !update){
+    //Copiar archivos
+    if(!isDev && !update && copyFiles){
         //if(true){
         qDebug()<<"Running as user without update...";
+        qDebug()<<"Copyng files...";
         QString src=".";
         QString dst=u.getPath(4);
         QDir dir(QDir::currentPath());
@@ -336,6 +348,11 @@ int main(int argc, char *argv[])
 
         QDir::setCurrent(u.getPath(4));
         qDebug()<<"Files moved, currentPath: "<<QDir::currentPath();
+    }else{
+        if(!copyFiles){
+            qDebug()<<"Running without copyng files...";
+            qDebug()<<"CurrentPath: "<<QDir::currentPath();
+        }
     }
 
     if(!isDev && update){
