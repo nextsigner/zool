@@ -385,8 +385,12 @@ int main(int argc, char *argv[])
     QByteArray importPath="";
     importPath.append(u.getPath(4));
     importPath.append("/modules");
-    engine.addImportPath(importPath);
+    //engine.addImportPath(importPath);
+    //engine.addImportPath(u.getPath(4));
+    //engine.addImportPath("/home/ns/.local/share/Zool.ar/Zool/modules/ModuleMain");
+    engine.addImportPath("/home/ns/.local/share/Zool.ar/Zool/modules");
     qDebug()<<"engine.addImportPath:"<<importPath;
+    qDebug()<<"engine.addImportPath:"<<u.getPath(4);
     engine.load(url);
 
     return app.exec();
