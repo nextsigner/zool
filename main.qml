@@ -31,6 +31,8 @@ AppWin {
     property string url
     property string mod: 'mi'
 
+    property var objInFullWin
+
     property bool showCenterLine: false
     property bool enableAn: false
     property int msDesDuration: 500

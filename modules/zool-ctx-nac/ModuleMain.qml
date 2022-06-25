@@ -13,6 +13,10 @@ Item {
     property string moduleName: 'Contexto de Nacimiento'
     property bool showAsCircle: true
     property bool showBrujula: false
+    property bool showTxtInfo: false
+    property string txtInfo: "Información"
+    property string txtInfoC1: "Información Columna 1"
+    property string txtInfoC2: "Información Columna 2"
     onVisibleChanged: {
         if(visible){
             sweg.centerZoomAndPos()
@@ -312,7 +316,6 @@ Item {
                 }
             }
         }
-
     }
     //    Text{
     //        text: '-...'+horizonteBg.posSol
@@ -386,6 +389,12 @@ Item {
                         }
                         Button{
                             visible: r.visible
+                            text: r.showTxtInfo?'Ocultar Información':'Mostrar Información'
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            onClicked: r.showTxtInfo=!r.showTxtInfo
+                        }
+                        Button{
+                            visible: r.visible
                             text: r.showAsCircle?'Mostrar Rectangular':'Mostrar Circulo'
                             anchors.horizontalCenter: parent.horizontalCenter
                             onClicked: r.showAsCircle=!r.showAsCircle
@@ -425,6 +434,100 @@ Item {
 
         }
     }
+    Component{
+        id: compInfo
+        Rectangle{
+            id: xPanelInfo
+            width: !showMaximized?xLatDer.width:xApp.width//-app.fs*0.25
+            height: !showMaximized?parent.height:parent.height+xDataBar.height//+app.fs
+            color: apps.backgroundColor
+            border.width: 1
+            border.color: apps.fontColor
+            radius: app.fs*0.25
+            clip: true
+            //anchors.horizontalCenter: parent.horizontalCenter
+            anchors.top: parent.top
+            anchors.topMargin: !showMaximized?0:0-xDataBar.height
+            anchors.right: parent.right
+            visible: r.showTxtInfo
+            property bool showMaximized: false
+            property bool objInFullWinPrev
+            property bool showPanel: false
+            onShowMaximizedChanged:{
+                if(showMaximized){
+                    if(app.objInFullWin){
+                        objInFullWinPrev=app.objInFullWin
+                    }
+                    app.objInFullWin=xPanelInfo
+                }else{
+                    if(app.objInFullWinPrev){
+                        app.objInFullWin=app.objInFullWinPrev
+                    }else{
+                        app.objInFullWin=null
+                    }
+                }
+            }
+            function escaped(){
+                showMaximized=false
+            }
+            Behavior on height{
+                NumberAnimation{duration: 250; easing.type: Easing.InOutQuad}
+            }
+
+            Flickable{
+                id: flk
+                width: parent.width
+                height: parent.height
+                contentWidth: parent.width
+                contentHeight: !xPanelInfo.showMaximized?txtInfo.contentHeight*1.2:(txtInfoC1.contentHeight>txtInfoC2.contentHeight?txtInfoC1.contentHeight*1.2:txtInfoC2.contentHeight*1.2)
+                ScrollBar.vertical: ScrollBar {
+                        width: !xPanelInfo.showMaximized?app.fs*0.25:app.fs
+                        anchors.right: parent.right
+                        policy: ScrollBar.AlwaysOn
+                    }
+                MouseArea{
+                    anchors.fill: parent
+                    onClicked: xPanelInfo.showMaximized=!xPanelInfo.showMaximized
+                }
+                Text{
+                    id: txtInfo
+                    text: r.txtInfo
+                    font.pixelSize: xPanelInfo.showMaximized?app.fs:app.fs*0.5
+                    width: parent.width-app.fs*0.5
+                    wrapMode: Text.WordWrap
+                    color: apps.fontColor
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.top: parent.top
+                    anchors.topMargin: app.fs*0.5
+                    visible: !xPanelInfo.showMaximized
+                }
+                Row{
+                    spacing: app.fs*0.25
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    anchors.horizontalCenterOffset: 0-app.fs*0.5
+                    anchors.top: parent.top
+                    anchors.topMargin: app.fs*0.5
+                    visible: xPanelInfo.showMaximized
+                    Text{
+                        id: txtInfoC1
+                        text: r.txtInfoC1
+                        font.pixelSize: xPanelInfo.showMaximized?app.fs:app.fs*0.5
+                        width: parent.parent.width*0.5-app.fs//*0.25
+                        wrapMode: Text.WordWrap
+                        color: apps.fontColor
+                    }
+                    Text{
+                        id: txtInfoC2
+                        text: r.txtInfoC2
+                        font.pixelSize: xPanelInfo.showMaximized?app.fs:app.fs*0.5
+                        width: parent.parent.width*0.5-app.fs//*0.5
+                        wrapMode: Text.WordWrap
+                        color: apps.fontColor
+                    }
+                }
+            }
+        }
+    }
     Timer{
         id: tCheck
         running: r.visible || r.uIH<0
@@ -435,9 +538,9 @@ Item {
     property int uIH: -1
     property int uGS: -1
     Component.onCompleted: {
-
-        setBgPosSol()
         let obj=comp.createObject(panelZoolModules.c, {})
+        let obj2=compInfo.createObject(xLatDer, {})
+        setBgPosSol()
     }
     function setBgPosSol(){
         let json=app.currentJson
@@ -447,20 +550,56 @@ Item {
         r.uIH=ih
         let gs=parseInt(json.pc.c0.gdec)
         r.uGS=gs
+        let txt="<h1>Información</h1><br><h2>Módulo de Contexto de Nacimiento</h2><br>"
         if(ih===12||ih===7){
             setBg(0)
             xFakeSol.solTipo=3
+            if(ih===7){
+                txt+='<h3>Sol en Casa 7</h3><br>
+<p>La persona nacida con el sol en la casa 7, en principio podría tratarse de una persona cuya personalidad tendrá un perfil sociable.</p>
+
+<p>Es una persona mental, ágil para los negocios, despierta, atenta y quiere que las cosas se hagan bien. No le gustará que la traten de un modo inadecuado, será paciente con aquellas personas que deba serlo pero en determinado punto, al momento de dictar sentencia, si tiene que ser muy firme y dura, lo será de la manera más fría y mental sin importar a quien le caiga bien su veredicto. Buscará que las cosas sean justas.</p>
+
+<h2>Sol bien aspectado</h2>
+<p>Estando entre los demás, allí podrá brillar más que estando sola. Esto no significa que estando sola no se sentirá a gusto, significa que se sentirá más encendida, activa mentalmente, brillando más intensamente, en los momentos en los cuales esté frente a su pareja, a aquellas personas con las que tiene un vínculo fuerte o cuando está haciendo una actividad que requiera relacionarse públicamente con más personas.</p>
+
+<p>Esta persona tendrá buen manejo y trato con las demás personas.</p>
+
+<p>Traerá consigo mismo/a cierta armonía y equilibrio que aportará a las demás personas logrando que la comunicación, conección, dialogo e interacción entre ellas sea lo más amena y tranquila posible.</p>
+
+<!--break-->
+
+<h2>Sol mal aspectado</h2>
+<p>Podría tratarse de una persona que no se lleva bien consigo misma ni con los demás. Esto podría deberse a que ve las cosas malas o negativas en los demás que ella misma tiene y no es capaz de ver en si misma.</p>
+
+<p>Esta persona podría ser alguien que prejuzga a los demás, eso le impide integrarse de manera armónica y equilibrada con las demás personas, socios o pareja.</p>
+
+<p>Tendrá el problema de no sentirse a gusto con los demás pero estará en constante compañía o vinculación con ellos, tal vez esperando que esos vínculos se armonicen mientras reniega de ellos.</p>
+'
+            }
+            if(ih===12){
+                txt+='En casa 12 o 7'
+            }
+
         }else if(ih===1||ih===2||ih===3||ih===4||ih===5||ih===6){
             setBg(3)
             xFakeSol.solTipo=0
+            txt+='En casa 1, 2, 3, 4, 5, 6 o 7'
             //horizonteBg.opacity-=0.05
         }else if(ih===8||ih===9||ih===11){
             setBg(1)
             xFakeSol.solTipo=5
+            txt+='En casa 8 o 9'
         }else{
             setBg(1)
             xFakeSol.solTipo=1
+            txt+='En casa ?'
         }
+        r.txtInfo=txt
+        let m0=r.txtInfo.split('<!--break-->')
+        r.txtInfoC1=m0[0]
+        r.txtInfoC2=m0[1]
+        //console.log(txt)
     }
     function setBg(posSol){
         for(var i=0;i<xHorBg.children.length;i++){

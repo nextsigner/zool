@@ -67,6 +67,12 @@ ApplicationWindow{
                 id: col
             }
         }
+        Item{
+            id: xLatDer
+            width: xApp.width*0.2
+            height: xApp.height
+            anchors.right: parent.right
+        }
     }
     ModuleMain{}
     Shortcut{
