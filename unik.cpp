@@ -1337,7 +1337,7 @@ bool Unik::downloadGit(QByteArray url, QByteArray localFolder, bool inZipFolder)
             nfn.append(carpDestinoFinal);
             nfn.append("/");
             nfn.append(zip.getFileNameList().at(v));
-            if(inZipFolder){
+            if(!inZipFolder){
                 QString borrarCarpetaZip="";
                 borrarCarpetaZip.append(zip.getFileNameList().at(0));
                 nfn.replace(borrarCarpetaZip, "");

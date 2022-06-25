@@ -17,9 +17,16 @@ int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
+    app.setApplicationDisplayName("Zool");
+    app.setApplicationName("Zool");
+    app.setOrganizationDomain("zool.ar");
+    app.setOrganizationName("Zool.ar");
+
     //QtWebView::initialize();
 
+
     Unik u;
+    QDir::setCurrent(u.getPath(4));
     QString numVersion="0.0.0";
 
     //Variables Globales
@@ -70,7 +77,7 @@ int main(int argc, char *argv[])
     QByteArray urlVersionRemoteFile="";
     urlVersionRemoteFile.append("https://raw.githubusercontent.com/nextsigner/zool-release/main/version");
     urlVersionRemoteFile.append("?r=");
-    urlVersionRemoteFile.append(QString::number(rdt.currentMSecsSinceEpoch()));
+    urlVersionRemoteFile.append(QString::number(rdt.currentMSecsSinceEpoch()).toUtf8());
     QString version="";
     version.append(u.getHttpFile(urlVersionRemoteFile));
     version=version.replace("\n", "");
@@ -113,10 +120,6 @@ int main(int argc, char *argv[])
     }
 
     //<--VERSION
-    app.setApplicationDisplayName("Zool");
-    app.setApplicationName("Zool");
-    app.setOrganizationDomain("zool.ar");
-    app.setOrganizationName("Zool.ar");
     app.setApplicationVersion(numVersion);
 
     QmlClipboardAdapter clipboard;
@@ -385,10 +388,8 @@ int main(int argc, char *argv[])
     QByteArray importPath="";
     importPath.append(u.getPath(4));
     importPath.append("/modules");
-    //engine.addImportPath(importPath);
-    //engine.addImportPath(u.getPath(4));
-    //engine.addImportPath("/home/ns/.local/share/Zool.ar/Zool/modules/ModuleMain");
-    engine.addImportPath("/home/ns/.local/share/Zool.ar/Zool/modules");
+    engine.addImportPath(importPath);
+    engine.addImportPath("./modules");
     qDebug()<<"engine.addImportPath:"<<importPath;
     qDebug()<<"engine.addImportPath:"<<u.getPath(4);
     engine.load(url);
