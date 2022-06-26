@@ -13,6 +13,8 @@ Rectangle{
     property bool fileInitLoaded: false
     property int fs: app.fs*0.75
     property bool showAreaVideo: true
+    property alias text: txtAboutZool.text
+    property alias fontSize: txtAboutZool.font.pixelSize
     Column{
         id: col0
         anchors.centerIn: parent
@@ -36,6 +38,7 @@ Rectangle{
                             tTxtAboutZool.v=0
                         }
                         txtAboutZool.text=txtAboutZool.aData[tTxtAboutZool.v]
+                        txtAboutZool.setTxt()
                     }else{
                         tTxtAboutZool.running=!tTxtAboutZool.running
                     }
@@ -43,7 +46,7 @@ Rectangle{
             }
             Text{
                 id: txtAboutZool
-                text: aData[0]
+                text: (''+aData[0]).indexOf('import ')<0?aData[0]:aData[1]
                 font.pixelSize: r.fs
                 color: 'white'
                 width: r.width-app.fs
@@ -52,9 +55,23 @@ Rectangle{
                 wrapMode: Text.WordWrap
                 //onLinkActivated: Qt.openUrlExternally(link)
                 property var aData: []
+                property real nextFS: 1.0
                 Behavior on opacity{NumberAnimation{duration: 1500}}
                 onOpacityChanged: {
                     if(opacity===0.0){
+                        setTxt()
+                    }
+                }
+                function setTxt(){
+                    txtAboutZool.font.pixelSize=app.fs*nextFS
+                    if(txtAboutZool.aData[tTxtAboutZool.v].indexOf('import')===0){
+
+                        let comp=Qt.createQmlObject(txtAboutZool.aData[tTxtAboutZool.v], app, 'qmlcodeargFs')
+                        //tTxtAboutZool.v++
+                        txtAboutZool.text=txtAboutZool.aData[tTxtAboutZool.v]
+                        tTxtAboutZool.running=true
+                        txtAboutZool.opacity=1.0
+                    }else{
                         txtAboutZool.text=txtAboutZool.aData[tTxtAboutZool.v]
                         tTxtAboutZool.running=true
                         txtAboutZool.opacity=1.0
@@ -62,23 +79,23 @@ Rectangle{
                 }
                 Timer{
                     id: tTxtAboutZool
-                    running: sv.currentIndex===0
+                    running: sv.currentIndex===0 && aTimes.length>0
                     repeat: true
-                    interval: 12000
-                    property int v: 1
-                    property var aTimes: [3000, 10000]
+                    interval: aTimes[0]
+                    property int v: 0
+                    property var aTimes: []
+                    property var aFs: []
+                    onVChanged: {
+                        interval=aTimes[v]
+                        txtAboutZool.nextFS=parseFloat(aFs[v])
+                        //txtAboutZool.font.pixelSize=app.fs*parseFloat(aFs[v])
+                    }
                     onTriggered: {
-                        //txtAboutZool.text=txtAboutZool.aData[v]
                         if(v<txtAboutZool.aData.length-1){
                             v++
                         }else{
                             loadZoolText()
                             v=0
-                        }
-                        if(aTimes.length>0){
-                            interval=aTimes[v]
-                        }else{
-                            interval=12000
                         }
                         txtAboutZool.opacity=0.0
                         running=false
@@ -141,6 +158,11 @@ Rectangle{
             }
         }
     }
+//    Text{
+//        text: 'I: '+tTxtAboutZool.interval+' v: '+tTxtAboutZool.v+' fs: '+tTxtAboutZool.aFs[tTxtAboutZool.v]
+//        font.pixelSize: 30
+//        color: 'red'
+//    }
     function loadZoolText(){
         let appArgs=Qt.application.arguments
         let fp
@@ -174,14 +196,48 @@ Rectangle{
         }
         var aD=[]
         var aT=[]
+        var aF=[]
+        //aD.push('Cargando...')
+        //aT.push(1000)
+        //aF.push(10000)
         var aS=data.split('---')
         for(i=0;i<aS.length;i++){
             let dato=aS[i]
-            if(dato.indexOf('time=')<0&&dato.indexOf('qml=')<0){
+            let code=''
+            let mAC
+            if(dato.indexOf('time=')<0&&dato.indexOf('qml=')<0&&dato.indexOf('zfs=')<0){
                 aD.push(aS[i])
+            }else if(dato.indexOf('zfs=')>=0){
+                code='import QtQuick 2.0\n'
+                code+='Item{\n'
+                code+=' Component.onCompleted:{\n'
+                let mLines=aS[i].split('\n')
+                let mTime
+                if(i===0){
+                    mAC=mLines[0].split('zfs=')
+                    mTime=mLines[1].split('time=')
+                }else{
+                    mAC=mLines[1].split('zfs=')
+                    mTime=mLines[2].split('time=')
+                }
+                if(mAC.length>1 && mTime.length > 1){
+                    //code=mAC[1]
+                    aT.push(parseInt(mTime[1]))
+                    code+='     panelZoolText.fontSize='+mAC[1]+'\n'
+                    code+=' }\n'
+                    code+='}\n'
+                    aF.push(mAC[1])
+                    //aD.push(code)
+                    //log.ls('Code: '+code, 0, 500)
+                    //let comp=Qt.createQmlObject(code, app, 'qmlcodeargFs')
+                }else{
+                    log.l('Error en carga de código qml en archivo '+arg)
+                    log.l('mLines:'+mLines.toString())
+                    log.visible=true
+                }
             }else if(dato.indexOf('qml=')>=0){
-                let code=''
-                let mAC=aS[i].split('qml=')
+                code=''
+                mAC=aS[i].split('qml=')
                 if(mAC.length>1){
                     code=mAC[1]
                     let comp=Qt.createQmlObject(code, app, 'qmlcodearg')
@@ -204,5 +260,8 @@ Rectangle{
         //log.visible=true
         txtAboutZool.aData=aD
         tTxtAboutZool.aTimes=aT
+        tTxtAboutZool.aFs=aF
+        tTxtAboutZool.interval=aT[0]
+        txtAboutZool.font.pixelSize=app.fs*parseFloat(aF[0])
     }
 }

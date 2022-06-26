@@ -10,9 +10,6 @@
 #include "unikqprocess.h"
 #include "unik.h"
 
-//#define VERSION "0.75"
-
-
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
