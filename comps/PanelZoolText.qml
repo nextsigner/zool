@@ -15,6 +15,8 @@ Rectangle{
     property bool showAreaVideo: true
     property alias text: txtAboutZool.text
     property alias fontSize: txtAboutZool.font.pixelSize
+    property string uFile: ''
+    property string uData: ''
     Column{
         id: col0
         anchors.centerIn: parent
@@ -78,6 +80,23 @@ Rectangle{
                     }
                 }
                 Timer{
+                    id: tDataChangedCheck
+                    running: tTxtAboutZool.running
+                    repeat: true
+                    interval: 3000
+                    onTriggered: {
+                        let data=unik.getFile(r.uFile)
+                        if(r.uData!==data){
+                            //log.ls('Diferente', 300, 500)
+                            //tTxtAboutZool.stop()
+                            //tTxtAboutZool.v=0
+                            //loadZoolText()
+                        }else{
+                            //log.ls('Igual', 300, 500)
+                        }
+                    }
+                }
+                Timer{
                     id: tTxtAboutZool
                     running: sv.currentIndex===0 && aTimes.length>0
                     repeat: true
@@ -100,9 +119,6 @@ Rectangle{
                         txtAboutZool.opacity=0.0
                         running=false
                     }
-                }
-                Component.onCompleted: {
-                    loadZoolText()
                 }
             }
         }
@@ -158,50 +174,56 @@ Rectangle{
             }
         }
     }
-//    Text{
-//        text: 'I: '+tTxtAboutZool.interval+' v: '+tTxtAboutZool.v+' fs: '+tTxtAboutZool.aFs[tTxtAboutZool.v]
-//        font.pixelSize: 30
-//        color: 'red'
-//    }
+    //    Text{
+    //        text: 'I: '+tTxtAboutZool.interval+' v: '+tTxtAboutZool.v+' fs: '+tTxtAboutZool.aFs[tTxtAboutZool.v]
+    //        font.pixelSize: 30
+    //        color: 'red'
+    //    }
+    Component.onCompleted: {
+        setFilePath('')
+        //log.ls('uFile: '+r.uFile, 0, 500)
+        loadZoolText()
+    }
+    function setFilePath(newFilePath){
+        let fp='./resources/zooltext.txt'
+        if(url===''){
+            let appArgs=Qt.application.arguments
+            let arg=''
+            for(var i=0;i<appArgs.length;i++){
+                let a=appArgs[i]
+                if(a.indexOf('tempzooltext')>=0){
+                    let ma=a.split('=')
+                    if(ma.length>1){
+                        arg=ma[1]
+                    }
+                }
+            }
+            if(arg!==''){
+                if(!unik.fileExist(arg)&&!r.noFoundFileExistNofify){
+                    r.noFoundFileExistNofify=true
+                    log.l('El archivo ingresado mediante el parámetro tempzooltext no existe.')
+                    log.l('Archivo tempzooltex: '+arg)
+                    log.l('Cargando archivo por defecto tempzooltex: '+fp)
+                    log.visible=true
+                    //data=unik.getFile(fp)
+                }
+                fp=arg
+            }
+        }else{
+            fp=newFilePath
+        }
+        r.uFile=fp
+    }
     function loadZoolText(){
         let appArgs=Qt.application.arguments
         let fp
-        let data=''
-        fp='./resources/zooltext.txt'
-        let arg=''
-        for(var i=0;i<appArgs.length;i++){
-            let a=appArgs[i]
-            if(a.indexOf('tempzooltext')>=0){
-                let ma=a.split('=')
-                if(ma.length>1){
-                    arg=ma[1]
-                }
-            }
-        }
-        if(arg!==''){
-            if(!unik.fileExist(arg)&&!r.noFoundFileExistNofify){
-                r.noFoundFileExistNofify=true
-                log.l('El archivo ingresado mediante el parámetro tempzooltext no existe.')
-                log.l('Archivo tempzooltex: '+arg)
-                log.l('Cargando archivo por defecto tempzooltex: '+fp)
-                log.visible=true
-                data=unik.getFile(fp)
-            }
-            fp=arg
-            if(unik.fileExist(fp)){
-                data=unik.getFile(fp)
-            }
-        }else{
-            data=unik.getFile(fp)
-        }
+        let data=unik.getFile(r.uFile)
+        r.uData=data
         var aD=[]
         var aT=[]
         var aF=[]
-        //aD.push('Cargando...')
-        //aT.push(1000)
-        //aF.push(10000)
         var aS=data.split('---')
-        for(i=0;i<aS.length;i++){
+        for(var i=0;i<aS.length;i++){
             let dato=aS[i]
             let code=''
             let mAC
@@ -254,10 +276,12 @@ Rectangle{
                 }
             }
         }
-        //txtAboutZool.aData=data.split('---')
-        //log.l('aD: '+aD.toString())
-        //log.l('aT: '+aT.toString())
-        //log.visible=true
+
+        //Se agrega vacio al final
+        aD.push('')
+        aT.push(100)
+        aF.push(0.0)
+
         txtAboutZool.aData=aD
         tTxtAboutZool.aTimes=aT
         tTxtAboutZool.aFs=aF

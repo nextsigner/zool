@@ -363,6 +363,8 @@ function loadJson(file){
         }
         sweg.loadSign(jsonData)
     }else{
+        //log.ww=false
+        //log.ls('sweg.load(jsonData): '+JSON.stringify(jsonData), 0, 500)
         sweg.load(jsonData)
     }
     if(jsonData.params.fileNamePath){
@@ -777,6 +779,22 @@ function saveJson(){
     let jsonFileName=apps.url
     unik.setFile(jsonFileName, app.currentData)
     loadJson(apps.url)
+}
+function saveJsonBack(){
+    app.fileData=app.currentData
+    let json=JSON.parse(app.currentData)
+    json.params.tipo='rs'
+    //log.ls('app.currentDataBack: '+app.currentDataBack, 0, 500)
+    //json['paramsBack']={}
+    let pb=JSON.parse(app.currentDataBack)
+    json['paramsBack']={}=pb.paramsBack
+    log.ww=false
+    log.ls('app.fileData: '+JSON.stringify(json), 0, 500)
+    let jsonFileName=apps.jsonsFolder+'/'+(''+pb.paramsBack.n).replace(/ /g, '_')+'.json'
+    apps.url=jsonFileName
+    log.ls('apps.url: '+apps.url, 0, 500)
+    unik.setFile(jsonFileName, JSON.stringify(json))
+    //loadJson(apps.url)
 }
 function saveJsonAs(newUrl){
     app.fileData=app.currentData

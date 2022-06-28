@@ -91,6 +91,43 @@ Rectangle {
                 }
             }
         }
+        Rectangle{
+            id: circuloSaveEV
+            width: app.fs*0.5
+            height: width
+            //radius: width*0.5
+            color: saved?'gray':'red'
+            border.width: 2
+            border.color: apps.fontColor
+            anchors.verticalCenter: parent.verticalCenter
+            y:(parent.height-height)/2
+            visible:  app.ev
+            property bool saved: false
+            Timer{
+                id: tCheckBackIsSaved
+                running: parent.visible
+                repeat: true
+                interval: 3000
+                onTriggered: {
+                    //app.fileData===app.currentData
+                    let json=JSON.parse(app.fileData)
+                    if(!json.paramsBack){
+                        parent.saved=false
+                    }else{
+                        parent.saved=true
+                    }
+                }
+            }
+            MouseArea{
+                anchors.fill: parent
+                enabled: app.titleData!==app.currentData
+                onClicked: {
+                    JS.saveJsonBack()
+                }
+            }
+        }
+
+
         Row{
             id: rowData
             spacing: app.fs*0.15

@@ -110,11 +110,11 @@ Item{
             height: width
             anchors.centerIn: parent
             radius: width*0.5
-            border.width: 0
-            border.color: apps.backgroundColor
+            border.width: 1
+            border.color: "yellow"//apps.backgroundColor
             color: apps.xAsBackgroundColorBack
             antialiasing: true
-            visible: false
+            //visible: false
         }
         Rectangle{
             //Circulo que queda mostrando el cuerpo chico.
