@@ -114,7 +114,7 @@ Item{
             border.color: "yellow"//apps.backgroundColor
             color: apps.xAsBackgroundColorBack
             antialiasing: true
-            //visible: false
+            visible: false
         }
         Rectangle{
             //Circulo que queda mostrando el cuerpo chico.

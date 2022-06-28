@@ -200,7 +200,7 @@ function getJSON(fileLocation, comp, s, c, nomCuerpo) {
                         for(var i=0;i<dataJson0.length;i++){
                             dataList.push(dataJson0[i])
                         }
-                    }                    
+                    }
 
                     //console.log('Signo para mostar: '+s)
                     if(result['s'+s]){
@@ -370,16 +370,25 @@ function loadJson(file){
     if(jsonData.params.fileNamePath){
         panelPronEdit.loadJson(jsonData.params.fileNamePath)
     }
-    let nom=jsonData.params.n.replace(/_/g, ' ')
-    let vd=jsonData.params.d
-    let vm=jsonData.params.m
-    let va=jsonData.params.a
-    let vh=jsonData.params.h
-    let vmin=jsonData.params.min
-    let vgmt=jsonData.params.gmt
-    let vlon=jsonData.params.lon
-    let vlat=jsonData.params.lat
-    let vCiudad=jsonData.params.ciudad.replace(/_/g, ' ')
+
+    let params
+
+    if((jsonData.params.tipo==='rs' && jsonData.paramsBack) || (jsonData.params.tipo==='sin' && jsonData.paramsBack) ){
+        params=jsonData.paramsBack
+    }else{
+        params=jsonData.params
+    }
+
+    let nom=params.n.replace(/_/g, ' ')
+    let vd=params.d
+    let vm=params.m
+    let va=params.a
+    let vh=params.h
+    let vmin=params.min
+    let vgmt=params.gmt
+    let vlon=params.lon
+    let vlat=params.lat
+    let vCiudad=params.ciudad.replace(/_/g, ' ')
     let edad=''
     let numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
     let stringEdad=edad.indexOf('NaN')<0?edad:''
@@ -396,10 +405,29 @@ function loadJson(file){
     app.currentLon=vlon
     app.currentLat=vlat
 
-    setTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
 
-    if(jsonData.params.tipo==='sin'){
+    if(jsonData.params.tipo==='sin' && jsonData.paramsBack){
+        let m0NomCorr=nom.split(' - ')
+        nom=m0NomCorr[0].replace('Sinastría ', '')
+        vd=jsonData.params.d
+        vm=jsonData.params.m
+        va=jsonData.params.a
+        vh=jsonData.params.h
+        vmin=jsonData.params.min
+        vgmt=jsonData.params.gmt
+        vlon=jsonData.params.lon
+        vlat=jsonData.params.lat
+        vCiudad=jsonData.params.ciudad.replace(/_/g, ' ')
+        edad=''
+        numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
+        stringEdad=edad.indexOf('NaN')<0?edad:''
+        setTitleData('Interior: '+nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
+
+        //Preparando datos para addTitle de tipo sin.
         nom=jsonData.paramsBack.n.replace(/_/g, ' ')
+        if(m0NomCorr.length>1){
+            nom=m0NomCorr[1].replace('Sinastría ', '')
+        }
         vd=jsonData.paramsBack.d
         vm=jsonData.paramsBack.m
         va=jsonData.paramsBack.a
@@ -408,19 +436,38 @@ function loadJson(file){
         vgmt=jsonData.paramsBack.gmt
         vlon=jsonData.paramsBack.lon
         vlat=jsonData.paramsBack.lat
-        let valt=0
-        if(jsonData.paramsBack.alt){
-            valt=jsonData.paramsBack.alt
-        }
         vCiudad=jsonData.paramsBack.ciudad.replace(/_/g, ' ')
-        //let edad=''
-        //numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
-        //let stringEdad=edad.indexOf('NaN')<0?edad:''
+        edad=''
+        numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
+        stringEdad=edad.indexOf('NaN')<0?edad:''
 
-        loadFromArgsBack(vd, vm, va, vh, vmin, vgmt, vlat, vlon, valt, nom, vCiudad, 'sin', false)
-        //log.l('Cargando sinastría...')
-        //log.visible=true
+        addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
+    }else{
+        setTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
     }
+    //    if(jsonData.params.tipo==='sin'){
+    //        nom=jsonData.paramsBack.n.replace(/_/g, ' ')
+    //        vd=jsonData.paramsBack.d
+    //        vm=jsonData.paramsBack.m
+    //        va=jsonData.paramsBack.a
+    //        vh=jsonData.paramsBack.h
+    //        vmin=jsonData.paramsBack.min
+    //        vgmt=jsonData.paramsBack.gmt
+    //        vlon=jsonData.paramsBack.lon
+    //        vlat=jsonData.paramsBack.lat
+    //        let valt=0
+    //        if(jsonData.paramsBack.alt){
+    //            valt=jsonData.paramsBack.alt
+    //        }
+    //        vCiudad=jsonData.paramsBack.ciudad.replace(/_/g, ' ')
+    //        //let edad=''
+    //        //numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
+    //        //let stringEdad=edad.indexOf('NaN')<0?edad:''
+
+    //        loadFromArgsBack(vd, vm, va, vh, vmin, vgmt, vlat, vlon, valt, nom, vCiudad, 'sin', false)
+    //        //log.l('Cargando sinastría...')
+    //        //log.visible=true
+    //    }
     //xDataBar.titleData=textData
     xDataBar.state='show'
     app.setFromFile=false
@@ -579,34 +626,51 @@ function loadJsonFromParamsBack(json){
 
 function mkSinFile(file){
     let jsonFileDataInterior=app.fileData
-    let jsonInt=JSON.parse(jsonFileDataInterior)
-    let fn=file
-    let jsonFileName=fn
-    let jsonFileData=unik.getFile(jsonFileName).replace(/\n/g, '')
-    let jsonExt=JSON.parse(jsonFileData)
-    jsonInt.tipo='sin'
-    jsonExt.tipo='sin'
-    let nJson=jsonInt
-    nJson.paramsBack=jsonExt.params
-    nJson.params.tipo='sin'
-    nJson.params.n='Sinastría '+nJson.params.n+' - '+nJson.paramsBack.n
-    nJson.paramsBack.tipo='sin'
-    let sf=JSON.stringify(nJson)
-    //log.l(sf)
+    let json=JSON.parse(jsonFileDataInterior)
+    let jsonFileDataExt=unik.getFile(file).replace(/\n/g, '')
+    let jsonExt=JSON.parse(jsonFileDataExt)
+    json.params.tipo='sin'
+    json.paramsBack=jsonExt.params
+    json.paramsBack.tipo='sin'
+    json.paramsBack.n='Sinastría '+json.params.n+' - '+json.paramsBack.n
+    log.ww=false
+    log.ls('nFileName:'+JSON.stringify(json), 0, 500)
+    //return
+    //    let jsonFileDataInterior=app.fileData
+    //    let jsonInt=JSON.parse(jsonFileDataInterior)
+    //    let fn=file
+    //    let jsonFileName=fn
+    //    let jsonFileData=unik.getFile(jsonFileName).replace(/\n/g, '')
+    //    let jsonExt=JSON.parse(jsonFileData)
+    //    jsonInt.tipo='sin'
+    //    jsonExt.tipo='sin'
+    //    let nJson=jsonInt
+    //    nJson.paramsBack=jsonExt.params
+    //    nJson.params.tipo='sin'
+    //    //nJson.params.n='Sinastría '+nJson.params.n+' - '+nJson.paramsBack.n
+    //    nJson.paramsBack.tipo='sin'
+    //    let sf=JSON.stringify(nJson)
 
-    let nFileName=(apps.jsonsFolder+'/Sinastría_'+jsonInt.params.n+'_-_'+jsonExt.params.n+'.json').replace(/ /g,'_')
-    //log.l(nFileName)
-    let e=unik.fileExist(nFileName)
+    //    log.ww=false
+
+            let cNom=json.paramsBack.n
+    //    cNom=cNom.replace(/Sinastría_/g, '')
+            let nFileName=(apps.jsonsFolder+'/'+cNom+'.json').replace(/ /g,'_')
+    //    //log.ls('sf:'+sf, 0, 500)
+        log.ls('nFileName:'+nFileName, 0, 500)
+    //    //return
+
+    //    //log.l(nFileName)
+            let e=unik.fileExist(nFileName)
     if(e){
         //log.l('Existe')
         loadJson(nFileName)
     }else{
         //log.l('No Existe')
-        unik.setFile(nFileName, sf)
+        unik.setFile(nFileName, JSON.stringify(json))
         xEditor.visible=true
         loadJson(nFileName)
     }
-    //log.visible=true
 }
 function runJsonTemp(){
     var jsonData
@@ -921,7 +985,7 @@ function addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, mod)
     a.push('@')
     let sTipo='Sinastría'
     if(app.mod==='trans')sTipo='Tránsitos'
-    a.push('Exterior: <b>'+sTipo+'</b>')
+    a.push('Exterior: <b>'+nom+'</b>')
     a.push(vd+'/'+vm+'/'+va)
     a.push(vh+':'+vmin+'hs')
     a.push('GMT '+vgmt)
@@ -1097,10 +1161,10 @@ function loadModules(){
                 //log.ls('Modules Folder exist: '+folder, 0, 500)
             }
             //loadModule(f)
-//            let download=unik.downloadGit(url, folder)
-//            if(download){
-//                loadModule(f)
-//            }
+            //            let download=unik.downloadGit(url, folder)
+            //            if(download){
+            //                loadModule(f)
+            //            }
             loadModule(f)
         }else{
             //log.ls('Modules disabled: '+json.modules[i].name, 0, 500)

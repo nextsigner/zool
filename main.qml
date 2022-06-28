@@ -765,6 +765,13 @@ AppWin {
             log.ls('Minyma For Me: '+data, 0, 500)
         }
     }
+
+    //Linea vertical medio
+//    Rectangle{
+//        width: 2
+//        height: xApp.height*2
+//        anchors.centerIn: parent
+//    }
 //    Timer{
 //        id: tLoadModules
 //        running: false

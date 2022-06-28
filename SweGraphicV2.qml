@@ -427,7 +427,7 @@ Item {
         c+='        //console.log(\'JSON: \'+json)\n'
         c+='        loadSweJson(json)\n'
         c+='        //swegz.sweg.loadSweJson(json)\n'
-        if(j.params.tipo==='rs' && j.paramsBack){
+        if((j.params.tipo==='rs' && j.paramsBack) || j.params.tipo==='sin' && j.paramsBack){
                 r.jsonStandByForBack=j.paramsBack
                 //log.ls('r.jsonStandByForBack:'+JSON.stringify(r.jsonStandByForBack), 0, 500)
                 c+='        loadBackFromStandBy()\n'
@@ -465,7 +465,7 @@ Item {
         c+='    id: uqp'+ms+'\n'
         c+='    onLogDataChanged:{\n'
         c+='        let json=(\'\'+logData)\n'
-        c+='        console.log(\'JSON Back: \'+json)\n'
+        c+='        //console.log(\'JSON Back: \'+json)\n'
         c+='        loadSweJsonBack(json)\n'
         c+='        //swegz.sweg.loadSweJsonBack(json)\n'
         c+='        uqp'+ms+'.destroy(3000)\n'
@@ -505,7 +505,7 @@ Item {
         c+='    id: uqp'+ms+'\n'
         c+='    onLogDataChanged:{\n'
         c+='        let json=(\'\'+logData)\n'
-        c+='        console.log(\'JSON Back: \'+json)\n'
+        c+='        //console.log(\'JSON Back: \'+json)\n'
         c+='        loadSweJsonBack(json)\n'
         c+='        //swegz.sweg.loadSweJsonBack(json)\n'
         c+='        uqp'+ms+'.destroy(3000)\n'
