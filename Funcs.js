@@ -843,7 +843,12 @@ function setNewTimeJsonFileDataBack(date){
 function saveJson(){
     app.fileData=app.currentData
     let jsonFileName=apps.url
-    unik.setFile(jsonFileName, app.currentData)
+    let json=JSON.parse(app.fileData)
+    if(unik.fileExist(apps.url.replace('file://', ''))){
+        let dataModNow=new Date(Date.now())
+        json.params.msmod=dataModNow.getTime()
+    }
+    unik.setFile(jsonFileName, JSON.stringify(json))
     loadJson(apps.url)
 }
 function saveJsonBack(){
@@ -854,6 +859,10 @@ function saveJsonBack(){
     //json['paramsBack']={}
     let pb=JSON.parse(app.currentDataBack)
     json['paramsBack']={}=pb.paramsBack
+    if(unik.fileExist(apps.url.replace('file://', ''))){
+        let dataModNow=new Date(Date.now())
+        json.params.msmod=dataModNow.getTime()
+    }
     log.ww=false
     log.ls('app.fileData: '+JSON.stringify(json), 0, 500)
     let jsonFileName=apps.jsonsFolder+'/'+(''+pb.paramsBack.n).replace(/ /g, '_')+'.json'
