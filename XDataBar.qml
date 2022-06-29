@@ -41,15 +41,26 @@ Rectangle {
         //if(state==='show')tHide.restart()
     }
     onAtChanged: {
-        numAn1.duration=1
-        xLoading.opacity=1.0
         //row.opacity=0.5
         //rep.model=at
-        tLoadAt.v=0
-        tLoadAt.nAt=[]
-        rep.model=[]
-        tLoadAt.start()
-        r.fs=app.fs*0.75
+
+        if(at.length<=9){
+            //log.ls('8:', 0, 500)
+            tLoadAt.stop()
+            r.fs=app.fs*0.5
+            rep.model=at
+            xLoading.opacity=0.0
+            xLoading.visible=false
+        }else{
+            numAn1.duration=1
+            xLoading.visible=true
+            xLoading.opacity=1.0
+            r.fs=app.fs*0.75
+            tLoadAt.v=0
+            tLoadAt.nAt=[]
+            rep.model=[]
+            tLoadAt.start()
+        }
         tResizeText.restart()
     }
     onHeightChanged: uH=height
@@ -109,19 +120,10 @@ Rectangle {
         id: xSaveRects
         width: app.fs*0.5
         height: parent.height
-    }
-    Row{
-        id: row
-        spacing: app.fs*0.15
-        y:(parent.height-height)/2
-        //visible: opacity>0.1 && r.at.length>3
-        //opacity: row.width>r.width?0.0:1.0
-        //x: app.fs*0.25
-        anchors.horizontalCenter: parent.horizontalCenter//!app.ev?parent.horizontalCenter:undefined
-        anchors.horizontalCenterOffset: 0-((xApp.width>rowData.width?xApp.width-rowData.width:rowData.width-xApp.width)*0.5)-row.spacing*0.5
-        Behavior on opacity{
-            NumberAnimation{id: nao; duration: 1000}
-        }
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.left: parent.left
+        anchors.leftMargin: (parent.height-width)*0.5
+        z:row.z+1
         Rectangle{
             id: circuloSave
             width: app.fs*0.5
@@ -130,8 +132,9 @@ Rectangle {
             color: app.fileData===app.currentData?'gray':'red'
             border.width: 2
             border.color: apps.fontColor
-            anchors.verticalCenter: parent.verticalCenter
-            y:(parent.height-height)/2
+            //anchors.verticalCenter: parent.verticalCenter
+            //y:(parent.height-height)/2
+            anchors.centerIn: parent
             visible:  !app.ev
             parent: xSaveRects
             MouseArea{
@@ -150,10 +153,10 @@ Rectangle {
             color: saved?'gray':'red'
             border.width: 2
             border.color: apps.fontColor
-            anchors.verticalCenter: parent.verticalCenter
-            y:(parent.height-height)/2
+            anchors.centerIn: parent
+            //y:(parent.height-height)/2
             visible:  app.ev// && app.tipo!=='rs' && app.tipo!=='sin'
-            parent: xSaveRects
+            //parent: xSaveRects
             property bool saved: false
             Timer{
                 id: tCheckBackIsSaved
@@ -178,6 +181,20 @@ Rectangle {
                 }
             }
         }
+    }
+    Row{
+        id: row
+        spacing: app.fs*0.15
+        y:(parent.height-height)/2
+        //visible: opacity>0.1 && r.at.length>3
+        //opacity: row.width>r.width?0.0:1.0
+        //x: app.fs*0.25
+        anchors.horizontalCenter: parent.horizontalCenter//!app.ev?parent.horizontalCenter:undefined
+        //anchors.horizontalCenterOffset: 0-((xApp.width>rowData.width?xApp.width-rowData.width:rowData.width-xApp.width)*0.5)-row.spacing*0.5
+        Behavior on opacity{
+            NumberAnimation{id: nao; duration: 1000}
+        }
+
 
 
         Row{
@@ -185,8 +202,12 @@ Rectangle {
             spacing: app.fs*0.15
             anchors.verticalCenter: parent.verticalCenter
             onWidthChanged: {
-                xLoading.visible=true
-                xLoading.opacity=1.0
+
+                if(r.at.length>=9){
+                    xLoading.visible=true
+                    xLoading.opacity=1.0
+                }
+
             }
             Repeater{
                 id: rep
@@ -270,7 +291,7 @@ Rectangle {
                         anchors.left: parent.right
                     }
                     Component.onCompleted: {
-                        if(index===tLoadAt.nAt.length){
+                        if(index===tLoadAt.nAt.length && r.at.length>=9){
                             tResizeText.start()
                         }
                     }
@@ -292,6 +313,11 @@ Rectangle {
         anchors.fill: parent
         color: apps.backgroundColor
         Behavior on opacity{NumberAnimation{id: numAn1; duration:1500;}}
+        MouseArea{
+            anchors.fill: parent
+            enabled: parent.opacity===1.0
+            onClicked: parent.opacity=0.0
+        }
         Text{
             text:  '<b>Cargando</b>'
             font.pixelSize: parent.height*0.6

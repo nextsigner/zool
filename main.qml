@@ -677,6 +677,7 @@ AppWin {
                 }
             }
         }
+        Comps.XDataStatusBar{id: xDataStatusBar}
         XTools{
             id: xTools
             anchors.bottom: parent.bottom

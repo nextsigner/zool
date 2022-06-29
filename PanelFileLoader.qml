@@ -241,7 +241,7 @@ Rectangle {
             try {
                 jsonData=JSON.parse(jsonFileData)
                 let nom=''+jsonData.params.n.replace(/_/g, ' ')
-                if((jsonData.params.tipo==='rs' && jsonData.paramsBack) && (jsonData.params.tipo==='sin' && jsonData.paramsBack)){
+                if((jsonData.params.tipo==='rs' && jsonData.paramsBack) || (jsonData.params.tipo==='sin' && jsonData.paramsBack)){
                     nom=''+jsonData.paramsBack.n.replace(/_/g, ' ')
                 }
                 if(nom.toLowerCase().indexOf(txtDataSearch.text.toLowerCase())>=0){

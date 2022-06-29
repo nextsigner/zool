@@ -470,6 +470,7 @@ function loadJson(file){
     //    }
     //xDataBar.titleData=textData
     xDataBar.state='show'
+    xDataStatusBar.currentIndex=-1
     app.setFromFile=false
 }
 function loadJsonBack(file){
@@ -563,6 +564,7 @@ function loadJsonBack(file){
     addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
     //xDataBar.titleData=textData
     xDataBar.state='show'
+    xDataStatusBar.currentIndex=0
     app.setFromFile=false
 }
 function loadJsonFromParamsBack(json){
@@ -634,7 +636,7 @@ function mkSinFile(file){
     json.paramsBack.tipo='sin'
     json.paramsBack.n='Sinastría '+json.params.n+' - '+json.paramsBack.n
     log.ww=false
-    log.ls('nFileName:'+JSON.stringify(json), 0, 500)
+    //log.ls('nFileName:'+JSON.stringify(json), 0, 500)
     //return
     //    let jsonFileDataInterior=app.fileData
     //    let jsonInt=JSON.parse(jsonFileDataInterior)
@@ -657,7 +659,7 @@ function mkSinFile(file){
     //    cNom=cNom.replace(/Sinastría_/g, '')
             let nFileName=(apps.jsonsFolder+'/'+cNom+'.json').replace(/ /g,'_')
     //    //log.ls('sf:'+sf, 0, 500)
-        log.ls('nFileName:'+nFileName, 0, 500)
+        //log.ls('nFileName:'+nFileName, 0, 500)
     //    //return
 
     //    //log.l(nFileName)
