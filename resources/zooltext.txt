@@ -1,3 +1,7 @@
+---
+zfs=0.9
+time=6000
+---
 # Zool<br />
 ### Aplicación de Astrología<br />
 
@@ -8,12 +12,18 @@ Inicio del Desarrollo:<br />
 14/04/2021
 
 ---
+zfs=0.9
+time=6000
+---
 
 # Licencia de Zool<br />
 Esta aplicación es de uso libre y gratuito.<br />
 
 Esta aplicación es distribuida bajo las licencias GPL2.
 
+---
+zfs=0.9
+time=6000
 ---
 
 ### Descargar Zool<br />
@@ -24,10 +34,16 @@ Esta aplicación es distribuida bajo las licencias GPL2.
 
 **Repositorio Público:** GitHub.com/nextsigner/zool
 ---
+zfs=0.9
+time=6000
+---
 ## Zool fue creado con:<br />
 * Qt Open Source
 * SwissEph
 * Astrolog
+---
+zfs=0.9
+time=6000
 ---
 # Contacto<br />
 

@@ -105,6 +105,7 @@ Rectangle{
                     property var aTimes: []
                     property var aFs: []
                     onVChanged: {
+                        if(!aTimes[v])return
                         interval=aTimes[v]
                         txtAboutZool.nextFS=parseFloat(aFs[v])
                         //txtAboutZool.font.pixelSize=app.fs*parseFloat(aFs[v])

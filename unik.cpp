@@ -1139,13 +1139,27 @@ bool Unik::downloadGit(QByteArray url, QByteArray localFolder, bool inZipFolder)
         file.open(QIODevice::ReadOnly);
         //qInfo()<<"Zip filename: "<<zip.getFileNameList();
         if(v==0){
-            carpeta=QString(zip.getFileNameList().at(0));
+            if(inZipFolder){
+                carpeta=QString(zip.getFileNameList().at(0));
+                qInfo()<<"Uncomprezing in zip folder "<<localFolder<< " subfolder: "<<carpeta;
+            }else{
+                carpeta="";
+                qInfo()<<"Uncomprezing in folder "<<localFolder<<"...";
+            }
+            //carpeta=QString(zip.getFileNameList().at(0));
             //qInfo()<<"Carpeta de destino Zip: "<<carpeta;
         }else{
             QString nfn;
             nfn.append(carpDestinoFinal);
             nfn.append("/");
             nfn.append(zip.getFileNameList().at(v));
+
+            if(!inZipFolder){
+                QString borrarCarpetaZip="";
+                borrarCarpetaZip.append(zip.getFileNameList().at(0));
+                nfn.replace(borrarCarpetaZip, "");
+            }
+
             QString nfn2 = nfn.replace("-master/", "/");
             QString nfn3 = nfn2;//.replace(" ", "%20");
 

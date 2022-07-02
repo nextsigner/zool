@@ -23,11 +23,14 @@ int main(int argc, char *argv[])
 
 
     Unik u;
+    u.debugLog=true;
     QDir::setCurrent(u.getPath(4));
     QString numVersion="0.0.0";
 
     //Variables Globales
+    bool forceUpdate=false;
     bool isDev=false;
+    bool forceCopyFiles=false;
     bool copyFiles=true;
     QString numVersionInstall="0.0.0";
     for (int i=0; i<argc; i++) {
@@ -35,6 +38,15 @@ int main(int argc, char *argv[])
         if(QString(argv[i])=="-dev"){
             isDev=true;
             qDebug()<<"Running as Developer...";
+        }
+        if(QString(argv[i])=="-update"){
+            forceUpdate=true;
+            qDebug()<<"Updating for -update";
+        }
+        if(QString(argv[i])=="-cp"){
+            forceCopyFiles=true;
+            qDebug()<<"Copyng for -cp";
+            qApp->quit();
         }
         if(QString(argv[i]).contains("-numVersionInstall=")){
             QStringList nvi=QString(argv[i]).split("-numVersionInstall=");
@@ -45,6 +57,7 @@ int main(int argc, char *argv[])
 
     //-->VERSION
     bool update=false;
+    bool cp=false;
     //Get version file
     QString fileVersionPath=u.getPath(4);
     QString currentPath=u.getPath(5);
@@ -83,7 +96,7 @@ int main(int argc, char *argv[])
     currentVersion=currentVersion.replace("\n", "");
     qDebug()<<"Current Version: "<<currentVersion;
     qDebug()<<"Remote Version:"<<version;
-    if(currentVersion!=version){
+    if(currentVersion!=version && currentVersion!="error"){
         QStringList m0=version.split(".");
         QStringList m1=currentVersion.split(".");
         if(m0.length()==3 && m1.length()==3){
@@ -109,10 +122,15 @@ int main(int argc, char *argv[])
         //qDebug()<<"Hay una versión nueva de Zool para instalar "<<version;
 
     }else{
-        numVersion=currentVersion;
-        if(!isDev){
+        if(currentVersion=="error"){
             copyFiles=false;
-            QDir::setCurrent(u.getPath(4));
+            update=true;
+        }else{
+            numVersion=currentVersion;
+            if(!isDev){
+                copyFiles=false;
+                QDir::setCurrent(u.getPath(4));
+            }
         }
     }
 
@@ -238,7 +256,7 @@ int main(int argc, char *argv[])
     QString execPath=u.getPath(5);
     qDebug()<<"Exec path: "<<execPath;
     //Copiar archivos
-    if(!isDev && !update && copyFiles){
+    if((!isDev && !update && copyFiles) || forceCopyFiles){
         //if(true){
         qDebug()<<"Running as user without update...";
         qDebug()<<"Copyng files...";
@@ -352,7 +370,7 @@ int main(int argc, char *argv[])
         //<--cp folder swe
 
 
-        if(!isDev){
+        if(!isDev || forceCopyFiles){
             QDir::setCurrent(u.getPath(4));
         }
         qDebug()<<"Files moved, currentPath: "<<QDir::currentPath();
@@ -363,7 +381,7 @@ int main(int argc, char *argv[])
         }
     }
 
-    if(!isDev && update){
+    if((!isDev && update) || forceUpdate){
         qDebug()<<"Running updating...";
         bool download=u.downloadGit("https://github.com/nextsigner/zool-release.git", u.getPath(4).toUtf8());
         if(download){
@@ -373,6 +391,8 @@ int main(int argc, char *argv[])
             qDebug()<<"Zool not updated.";
         }
     }
+
+
 
     QByteArray documentsPath;
     documentsPath.append(u.getPath(3).toUtf8());
@@ -389,7 +409,44 @@ int main(int argc, char *argv[])
     engine.addImportPath("./modules");
     qDebug()<<"engine.addImportPath:"<<importPath;
     qDebug()<<"engine.addImportPath:"<<u.getPath(4);
+
+#ifndef Q_OS_LINUX
+    //-->Check Python
+    bool isPythonInAppData=false;
+    QByteArray pathPython0;
+    pathPython0.append(u.getPath(1));
+    pathPython0.append("/Python/python.exe");
+
+    QByteArray pathPython;
+    pathPython.append(u.getPath(4));
+    pathPython.append("/Python/python.exe");
+
+    QByteArray ppi;
+    ppi.append(u.getPath(5));
+    //ppi.append("/XCheckPythonInstall.qml");
+    ppi.append("/XPythonInstall.qml");
+
+
+    if(!u.fileExist(pathPython0) && !u.fileExist(pathPython)){
+        qDebug()<<"Loading "<<ppi;
+        qDebug()<<"ppi: "<<u.getPath(1);
+        engine.load(ppi);
+    }else{
+        if(u.fileExist(pathPython0)){
+            qDebug()<<"Running Zool with "<<pathPython;
+            engine.rootContext()->setContextProperty("pythonLocationSeted", pathPython0);
+        }else{
+            qDebug()<<"Running Zool with "<<pathPython;
+            //qDebug()<<pathPython<<" not found...";
+            engine.rootContext()->setContextProperty("pythonLocationSeted", pathPython);
+        }
+        qDebug()<<"Loading "<<url;
+        engine.load(url);
+    }
+    //<--Check Python
+#else
     engine.load(url);
+#endif
 
     return app.exec();
 }
