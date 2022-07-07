@@ -33,6 +33,7 @@ int main(int argc, char *argv[])
     bool forceCopyFiles=false;
     bool copyFiles=true;
     QString numVersionInstall="0.0.0";
+    QString argtitle="";
     for (int i=0; i<argc; i++) {
         qDebug()<<"Arg: "<<argv[i];
         if(QString(argv[i])=="-dev"){
@@ -47,6 +48,11 @@ int main(int argc, char *argv[])
             forceCopyFiles=true;
             qDebug()<<"Copyng for -cp";
             qApp->quit();
+        }
+        if(QString(argv[i]).contains("-title=")){
+            QStringList nvi=QString(argv[i]).split("-title=");
+            argtitle=nvi.at(1);
+            qDebug()<<"Title seted from arg: "<<argtitle;
         }
         if(QString(argv[i]).contains("-numVersionInstall=")){
             QStringList nvi=QString(argv[i]).split("-numVersionInstall=");
@@ -402,6 +408,8 @@ int main(int argc, char *argv[])
     engine.rootContext()->setContextProperty("version", numVersion);
     engine.rootContext()->setContextProperty("clipboard", &clipboard);
     engine.rootContext()->setContextProperty("engine", &engine);
+    engine.rootContext()->setContextProperty("argtitle", argtitle);
+
     QByteArray importPath="";
     importPath.append(u.getPath(4));
     importPath.append("/modules");
