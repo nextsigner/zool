@@ -24,16 +24,27 @@ int main(int argc, char *argv[])
 
     Unik u;
     u.debugLog=true;
-    QDir::setCurrent(u.getPath(4));
-    QString numVersion="0.0.0";
 
     //Variables Globales
+    QString bundlePath="";
+    bundlePath.append(qApp->applicationDirPath());
+    QString bundleVersionPath="";
+    bundleVersionPath.append(bundlePath);
+    bundleVersionPath.append("/version");
+    QString bundleVersionData="";
+    bundleVersionData.append(u.getFile(bundleVersionPath.toUtf8()));
+    bundleVersionData=bundleVersionData.replace("\n", "");
     bool forceUpdate=false;
     bool isDev=false;
     bool forceCopyFiles=false;
     bool copyFiles=true;
     QString numVersionInstall="0.0.0";
     QString argtitle="";
+    QString fromPath=QDir::currentPath();
+    QDir::setCurrent(u.getPath(4));
+    QString numVersion="0.0.0";
+
+
     for (int i=0; i<argc; i++) {
         qDebug()<<"Arg: "<<argv[i];
         if(QString(argv[i])=="-dev"){
@@ -102,7 +113,8 @@ int main(int argc, char *argv[])
     currentVersion=currentVersion.replace("\n", "");
     qDebug()<<"Current Version: "<<currentVersion;
     qDebug()<<"Remote Version:"<<version;
-    if(currentVersion!=version && currentVersion!="error"){
+    qDebug()<<"Bundle Version:"<<bundleVersionData;
+    if((currentVersion!=version && currentVersion!="error") || currentVersion!=bundleVersionData){
         QStringList m0=version.split(".");
         QStringList m1=currentVersion.split(".");
         if(m0.length()==3 && m1.length()==3){
@@ -113,10 +125,37 @@ int main(int argc, char *argv[])
             int nv2A=m1.at(0).toInt();
             int nv2B=m1.at(1).toInt();
             int nv2C=m1.at(2).toInt();
-            if(nv1A>nv2A || nv1B > nv2B || nv1C > nv2C){
+
+            QString sNumA="";
+            sNumA.append(QString::number(nv1A));
+            sNumA.append(".");
+            sNumA.append(QString::number(nv1B));
+            sNumA.append(QString::number(nv1C));
+            qDebug()<<"sNumA:"<<sNumA;
+            float numA=sNumA.toFloat();
+            QString sNumB="";
+            sNumB.append(QString::number(nv2A));
+            sNumB.append(".");
+            sNumB.append(QString::number(nv2B));
+            sNumB.append(QString::number(nv2C));
+            qDebug()<<"sNumB:"<<sNumB;
+            float numB=sNumB.toFloat();
+            qDebug()<<"numA:"<<numA;
+            qDebug()<<"numB:"<<numB;
+
+
+            if(numA>numB){
                 qDebug()<<"Se ha detectado una versión remota superior.";
                 numVersion=version;
                 update=true;
+            }else if(numB>=numA){
+                qDebug()<<"Se ha detectado una versión local inferior al de la aplicación.";
+                numVersion=bundleVersionData;
+                u.setFile(bundleVersionPath.toUtf8(), bundleVersionData.toUtf8());
+                update=false;
+                forceCopyFiles=true;
+                copyFiles=true;
+                QDir::setCurrent(u.getPath(4).toUtf8());
             }else{
                 qDebug()<<"Se ha detectado una versión remota inferior.";
                 numVersion=currentVersion;
@@ -195,19 +234,23 @@ int main(int argc, char *argv[])
             u.deleteFile("/usr/local/bin/zool");
         }
         QByteArray cmdLN;
+        cmdLN.append("sudo rm /usr/local/bin/zool && ");
         cmdLN.append("sudo ln ");
         //cmdLN.append(QDir::currentPath().toUtf8()+"/astrologica_v");
-        cmdLN.append(QDir::currentPath().toUtf8()+"/Zool_v");
+        cmdLN.append(fromPath.toUtf8()+"/Zool_v");
         cmdLN.append(numVersionInstall.toUtf8());
         cmdLN.append("-x86_64.AppImage");
         cmdLN.append(" /usr/local/bin/zool");
+        cmdLN.append(" && zool -cp");
         u.ejecutarLineaDeComandoAparte(cmdLN);
         qInfo()<<"Zool Current Path: "<<QDir::currentPath();
+        //u.restartApp()
         return 0;
     }
 #endif
     QByteArray mainFolder;
-    mainFolder.append(qApp->applicationDirPath().toUtf8());
+    //mainFolder.append(qApp->applicationDirPath().toUtf8());
+    mainFolder.append(QDir::currentPath().toUtf8());
     qDebug()<<"Argv 1: "<<argv[1];
     //QDir::setCurrent(qApp->applicationDirPath());
     for (int i=0; i<argc; i++) {
