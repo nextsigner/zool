@@ -1,6 +1,7 @@
-import QtQuick 2.7
-import QtQuick.Controls 2.0
+import QtQuick 2.12
+import QtQuick.Controls 2.12
 import Qt.labs.folderlistmodel 2.12
+import ZoolButton 1.0
 import "Funcs.js" as JS
 
 Rectangle {
@@ -130,10 +131,11 @@ Rectangle {
     }
     ListModel{
         id: lm
-        function addItem(vFileName, vData){
+        function addItem(vFileName, vData, vTipo){
             return {
                 fileName: vFileName,
-                dato: vData
+                dato: vData,
+                tipo: vTipo
             }
         }
     }
@@ -147,6 +149,14 @@ Rectangle {
             border.width: index===lv.currentIndex?4:2
             border.color: 'white'
             property bool selected: index===lv.currentIndex
+            MouseArea{
+                anchors.fill: parent
+                onClicked: lv.currentIndex=index
+                onDoubleClicked: {
+                    JS.loadJson(fileName)
+                    r.state='hide'
+                }
+            }
             Column{
                 id: colDatos
                 spacing: app.fs*0.25
@@ -173,28 +183,17 @@ Rectangle {
                     visible: xDatos.selected
                     //anchors.centerIn: parent
                 }
-                Button{
+                ZoolButton{
+                    id: btnLoadExt
                     text:'Cargar en Exterior'
-                    width: app.fs*3
-                    height: app.fs*0.8
-                    font.pixelSize: app.fs*0.25
                     anchors.right: parent.right
                     anchors.rightMargin: app.fs*0.1
-                    //anchors.bottom: parent.bottom
-                    //anchors.bottomMargin: app.fs*0.1
-                    visible: index===lv.currentIndex
+                    visible: index===lv.currentIndex && tipo !== 'rs'  && tipo !== 'sin'
+                    colorInverted: true
                     onClicked: {
                         JS.loadJsonBack(fileName)
                         r.state='hide'
                     }
-                }
-            }
-            MouseArea{
-                anchors.fill: parent
-                onClicked: lv.currentIndex=index
-                onDoubleClicked: {
-                    JS.loadJson(fileName)
-                    r.state='hide'
                 }
             }
             Rectangle{
@@ -317,7 +316,7 @@ Rectangle {
                         +sDataFile+'<br>'
                         +'<b>Archivo: </b>'+file
                     //xNombre.nom=textData
-                    lm.append(lm.addItem(file,textData))
+                    lm.append(lm.addItem(file,textData, jsonData.params.tipo))
                 }
                 if(r.itemIndex===r.svIndex)txtDataSearch.focus=true
                 //txtDataSearch.selectAll()
