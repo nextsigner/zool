@@ -61,6 +61,14 @@ function loadFromArgsBack(d, m, a, h, min, gmt, lat, lon, alt, nom, ciudad, tipo
     //setTitleData(nom, d, m, a, h, min, gmt, ciudad, lat, lon, 1)
     if(tipo==='sin'){
         xDataBar.stringMiddleSeparator='Sinastría'
+
+        app.currentNomBack=nom
+        app.currentFechaBack=d+'/'+vm+'/'+va
+        app.currentLugarBack=ciudad
+        app.currentGmtBack=gmt
+        app.currentLonBack=lon
+        app.currentLatBack=lat
+
         addTitleData(nom, d, m, a, h, min, gmt, ciudad, lat, lon, 1)
     }
     if(tipo==='rs'){
@@ -443,6 +451,13 @@ function loadJson(file){
         edad=''
         numEdad=getEdad(parseInt(va), parseInt(vm), parseInt(vd), parseInt(vh), parseInt(vmin))
         stringEdad=edad.indexOf('NaN')<0?edad:''
+
+        app.currentNomBack=nom
+        app.currentFechaBack=vd+'/'+vm+'/'+va
+        app.currentLugarBack=vCiudad
+        app.currentGmtBack=vgmt
+        app.currentLonBack=vlon
+        app.currentLatBack=vlat
 
         addTitleData(nom, vd, vm, va, vh, vmin, vgmt, vCiudad, vlat, vlon, 0)
     }else{
