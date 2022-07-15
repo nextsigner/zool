@@ -475,6 +475,7 @@ function loadJson(file){
     xDataBar.state='show'
     xDataStatusBar.currentIndex=-1
     app.setFromFile=false
+    sweg.centerZoomAndPos()
 }
 function loadJsonBack(file){
     //Global Vars Reset

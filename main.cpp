@@ -153,9 +153,14 @@ int main(int argc, char *argv[])
                 numVersion=bundleVersionData;
                 u.setFile(bundleVersionPath.toUtf8(), bundleVersionData.toUtf8());
                 update=false;
-                forceCopyFiles=true;
-                copyFiles=true;
-                QDir::setCurrent(u.getPath(4).toUtf8());
+                if(!isDev){
+                    forceCopyFiles=true;
+                    copyFiles=true;
+                    QDir::setCurrent(u.getPath(4).toUtf8());
+                }else{
+                    QDir::setCurrent(qApp->applicationDirPath().toUtf8());
+                }
+
             }else{
                 qDebug()<<"Se ha detectado una versión remota inferior.";
                 numVersion=currentVersion;
@@ -265,6 +270,14 @@ int main(int argc, char *argv[])
             mainFolder.append(nfolder.at(1).toUtf8());
             qDebug()<<"-folder changing current folder: "<<QDir::currentPath();
         }
+    }
+
+    if(isDev){
+        QDir::setCurrent(qApp->applicationDirPath());
+        QDir::setCurrent("../");
+        qDebug()<<"IsDEV Set current folder to: "<<QDir::currentPath();
+        mainFolder="";
+        mainFolder.append(QDir::currentPath().toUtf8());
     }
 
     //QDir::setCurrent("/media/ns/ZONA-A1/zool");
@@ -447,6 +460,7 @@ int main(int argc, char *argv[])
     documentsPath.append(u.getPath(3).toUtf8());
     documentsPath.append("/Zool");
     engine.rootContext()->setContextProperty("documentsPath", documentsPath);
+    engine.rootContext()->setContextProperty("isDev", isDev);
     engine.rootContext()->setContextProperty("unik", &u);
     engine.rootContext()->setContextProperty("version", numVersion);
     engine.rootContext()->setContextProperty("clipboard", &clipboard);

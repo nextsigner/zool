@@ -799,8 +799,15 @@ AppWin {
 //        onTriggered: JS.loadModules()
 //    }
     Component.onCompleted: {
-        //log.visible=true
-        //log.l('--------->'+EXTRA.getColor(10))
+        if(isDev){
+            log.ls('\nRunning as Dev', 0, xLatIzq.width)
+            //log.ls('\nVersion:\n'+version, log.x,
+            log.ls('\nunik.currentFolderPath():\n'+unik.currentFolderPath(), log.x, log.width)
+            log.ls('\nunik.getPath(4):\n'+unik.getPath(4), log.x, log.width)
+            log.ls('\napps.jsonsFolder:\n'+apps.jsonsFolder, log.x, log.width)
+            log.ls('\nDocumentPath:\n'+documentsPath, log.x, log.width)
+        }
+
         //        for(let i=0;i<256;i++){
         //            log.l('--------->'+i+': '+EXTRA.getArrayColor()[i]+'\n')
         //        }

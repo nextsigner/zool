@@ -191,6 +191,13 @@ Rectangle {
                     visible: index===lv.currentIndex && tipo !== 'rs'  && tipo !== 'sin'
                     colorInverted: true
                     onClicked: {
+                        //let fromTipo='vn'
+                        let tipo=JSON.parse(app.currentData).params.tipo
+                        if(tipo==='vn'){
+                            xDataBar.stringMiddleSeparator='Sinastría'
+                            app.mod='sin'
+                            JSON.parse(app.currentData).params.tipo='sin'
+                        }
                         JS.loadJsonBack(fileName)
                         r.state='hide'
                     }

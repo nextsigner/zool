@@ -574,7 +574,7 @@ Item {
             //panelSabianos.state='show'
             sv.currentIndex=1
         }
-        centerZoomAndPos()
+        //centerZoomAndPos()
         //panelAspTransList.state='hide'
         //        } catch(e) {
         //            //alert(e); // error in the above string (in this case, yes)!
@@ -606,7 +606,7 @@ Item {
         panelDataBodies.loadJsonBack(j)
         //panelDataBodiesV2.loadJson(j)
         app.ev=true
-        centerZoomAndPos()
+        //centerZoomAndPos()
     }
     function nextState(){
         let currentIndexState=r.aStates.indexOf(r.state)
