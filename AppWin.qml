@@ -191,8 +191,8 @@ ApplicationWindow {
                 return
             }
             if(apps.zFocus==='xLatIzq'){
-            if(apps.currentSwipeViewIndex===2&&panelFileLoader.currentIndex>=0){
-                panelFileLoader.enter()
+            if(apps.currentSwipeViewIndex===2&&zoolFileManager.currentIndex>=0){
+                zoolFileManager.enter()
                 return
             }
             if(apps.currentSwipeViewIndex===3){
@@ -225,8 +225,8 @@ ApplicationWindow {
                 //xEditor.enter()
                 //return
             }
-            if(apps.currentSwipeViewIndex===2&&panelFileLoader.currentIndex>=0){
-                panelFileLoader.enter()
+            if(apps.currentSwipeViewIndex===2&&zoolFileManager.currentIndex>=0){
+                zoolFileManager.enter()
                 return
             }
             if(apps.currentSwipeViewIndex===3){
@@ -268,8 +268,8 @@ ApplicationWindow {
                 return
             }
             //Efecto sobre los paneles
-            if(panelFileLoader.visible&&panelFileLoader.ti.focus){
-                panelFileLoader.ti.focus=false
+            if(zoolFileManager.visible&&zoolFileManager.ti.focus){
+                zoolFileManager.ti.focus=false
                 return
             }
             if(zoolFileManager.visible&&(zoolFileManager.tiN.focus||zoolFileManager.tiC.focus)){
@@ -318,8 +318,8 @@ ApplicationWindow {
 //                panelRsList.state='hide'
 //                return
 //            }
-            if(panelFileLoader.state==='show'){
-                panelFileLoader.state='hide'
+            if(zoolFileManager.state==='show'){
+                zoolFileManager.state='hide'
                 return
             }
             if(panelDataBodies.state==='show'){
@@ -361,10 +361,10 @@ ApplicationWindow {
 
             if(apps.zFocus==='xLatIzq'){
                 if(apps.currentSwipeViewIndex===2){
-                    if(panelFileLoader.currentIndex>0){
-                        panelFileLoader.currentIndex--
+                    if(zoolFileManager.currentIndex>0){
+                        zoolFileManager.currentIndex--
                     }else{
-                        panelFileLoader.currentIndex=panelFileLoader.listModel.count-1
+                        zoolFileManager.currentIndex=zoolFileManager.listModel.count-1
                     }
                     return
                 }
@@ -425,10 +425,10 @@ ApplicationWindow {
             }
             if(apps.zFocus==='xLatIzq'){
                 if(apps.currentSwipeViewIndex===2){
-                    if(panelFileLoader.currentIndex<panelFileLoader.listModel.count){
-                        panelFileLoader.currentIndex++
+                    if(zoolFileManager.currentIndex<zoolFileManager.listModel.count){
+                        zoolFileManager.currentIndex++
                     }else{
-                        panelFileLoader.currentIndex=0
+                        zoolFileManager.currentIndex=0
                     }
                     return
                 }
